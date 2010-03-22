@@ -1,3 +1,0 @@
-<?php echo S2MEMBER_CURRENT_USER_ID; ?>
-This may output something like: 5547
-( or whatever their user ID# is )

@@ -1,0 +1,3 @@
+<?php echo S2MEMBER_REG_EMAIL_FROM_NAME; ?>
+This may output something like: Member Support
+( or whatever you have configured as your From: name )

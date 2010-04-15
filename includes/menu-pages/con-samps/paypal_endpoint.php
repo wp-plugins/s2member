@@ -1,0 +1,3 @@
+<?php echo S2MEMBER_PAYPAL_ENDPOINT; ?>
+This will output the paypal endpoint domain: www.paypal.com
+( if sandbox testing is enabled, it will output www.sandbox.paypal.com )

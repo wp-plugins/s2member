@@ -1,0 +1,3 @@
+<?php echo S2MEMBER_CURRENT_USER_DISPLAY_NAME; ?>
+This may output something like: Johnny
+( this is the User's display name )

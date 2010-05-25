@@ -1,3 +1,0 @@
-<?php echo S2MEMBER_CURRENT_USER_IP; ?>
-This may output something like: 123.456.789.111
-( or whatever the current user's IP address happens to be )

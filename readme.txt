@@ -40,7 +40,7 @@ Plugin URI: http://www.primothemes.com/post/product/s2member-membership-plugin-w
 Description: Empowers WordPress® with membership capabilities. Integrates seamlessly with PayPal®. Also compatible with Multisite Networking, and even with BuddyPress if you like.
 Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal, s2member, authorize.net, google checkout, ccbill, clickbank, alipay, subscriber, members only, buddypress, buddy press, buddy press compatible, shopping cart, checkout, api, options panel included, websharks framework, w3c validated code, includes extensive documentation, highly extensible
 
-s2Member is an extremely powerful (and free) membership management system for WordPress®. s2Member integrates seamlessly with PayPal® (very easy).
+s2Member is an extremely powerful ( and free ) membership management system for WordPress®. s2Member integrates seamlessly with PayPal® (very easy).
 
 == Installation ==
 

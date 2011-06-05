@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110604
-Stable tag: 110604
+Version: 110605
+Stable tag: 110605
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -172,6 +172,9 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= 110605 =
+* **(s2Member). Bug fix.** If File Download protection was enabled, changes introduced in the previous release, were causing some site Administrators to receive a "File Download Limit Exceeded" error under the right circumstances. This has been corrected in the release of s2Member v110605.
 
 = 110604 ( instead of s2Member v3.6 ) =
 * **(s2Member/s2Member Pro). Versioning.** Starting with this release, s2Member and s2Member Pro will be released with dated versions following this format: `yymmdd`. The version for this release is: `110604`.

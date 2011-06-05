@@ -110,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 							{
 								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 									{
-										if ($user->has_cap ("s2member_level" . $n)) /* In other words, is this their Role? */
+										if ($user->has_cap ("access_s2member_level" . $n)) /* Do they have access? */
 											{
 												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
 													if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
@@ -118,7 +118,8 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 															$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
 															$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
 														}
-												break; /* Break now, no need to continue searching. */
+												if ($user->has_cap ("s2member_level" . $n)) /* We can stop now, if this is their Role. */
+													break; /* Break now. */
 											}
 									}
 								/**/

@@ -1,37 +1,50 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Membership Options Page ( inner processing routines ).
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Membership_Options_Page
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_mo_page_in"))
 	{
+		/**
+		* Membership Options Page ( inner processing routines ).
+		*
+		* @package s2Member\Membership_Options_Page
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_mo_page_in
 			{
-				/*
-				This forces a redirection to the Membership Options Page for s2Member.
-				This can be used by 3rd party applications that are not aware of which Page is currently set as the Membership Options Page.
-				
-				This is used by s2Member's bbPress Bridge integration.
-				
-				Attach to: add_action("init");
-				Example usage: http://example.com/?s2member_membership_options_page=1
+				/**
+				* Forces a redirection to the Membership Options Page for s2Member.
+				*
+				* This can be used by 3rd party apps that are not aware of which Page is currently set as the Membership Options Page.
+				* Example usage: `http://example.com/?s2member_membership_options_page=1`
+				*
+				* @package s2Member\Membership_Options_Page
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null Or exits script execution after redirection.
 				*/
-				public static function membership_options_page () /* Force a redirection. */
+				public static function membership_options_page ()
 					{
 						do_action ("ws_plugin__s2member_before_membership_options_page", get_defined_vars ());
 						/**/
-						if ($_GET["s2member_membership_options_page"]) /* An incoming request? */
+						if (!empty ($_GET["s2member_membership_options_page"])) /* An incoming request? */
 							{
 								$query_args = array (); /* Initialize array. */
 								foreach ($_GET as $var => $val) /* Include any s2member_ vars. */

@@ -1,25 +1,43 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member class autoloader.
+*
+* Defines the __autoload function for s2Member classes.
+* This highly optimizes s2Member. Giving it a much smaller footprint.
+* See: {@link http://www.php.net/manual/en/function.spl-autoload-register.php}
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /*
 The __autoload function for s2Member classes.
-This highly optimizes s2Member. Giving it a much smaller footprint.
-See: http://www.php.net/manual/en/function.spl-autoload-register.php
 */
-if (!function_exists ("ws_plugin__s2member_classes")) /* Already exists? */
+if (!function_exists ("ws_plugin__s2member_classes"))
 	{
+		/**
+		* s2Member class autoloader.
+		*
+		* The __autoload function for s2Member classes.
+		* This highly optimizes s2Member. Giving it a much smaller footprint.
+		* See: {@link http://www.php.net/manual/en/function.spl-autoload-register.php}
+		*
+		* @package s2Member
+		* @since 3.5
+		*
+		* @param str $class The class that needs to be loaded. Passed in by PHP itself.
+		* @return null
+		*/
 		function ws_plugin__s2member_classes ($class = FALSE) /* Build dynamic __autoload function. */
 			{
 				static $c; /* Holds the classes directory location ( location is optimized with a static var ). */
@@ -41,7 +59,20 @@ if (!function_exists ("ws_plugin__s2member_classes")) /* Already exists? */
 										break; /* Now stop looking. */
 									}
 					}
+				/**/
+				return; /* Return for uniformity. */
 			}
+		/**
+		* Scans recursively for class sub-directories.
+		*
+		* Used by the s2Member autoloader.
+		*
+		* @package s2Member
+		* @since 3.5
+		*
+		* @param str $starting_dir The directory to start scanning from.
+		* @return str[] An array of class directories.
+		*/
 		function _ws_plugin__s2member_classes_scan_dirs_r ($starting_dir = FALSE)
 			{
 				$dirs = array (); /* Initialize dirs array. */

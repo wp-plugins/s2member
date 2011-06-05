@@ -1,27 +1,43 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Log utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_logs"))
 	{
+		/**
+		* Log utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_logs
 			{
-				/*
-				Archive logs to prevent HUGE files from building up over time.
-					This routine is staggered to conserve resources.
-				This is called by all logging routines for s2Member.
+				/**
+				* Archives logs to prevent HUGE files from building up over time.
+				*
+				* This routine is staggered to conserve resources.
+				* This is called by all logging routines for s2Member.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param bool $stagger Optional. Defaults to true. If false, the routine will run, regardless.
+				* @return bool Always returns true.
 				*/
 				public static function archive_oversize_log_files ($stagger = TRUE)
 					{
@@ -31,7 +47,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_logs"))
 									{
 										$max = apply_filters ("ws_plugin__s2member_oversize_log_file_bytes", 2097152, get_defined_vars ());
 										/**/
-										eval ('$log_files = scandir ($dir); shuffle($log_files); $counter = 1;');
+										eval('$log_files = scandir ($dir); shuffle($log_files); $counter = 1;');
 										/**/
 										foreach ($log_files as $file) /* Go through each log file. Up to 25 files at a time. */
 											{
@@ -50,11 +66,19 @@ if (!class_exists ("c_ws_plugin__s2member_utils_logs"))
 						/**/
 						return true;
 					}
-				/*
-				Remove expired Transients inserted into the database by s2Member.
-					This routine is staggered to conserve resources.
-					- And only 5 Transients are deleted each time.
-				This is called by s2Member's Auto-EOT System; every 10 minutes.
+				/**
+				* Removes expired Transients inserted into the database by s2Member.
+				*
+				* This routine is staggered to conserve resources.
+				* Only 5 Transients are deleted each time.
+				*
+				* This is called by s2Member's Auto-EOT System, every 10 minutes.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param bool $stagger Optional. Defaults to true. If false, the routine will run, regardless.
+				* @return bool Always returns true.
 				*/
 				public static function cleanup_expired_s2m_transients ($stagger = TRUE)
 					{

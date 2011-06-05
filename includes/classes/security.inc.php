@@ -1,28 +1,42 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member's Security Gate.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Security
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_security"))
 	{
+		/**
+		* s2Member's Security Gate.
+		*
+		* @package s2Member\Security
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_security
 			{
-				/*
-				Function handles security/access routines.
-					~ s2Member's Security Gate.
-						Highly optimized.
-				Attach to: add_action("pre_get_posts");
+				/**
+				* s2Member's Security Gate ( protects WordPress® queries ).
+				*
+				* @package s2Member\Security
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("pre_get_posts");``
+				*
+				* @param obj $wp_query Global instance of ``$wp_query``, by reference.
+				* @return null
 				*/
 				public static function security_gate_query (&$wp_query = FALSE)
 					{
@@ -34,11 +48,15 @@ if (!class_exists ("c_ws_plugin__s2member_security"))
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				Function handles security/access routines.
-					~ s2Member's Security Gate.
-						Highly optimized.
-				Attach to: add_action("template_redirect");
+				/**
+				* s2Member's Security Gate ( protects WordPress® content ).
+				*
+				* @package s2Member\Security
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("template_redirect");``
+				*
+				* @return null
 				*/
 				public static function security_gate () /* s2Member's Security Gate. */
 					{

@@ -1,75 +1,100 @@
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
+/**
+* Core JavaScript routines for s2Member menu pages.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Menu_Pages
+* @since 3.0
 */
 /*
-These routines are all specific to this software.
+These JavaScript routines are all specific to this software.
 */
-jQuery (document).ready (function($)
+jQuery(document).ready (function($)
 	{
 		var esc_attr = esc_html = function(str) /* Convert special characters. */
 			{
-				return String (str).replace (/"/g, '&quot;').replace (/\</g, '&lt;').replace (/\>/g, '&gt;');
+				return String(str).replace (/"/g, '&quot;').replace (/\</g, '&lt;').replace (/\>/g, '&gt;');
 			};
 		/**/
-		if (location.href.match (/page\=ws-plugin--s2member-mms-options/))
+		if (location.href.match (/page\=ws-plugin--s2member/)) /* Always on. */
 			{
-				$ ('select#ws-plugin--s2member-mms-registration-file').change (function()
+				$('input.ws-plugin--s2member-update-roles-button').click (function()
 					{
-						if ($ (this).val () === 'wp-signup') /* Expand/collapse relevant options; based on file selection. */
+						var $this = $(this); /* Save $(this) into $this. */
+						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
+						/**/
+						$.post (ajaxurl, {action: 'ws_plugin__s2member_update_roles_via_ajax', ws_plugin__s2member_update_roles_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-update-roles-via-ajax")); ?>'}, function(response)
 							{
-								$ ('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').show (), $ ('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').hide (), $ ('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').show ();
-								$ ('div.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0, table.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0')[ ( ($ ('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? 'show' : 'hide')] (), $ ('input#ws-plugin--s2member-mms-registration-blogs-level0').val ( ( ($ ('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? '1' : '0'));
+								if (response === '0')
+									alert('Sorry, your request failed.\ns2Member\'s Roles/Capabilities are locked by Filter:\nws_plugin__s2member_lock_roles_caps'), $this.val ('Update Roles/Capabilities');
+								else if (response === '1')
+									alert('s2Member\'s Roles/Capabilities updated successfully.'), $this.val ('Update Roles/Capabilities');
+							});
+						/**/
+						return false;
+					});
+			}
+		/**/
+		if (location.href.match (/page\=ws-plugin--s2member-mms-ops/))
+			{
+				$('select#ws-plugin--s2member-mms-registration-file').change (function()
+					{
+						if ($(this).val () === 'wp-signup') /* Expand/collapse relevant options; based on file selection. */
+							{
+								$('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').show (), $('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').hide (), $('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').show ();
+								$('div.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0, table.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0')[(($('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? 'show' : 'hide')] (), $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ((($('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? '1' : '0'));
 							}
-						else if ($ (this).val () === 'wp-login') /* Expand/collapse relevant options. */
+						else if ($(this).val () === 'wp-login') /* Expand/collapse relevant options. */
 							{
-								$ ('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').hide (), $ ('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').show (), $ ('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').hide (), $ ('input#ws-plugin--s2member-mms-registration-blogs-level0').val ('0');
+								$('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').hide (), $('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').show (), $('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').hide (), $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ('0');
 							}
 					/**/
 					}).trigger ('change'); /* Fire on ready too. */
 				/**/
-				$ ('select#ws-plugin--s2member-mms-registration-grants').change (function()
+				$('select#ws-plugin--s2member-mms-registration-grants').change (function()
 					{
-						$ ('select#ws-plugin--s2member-mms-registration-file').trigger ('change');
+						$('select#ws-plugin--s2member-mms-registration-file').trigger ('change');
 					});
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-bridges/))
+		else if (location.href.match (/page\=ws-plugin--s2member-integrations/))
 			{
-				$ ('select#ws-plugin--s2member-bbpress-ovg').change (function()
+				$('select#ws-plugin--s2member-bbpress-ovg').change (function()
 					{
-						if ($ (this).val () === '0') /* Expand/collapse notation; based on selection. */
+						if ($(this).val () === '0') /* Expand/collapse notation; based on selection. */
 							{
-								$ ('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'inline');
+								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'inline');
 								/**/
 								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
 								/**/
-								$ (l).text ($ (l).text ().replace (/to (read\/)?participate/i, 'to read/participate')), $ ('select#ws-plugin--s2member-bbpress-min-level option').each (function()
+								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to read/participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
 									{
-										$ (this).text ($ (this).text ().replace (/\( to( read and)? participate \)/i, '( to read and participate )'));
+										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to read and participate )'));
 									});
 							}
-						else if ($ (this).val () === '1') /* Expand/collapse notation. */
+						else if ($(this).val () === '1') /* Expand/collapse notation. */
 							{
-								$ ('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'none');
+								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'none');
 								/**/
 								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
 								/**/
-								$ (l).text ($ (l).text ().replace (/to (read\/)?participate/i, 'to participate')), $ ('select#ws-plugin--s2member-bbpress-min-level option').each (function()
+								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
 									{
-										$ (this).text ($ (this).text ().replace (/\( to( read and)? participate \)/i, '( to participate )'));
+										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to participate )'));
 									});
 							}
 					/**/
 					}).trigger ('change'); /* Fire on ready too. */
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-options/))
+		else if (location.href.match (/page\=ws-plugin--s2member-gen-ops/))
 			{
 				ws_plugin__s2member_generateSecurityKey = function() /* Generates a unique Security Key. */
 					{
@@ -82,62 +107,67 @@ jQuery (document).ready (function($)
 							};
 						/**/
 						var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
-						for (var i = 0, key = ''; i < 56; i++) key += chars.substr (mt_rand (0, chars.length - 1), 1);
+						for (var i = 0, key = ''; i < 64; i++) key += chars.substr (mt_rand(0, chars.length - 1), 1);
 						/**/
-						$ ('input#ws-plugin--s2member-sec-encryption-key').val (key);
+						$('input#ws-plugin--s2member-sec-encryption-key').val (key);
 						/**/
 						return false;
 					};
 				/**/
 				ws_plugin__s2member_enableSecurityKey = function() /* Allow Security Key editing?? */
 					{
-						if (confirm ('Edit Key? Are you sure?\nThis could break your installation!\n\n*Note* If you\'ve been testing s2Member, feel free to change this Key before you go live. Just don\'t go live, and then change it. You\'ll have some very unhappy Customers. Data corruption WILL occur!\n\nFor your safety, s2Member keeps a history of the last 10 Keys that you\'ve used. If you get yourself into a real situation, s2Member will let you revert back to a previous Key.'))
-							$ ('input#ws-plugin--s2member-sec-encryption-key').attr ('disabled', false);
+						if (confirm('Edit Key? Are you sure?\nThis could break your installation!\n\n*Note* If you\'ve been testing s2Member, feel free to change this Key before you go live. Just don\'t go live, and then change it. You\'ll have some very unhappy Customers. Data corruption WILL occur!\n\nFor your safety, s2Member keeps a history of the last 10 Keys that you\'ve used. If you get yourself into a real situation, s2Member will let you revert back to a previous Key.'))
+							$('input#ws-plugin--s2member-sec-encryption-key').removeAttr ('disabled');
 						/**/
 						return false;
 					};
 				/**/
 				ws_plugin__s2member_securityKeyHistory = function() /* Displays history of Keys. */
 					{
-						$ ('div#ws-plugin--s2member-sec-encryption-key-history').toggle ();
+						$('div#ws-plugin--s2member-sec-encryption-key-history').toggle ();
 						/**/
 						return false;
 					};
 				/**/
-				if ($ ('input#ws-plugin--s2member-custom-reg-fields').length && $ ('div#ws-plugin--s2member-custom-reg-field-configuration').length)
+				if ($('input#ws-plugin--s2member-custom-reg-fields').length && $('div#ws-plugin--s2member-custom-reg-field-configuration').length)
 					{
 						(function() /* Wrap these routines inside a function to keep variables within relative scope. */
 							{
-								var $fields = $ ('input#ws-plugin--s2member-custom-reg-fields');
-								var $configuration = $ ('div#ws-plugin--s2member-custom-reg-field-configuration');
-								var fields = ($fields.val ()) ? $.JSON.parse ($fields.val ()) : []; /* Parse. */
-								fields = (fields instanceof Array) ? fields : []; /* Force array. */
+								var i, fieldDefaults, tools, table, $tools, $table;
+								var $fields = $('input#ws-plugin--s2member-custom-reg-fields');
+								var $configuration = $('div#ws-plugin--s2member-custom-reg-field-configuration');
+								var fields = ($fields.val ()) ? $.JSON.parse ($fields.val ()) : [];
 								/**/
-								var tools = '<div id="ws-plugin--s2member-custom-reg-field-configuration-tools"></div>';
-								var table = '<table id="ws-plugin--s2member-custom-reg-field-configuration-table"></table>';
+								fields = (fields instanceof Array) ? fields : []; /* Force fields to an array. */
 								/**/
-								$configuration.html (tools + table); /* Add tools and table to configuration. */
+								fieldDefaults = {section: 'no', sectitle: '', id: '', label: '', type: 'text', deflt: '', options: '', expected: '', required: 'yes', levels: 'all', editable: 'yes', classes: '', styles: '', attrs: ''};
 								/**/
-								var $tools = $ ('div#ws-plugin--s2member-custom-reg-field-configuration-tools');
-								var $table = $ ('table#ws-plugin--s2member-custom-reg-field-configuration-table');
+								for (i = 0; i < fields.length; i++) fields[i] = $.extend (true, {}, fieldDefaults, fields[i]); /* Extend, based on defaults ( for future proofing ). */
 								/**/
-								ws_plugin__s2member_customRegFieldTypeChange = function(select)
+								tools = '<div id="ws-plugin--s2member-custom-reg-field-configuration-tools"></div>', table = '<table id="ws-plugin--s2member-custom-reg-field-configuration-table"></table>';
+								/**/
+								$configuration.html (tools + table); /* Add tools div & table div to configuration div ( i.e. div#ws-plugin--s2member-custom-reg-field-configuration ). */
+								/**/
+								$tools = $('div#ws-plugin--s2member-custom-reg-field-configuration-tools'), $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-table');
+								/**/
+								ws_plugin__s2member_customRegFieldSectionChange = function(select)
 									{
-										var tr1, tr2, type = $ (select).val (); /* Current selection. */
+										var section = $(select).val (); /* Current selection ( no|yes, selected by site owner ). */
 										/**/
-										tr1 = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-options';
-										tr2 = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected';
+										var sectitle_trs = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-sectitle';
 										/**/
-										if (type.match (/^(text|textarea|checkbox|pre_checkbox)$/))
-											$ (tr1).css ('display', 'none'), $ (tr1).prev ('tr').css ('display', 'none');
-										else /* Otherwise we display the table row by removing the display property. */
-											$ (tr1).css ('display', ''), $ (tr1).prev ('tr').css ('display', '');
+										(section === 'yes') ? $(sectitle_trs).css ('display', '') : $(sectitle_trs).css ('display', 'none');
+									};
+								/**/
+								ws_plugin__s2member_customRegFieldTypeChange = function(select) /* Handle change events here. */
+									{
+										var type = $(select).val (); /* Current selection ( type of Field, selected by site owner ). */
 										/**/
+										var deflt_trs = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt', options_trs = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-options', expected_trs = 'tr.ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected';
 										/**/
-										if (type.match (/^(select|selects|checkboxes|radios)$/))
-											$ (tr2).css ('display', 'none'), $ (tr2).prev ('tr').css ('display', 'none');
-										else /* Otherwise we display the table row by removing the display property. */
-											$ (tr2).css ('display', ''), $ (tr2).prev ('tr').css ('display', '');
+										(type.match (/^(text|textarea)$/)) ? $(deflt_trs).css ('display', '') : $(deflt_trs).css ('display', 'none');
+										(type.match (/^(select|selects|checkboxes|radios)$/)) ? $(options_trs).css ('display', '') : $(options_trs).css ('display', 'none');
+										(type.match (/^(text|textarea)$/)) ? $(expected_trs).css ('display', '') : $(expected_trs).css ('display', 'none');
 									};
 								/**/
 								ws_plugin__s2member_customRegFieldDelete = function(index)
@@ -177,56 +207,60 @@ jQuery (document).ready (function($)
 								/**/
 								ws_plugin__s2member_customRegFieldCreate = function()
 									{
-										var $table = $ ('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
+										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
 										/**/
-										$ (':input[property]', $table).each (function() /* Go through each property value. */
+										$(':input[property]', $table).each (function() /* Go through each property value. */
 											{
-												var $this = $ (this), property = $this.attr ('property'), val = $.trim ($this.val ());
+												var $this = $(this), property = $this.attr ('property'), val = $.trim ($this.val ());
 												/**/
 												field[property] = val;
 											});
 										/**/
-										if ((field = validateField (field))) /* If it can be validated. */
+										if ((field = validateField(field))) /* If it can be validated. */
 											{
 												fields.push (field), updateFields (), buildTools (), buildTable (), scrollReset ();
 												/**/
-												setTimeout (function() /* A momentary delay here for usability. */
+												setTimeout(function() /* A momentary delay here for usability. */
 													{
 														var row = 'tr.ws-plugin--s2member-custom-reg-field-configuration-table-row-' + (fields.length - 1);
-														alert ('Field created successfully.\n* Remember to "Save Changes".');
-														$ (row).effect ('highlight', 1000);
+														alert('Field created successfully.\n* Remember to "Save All Changes".');
+														$(row).effect ('highlight', 1500);
 													}, 500);
 											}
 									};
 								/**/
 								ws_plugin__s2member_customRegFieldUpdate = function(index)
 									{
-										var $table = $ ('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
+										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
 										/**/
-										$ (':input[property]', $table).each (function() /* Go through each property value. */
+										$(':input[property]', $table).each (function() /* Go through each property value. */
 											{
-												var $this = $ (this), property = $this.attr ('property'), val = $.trim ($this.val ());
+												var $this = $(this), property = $this.attr ('property'), val = $.trim ($this.val ());
 												/**/
 												field[property] = val;
 											});
 										/**/
-										if ((field = validateField (field, index))) /* If it validates. */
+										if ((field = validateField(field, index))) /* If it validates. */
 											{
 												fields[index] = field, updateFields (), buildTools (), buildTable (), scrollReset ();
 												/**/
-												var row = 'tr.ws-plugin--s2member-custom-reg-field-configuration-table-row-' + index;
-												$ (row).effect ('highlight', 1000);
+												setTimeout(function() /* A momentary delay here for usability. */
+													{
+														var row = 'tr.ws-plugin--s2member-custom-reg-field-configuration-table-row-' + index;
+														alert('Field updated successfully.\n* Remember to "Save All Changes".');
+														$(row).effect ('highlight', 1500);
+													}, 500);
 											}
 									};
 								/**/
 								ws_plugin__s2member_customRegFieldAdd = function() /* Add new field links. */
 									{
-										buildTools (true); /* No need to reset scroll position. */
+										buildTools(true); /* No need to reset scroll position. */
 									};
 								/**/
 								ws_plugin__s2member_customRegFieldEdit = function(index) /* Edit links. */
 									{
-										buildTools (false, index), scrollReset (); /* Reset scroll position. */
+										buildTools(false, index), scrollReset (); /* Reset scroll position. */
 									};
 								/**/
 								ws_plugin__s2member_customRegFieldCancel = function() /* Cancel form. */
@@ -238,85 +272,77 @@ jQuery (document).ready (function($)
 									{
 										var editing = ( typeof index === 'number' && typeof fields[index] === 'object') ? true : false, errors = [], options, i;
 										/**/
-										if (typeof field !== 'object') /* Must be an object. */
+										if (typeof field !== 'object' || typeof (field = $.extend (true, {}, fieldDefaults, field)) !== 'object')
 											{
-												errors.push ('Invalid field object. Please try again.');
+												alert('Invalid field object. Please try again.');
+												return false;
 											}
-										else /* We only proceed with these other checks if field is an object. */
+										/**/
+										field.sectitle = (field.section === 'yes') ? field.sectitle : '';
+										field.deflt = (field.type.match (/^(text|textarea)$/)) ? field.deflt : '';
+										field.deflt = (field.type.match (/^(text)$/)) ? field.deflt.replace (/[\r\n\t ]+/g, ' ') : field.deflt;
+										field.options = (field.type.match (/^(select|selects|checkboxes|radios)$/)) ? field.options : '';
+										field.expected = (field.type.match (/^(text|textarea)$/)) ? field.expected : '';
+										/**/
+										if (!field.id) /* Every Field must have a unique ID. */
 											{
-												if (!field.id)
+												errors.push ('Unique Field ID:\nThis is required. Please try again.');
+											}
+										else if (fieldIdExists(field.id) && (!editing || field.id !== fields[index].id))
+											{
+												errors.push ('Unique Field ID:\nThat Field ID already exists. Please try again.');
+											}
+										/**/
+										if (!field.label) /* Every Field must have a label. */
+											{
+												errors.push ('Field Label/Description:\nThis is required. Please try again.');
+											}
+										/**/
+										if (field.type.match (/^(select|selects|checkboxes|radios)$/) && !field.options)
+											{
+												errors.push ('Option Configuration File:\nThis is required. Please try again.');
+											}
+										else if (field.type.match (/^(select|selects|checkboxes|radios)$/))
+											{
+												for (i = 0; i < (options = field.options.split (/[\r\n]+/)).length; i++)
 													{
-														errors.push ('Unique Field ID:\nThis is required. Please try again.');
-													}
-												else if (fieldIdExists (field.id) && (!editing || field.id !== fields[index].id))
-													{
-														errors.push ('Unique Field ID:\nThat Field ID already exists. Please try again.');
-													}
-												/**/
-												if (!field.label)
-													{
-														errors.push ('Field Label/Description:\nThis is required. Please try again.');
-													}
-												/**/
-												if (field.type.match (/^(select|selects|checkboxes|radios)$/))
-													{
-														field.expected = ''; /* Empty this ( n/a ). */
-														/**/
-														if (!field.options)
+														if (!(options[i] = $.trim (options[i])).match (/^([^\|]*)(\|)([^\|]*)(\|default)?$/))
 															{
-																errors.push ('Option Configuration File:\nThis is required. Please try again.');
-															}
-														else /* Otherwise, we need to go through each lineof the option configuration. */
-															{
-																options = field.options.split (/[\r\n]+/);
-																/**/
-																for (i = 0; i < options.length; i++)
-																	{
-																		options[i] = $.trim (options[i]);
-																		/**/
-																		if (!options[i].match (/^([^\|]*)(\|)([^\|]*)(\|default)?$/))
-																			{
-																				errors.push ('Option Configuration File:\nInvalid configuration at line #' + (i + 1) + '.');
-																				break; /* Break now. There could potentially be lots of lines with errors like this. */
-																			}
-																	}
-																/**/
-																field.options = $.trim (options.join ('\n')); /* Cleaned. */
+																errors.push ('Option Configuration File:\nInvalid configuration at line #' + (i + 1) + '.');
+																break; /* Break now. There could potentially be lots of lines with errors like this. */
 															}
 													}
-												else /* Else there should NOT be any options associated with this type. */
-													{
-														field.options = ''; /* Force empty options. */
-													}
 												/**/
-												if (! (field.levels = field.levels.replace (/ /g, '')))
-													{
-														errors.push ('Applicable Levels:\nThis is required. Please try again.');
-													}
-												else if (!field.levels.match (/^(all|[0-9,]+)$/))
-													{
-														errors.push ('Applicable Levels:\nShould be comma-delimited Levels, or just type: all.\n( examples: 0,1,2,3,4 or type the word: all )');
-													}
-												/**/
-												if (field.classes && field.classes.match (/[^a-z 0-9 _ \-]/i))
-													{
-														errors.push ('CSS Classes:\nContains invalid characters. Please try again.\n( only: alphanumerics, underscores, hyphens, spaces )');
-													}
-												/**/
-												if (field.styles && field.styles.match (/["\=\>\<]/))
-													{
-														errors.push ('CSS Styles:\nContains invalid characters. Please try again.\n( do NOT use these characters: = " < > )');
-													}
-												/**/
-												if (field.attrs && field.attrs.match (/[\>\<]/))
-													{
-														errors.push ('Other Attributes:\nContains invalid characters. Please try again.\n( do NOT use these characters: < > )');
-													}
+												field.options = $.trim (options.join ('\n')); /* Clean up. */
+											}
+										/**/
+										if (!(field.levels = field.levels.replace (/ /g, '')))
+											{
+												errors.push ('Applicable Levels:\nThis is required. Please try again.');
+											}
+										else if (!field.levels.match (/^(all|[0-9,]+)$/))
+											{
+												errors.push ('Applicable Levels:\nShould be comma-delimited Levels, or just type: all.\n( examples: 0,1,2,3,4 or type the word: all )');
+											}
+										/**/
+										if (field.classes && field.classes.match (/[^a-z 0-9 _ \-]/i))
+											{
+												errors.push ('CSS Classes:\nContains invalid characters. Please try again.\n( only: alphanumerics, underscores, hyphens, spaces )');
+											}
+										/**/
+										if (field.styles && field.styles.match (/["\=\>\<]/))
+											{
+												errors.push ('CSS Styles:\nContains invalid characters. Please try again.\n( do NOT use these characters: = " < > )');
+											}
+										/**/
+										if (field.attrs && field.attrs.match (/[\>\<]/))
+											{
+												errors.push ('Other Attributes:\nContains invalid characters. Please try again.\n( do NOT use these characters: < > )');
 											}
 										/**/
 										if (errors.length > 0) /* Errors? */
 											{
-												alert (errors.join ('\n\n'));
+												alert(errors.join ('\n\n'));
 												return false;
 											}
 										else /* Return. */
@@ -325,7 +351,7 @@ jQuery (document).ready (function($)
 								/**/
 								var updateFields = function() /* Update hidden input value. */
 									{
-										$fields.val ( ( (fields.length > 0) ? $.JSON.stringify (fields) : ''));
+										$fields.val (((fields.length > 0) ? $.JSON.stringify (fields) : ''));
 									};
 								/**/
 								var fieldId2Var = function(fieldId) /* Convert ids to variables. */
@@ -352,17 +378,16 @@ jQuery (document).ready (function($)
 								/**/
 								var scrollReset = function() /* Return to Custom Fields section. */
 									{
-										scrollTo (0, $ ('div.ws-plugin--s2member-custom-reg-fields-section').offset ()['top'] - 100);
+										scrollTo(0, $('div.ws-plugin--s2member-custom-reg-fields-section').offset ()['top'] - 100);
 									};
 								/**/
 								var buildTools = function(adding, index) /* This builds tools into the configuration. */
 									{
-										var i = 0, html = '', form = '', w = 0, h = 0, defaults = {id: '', label: '', type: 'text', options: '', expected: '', required: 'yes', levels: 'all', editable: 'yes', classes: '', styles: '', attrs: ''};
-										var editing = ( typeof index === 'number' && typeof fields[index] === 'object') ? true : false, displayForm = (adding || editing) ? true : false, field = (editing) ? fields[index] : defaults;
+										var i = 0, html = '', form = '', w = 0, h = 0, editing = ( typeof index === 'number' && typeof fields[index] === 'object') ? true : false, displayForm = (adding || editing) ? true : false, field = (editing) ? $.extend (true, {}, fieldDefaults, fields[index]) : fieldDefaults;
 										/**/
 										html += '<a href="#" onclick="ws_plugin__s2member_customRegFieldAdd(); return false;">Add New Field</a>'; /* Click to add a new Custom Registration Field. */
 										/**/
-										tb_remove (), $ ('div#ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form').remove (); /* Remove an existing thickbox. */
+										tb_remove (), $('div#ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form').remove (); /* Remove an existing thickbox. */
 										/**/
 										if (displayForm) /* Do we need to display the adding/editing form at all?
 										*NOTE* This is NOT an actual <form>, because we're already inside another form tag. */
@@ -371,6 +396,34 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<table id="ws-plugin--s2member-custom-reg-field-configuration-tools-form">';
 												form += '<tbody>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-section">';
+												form += '<td colspan="2">';
+												form += '<label for="ws-plugin--s2member-custom-reg-field-configuration-tools-form-section">Starts A New Section?</label>';
+												form += '</td>';
+												form += '</tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-section">';
+												form += '<td colspan="2">';
+												form += '<select property="section" onchange="ws_plugin__s2member_customRegFieldSectionChange(this);" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-section">';
+												form += '<option value="no"' + ((field.section === 'no') ? ' selected="selected"' : '') + '">No ( this Field flows normally )</option>';
+												form += '<option value="yes"' + ((field.section === 'yes') ? ' selected="selected"' : '') + '">Yes ( this Field begins a new section )</option>';
+												form += '</select><br />';
+												form += '<small>Optional. Allows Fields to be grouped into sections.</small>';
+												form += '</td>';
+												form += '</tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-sectitle ws-plugin--s2member-custom-reg-field-configuration-tools-form-section"' + ((field.section === 'yes') ? '' : ' style="display:none;"') + '><td colspan="2"><hr /></td></tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-sectitle ws-plugin--s2member-custom-reg-field-configuration-tools-form-section"' + ((field.section === 'yes') ? '' : ' style="display:none;"') + '>';
+												form += '<td colspan="2">';
+												form += 'Title for this new section? ( optional )<br />';
+												form += '<input type="text" property="sectitle" value="' + esc_attr(field.sectitle) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-sectitle" /><br />';
+												form += '<small>If empty, a simple divider will be used by default.</small>';
+												form += '</td>';
+												form += '</tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-type"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-type">';
 												form += '<td colspan="2">';
@@ -381,19 +434,20 @@ jQuery (document).ready (function($)
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-type">';
 												form += '<td colspan="2">';
 												form += '<select property="type" onchange="ws_plugin__s2member_customRegFieldTypeChange(this);" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-type">';
-												form += '<option value="text"' + ( (field.type === 'text') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('text')) + '</option>';
-												form += '<option value="textarea"' + ( (field.type === 'textarea') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('textarea')) + '</option>';
-												form += '<option value="select"' + ( (field.type === 'select') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('select')) + '</option>';
-												form += '<option value="selects"' + ( (field.type === 'selects') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('selects')) + '</option>';
-												form += '<option value="checkbox"' + ( (field.type === 'checkbox') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('checkbox')) + '</option>';
-												form += '<option value="pre_checkbox"' + ( (field.type === 'pre_checkbox') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('pre_checkbox')) + '</option>';
-												form += '<option value="checkboxes"' + ( (field.type === 'checkboxes') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('checkboxes')) + '</option>';
-												form += '<option value="radios"' + ( (field.type === 'radios') ? ' selected="selected"' : '') + '">' + esc_html (fieldTypeDesc ('radios')) + '</option>';
-												form += '</select>';
+												form += '<option value="text"' + ((field.type === 'text') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('text')) + '</option>';
+												form += '<option value="textarea"' + ((field.type === 'textarea') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('textarea')) + '</option>';
+												form += '<option value="select"' + ((field.type === 'select') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('select')) + '</option>';
+												form += '<option value="selects"' + ((field.type === 'selects') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('selects')) + '</option>';
+												form += '<option value="checkbox"' + ((field.type === 'checkbox') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('checkbox')) + '</option>';
+												form += '<option value="pre_checkbox"' + ((field.type === 'pre_checkbox') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('pre_checkbox')) + '</option>';
+												form += '<option value="checkboxes"' + ((field.type === 'checkboxes') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('checkboxes')) + '</option>';
+												form += '<option value="radios"' + ((field.type === 'radios') ? ' selected="selected"' : '') + '">' + esc_html(fieldTypeDesc('radios')) + '</option>';
+												form += '</select><br />';
+												form += '<small>The options below may change, based on the Field Type you choose here.</small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-label"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-label">';
 												form += '<td colspan="2">';
@@ -403,12 +457,12 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-label">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="label" value="' + esc_attr (field.label) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-label" /><br />';
+												form += '<input type="text" property="label" value="' + esc_attr(field.label) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-label" /><br />';
 												form += '<small>Examples: <code>Choose Country</code>, <code>Street Address</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-id"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-id">';
 												form += '<td colspan="2">';
@@ -418,13 +472,13 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-id">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="id" value="' + esc_attr (field.id) + '" maxlength="25" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-id" /><br />';
+												form += '<input type="text" property="id" value="' + esc_attr(field.id) + '" maxlength="25" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-id" /><br />';
 												form += '<small>Examples: <code>country_code</code>, <code>street_address</code></small><br />';
 												form += '<small>e.g. <code>[s2Get user_field="country_code" /]</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-required"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-required">';
 												form += '<td colspan="2">';
@@ -435,26 +489,41 @@ jQuery (document).ready (function($)
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-required">';
 												form += '<td colspan="2">';
 												form += '<select property="required" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-required">';
-												form += '<option value="yes"' + ( (field.required === 'yes') ? ' selected="selected"' : '') + '">Yes ( required )</option>';
-												form += '<option value="no"' + ( (field.required === 'no') ? ' selected="selected"' : '') + '">No ( optional )</option>';
+												form += '<option value="yes"' + ((field.required === 'yes') ? ' selected="selected"' : '') + '">Yes ( required )</option>';
+												form += '<option value="no"' + ((field.required === 'no') ? ' selected="selected"' : '') + '">No ( optional )</option>';
 												form += '</select><br />';
 												form += '<small>If <code>yes</code>, only Users/Members will be "required" to enter this field.</small><br />';
 												form += '<small>* Administrators are exempt from this requirement.</small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"' + ( (field.type.match (/^(text|textarea|checkbox|pre_checkbox)$/)) ? ' style="display:none;"' : '') + '><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '><td colspan="2">&nbsp;</td></tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options"' + ( (field.type.match (/^(text|textarea|checkbox|pre_checkbox)$/)) ? ' style="display:none;"' : '') + '>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '>';
+												form += '<td colspan="2">';
+												form += '<label for="ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt">Default Text Value: ( optional )</label>';
+												form += '</td>';
+												form += '</tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '>';
+												form += '<td colspan="2">';
+												form += '<textarea property="deflt" rows="1" wrap="off" spellcheck="false" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-deflt">' + esc_html(field.deflt) + '</textarea><br />';
+												form += '<small>Default value before user input is received.</small>';
+												form += '</td>';
+												form += '</tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-options"' + ((field.type.match (/^(select|selects|checkboxes|radios)$/)) ? '' : ' style="display:none;"') + '><td colspan="2">&nbsp;</td></tr>';
+												/**/
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options"' + ((field.type.match (/^(select|selects|checkboxes|radios)$/)) ? '' : ' style="display:none;"') + '>';
 												form += '<td colspan="2">';
 												form += '<label for="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options">Option Configuration File: * ( one option per line )</label><br />';
 												form += '<small>Use a pipe <code>|</code> delimited format: <code>option value|option label</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options"' + ( (field.type.match (/^(text|textarea|checkbox|pre_checkbox)$/)) ? ' style="display:none;"' : '') + '>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options"' + ((field.type.match (/^(select|selects|checkboxes|radios)$/)) ? '' : ' style="display:none;"') + '>';
 												form += '<td colspan="2">';
-												form += '<textarea property="options" rows="3" wrap="off" spellcheck="false" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options">' + esc_html (field.options) + '</textarea><br />';
+												form += '<textarea property="options" rows="3" wrap="off" spellcheck="false" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-options">' + esc_html(field.options) + '</textarea><br />';
 												form += 'Here is a quick example:<br />';
 												form += '<small>You can also specify a <em>default</em> option:</small><br />';
 												form += '<code>US|United States|default</code><br />';
@@ -463,36 +532,36 @@ jQuery (document).ready (function($)
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"' + ( (field.type.match (/^(select|selects|checkboxes|radios)$/)) ? ' style="display:none;"' : '') + '><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '><td colspan="2">&nbsp;</td></tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected"' + ( (field.type.match (/^(select|selects|checkboxes|radios)$/)) ? ' style="display:none;"' : '') + '>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '>';
 												form += '<td colspan="2">';
 												form += '<label for="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected">Expected Format: *</label>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected"' + ( (field.type.match (/^(select|selects|checkboxes|radios)$/)) ? ' style="display:none;"' : '') + '>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected"' + ((field.type.match (/^(text|textarea)$/)) ? '' : ' style="display:none;"') + '>';
 												form += '<td colspan="2">';
 												form += '<select property="expected" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-expected">';
 												/**/
-												form += '<option value=""' + ( (field.expected === '') ? ' selected="selected"' : '') + '">Anything Goes</option>';
+												form += '<option value=""' + ((field.expected === '') ? ' selected="selected"' : '') + '">Anything Goes</option>';
 												form += '<option disabled="disabled"></option>';
 												/**/
 												form += '<optgroup label="Specific Input Types">';
-												form += '<option value="numeric-wp-commas"' + ( (field.expected === 'numeric-wp-commas') ? ' selected="selected"' : '') + '">Numeric ( with or without decimals, commas allowed )</option>';
-												form += '<option value="numeric"' + ( (field.expected === 'numeric') ? ' selected="selected"' : '') + '">Numeric ( with or without decimals, no commas )</option>';
-												form += '<option value="integer"' + ( (field.expected === 'integer') ? ' selected="selected"' : '') + '">Integer ( whole number, without any decimals )</option>';
-												form += '<option value="integer-gt-0"' + ( (field.expected === 'integer-gt-0') ? ' selected="selected"' : '') + '">Integer > 0 ( whole number, no decimals, greater than 0 )</option>';
-												form += '<option value="float"' + ( (field.expected === 'float') ? ' selected="selected"' : '') + '">Float ( floating point number, decimals required )</option>';
-												form += '<option value="float-gt-0"' + ( (field.expected === 'float-gt-0') ? ' selected="selected"' : '') + '">Float > 0 ( floating point number, decimals required, greater than 0 )</option>';
-												form += '<option value="date"' + ( (field.expected === 'date') ? ' selected="selected"' : '') + '">Date ( required date format: dd/mm/yyyy )</option>';
-												form += '<option value="email"' + ( (field.expected === 'email') ? ' selected="selected"' : '') + '">Email ( require valid email )</option>';
-												form += '<option value="url"' + ( (field.expected === 'url') ? ' selected="selected"' : '') + '">Full URL ( starting with http or https )</option>';
-												form += '<option value="domain"' + ( (field.expected === 'domain') ? ' selected="selected"' : '') + '">Domain Name ( domain name only, without http )</option>';
-												form += '<option value="phone"' + ( (field.expected === 'phone') ? ' selected="selected"' : '') + '">Phone # ( 10 digits w/possible hyphens,spaces,brackets )</option>';
-												form += '<option value="uszip"' + ( (field.expected === 'uszip') ? ' selected="selected"' : '') + '">US Zipcode ( 5-9 digits w/possible hyphen )</option>';
-												form += '<option value="cazip"' + ( (field.expected === 'cazip') ? ' selected="selected"' : '') + '">Canadian Zipcode ( 6 alpha-numerics w/possible space )</option>';
-												form += '<option value="uczip"' + ( (field.expected === 'uczip') ? ' selected="selected"' : '') + '">US/Canadian Zipcode ( either a US or Canadian zipcode )</option>';
+												form += '<option value="numeric-wp-commas"' + ((field.expected === 'numeric-wp-commas') ? ' selected="selected"' : '') + '">Numeric ( with or without decimals, commas allowed )</option>';
+												form += '<option value="numeric"' + ((field.expected === 'numeric') ? ' selected="selected"' : '') + '">Numeric ( with or without decimals, no commas )</option>';
+												form += '<option value="integer"' + ((field.expected === 'integer') ? ' selected="selected"' : '') + '">Integer ( whole number, without any decimals )</option>';
+												form += '<option value="integer-gt-0"' + ((field.expected === 'integer-gt-0') ? ' selected="selected"' : '') + '">Integer > 0 ( whole number, no decimals, greater than 0 )</option>';
+												form += '<option value="float"' + ((field.expected === 'float') ? ' selected="selected"' : '') + '">Float ( floating point number, decimals required )</option>';
+												form += '<option value="float-gt-0"' + ((field.expected === 'float-gt-0') ? ' selected="selected"' : '') + '">Float > 0 ( floating point number, decimals required, greater than 0 )</option>';
+												form += '<option value="date"' + ((field.expected === 'date') ? ' selected="selected"' : '') + '">Date ( required date format: dd/mm/yyyy )</option>';
+												form += '<option value="email"' + ((field.expected === 'email') ? ' selected="selected"' : '') + '">Email ( require valid email )</option>';
+												form += '<option value="url"' + ((field.expected === 'url') ? ' selected="selected"' : '') + '">Full URL ( starting with http or https )</option>';
+												form += '<option value="domain"' + ((field.expected === 'domain') ? ' selected="selected"' : '') + '">Domain Name ( domain name only, without http )</option>';
+												form += '<option value="phone"' + ((field.expected === 'phone') ? ' selected="selected"' : '') + '">Phone # ( 10 digits w/possible hyphens,spaces,brackets )</option>';
+												form += '<option value="uszip"' + ((field.expected === 'uszip') ? ' selected="selected"' : '') + '">US Zipcode ( 5-9 digits w/possible hyphen )</option>';
+												form += '<option value="cazip"' + ((field.expected === 'cazip') ? ' selected="selected"' : '') + '">Canadian Zipcode ( 6 alpha-numerics w/possible space )</option>';
+												form += '<option value="uczip"' + ((field.expected === 'uczip') ? ' selected="selected"' : '') + '">US/Canadian Zipcode ( either a US or Canadian zipcode )</option>';
 												form += '</optgroup>';
 												/**/
 												form += '<option disabled="disabled"></option>';
@@ -500,8 +569,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Any Character Combination">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="any-' + i + '"' + ( (field.expected === 'any-' + i) ? ' selected="selected"' : '') + '">Any Character Combination ( ' + i + ' character minimum )</option>';
-														form += '<option value="any-' + i + '-e"' + ( (field.expected === 'any-' + i + '-e') ? ' selected="selected"' : '') + '">Any Character Combination ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="any-' + i + '"' + ((field.expected === 'any-' + i) ? ' selected="selected"' : '') + '">Any Character Combination ( ' + i + ' character minimum )</option>';
+														form += '<option value="any-' + i + '-e"' + ((field.expected === 'any-' + i + '-e') ? ' selected="selected"' : '') + '">Any Character Combination ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -510,8 +579,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Alphanumerics, Spaces &amp; Punctuation Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="alphanumerics-spaces-punctuation-' + i + '"' + ( (field.expected === 'alphanumerics-spaces-punctuation-' + i) ? ' selected="selected"' : '') + '">Alphanumerics, Spaces &amp; Punctuation ( ' + i + ' character minimum )</option>';
-														form += '<option value="alphanumerics-spaces-punctuation-' + i + '-e"' + ( (field.expected === 'alphanumerics-spaces-punctuation-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics, Spaces &amp; Punctuation ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="alphanumerics-spaces-punctuation-' + i + '"' + ((field.expected === 'alphanumerics-spaces-punctuation-' + i) ? ' selected="selected"' : '') + '">Alphanumerics, Spaces &amp; Punctuation ( ' + i + ' character minimum )</option>';
+														form += '<option value="alphanumerics-spaces-punctuation-' + i + '-e"' + ((field.expected === 'alphanumerics-spaces-punctuation-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics, Spaces &amp; Punctuation ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -520,8 +589,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Alphanumerics &amp; Spaces Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="alphanumerics-spaces-' + i + '"' + ( (field.expected === 'alphanumerics-spaces-' + i) ? ' selected="selected"' : '') + '">Alphanumerics &amp; Spaces ( ' + i + ' character minimum )</option>';
-														form += '<option value="alphanumerics-spaces-' + i + '-e"' + ( (field.expected === 'alphanumerics-spaces-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics &amp; Spaces ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="alphanumerics-spaces-' + i + '"' + ((field.expected === 'alphanumerics-spaces-' + i) ? ' selected="selected"' : '') + '">Alphanumerics &amp; Spaces ( ' + i + ' character minimum )</option>';
+														form += '<option value="alphanumerics-spaces-' + i + '-e"' + ((field.expected === 'alphanumerics-spaces-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics &amp; Spaces ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -530,8 +599,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Alphanumerics &amp; Punctuation Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="alphanumerics-punctuation-' + i + '"' + ( (field.expected === 'alphanumerics-punctuation-' + i) ? ' selected="selected"' : '') + '">Alphanumerics &amp; Punctuation ( ' + i + ' character minimum )</option>';
-														form += '<option value="alphanumerics-punctuation-' + i + '-e"' + ( (field.expected === 'alphanumerics-punctuation-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics &amp; Punctuation ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="alphanumerics-punctuation-' + i + '"' + ((field.expected === 'alphanumerics-punctuation-' + i) ? ' selected="selected"' : '') + '">Alphanumerics &amp; Punctuation ( ' + i + ' character minimum )</option>';
+														form += '<option value="alphanumerics-punctuation-' + i + '-e"' + ((field.expected === 'alphanumerics-punctuation-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics &amp; Punctuation ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -540,8 +609,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Alphanumerics Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="alphanumerics-' + i + '"' + ( (field.expected === 'alphanumerics-' + i) ? ' selected="selected"' : '') + '">Alphanumerics ( ' + i + ' character minimum )</option>';
-														form += '<option value="alphanumerics-' + i + '-e"' + ( (field.expected === 'alphanumerics-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="alphanumerics-' + i + '"' + ((field.expected === 'alphanumerics-' + i) ? ' selected="selected"' : '') + '">Alphanumerics ( ' + i + ' character minimum )</option>';
+														form += '<option value="alphanumerics-' + i + '-e"' + ((field.expected === 'alphanumerics-' + i + '-e') ? ' selected="selected"' : '') + '">Alphanumerics ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -550,8 +619,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Alphabetics Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="alphabetics-' + i + '"' + ( (field.expected === 'alphabetics-' + i) ? ' selected="selected"' : '') + '">Alphabetics ( ' + i + ' character minimum )</option>';
-														form += '<option value="alphabetics-' + i + '-e"' + ( (field.expected === 'alphabetics-' + i + '-e') ? ' selected="selected"' : '') + '">Alphabetics ( exactly ' + i + ' character' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="alphabetics-' + i + '"' + ((field.expected === 'alphabetics-' + i) ? ' selected="selected"' : '') + '">Alphabetics ( ' + i + ' character minimum )</option>';
+														form += '<option value="alphabetics-' + i + '-e"' + ((field.expected === 'alphabetics-' + i + '-e') ? ' selected="selected"' : '') + '">Alphabetics ( exactly ' + i + ' character' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -560,8 +629,8 @@ jQuery (document).ready (function($)
 												form += '<optgroup label="Numeric Digits Only">';
 												for (i = 1; i <= 25; i++)
 													{
-														form += '<option value="numerics-' + i + '"' + ( (field.expected === 'numerics-' + i) ? ' selected="selected"' : '') + '">Numeric Digits ( ' + i + ' digit minimum )</option>';
-														form += '<option value="numerics-' + i + '-e"' + ( (field.expected === 'numerics-' + i + '-e') ? ' selected="selected"' : '') + '">Numeric Digits ( exactly ' + i + ' digit' + ( (i > 1) ? 's' : '') + ' )</option>';
+														form += '<option value="numerics-' + i + '"' + ((field.expected === 'numerics-' + i) ? ' selected="selected"' : '') + '">Numeric Digits ( ' + i + ' digit minimum )</option>';
+														form += '<option value="numerics-' + i + '-e"' + ((field.expected === 'numerics-' + i + '-e') ? ' selected="selected"' : '') + '">Numeric Digits ( exactly ' + i + ' digit' + ((i > 1) ? 's' : '') + ' )</option>';
 													}
 												form += '</optgroup>';
 												/**/
@@ -571,7 +640,7 @@ jQuery (document).ready (function($)
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-levels"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-levels">';
 												form += '<td colspan="2">';
@@ -581,13 +650,13 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-levels">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="levels" value="' + esc_attr (field.levels) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-levels" /><br />';
+												form += '<input type="text" property="levels" value="' + esc_attr(field.levels) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-levels" /><br />';
 												form += '<small>Please use comma-delimited Level #\'s: <code>0,1,2,3,4</code> or type: <code>all</code>.</small><br />';
 												form += '<small>This allows you to enable this field - only at specific Membership Levels.</small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-editable"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-editable">';
 												form += '<td colspan="2">';
@@ -598,17 +667,17 @@ jQuery (document).ready (function($)
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-editable">';
 												form += '<td colspan="2">';
 												form += '<select property="editable" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-editable">';
-												form += '<option value="yes"' + ( (field.editable === 'yes') ? ' selected="selected"' : '') + '">Yes ( editable )</option>';
-												form += '<option value="no"' + ( (field.editable === 'no') ? ' selected="selected"' : '') + '">No ( uneditable after registration )</option>';
-												form += '<option value="no-invisible"' + ( (field.editable === 'no-invisible') ? ' selected="selected"' : '') + '">No ( uneditable &amp; totally invisible after registration )</option>';
-												form += '<option value="yes-invisible"' + ( (field.editable === 'yes-invisible') ? ' selected="selected"' : '') + '">Yes ( editable after registration / invisible during registration )</option>';
+												form += '<option value="yes"' + ((field.editable === 'yes') ? ' selected="selected"' : '') + '">Yes ( editable )</option>';
+												form += '<option value="no"' + ((field.editable === 'no') ? ' selected="selected"' : '') + '">No ( uneditable after registration )</option>';
+												form += '<option value="no-invisible"' + ((field.editable === 'no-invisible') ? ' selected="selected"' : '') + '">No ( uneditable &amp; totally invisible after registration )</option>';
+												form += '<option value="yes-invisible"' + ((field.editable === 'yes-invisible') ? ' selected="selected"' : '') + '">Yes ( editable after registration / invisible during registration )</option>';
 												form += '</select><br />';
 												form += '<small>If <code>No</code>, this field will be un-editable after registration.</small><br />';
 												form += '<small>* Administrators are exempt from this.</small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-classes"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-classes">';
 												form += '<td colspan="2">';
@@ -618,12 +687,12 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-classes">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="classes" value="' + esc_attr (field.classes) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-classes" /><br />';
+												form += '<input type="text" property="classes" value="' + esc_attr(field.classes) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-classes" /><br />';
 												form += '<small>Example: <code>my-style-1 my-style-2</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-styles"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-styles">';
 												form += '<td colspan="2">';
@@ -633,12 +702,12 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-styles">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="styles" value="' + esc_attr (field.styles) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-styles" /><br />';
+												form += '<input type="text" property="styles" value="' + esc_attr(field.styles) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-styles" /><br />';
 												form += '<small>Example: <code>color:#000000; background:#FFFFFF;</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-attrs"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-attrs">';
 												form += '<td colspan="2">';
@@ -648,19 +717,19 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-attrs">';
 												form += '<td colspan="2">';
-												form += '<input type="text" property="attrs" value="' + esc_attr (field.attrs) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-attrs" /><br />';
+												form += '<input type="text" property="attrs" value="' + esc_attr(field.attrs) + '" id="ws-plugin--s2member-custom-reg-field-configuration-tools-form-attrs" /><br />';
 												form += '<small>Example: <code>onkeyup="" onblur=""</code></small>';
 												form += '</td>';
 												form += '</tr>';
 												/**/
-												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer"><td colspan="2">&nbsp;</td></tr>';
+												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-spacer ws-plugin--s2member-custom-reg-field-configuration-tools-form-buttons"><td colspan="2">&nbsp;</td></tr>';
 												/**/
 												form += '<tr class="ws-plugin--s2member-custom-reg-field-configuration-tools-form-buttons">';
 												form += '<td align="left">';
 												form += '<input type="button" value="Cancel" onclick="ws_plugin__s2member_customRegFieldCancel();" />';
 												form += '</td>';
 												form += '<td align="right">';
-												form += '<input type="button" value="' + ( (editing) ? 'Update This Field' : 'Create Registration Field') + '" onclick="' + ( (editing) ? 'ws_plugin__s2member_customRegFieldUpdate(' + index + ');' : 'ws_plugin__s2member_customRegFieldCreate();') + '" />';
+												form += '<input type="button" value="' + ((editing) ? 'Update This Field' : 'Create Registration Field') + '" onclick="' + ((editing) ? 'ws_plugin__s2member_customRegFieldUpdate(' + index + ');' : 'ws_plugin__s2member_customRegFieldCreate();') + '" />';
 												form += '</td>';
 												form += '</tr>';
 												/**/
@@ -669,9 +738,11 @@ jQuery (document).ready (function($)
 												/**/
 												form += '<div>';
 												/**/
-												$ ('body').append (form);
-												tb_show ( ( (editing) ? 'Editing Registration Field' : 'New Custom Registration Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form');
-												$ (window).trigger ('resize'), $ ('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form').show ();
+												$('body').append (form);
+												/**/
+												tb_show(((editing) ? 'Editing Registration Field' : 'New Custom Registration Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form'), $(window).trigger ('resize');
+												/**/
+												$('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form').show ();
 											}
 										/**/
 										$tools.html (html);
@@ -679,17 +750,17 @@ jQuery (document).ready (function($)
 								/**/
 								var attachTBResizer = function() /* Resize inline #TB_ajaxContent. */
 									{
-										$ (window).resize (function()
+										$(window).resize (function()
 											{
 												var w, h; /* Initialize width/height vars. */
-												w = $ (window).width (), h = $ (window).height (), w = (w > 720) ? 720 : w;
-												$ ('#TB_ajaxContent').css ({'width': w - 50, 'height': h - 75, 'margin': 0, 'padding': 0});
+												w = $(window).width (), h = $(window).height (), w = (w > 720) ? 720 : w;
+												$('#TB_ajaxContent').css ({'width': w - 50, 'height': h - 75, 'margin': 0, 'padding': 0});
 											});
 									};
 								/**/
 								var buildTable = function() /* This builds the table of existing fields. */
 									{
-										var l = fields.length, i = 0, field, html = '', eo = 'o';
+										var l = fields.length, i = 0, html = '', eo = 'o';
 										/**/
 										html += '<tbody>';
 										/**/
@@ -702,19 +773,16 @@ jQuery (document).ready (function($)
 										html += '<th>- Tools -</th>';
 										html += '</tr>';
 										/**/
-										if (fields.length > 0)
+										if (fields.length > 0) /* Any fields? */
 											{
 												for (i = 0; i < fields.length; i++)
 													{
-														eo = (eo === 'o') ? 'e' : 'o';
-														field = fields[i]; /* Obj. */
-														/**/
-														html += '<tr class="' + esc_attr (eo) + ' ws-plugin--s2member-custom-reg-field-configuration-table-row-' + i + '">'; /* Odd/even + row identifier. */
+														html += '<tr class="' + esc_attr((eo = (eo === 'o') ? 'e' : 'o')) + ((fields[i].section === 'yes') ? ' s' : '') + ' ws-plugin--s2member-custom-reg-field-configuration-table-row-' + i + '">'; /* Odd/even + row identifier. */
 														html += '<td nowrap="nowrap"><a class="ws-plugin--s2member-custom-reg-field-configuration-move-up" href="#" onclick="ws_plugin__s2member_customRegFieldMoveUp(' + i + '); return false;"></a><a class="ws-plugin--s2member-custom-reg-field-configuration-move-down" href="#" onclick="ws_plugin__s2member_customRegFieldMoveDown(' + i + '); return false;"></a></td>';
-														html += '<td nowrap="nowrap">' + esc_html (fieldTypeDesc (field.type)) + '</td>';
-														html += '<td nowrap="nowrap">' + esc_html (field.id) + '</td>';
-														html += '<td nowrap="nowrap">' + esc_html (field.required) + '</td>';
-														html += '<td nowrap="nowrap">' + esc_html (field.levels) + '</td>';
+														html += '<td nowrap="nowrap">' + esc_html(fieldTypeDesc(fields[i].type)) + '</td>';
+														html += '<td nowrap="nowrap">' + esc_html(fields[i].id) + '</td>';
+														html += '<td nowrap="nowrap">' + esc_html(fields[i].required) + '</td>';
+														html += '<td nowrap="nowrap">' + esc_html(fields[i].levels) + '</td>';
 														html += '<td nowrap="nowrap"><a class="ws-plugin--s2member-custom-reg-field-configuration-edit" href="#" onclick="ws_plugin__s2member_customRegFieldEdit(' + i + '); return false;"></a><a class="ws-plugin--s2member-custom-reg-field-configuration-delete" href="#" onclick="ws_plugin__s2member_customRegFieldDelete(' + i + '); return false;"></a></td>';
 														html += '</tr>';
 													}
@@ -735,28 +803,32 @@ jQuery (document).ready (function($)
 							/**/
 							}) ();
 					}
+			}
+		/**/
+		else if (location.href.match (/page\=ws-plugin--s2member-res-ops/))
+			{
 				/**/
-				$ ('input#ws-plugin--s2member-brute-force-restrictions-reset-button').click (function()
+				$('input#ws-plugin--s2member-brute-force-restrictions-reset-button').click (function()
 					{
-						var $this = $ (this); /* Save $(this) into $this. */
+						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
 						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
 							{
-								alert ('s2Member\'s Brute Force Restriction Logs have all been reset.'), $this.val ('Reset Brute Force Logs');
+								alert('s2Member\'s Brute Force Restriction Logs have all been reset.'), $this.val ('Reset Brute Force Logs');
 							});
 						/**/
 						return false;
 					});
 				/**/
-				$ ('input#ws-plugin--s2member-ip-restrictions-reset-button').click (function()
+				$('input#ws-plugin--s2member-ip-restrictions-reset-button').click (function()
 					{
-						var $this = $ (this); /* Save $(this) into $this. */
+						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
 						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
 							{
-								alert ('s2Member\'s IP Restriction Logs have all been reset.'), $this.val ('Reset IP Restriction Logs');
+								alert('s2Member\'s IP Restriction Logs have all been reset.'), $this.val ('Reset IP Restriction Logs');
 							});
 						/**/
 						return false;
@@ -765,10 +837,10 @@ jQuery (document).ready (function($)
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-paypal-ops/))
 			{
-				$ ('select#ws-plugin--s2member-auto-eot-system-enabled').change (function()
+				$('select#ws-plugin--s2member-auto-eot-system-enabled').change (function()
 					{
-						var $this = $ (this), val = $this.val ();
-						var $viaCron = $ ('p#ws-plugin--s2member-auto-eot-system-enabled-via-cron');
+						var $this = $(this), val = $this.val ();
+						var $viaCron = $('p#ws-plugin--s2member-auto-eot-system-enabled-via-cron');
 						/**/
 						if (val == 2) /* Display Cron instructions. */
 							$viaCron.show ()
@@ -779,11 +851,11 @@ jQuery (document).ready (function($)
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-els-ops/))
 			{
-				$ ('select#ws-plugin--s2member-custom-reg-opt-in').change (function()
+				$('select#ws-plugin--s2member-custom-reg-opt-in').change (function()
 					{
-						var $this = $ (this), val = $this.val ();
-						var $rows = $ ('tr.ws-plugin--s2member-custom-reg-opt-in-label-row');
-						var $prevImg = $ ('img.ws-plugin--s2member-custom-reg-opt-in-label-prev-img');
+						var $this = $(this), val = $this.val ();
+						var $rows = $('tr.ws-plugin--s2member-custom-reg-opt-in-label-row');
+						var $prevImg = $('img.ws-plugin--s2member-custom-reg-opt-in-label-prev-img');
 						/**/
 						if (val <= 0) /* Checkbox disabled. */
 							$rows.css ('display', 'none'), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
@@ -794,25 +866,63 @@ jQuery (document).ready (function($)
 						else if (val == 2) /* Enabled, unchecked by default. */
 							$rows.css ('display', ''), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
 					});
+				/**/
+				$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').change (function()
+					{
+						var thisChange = $(this).val (), checkedIndexes = []; /* Record value associated with change event. Also initialize checkedIndexes array. */
+						/**/
+						$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').each (function()
+							{
+								var $this = $(this), val = $this.val (), checkboxes = 'input[type="checkbox"]';
+								/**/
+								if (val === 'removal-deletion' && this.checked) /* All sub-items get checked/disabled too. */
+									$this.nextAll (checkboxes).slice (0, 2).attr ({'checked': 'checked', 'disabled': 'disabled'});
+								/**/
+								else if (val === 'removal-deletion' && !this.checked)
+									{
+										$this.nextAll (checkboxes).slice (0, 2).removeAttr ('disabled');
+										(thisChange === 'removal-deletion') ? $this.nextAll (checkboxes).slice (0, 2).removeAttr ('checked') : null;
+									}
+								/**/
+								else if (val === 'modification' && this.checked) /* All sub-items get checked/disabled too. */
+									$this.nextAll (checkboxes).slice (0, 3).attr ({'checked': 'checked', 'disabled': 'disabled'});
+								/**/
+								else if (val === 'modification' && !this.checked)
+									{
+										(thisChange === 'modification') ? $this.nextAll (checkboxes).slice (0, 3).removeAttr ('checked') : null;
+										$this.nextAll (checkboxes).slice (0, 3).removeAttr ('disabled');
+									}
+							})
+						/**/
+						.each (function(index) /* Now, which ones are checked? */
+							{
+								(this.checked) ? checkedIndexes.push (index) : null;
+							});
+						/**/
+						$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').removeAttr ('disabled');
+						if ($.inArray (3, checkedIndexes) === -1 && $.inArray (4, checkedIndexes) === -1 && $.inArray (5, checkedIndexes) === -1 && $.inArray (6, checkedIndexes) === -1)
+							$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').attr ('disabled', 'disabled');
+					/**/
+					}).last ().trigger ('change');
 			}
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-paypal-buttons/))
 			{
-				$ ('select#ws-plugin--s2member-level1-term, select#ws-plugin--s2member-level2-term, select#ws-plugin--s2member-level3-term, select#ws-plugin--s2member-level4-term, select#ws-plugin--s2member-modification-term').change (function()
+				$('select#ws-plugin--s2member-level1-term, select#ws-plugin--s2member-level2-term, select#ws-plugin--s2member-level3-term, select#ws-plugin--s2member-level4-term, select#ws-plugin--s2member-modification-term').change (function()
 					{
 						var button = this.id.replace (/^ws-plugin--s2member-(.+?)-term$/g, '$1');
 						/**/
-						var trialDisabled = ($ (this).val ().split ('-')[2].replace (/[^0-1BN]/g, '') === 'BN') ? 1 : 0;
+						var trialDisabled = ($(this).val ().split ('-')[2].replace (/[^0-1BN]/g, '') === 'BN') ? 1 : 0;
 						/**/
-						$ ('p#ws-plugin--s2member-' + button + '-trial-line').css ('display', (trialDisabled ? 'none' : ''));
-						$ ('span#ws-plugin--s2member-' + button + '-trial-then').css ('display', (trialDisabled ? 'none' : ''));
-						$ ('span#ws-plugin--s2member-' + button + '-20p-rule').css ('display', (trialDisabled ? 'none' : ''));
+						$('p#ws-plugin--s2member-' + button + '-trial-line').css ('display', (trialDisabled ? 'none' : ''));
+						$('span#ws-plugin--s2member-' + button + '-trial-then').css ('display', (trialDisabled ? 'none' : ''));
+						$('span#ws-plugin--s2member-' + button + '-20p-rule').css ('display', (trialDisabled ? 'none' : ''));
 						/**/
-						(trialDisabled) ? $ ('input#ws-plugin--s2member-' + form + '-trial-period').val (0) : null;
-						(trialDisabled) ? $ ('input#ws-plugin--s2member-' + form + '-trial-amount').val ('0.00') : null;
+						(trialDisabled) ? $('input#ws-plugin--s2member-' + form + '-trial-period').val (0) : null;
+						(trialDisabled) ? $('input#ws-plugin--s2member-' + form + '-trial-amount').val ('0.00') : null;
 					});
 				/**/
-				$ ('input#ws-plugin--s2member-level1-ccaps, input#ws-plugin--s2member-level2-ccaps, input#ws-plugin--s2member-level3-ccaps, input#ws-plugin--s2member-level4-ccaps, input#ws-plugin--s2member-modification-ccaps').keyup (function()
+				$('input#ws-plugin--s2member-level1-ccaps, input#ws-plugin--s2member-level2-ccaps, input#ws-plugin--s2member-level3-ccaps, input#ws-plugin--s2member-level4-ccaps, input#ws-plugin--s2member-modification-ccaps').keyup (function()
 					{
 						var value = this.value.replace (/^\+/, ''), plus = (this.value.match (/^\+/)) ? '+' : '';
 						if (value.match (/[^a-z_0-9,]/)) /* Only if there is a problem; because this causes interruptions. */
@@ -823,116 +933,122 @@ jQuery (document).ready (function($)
 					{
 						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '', labels = {};
 						/**/
-						labels['level0'] = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"]); ?>';
-						labels['level1'] = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_label"]); ?>';
-						labels['level2'] = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_label"]); ?>';
-						labels['level3'] = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_label"]); ?>';
-						labels['level4'] = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_label"]); ?>';
+						eval("<?php echo c_ws_plugin__s2member_utils_strings::esc_sq($labels); ?>"); /* Labels will NOT contain any double quotes. */
 						/**/
-						var shortCode = $ ('input#ws-plugin--s2member-' + button + '-shortcode');
-						var code = $ ('textarea#ws-plugin--s2member-' + button + '-button');
-						var modLevel = $ ('select#ws-plugin--s2member-modification-level');
+						var shortCode = $('input#ws-plugin--s2member-' + button + '-shortcode');
+						var code = $('textarea#ws-plugin--s2member-' + button + '-button');
+						var modLevel = $('select#ws-plugin--s2member-modification-level');
 						/**/
 						var level = (button === 'modification') ? modLevel.val ().split (':', 2)[1] : button.replace (/^level/, '');
-						var label = labels['level' + level].replace (/"/g, ""); /* Labels may NOT contain any double-quotes. */
-						var desc = $.trim ($ ('input#ws-plugin--s2member-' + button + '-desc').val ().replace (/"/g, ""));
+						var label = labels['level' + level].replace (/"/g, ''); /* Labels may NOT contain any double-quotes. */
+						var desc = $.trim ($('input#ws-plugin--s2member-' + button + '-desc').val ().replace (/"/g, ""));
 						/**/
-						var trialAmount = $ ('input#ws-plugin--s2member-' + button + '-trial-amount').val ().replace (/[^0-9\.]/g, '');
-						var trialPeriod = $ ('input#ws-plugin--s2member-' + button + '-trial-period').val ().replace (/[^0-9]/g, '');
-						var trialTerm = $ ('select#ws-plugin--s2member-' + button + '-trial-term').val ().replace (/[^A-Z]/g, '');
+						var trialAmount = $('input#ws-plugin--s2member-' + button + '-trial-amount').val ().replace (/[^0-9\.]/g, '');
+						var trialPeriod = $('input#ws-plugin--s2member-' + button + '-trial-period').val ().replace (/[^0-9]/g, '');
+						var trialTerm = $('select#ws-plugin--s2member-' + button + '-trial-term').val ().replace (/[^A-Z]/g, '');
 						/**/
-						var regAmount = $ ('input#ws-plugin--s2member-' + button + '-amount').val ().replace (/[^0-9\.]/g, '');
-						var regPeriod = $ ('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[0].replace (/[^0-9]/g, '');
-						var regTerm = $ ('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[1].replace (/[^A-Z]/g, '');
-						var regRecur = $ ('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[2].replace (/[^0-1BN]/g, '');
+						var regAmount = $('input#ws-plugin--s2member-' + button + '-amount').val ().replace (/[^0-9\.]/g, '');
+						var regPeriod = $('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[0].replace (/[^0-9]/g, '');
+						var regTerm = $('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[1].replace (/[^A-Z]/g, '');
+						var regRecur = $('select#ws-plugin--s2member-' + button + '-term').val ().split ('-')[2].replace (/[^0-1BN]/g, '');
+						var regRecurTimes = '', regRecurRetry = '1'; /* These options are NOT yet configurable. */
 						/**/
-						var pageStyle = $.trim ($ ('input#ws-plugin--s2member-' + button + '-page-style').val ().replace (/"/g, ''));
-						var currencyCode = $ ('select#ws-plugin--s2member-' + button + '-currency').val ().replace (/[^A-Z]/g, '');
-						var cCaps = $.trim ($.trim ($ ('input#ws-plugin--s2member-' + button + '-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
-						cCaps = ($.trim ($ ('input#ws-plugin--s2member-' + button + '-ccaps').val ()).match (/^\+/)) ? '+' + cCaps.toLowerCase () : cCaps.toLowerCase ();
+						var localeCode = '', digital = '0', noShipping = '1'; /* NOT yet configurable. */
+						var pageStyle = $.trim ($('input#ws-plugin--s2member-' + button + '-page-style').val ().replace (/"/g, ''));
+						var currencyCode = $('select#ws-plugin--s2member-' + button + '-currency').val ().replace (/[^A-Z]/g, '');
+						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
+						cCaps = ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).match (/^\+/)) ? '+' + cCaps.toLowerCase () : cCaps.toLowerCase ();
 						/**/
 						trialPeriod = (regRecur === 'BN') ? '0' : trialPeriod; /* Lifetime ( 1-L-BN ) and Buy Now ( BN ) access is absolutely NOT compatible w/ Trial Periods. */
-						trialAmount = (!trialAmount || isNaN (trialAmount) || trialAmount < 0.01 || trialPeriod <= 0) ? '0' : trialAmount; /* Validate Trial Amount. */
+						trialAmount = (!trialAmount || isNaN(trialAmount) || trialAmount < 0.01 || trialPeriod <= 0) ? '0' : trialAmount; /* Validate Trial Amount. */
 						/**/
 						var levelCcapsPer = (regRecur === 'BN' && regTerm !== 'L') ? level + ':' + cCaps + ':' + regPeriod + ' ' + regTerm : level + ':' + cCaps;
 						levelCcapsPer = levelCcapsPer.replace (/\:+$/g, ''); /* Clean any trailing separators from this string. */
 						/**/
-						if (trialAmount !== '0' && (isNaN (trialAmount) || trialAmount < 0.00))
+						if (trialAmount !== '0' && (isNaN(trialAmount) || trialAmount < 0.00))
 							{
-								alert ('Oops, a slight problem:\n\nWhen provided, Trial Amount must be >= 0.00');
+								alert('— Oops, a slight problem: —\n\nWhen provided, Trial Amount must be >= 0.00');
 								return false;
 							}
 						else if (trialAmount !== '0' && trialAmount > 10000.00) /* $10,000.00 maximum. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Trial Amount is: 10000.00');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Amount is: 10000.00');
 								return false;
 							}
 						else if (trialTerm === 'D' && trialPeriod > 7) /* Some validation on the Trial Period. Max days: 7. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Trial Days is: 7.\nIf you want to offer more than 7 days, please choose Weeks or Months from the drop-down.');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Days is: 7.\nIf you want to offer more than 7 days, please choose Weeks or Months from the drop-down.');
 								return false;
 							}
 						else if (trialTerm === 'W' && trialPeriod > 52) /* Some validation on the Trial Period. 52 max. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Trial Weeks is: 52.\nIf you want to offer more than 52 weeks, please choose Months from the drop-down.');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Weeks is: 52.\nIf you want to offer more than 52 weeks, please choose Months from the drop-down.');
 								return false;
 							}
 						else if (trialTerm === 'M' && trialPeriod > 12) /* Some validation on the Trial Period. 12 max. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Trial Months is: 12.\nIf you want to offer more than 12 months, please choose Years from the drop-down.');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Months is: 12.\nIf you want to offer more than 12 months, please choose Years from the drop-down.');
 								return false;
 							}
 						else if (trialTerm === 'Y' && trialPeriod > 1) /* 1 year max. */
 							{
-								alert ('Oops, a slight problem:\n\nMax Trial Period Years is: 1.');
+								alert('— Oops, a slight problem: —\n\nMax Trial Period Years is: 1.');
 								return false;
 							}
-						else if (!regAmount || isNaN (regAmount) || regAmount < 0.01)
+						else if (!regAmount || isNaN(regAmount) || regAmount < 0.01)
 							{
-								alert ('Oops, a slight problem:\n\nAmount must be >= 0.01');
+								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
 								return false;
 							}
 						else if (regAmount > 10000.00) /* $10,000.00 maximum. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Amount is: 10000.00');
+								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
 								return false;
 							}
 						else if (!desc) /* Each Button should have a Description. */
 							{
-								alert ('Oops, a slight problem:\n\nPlease type a Description for this Button.');
+								alert('— Oops, a slight problem: —\n\nPlease type a Description for this Button.');
 								return false;
 							}
 						/**/
-						code.html (code.val ().replace (/ \<\!--(\<input type\="hidden" name\="(amount|src|sra|a1|p1|t1|a3|p3|t3)" value\="(.*?)" \/\>)--\>/g, " $1"));
-						(parseInt (trialPeriod) <= 0) ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="(a1|p1|t1)" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
+						code.html (code.val ().replace (/ \<\!--(\<input type\="hidden" name\="(amount|src|srt|sra|a1|p1|t1|a3|p3|t3)" value\="(.*?)" \/\>)--\>/g, " $1"));
+						(parseInt(trialPeriod) <= 0) ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="(a1|p1|t1)" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
 						(regRecur === 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="cmd" value\=")(.*?)(" \/\>)/g, " $1_xclick$3")) : null;
-						(regRecur === 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="(src|sra|a1|p1|t1|a3|p3|t3)" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
+						(regRecur === 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="(src|srt|sra|a1|p1|t1|a3|p3|t3)" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
 						(regRecur !== 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="cmd" value\=")(.*?)(" \/\>)/g, " $1_xclick-subscriptions$3")) : null;
 						(regRecur !== 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="amount" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
 						/**/
-						shortCodeTemplateAttrs += 'level="' + esc_attr (level) + '" ccaps="' + esc_attr (cCaps) + '" desc="' + esc_attr (desc) + '" ps="' + esc_attr (pageStyle) + '" cc="' + esc_attr (currencyCode) + '" ns="1" custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"';
-						shortCodeTemplateAttrs += ' ta="' + esc_attr (trialAmount) + '" tp="' + esc_attr (trialPeriod) + '" tt="' + esc_attr (trialTerm) + '" ra="' + esc_attr (regAmount) + '" rp="' + esc_attr (regPeriod) + '" rt="' + esc_attr (regTerm) + '" rr="' + esc_attr (regRecur) + '"';
-						shortCodeTemplateAttrs += (button === 'modification') ? ' modify="1"' : ''; /* For Modification Buttons. */
+						shortCodeTemplateAttrs += (button === 'modification') ? 'modify="1" ' : ''; /* For Modification Buttons. */
+						shortCodeTemplateAttrs += 'level="' + esc_attr(level) + '" ccaps="' + esc_attr(cCaps) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '" custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"';
+						shortCodeTemplateAttrs += ' ta="' + esc_attr(trialAmount) + '" tp="' + esc_attr(trialPeriod) + '" tt="' + esc_attr(trialTerm) + '" ra="' + esc_attr(regAmount) + '" rp="' + esc_attr(regPeriod) + '" rt="' + esc_attr(regTerm) + '" rr="' + esc_attr(regRecur) + '" rrt="' + esc_attr(regRecurTimes) + '" rra="' + esc_attr(regRecurRetry) + '"';
 						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
 						/**/
-						code.html (code.val ().replace (/ name\="item_name" value\="(.*?)"/, ' name="item_name" value="' + esc_attr (desc) + '"'));
-						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr (levelCcapsPer) + '"'));
-						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr (pageStyle) + '"'));
-						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr (currencyCode) + '"'));
+						code.html (code.val ().replace (/ name\="lc" value\="(.*?)"/, ' name="lc" value="' + esc_attr(localeCode) + '"'));
+						code.html (code.val ().replace (/ name\="no_shipping" value\="(.*?)"/, ' name="no_shipping" value="' + esc_attr(noShipping) + '"'));
+						code.html (code.val ().replace (/ name\="item_name" value\="(.*?)"/, ' name="item_name" value="' + esc_attr(desc) + '"'));
+						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(levelCcapsPer) + '"'));
+						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
+						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
 						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
-						code.html (code.val ().replace (/ name\="modify" value\="(.*?)"/, ' name="modify" value="' + ( (button === 'modification') ? '1' : '0') + '"'));
-						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr (regAmount) + '"'));
-						code.html (code.val ().replace (/ name\="src" value\="(.*?)"/, ' name="src" value="' + esc_attr (regRecur) + '"'));
-						code.html (code.val ().replace (/ name\="a1" value\="(.*?)"/, ' name="a1" value="' + esc_attr (trialAmount) + '"'));
-						code.html (code.val ().replace (/ name\="p1" value\="(.*?)"/, ' name="p1" value="' + esc_attr (trialPeriod) + '"'));
-						code.html (code.val ().replace (/ name\="t1" value\="(.*?)"/, ' name="t1" value="' + esc_attr (trialTerm) + '"'));
-						code.html (code.val ().replace (/ name\="a3" value\="(.*?)"/, ' name="a3" value="' + esc_attr (regAmount) + '"'));
-						code.html (code.val ().replace (/ name\="p3" value\="(.*?)"/, ' name="p3" value="' + esc_attr (regPeriod) + '"'));
-						code.html (code.val ().replace (/ name\="t3" value\="(.*?)"/, ' name="t3" value="' + esc_attr (regTerm) + '"'));
 						/**/
-						$ ('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0); \?\>/g, ''));
+						code.html (code.val ().replace (/ name\="modify" value\="(.*?)"/, ' name="modify" value="' + ((button === 'modification') ? '1' : '0') + '"'));
 						/**/
-						(button === 'modification') ? alert ('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.') : alert ('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
+						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
+						/**/
+						code.html (code.val ().replace (/ name\="src" value\="(.*?)"/, ' name="src" value="' + esc_attr(regRecur) + '"'));
+						code.html (code.val ().replace (/ name\="srt" value\="(.*?)"/, ' name="srt" value="' + esc_attr(regRecurTimes) + '"'));
+						code.html (code.val ().replace (/ name\="sra" value\="(.*?)"/, ' name="sra" value="' + esc_attr(regRecurRetry) + '"'));
+						/**/
+						code.html (code.val ().replace (/ name\="a1" value\="(.*?)"/, ' name="a1" value="' + esc_attr(trialAmount) + '"'));
+						code.html (code.val ().replace (/ name\="p1" value\="(.*?)"/, ' name="p1" value="' + esc_attr(trialPeriod) + '"'));
+						code.html (code.val ().replace (/ name\="t1" value\="(.*?)"/, ' name="t1" value="' + esc_attr(trialTerm) + '"'));
+						code.html (code.val ().replace (/ name\="a3" value\="(.*?)"/, ' name="a3" value="' + esc_attr(regAmount) + '"'));
+						code.html (code.val ().replace (/ name\="p3" value\="(.*?)"/, ' name="p3" value="' + esc_attr(regPeriod) + '"'));
+						code.html (code.val ().replace (/ name\="t3" value\="(.*?)"/, ' name="t3" value="' + esc_attr(regTerm) + '"'));
+						/**/
+						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						/**/
+						(button === 'modification') ? alert('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.') : alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
 						/**/
 						shortCode.each (function() /* Focus and select the recommended Shortcode. */
 							{
@@ -946,35 +1062,38 @@ jQuery (document).ready (function($)
 					{
 						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '';
 						/**/
-						var shortCode = $ ('input#ws-plugin--s2member-sp-shortcode');
-						var code = $ ('textarea#ws-plugin--s2member-sp-button');
+						var shortCode = $('input#ws-plugin--s2member-sp-shortcode');
+						var code = $('textarea#ws-plugin--s2member-sp-button');
 						/**/
-						var leading = $ ('select#ws-plugin--s2member-sp-leading-id').val ().replace (/[^0-9]/g, '');
-						var additionals = $ ('select#ws-plugin--s2member-sp-additional-ids').val () || [];
-						var hours = $ ('select#ws-plugin--s2member-sp-hours').val ().replace (/[^0-9]/g, '');
-						var regAmount = $ ('input#ws-plugin--s2member-sp-amount').val ().replace (/[^0-9\.]/g, '');
-						var desc = $.trim ($ ('input#ws-plugin--s2member-sp-desc').val ().replace (/"/g, ''));
-						var pageStyle = $.trim ($ ('input#ws-plugin--s2member-sp-page-style').val ().replace (/"/g, ''));
-						var currencyCode = $ ('select#ws-plugin--s2member-sp-currency').val ().replace (/[^A-Z]/g, '');
+						var leading = $('select#ws-plugin--s2member-sp-leading-id').val ().replace (/[^0-9]/g, '');
+						var additionals = $('select#ws-plugin--s2member-sp-additional-ids').val () || [];
+						var hours = $('select#ws-plugin--s2member-sp-hours').val ().replace (/[^0-9]/g, '');
+						/**/
+						var regAmount = $('input#ws-plugin--s2member-sp-amount').val ().replace (/[^0-9\.]/g, '');
+						var desc = $.trim ($('input#ws-plugin--s2member-sp-desc').val ().replace (/"/g, ''));
+						/**/
+						var localeCode = '', digital = '0', noShipping = '1'; /* NOT yet configurable. */
+						var pageStyle = $.trim ($('input#ws-plugin--s2member-sp-page-style').val ().replace (/"/g, ''));
+						var currencyCode = $('select#ws-plugin--s2member-sp-currency').val ().replace (/[^A-Z]/g, '');
 						/**/
 						if (!leading) /* Must have a Leading Post/Page ID to work with. Otherwise, Link generation will fail. */
 							{
-								alert ('Oops, a slight problem:\n\nPlease select a Leading Post/Page.\n\n*Tip* If there are no Posts/Pages in the menu, it\'s because you\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> General Options -> Specific Post/Page Access Restrictions.');
+								alert('— Oops, a slight problem: —\n\nPlease select a Leading Post/Page.\n\n*Tip* If there are no Posts/Pages in the menu, it\'s because you\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> General Options -> Specific Post/Page Access Restrictions.');
 								return false;
 							}
-						else if (!regAmount || isNaN (regAmount) || regAmount < 0.01)
+						else if (!regAmount || isNaN(regAmount) || regAmount < 0.01)
 							{
-								alert ('Oops, a slight problem:\n\nAmount must be >= 0.01');
+								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
 								return false;
 							}
 						else if (regAmount > 10000.00) /* $10,000.00 maximum. */
 							{
-								alert ('Oops, a slight problem:\n\nMaximum Amount is: 10000.00');
+								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
 								return false;
 							}
 						else if (!desc) /* Each Button should have a Description. */
 							{
-								alert ('Oops, a slight problem:\n\nPlease type a Description for this Button.');
+								alert('— Oops, a slight problem: —\n\nPlease type a Description for this Button.');
 								return false;
 							}
 						/**/
@@ -984,20 +1103,23 @@ jQuery (document).ready (function($)
 						/**/
 						var spIdsHours = 'sp:' + ids + ':' + hours; /* Combined sp:ids:expiration hours. */
 						/**/
-						shortCodeTemplateAttrs += 'ids="' + esc_attr (ids) + '" exp="' + esc_attr (hours) + '" desc="' + esc_attr (desc) + '" ps="' + esc_attr (pageStyle) + '" cc="' + esc_attr (currencyCode) + '" ns="1"';
-						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr (regAmount) + '" sp="1"';
+						shortCodeTemplateAttrs += 'sp="1" ids="' + esc_attr(ids) + '" exp="' + esc_attr(hours) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '"';
+						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '"';
 						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
 						/**/
-						code.html (code.val ().replace (/ name\="item_name" value\="(.*?)"/, ' name="item_name" value="' + esc_attr (desc) + '"'));
-						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr (spIdsHours) + '"'));
-						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr (pageStyle) + '"'));
-						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr (currencyCode) + '"'));
+						code.html (code.val ().replace (/ name\="lc" value\="(.*?)"/, ' name="lc" value="' + esc_attr(localeCode) + '"'));
+						code.html (code.val ().replace (/ name\="no_shipping" value\="(.*?)"/, ' name="no_shipping" value="' + esc_attr(noShipping) + '"'));
+						code.html (code.val ().replace (/ name\="item_name" value\="(.*?)"/, ' name="item_name" value="' + esc_attr(desc) + '"'));
+						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(spIdsHours) + '"'));
+						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
+						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
 						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
-						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr (regAmount) + '"'));
 						/**/
-						$ ('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"'));
+						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
 						/**/
-						alert ('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
+						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						/**/
+						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
 						/**/
 						shortCode.each (function() /* Focus and select the recommended Shortcode. */
 							{
@@ -1009,35 +1131,35 @@ jQuery (document).ready (function($)
 				/**/
 				ws_plugin__s2member_paypalRegLinkGenerate = function() /* Handles PayPal® Link Generation. */
 					{
-						var level = $ ('select#ws-plugin--s2member-reg-link-level').val ().replace (/[^0-9]/g, '');
-						var subscrID = $.trim ($ ('input#ws-plugin--s2member-reg-link-subscr-id').val ());
-						var custom = $.trim ($ ('input#ws-plugin--s2member-reg-link-custom').val ());
-						var cCaps = $.trim ($.trim ($ ('input#ws-plugin--s2member-reg-link-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
-						var fixedTerm = $.trim ($ ('input#ws-plugin--s2member-reg-link-fixed-term').val ().replace (/[^A-Z 0-9]/gi, '').toUpperCase ());
-						var $link = $ ('p#ws-plugin--s2member-reg-link'), $loading = $ ('img#ws-plugin--s2member-reg-link-loading');
+						var level = $('select#ws-plugin--s2member-reg-link-level').val ().replace (/[^0-9]/g, '');
+						var subscrID = $.trim ($('input#ws-plugin--s2member-reg-link-subscr-id').val ());
+						var custom = $.trim ($('input#ws-plugin--s2member-reg-link-custom').val ());
+						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-reg-link-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
+						var fixedTerm = $.trim ($('input#ws-plugin--s2member-reg-link-fixed-term').val ().replace (/[^A-Z 0-9]/gi, '').toUpperCase ());
+						var $link = $('p#ws-plugin--s2member-reg-link'), $loading = $('img#ws-plugin--s2member-reg-link-loading');
 						/**/
 						var levelCcapsPer = (fixedTerm && !fixedTerm.match (/L$/)) ? level + ':' + cCaps + ':' + fixedTerm : level + ':' + cCaps;
 						levelCcapsPer = levelCcapsPer.replace (/\:+$/g, ''); /* Clean any trailing separators from this string. */
 						/**/
 						if (!subscrID) /* We must have a Paid Subscr. ID value. */
 							{
-								alert ('Oops, a slight problem:\n\nPaid Subscr. ID is a required value.');
+								alert('— Oops, a slight problem: —\n\nPaid Subscr. ID is a required value.');
 								return false;
 							}
 						else if (!custom || custom.indexOf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($_SERVER["HTTP_HOST"]); ?>') !== 0)
 							{
-								alert ('Oops, a slight problem:\n\nThe Custom Value MUST start with your domain name.');
+								alert('— Oops, a slight problem: —\n\nThe Custom Value MUST start with your domain name.');
 								return false;
 							}
 						else if (fixedTerm && !fixedTerm.match (/^[1-9]+ (D|W|M|Y|L)$/)) /* Check format. */
 							{
-								alert ('Oops, a slight problem:\n\nThe Fixed Term Length is not formatted properly.');
+								alert('— Oops, a slight problem: —\n\nThe Fixed Term Length is not formatted properly.');
 								return false;
 							}
 						/**/
 						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_reg_access_link_via_ajax', ws_plugin__s2member_reg_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-reg-access-link-via-ajax")); ?>', s2member_reg_access_link_subscr_gateway: 'paypal', s2member_reg_access_link_subscr_id: subscrID, s2member_reg_access_link_custom: custom, s2member_reg_access_link_item_number: levelCcapsPer}, function(response)
 							{
-								$link.show ().html ('<a href="' + esc_attr (response) + '" target="_blank" rel="external">' + esc_html (response) + '</a>'), $loading.hide ();
+								$link.show ().html ('<a href="' + esc_attr(response) + '" target="_blank" rel="external">' + esc_html(response) + '</a>'), $loading.hide ();
 							});
 						/**/
 						return false;
@@ -1045,14 +1167,14 @@ jQuery (document).ready (function($)
 				/**/
 				ws_plugin__s2member_paypalSpLinkGenerate = function() /* Handles PayPal® Link Generation. */
 					{
-						var leading = $ ('select#ws-plugin--s2member-sp-link-leading-id').val ().replace (/[^0-9]/g, '');
-						var additionals = $ ('select#ws-plugin--s2member-sp-link-additional-ids').val () || [];
-						var hours = $ ('select#ws-plugin--s2member-sp-link-hours').val ().replace (/[^0-9]/g, '');
-						var $link = $ ('p#ws-plugin--s2member-sp-link'), $loading = $ ('img#ws-plugin--s2member-sp-link-loading');
+						var leading = $('select#ws-plugin--s2member-sp-link-leading-id').val ().replace (/[^0-9]/g, '');
+						var additionals = $('select#ws-plugin--s2member-sp-link-additional-ids').val () || [];
+						var hours = $('select#ws-plugin--s2member-sp-link-hours').val ().replace (/[^0-9]/g, '');
+						var $link = $('p#ws-plugin--s2member-sp-link'), $loading = $('img#ws-plugin--s2member-sp-link-loading');
 						/**/
 						if (!leading) /* Must have a Leading Post/Page ID to work with. Otherwise, Link generation will fail. */
 							{
-								alert ('Oops, a slight problem:\n\nPlease select a Leading Post/Page.\n\n*Tip* If there are no Posts/Pages in the menu, it\'s because you\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> General Options -> Specific Post/Page Access Restrictions.');
+								alert('— Oops, a slight problem: —\n\nPlease select a Leading Post/Page.\n\n*Tip* If there are no Posts/Pages in the menu, it\'s because you\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> General Options -> Specific Post/Page Access Restrictions.');
 								return false;
 							}
 						/**/
@@ -1062,7 +1184,7 @@ jQuery (document).ready (function($)
 						/**/
 						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_sp_access_link_via_ajax', ws_plugin__s2member_sp_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-sp-access-link-via-ajax")); ?>', s2member_sp_access_link_ids: ids, s2member_sp_access_link_hours: hours}, function(response)
 							{
-								$link.show ().html ('<a href="' + esc_attr (response) + '" target="_blank" rel="external">' + esc_html (response) + '</a>'), $loading.hide ();
+								$link.show ().html ('<a href="' + esc_attr(response) + '" target="_blank" rel="external">' + esc_html(response) + '</a>'), $loading.hide ();
 							});
 						/**/
 						return false;

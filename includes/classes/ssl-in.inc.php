@@ -1,41 +1,50 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* SSL routines ( inner processing routines ).
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\SSL
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 	{
+		/**
+		* SSL routines ( inner processing routines ).
+		*
+		* @package s2Member\SSL
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_ssl_in
 			{
-				/*
-				Forces SSL on specific Posts/Pages.
-				Attach to: add_action("init");
-				Attach to: add_action("template_redirect");
-				
-				Triggered by Custom Field:
-					s2member_force_ssl = yes
-						( i.e. https://www.example.com/ )
-				
-				Or with a specific port number:
-					s2member_force_ssl = 443 ( or whatever port you require )
-						( i.e. https://www.example.com:443/ )
-				
-				* Phase 2 of `c_ws_plugin__s2member_ssl::check_force_ssl()`.
+				/**
+				* Forces SSL on specific Posts/Pages, or any page for that matter.
+				*
+				* Triggered by Custom Field: `s2member_force_ssl = yes|port#`
+				*
+				* Triggered by: `?s2-ssl` or `?s2-ssl=yes|port#`.
+				*
+				* @package s2Member\SSL
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				* @attaches-to: ``add_action("template_redirect");``
+				*
+				* @return null Possibly exiting script execution after redirection to SSL variation.
 				*/
-				public static function force_ssl ($vars = array ()) /* Phase 2 of `c_ws_plugin__s2member_ssl::check_force_ssl()`. */
+				public static function force_ssl ($vars = array ()) /* Phase 2 of ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 					{
-						extract ($vars); /* Extract all vars passed in from: `c_ws_plugin__s2member_ssl::check_force_ssl()`. */
+						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 						/**/
 						$force_ssl = (!is_string ($force_ssl)) ? (string)(int)$force_ssl : $force_ssl; /* Force string. */
 						$force_ssl = (is_numeric ($force_ssl) && $force_ssl > 1) ? $force_ssl : "yes"; /* Use `yes`. */
@@ -44,12 +53,12 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 						$ssl_port = (is_numeric ($force_ssl) && $force_ssl > 1) ? $force_ssl : false; /* Port? */
 						$ssl_host_port = $ssl_host . (($ssl_port) ? ":" . $ssl_port : ""); /* Use port # ? */
 						/**/
-						if (!is_ssl () || !$_GET[$s2_ssl_gv]) /* Redirecting. SSL must be enabled here. */
+						if (!is_ssl () || !isset ($_GET[$s2_ssl_gv])) /* SSL must be enabled. */
 							{
 								$https = "https://" . $ssl_host_port . $_SERVER["REQUEST_URI"];
 								$https_with_s2_ssl_gv = add_query_arg ($s2_ssl_gv, urlencode ($force_ssl), $https);
 								/**/
-								wp_redirect ($https_with_s2_ssl_gv); /* Redirect to https. */
+								wp_redirect($https_with_s2_ssl_gv); /* Redirect to https. */
 								exit (); /* Clean exit. */
 							}
 						else /* Otherwise, we buffer all output, and switch all content over to https. */
@@ -160,7 +169,7 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 											}
 									}
 								/**/
-								ob_start ("_ws_plugin__s2member_force_ssl_buffer");
+								ob_start("_ws_plugin__s2member_force_ssl_buffer");
 							}
 						/**/
 						return; /* Return for uniformity. */

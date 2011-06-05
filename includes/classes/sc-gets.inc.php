@@ -1,30 +1,44 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Shortcode `[s2Get /]`.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\s2Get
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_gets"))
 	{
+		/**
+		* Shortcode `[s2Get /]`.
+		*
+		* @package s2Member\s2Get
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_sc_gets
 			{
-				/*
-				Function that handles the Shortcode for:
-				[s2Get constant="S2MEMBER_CURRENT_USER_DISPLAY_NAME" /]
-				[s2Get user_field="a_custom_registration_field_id" /]
-				[s2Get user_option="s2member_subscr_id" /]
-				
-				Attach to: add_shortcode("s2Get");
+				/**
+				* Handles the Shortcode for: `[s2Get /]`.
+				*
+				* @package s2Member\s2Get
+				* @since 3.5
+				*
+				* @attaches-to: ``add_shortcode("s2Get");``
+				*
+				* @param array $attr An array of Attributes.
+				* @param str $content Content inside the Shortcode.
+				* @param str $shortcode The actual Shortcode name itself.
+				* @return inner Return-value of inner routine.
 				*/
 				public static function sc_get_details ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{

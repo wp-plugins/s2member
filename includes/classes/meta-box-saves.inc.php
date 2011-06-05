@@ -1,27 +1,42 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Meta box saves.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Meta_Boxes
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 	{
+		/**
+		* Meta box saves.
+		*
+		* @package s2Member\Meta_Boxes
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_meta_box_saves
 			{
-				/*
-				Function save data entered into meta boxes,
-					on Post/Page editing stations.
-				Attach to: add_action("save_post");
+				/**
+				* Saves data entered into meta boxes on Post/Page editing stations.
+				*
+				* @package s2Member\Meta_Boxes
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("save_post");``
+				*
+				* @param int|str $post_id Numeric Post/Page ID.
+				* @return null
 				*/
 				public static function save_meta_boxes ($post_id = FALSE)
 					{
@@ -29,8 +44,8 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 						do_action ("ws_plugin__s2member_before_save_meta_boxes", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($post_id && ($nonce = $_POST["ws_plugin__s2member_security_meta_box_save"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-security-meta-box-save"))
-							if ($post_id == $_POST["ws_plugin__s2member_security_meta_box_save_id"]) /* Do NOT process historical revisions. */
+						if ($post_id && !empty ($_POST["ws_plugin__s2member_security_meta_box_save"]) && ($nonce = $_POST["ws_plugin__s2member_security_meta_box_save"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-security-meta-box-save"))
+							if (!empty ($_POST["ws_plugin__s2member_security_meta_box_save_id"]) && $post_id == $_POST["ws_plugin__s2member_security_meta_box_save_id"] && !empty ($_POST["post_type"]))
 								/* We do NOT process historical revisions here; because it causes confusion in the General Options panel for s2Member. */
 								{
 									$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)); /* Clean and create a local copy. */

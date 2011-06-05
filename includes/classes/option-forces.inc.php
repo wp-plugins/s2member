@@ -1,26 +1,42 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Forces WordPress® options.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Option_Forces
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 	{
+		/**
+		* Forces WordPress® options.
+		*
+		* @package s2Member\Option_Forces
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_option_forces
 			{
-				/*
-				Forces a default Role for new registrations, NOT tied to an incoming payment.
-				Attach to: add_filter("pre_option_default_role");
+				/**
+				* Forces a default Role for new registrations, NOT tied to an incoming payment.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_option_default_role");``
+				*
+				* @param str $default_role Expects a default Role to be passed by the Filter.
+				* @return str Default Role, as configured by s2Member.
 				*/
 				public static function force_default_role ($default_role = FALSE)
 					{
@@ -28,9 +44,16 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_force_default_role", ($default_role = "subscriber"), get_defined_vars ());
 					}
-				/*
-				Forces a default Role for new Multisite registrations ( on the Main Site ) NOT tied to an incoming payment.
-				Attach to: add_filter("pre_site_option_default_user_role");
+				/**
+				* Forces a default Role for new Multisite registrations ( on the Main Site ) NOT tied to an incoming payment.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_site_option_default_user_role");``
+				*
+				* @param str $default_role Expects a default Role to be passed by the Filter.
+				* @return str Default Role, as configured by s2Member.
 				*/
 				public static function force_mms_default_role ($default_role = FALSE)
 					{
@@ -38,9 +61,16 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_force_mms_default_role", ($default_role = "subscriber"), get_defined_vars ());
 					}
-				/*
-				Forces a specific Role to demote to; whenever a Member is demoted in one way or another.
-				Use by PayPal® IPN routines, and also by the Auto-EOT system.
+				/**
+				* Forces a specific Role to demote to, whenever a Member is demoted in one way or another.
+				*
+				* Use by the PayPal® IPN routines, and also by the Auto-EOT system.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @param str $demotion_role Expects a demotion Role to be passed by the caller.
+				* @return str Demotion Role, as configured by s2Member.
 				*/
 				public static function force_demotion_role ($demotion_role = FALSE)
 					{
@@ -48,9 +78,16 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_force_demotion_role", ($demotion_role = "subscriber"), get_defined_vars ());
 					}
-				/*
-				Allows new Users to be created on a Multisite Network.
-				Attach to: add_filter("pre_site_option_add_new_users");
+				/**
+				* Allows new Users to be created on a Multisite Network.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_site_option_add_new_users");``
+				*
+				* @param int|str $allow Numeric string (`1`) or (`0`), expected by the Filter.
+				* @return str Numeric (`1`) or (`0`) indicating true or false. Forces to (`1`) true.
 				*/
 				public static function mms_allow_new_users ($allow = FALSE)
 					{
@@ -58,9 +95,16 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_mms_allow_new_users", ($allow = "1"), get_defined_vars ());
 					}
-				/*
-				Forces a Multisite Dashboard Blog to be the Main Site.
-				Attach to: add_filter("pre_site_option_dashboard_blog");
+				/**
+				* Forces a Multisite Dashboard Blog to be the Main Site.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_site_option_dashboard_blog");``
+				*
+				* @param int|str $dashboard_blog Numeric Dashboard Blog ID passed through by the Filter.
+				* @return int|str Numeric Dashboard Blog ID, as configured by s2Member. Forces to the Main Site.
 				*/
 				public static function mms_dashboard_blog ($dashboard_blog = FALSE)
 					{
@@ -68,14 +112,20 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						do_action ("ws_plugin__s2member_before_mms_dashboard_blog", get_defined_vars ());
 						/**/
-						$main_site = ( (is_multisite ()) ? $current_site->blog_id : "1"); /* Forces the Main Site. */
+						$main_site = ((is_multisite ()) ? $current_site->blog_id : "1"); /* Forces the Main Site. */
 						/**/
 						return apply_filters ("ws_plugin__s2member_mms_dashboard_blog", ($dashboard_blog = $main_site), get_defined_vars ());
 					}
-				/*
-				Function for allowing access to the Registration Form.
-				This function has been further optimized to reduce DB queries.
-				Attach to: add_filter("pre_option_users_can_register");
+				/**
+				* Allows access to the Registration Form.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_option_users_can_register");``
+				*
+				* @param int|str $users_can_register Numeric (`1`) or (`0`), indicating true or false; passed through by the Filter.
+				* @return str Numeric value of (`1`) or (`0`), indicating true or false; depending on several factors.
 				*/
 				public static function check_register_access ($users_can_register = FALSE)
 					{
@@ -93,7 +143,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						else if (!is_admin () && !$users_can_register) /* Do NOT run these security checks on option pages; it's confusing to a site owner. */
 							if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || !is_main_site () || is_super_admin () || current_user_can ("create_users"))
 								{
-									if ((is_multisite () && is_super_admin ()) || current_user_can ("create_users") || ( ($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && ! ($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
+									if ((is_multisite () && is_super_admin ()) || current_user_can ("create_users") || (($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && !($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
 										{
 											return apply_filters ("ws_plugin__s2member_check_register_access", ($users_can_register = "1"), get_defined_vars ());
 										}
@@ -101,10 +151,16 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_check_register_access", $users_can_register, get_defined_vars ());
 					}
-				/*
-				Function for allowing access to the main Multisite Registration Form.
-				This function has been further optimized to reduce DB queries.
-				Attach to: add_filter("pre_site_option_registration");
+				/**
+				* Allows access to the main Multisite Registration Form.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("pre_site_option_registration");``
+				*
+				* @param str $users_can_register Expects *( `none`, `all`, or `user` )*, passed through by the Filter.
+				* @return str One of `none|all|user`; depending on several factors.
 				*/
 				public static function check_mms_register_access ($users_can_register = FALSE)
 					{
@@ -118,14 +174,14 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						$by_default = $users_can_register = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_grants"];
 						/**/
 						if (defined ("BP_VERSION") && is_multisite () && /* BP Multisite / but NOT offering Blogs? */ !c_ws_plugin__s2member_utils_conds::is_multisite_farm ())
-							return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = ( (c_ws_plugin__s2member_option_forces::check_register_access ()) ? "user" : "none")), get_defined_vars ());
+							return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = ((c_ws_plugin__s2member_option_forces::check_register_access ()) ? "user" : "none")), get_defined_vars ());
 						/**/
 						else if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || !is_main_site ()) /* Blog Farm? */
 							return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = "none"), get_defined_vars ());
 						/**/
 						else if (!is_admin () && $users_can_register !== "all") /* Do NOT run these checks on option pages; it's confusing to a site owner. */
 							{
-								if (is_super_admin () || current_user_can ("create_users") || ( ($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && ! ($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
+								if (is_super_admin () || current_user_can ("create_users") || (($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && !($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
 									{
 										if (is_super_admin () || current_user_can ("create_users")) /* Either a Super Administrator, or an Administrator that can create. */
 											{
@@ -148,8 +204,9 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 								/* --------------------> $users_can_register !== "all", so exclude Level #0. */
 								else if (is_user_logged_in () && current_user_can ("access_s2member_level1") && is_object ($user = wp_get_current_user ()) && $user->ID)
 									{
-										$blogs_allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ()];
+										$blogs_allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ($user)];
 										$user_blogs = (is_array ($blogs = get_blogs_of_user ($user->ID))) ? count ($blogs) - 1 : 0;
+										/**/
 										$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; /* NOT less than zero. */
 										$blogs_allowed = ($blogs_allowed >= 0) ? $blogs_allowed : 0;
 										/**/
@@ -166,6 +223,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 									{
 										$blogs_allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ()];
 										$user_blogs = (is_array ($blogs = get_blogs_of_user ($user->ID))) ? count ($blogs) - 1 : 0;
+										/**/
 										$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; /* NOT less than zero. */
 										$blogs_allowed = ($blogs_allowed >= 0) ? $blogs_allowed : 0;
 										/**/
@@ -178,12 +236,18 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_check_mms_register_access", $users_can_register, get_defined_vars ());
 					}
-				/*
-				This handles register access in BuddyPress - for Multisite compatibility.
-				Attach to: add_filter("bp_core_get_site_options");
-				
-				BuddyPress bypasses the default Filter ( `pre_site_option_registration` )
-				and instead, it uses: bp_core_get_site_options()
+				/**
+				* Register access in BuddyPress, for Multisite compatibility.
+				*
+				* BuddyPress bypasses the default Filter `pre_site_option_registration`, and instead uses: ``bp_core_get_site_options()``.
+				*
+				* @package s2Member\Option_Forces
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("bp_core_get_site_options");``
+				*
+				* @param array $site_options Expects array of BuddyPress site options.
+				* @return array Site options array, after having been Filtered by this routine.
 				*/
 				public static function check_bp_mms_register_access ($site_options = FALSE)
 					{

@@ -1,26 +1,43 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Registration Times.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Registrations
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 	{
+		/**
+		* Registration Times.
+		*
+		* @package s2Member\Registrations
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_registration_times
 			{
-				/*
-				Synchronizes Paid Registration Times with Role assignments.
-				Attach to: add_action("set_user_role");
+				/**
+				* Synchronizes Paid Registration Times with Role assignments.
+				*
+				* @package s2Member\Registrations
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("set_user_role");``
+				*
+				* @param int|str $user_id A numeric WordPress® User ID should be passed in by the Action Hook.
+				* @param str $role A WordPress® Role ID/Name should be passed in by the Action Hook.
+				* @return null
 				*/
 				public static function synchronize_paid_reg_times ($user_id = FALSE, $role = FALSE)
 					{
@@ -39,9 +56,14 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				Retrieves a Registration Time.
-				$user_id defaults to the current User; if logged in.
+				/**
+				* Retrieves a Registration Time.
+				*
+				* @package s2Member\Registrations
+				* @since 3.5
+				*
+				* @param int|str $user_id Optional. A numeric WordPress® User ID. Defaults to the current User, if logged-in.
+				* @return int A Unix timestamp, indicating Registration Time, else `0` on failure.
 				*/
 				public static function registration_time ($user_id = FALSE)
 					{
@@ -49,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						do_action ("ws_plugin__s2member_before_registration_time", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$user = ($user_id) ? new WP_User ($user_id) : ( (is_user_logged_in ()) ? wp_get_current_user () : false);
+						$user = ($user_id) ? new WP_User ($user_id) : ((is_user_logged_in ()) ? wp_get_current_user () : false);
 						/**/
 						if (is_object ($user) && ($user_id = $user->ID) && $user->user_registered)
 							{
@@ -58,22 +80,15 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						else /* Else we return a default value of 0, because there is insufficient data. */
 							return apply_filters ("ws_plugin__s2member_registration_time", 0, get_defined_vars ());
 					}
-				/*
-				Retrieves a Paid Registration Time.
-				
-				The $level argument is optional. It defaults to the first/initial Paid Registration Time, regardless of Level#.
-				Or you could do this: s2member_paid_registration_time("level1"); which will give you the Registration Time at Level #1.
-				If a User/Member has never paid for Level #1 ( i.e. they signed up at Level#2 ), the function will return 0.
-				
-				Here are some other examples:
-				$time = c_ws_plugin__s2member_registration_times::registration_time (); // ... first registration time ( free or otherwise ).
-				$time = c_ws_plugin__s2member_registration_times::paid_registration_time (); // ... first "paid" registration and/or upgrade time.
-				$time = c_ws_plugin__s2member_registration_times::paid_registration_time ("level1"); // ... first "paid" registration or upgrade time at Level#1.
-				$time = c_ws_plugin__s2member_registration_times::paid_registration_time ("level2"); // ... first "paid" registration or upgrade time at Level#2.
-				$time = c_ws_plugin__s2member_registration_times::paid_registration_time ("level3"); // ... first "paid" registration or upgrade time at Level#3.
-				$time = c_ws_plugin__s2member_registration_times::paid_registration_time ("level4"); // ... first "paid" registration or upgrade time at Level#4.
-				
-				The argument $user_id defaults to the current User; if logged in.
+				/**
+				* Retrieves a Paid Registration Time.
+				*
+				* @package s2Member\Registrations
+				* @since 3.5
+				*
+				* @param int|str $level Optional. Defaults to the first/initial Paid Registration Time, regardless of Level#.
+				* @param int|str $user_id Optional. A numeric WordPress® User ID. Defaults to the current User, if logged-in.
+				* @return int A Unix timestamp, indicating Paid Registration Time, else `0` on failure.
 				*/
 				public static function paid_registration_time ($level = FALSE, $user_id = FALSE)
 					{
@@ -82,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$level = (!strlen ($level)) ? "level" : "level" . preg_replace ("/[^0-9]/", "", $level);
-						$user = ($user_id) ? new WP_User ($user_id) : ( (is_user_logged_in ()) ? wp_get_current_user () : false);
+						$user = ($user_id) ? new WP_User ($user_id) : ((is_user_logged_in ()) ? wp_get_current_user () : false);
 						/**/
 						if ($level && is_object ($user) && ($user_id = $user->ID) && is_array ($pr_times = get_user_option ("s2member_paid_registration_times", $user_id)))
 							{

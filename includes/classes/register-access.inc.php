@@ -1,25 +1,44 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Registration Access Links.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Registrations
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_register_access"))
 	{
+		/**
+		* Registration Access Links.
+		*
+		* @package s2Member\Registrations
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_register_access
 			{
-				/*
-				Generates registration links.
+				/**
+				* Generates Registration Access Links.
+				*
+				* @package s2Member\Registrations
+				* @since 3.5
+				*
+				* @param str $subscr_gateway Payment Gateway associated with a Customer.
+				* @param str $subscr_id Unique Subscr. ID associated with Payment Gateway; associated with a Customer.
+				* @param str $custom Custom String value *( as supplied in Shortcode )*; must start with installation domain name.
+				* @param int|str $item_number An s2Member-generated `item_number` *( i.e. `1` for Level 1, or `level|ccaps|fixed-term`, or `sp|ids|expiration` )*.
+				* @param bool $shrink Optional. Defaults to true. If false, the raw registration link will NOT be reduced in size through the tinyURL API.
+				* @return str|bool A Registration Access Link on success, else false on failure.
 				*/
 				public static function register_link_gen ($subscr_gateway = FALSE, $subscr_id = FALSE, $custom = FALSE, $item_number = FALSE, $shrink = TRUE)
 					{
@@ -44,17 +63,23 @@ if (!class_exists ("c_ws_plugin__s2member_register_access"))
 						/**/
 						return false;
 					}
-				/*
-				Generates Registration Access links via ajax tools.
-				Attach to: add_action("wp_ajax_ws_plugin__s2member_reg_access_link_via_ajax");
+				/**
+				* Generates Registration Access Links via AJAX.
+				*
+				* @package s2Member\Registrations
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_reg_access_link_via_ajax");``
+				*
+				* @return null Exits script execution after output is generated for AJAX caller.
 				*/
 				public static function reg_access_link_via_ajax ()
 					{
 						do_action ("ws_plugin__s2member_before_reg_access_link_via_ajax", get_defined_vars ());
 						/**/
 						if (current_user_can ("create_users")) /* Check priveledges as well. */
-							if (($nonce = $_POST["ws_plugin__s2member_reg_access_link_via_ajax"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-reg-access-link-via-ajax") && ($_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST))))
-								echo apply_filters ("ws_plugin__s2member_reg_access_link_via_ajax", c_ws_plugin__s2member_register_access::register_link_gen ($_p["s2member_reg_access_link_subscr_gateway"],$_p["s2member_reg_access_link_subscr_id"],$_p["s2member_reg_access_link_custom"],$_p["s2member_reg_access_link_item_number"]), get_defined_vars ());
+							if (!empty ($_POST["ws_plugin__s2member_reg_access_link_via_ajax"]) && ($nonce = $_POST["ws_plugin__s2member_reg_access_link_via_ajax"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-reg-access-link-via-ajax") && ($_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST))) && isset ($_p["s2member_reg_access_link_subscr_gateway"], $_p["s2member_reg_access_link_subscr_id"], $_p["s2member_reg_access_link_custom"], $_p["s2member_reg_access_link_item_number"]))
+								echo apply_filters ("ws_plugin__s2member_reg_access_link_via_ajax", c_ws_plugin__s2member_register_access::register_link_gen ($_p["s2member_reg_access_link_subscr_gateway"], $_p["s2member_reg_access_link_subscr_id"], $_p["s2member_reg_access_link_custom"], $_p["s2member_reg_access_link_item_number"]), get_defined_vars ());
 						/**/
 						exit (); /* Clean exit. */
 					}

@@ -1,40 +1,45 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Primary Hooks/Filters used by the s2Member plugin.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member
+* @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /*
 Add the plugin Actions/Filters here.
 */
 add_action ("pre_get_posts", /* WP Query. */
 "c_ws_plugin__s2member_security::security_gate_query", 20);
-/* Priority matches `/api-functions.inc.php`.
+/* Priority matches `/api-functions.inc.php`. */
 /**/
 add_action ("init", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
 add_action ("init", "c_ws_plugin__s2member_user_securities::initialize", 1);
 /**/
-add_action ("init", "c_ws_plugin__s2member_nocache::nocache", 1);
+add_action ("init", "c_ws_plugin__s2member_no_cache::no_cache", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_profile::profile", 1);
 add_action ("init", "c_ws_plugin__s2member_register::register", 1);
 add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 1);
 add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 1);
-add_action ("init", "c_ws_plugin__s2member_files_checks::check_file_download_access", 1);
+add_action ("init", "c_ws_plugin__s2member_files::check_file_download_access", 1);
 add_action ("init", "c_ws_plugin__s2member_profile_mods::handle_profile_modifications", 1);
+add_action ("init", "c_ws_plugin__s2member_profile_mods_4bp::handle_profile_modifications_4bp", 1);
 add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_signup_tracking_cookie", 1);
 add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_sp_tracking_cookie", 1);
 add_action ("init", "c_ws_plugin__s2member_cron_jobs::auto_eot_system_via_cron", 1);
 add_action ("init", "c_ws_plugin__s2member_mo_page::membership_options_page", 1);
+add_action ("init", "c_ws_plugin__s2member_s_badge_status::s_badge_status", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_css", 1);
 add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_js", 1);
@@ -75,7 +80,6 @@ add_filter ("bp_core_get_site_options", "c_ws_plugin__s2member_option_forces::ch
 add_filter ("random_password", "c_ws_plugin__s2member_registrations::generate_password");
 add_action ("user_register", "c_ws_plugin__s2member_registrations::configure_user_registration");
 add_action ("register_form", "c_ws_plugin__s2member_custom_reg_fields::custom_registration_fields");
-add_action ("bp_before_registration_submit_buttons", "c_ws_plugin__s2member_custom_reg_fields::opt_in_4bp");
 /**/
 add_filter ("add_signup_meta", "c_ws_plugin__s2member_registrations::ms_process_signup_meta");
 add_filter ("bp_signup_usermeta", "c_ws_plugin__s2member_registrations::ms_process_signup_meta");
@@ -88,6 +92,10 @@ add_action ("wpmu_activate_user", "c_ws_plugin__s2member_registrations::configur
 add_action ("wpmu_activate_blog", "c_ws_plugin__s2member_registrations::configure_user_on_ms_blog_activation", 10, 5);
 add_action ("signup_extra_fields", "c_ws_plugin__s2member_custom_reg_fields::ms_custom_registration_fields");
 /**/
+add_action ("bp_after_signup_profile_fields", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_registration_fields_4bp");
+add_action ("bp_after_profile_field_content", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_profile_fields_4bp");
+add_action ("bp_profile_field_item", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_profile_field_items_4bp");
+/**/
 add_action ("wp_login", "c_ws_plugin__s2member_login_redirects::login_redirect");
 add_action ("login_head", "c_ws_plugin__s2member_login_customizations::login_header_styles");
 add_filter ("login_headerurl", "c_ws_plugin__s2member_login_customizations::login_header_url");
@@ -97,13 +105,13 @@ add_action ("login_footer", "c_ws_plugin__s2member_login_customizations::login_f
 add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_sp_tracking_codes");
+add_action ("wp_footer", "c_ws_plugin__s2member_wp_footer::wp_footer_code");
 /**/
 add_action ("admin_init", "c_ws_plugin__s2member_admin_lockouts::admin_lockout", 1);
 add_action ("admin_init", "c_ws_plugin__s2member_check_activation::check");
 /**/
-add_action ("load-options-general.php", "c_ws_plugin__s2member_op_notices::general_ops_notice");
-add_action ("load-ms-options.php", "c_ws_plugin__s2member_op_notices::multisite_ops_notice");
 add_action ("load-settings.php", "c_ws_plugin__s2member_op_notices::multisite_ops_notice");
+add_action ("load-options-general.php", "c_ws_plugin__s2member_op_notices::general_ops_notice");
 add_action ("load-options-reading.php", "c_ws_plugin__s2member_op_notices::reading_ops_notice");
 add_action ("load-user-new.php", "c_ws_plugin__s2member_user_new::admin_user_new_fields");
 /**/
@@ -121,7 +129,6 @@ add_action ("user_admin_notices", "c_ws_plugin__s2member_admin_notices::admin_no
 add_action ("network_admin_notices", "c_ws_plugin__s2member_admin_notices::admin_notices");
 /**/
 add_action ("pre_user_query", "c_ws_plugin__s2member_users_list::users_list_query");
-add_action ("pre_user_search", "c_ws_plugin__s2member_users_list::users_list_search");
 add_filter ("manage_users_columns", "c_ws_plugin__s2member_users_list::users_list_cols");
 add_filter ("manage_users_custom_column", "c_ws_plugin__s2member_users_list::users_list_display_cols", 10, 3);
 add_action ("edit_user_profile", "c_ws_plugin__s2member_users_list::users_list_edit_cols");
@@ -134,14 +141,20 @@ add_filter ("show_password_fields", "c_ws_plugin__s2member_user_securities::hide
 add_filter ("cron_schedules", "c_ws_plugin__s2member_cron_jobs::extend_cron_schedules");
 add_action ("ws_plugin__s2member_auto_eot_system__schedule", "c_ws_plugin__s2member_auto_eots::auto_eot_system");
 /**/
+add_action ("wp_ajax_ws_plugin__s2member_update_roles_via_ajax", "c_ws_plugin__s2member_roles_caps::update_roles_via_ajax");
+/**/
 add_action ("wp_ajax_ws_plugin__s2member_sp_access_link_via_ajax", "c_ws_plugin__s2member_sp_access::sp_access_link_via_ajax");
 add_action ("wp_ajax_ws_plugin__s2member_reg_access_link_via_ajax", "c_ws_plugin__s2member_register_access::reg_access_link_via_ajax");
 /**/
 add_action ("wp_ajax_ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax", "c_ws_plugin__s2member_ip_restrictions::delete_reset_all_ip_restrictions_via_ajax");
 add_action ("wp_ajax_ws_plugin__s2member_delete_reset_specific_ip_restrictions_via_ajax", "c_ws_plugin__s2member_ip_restrictions::delete_reset_specific_ip_restrictions_via_ajax");
 /**/
+add_action ("ws_plugin__s2member_during_collective_mods", "c_ws_plugin__s2member_list_servers::auto_process_list_server_removals", 10, 7);
 add_action ("ws_plugin__s2member_during_collective_eots", "c_ws_plugin__s2member_list_servers::auto_process_list_server_removals", 10, 4);
-add_action ("ws_plugin__s2member_during_collective_mods", "c_ws_plugin__s2member_list_servers::auto_process_list_server_removals", 10, 5);
+/**/
+add_filter ("ws_plugin__s2member_content_redirect_status", "c_ws_plugin__s2member_utils_urls::redirect_browsers_using_302_status");
+/**/
+add_action ("bbp_activation", "c_ws_plugin__s2member_roles_caps::config_roles", 11); /* For bbPress® integration. */
 /*
 Register the activation | de-activation routines.
 */

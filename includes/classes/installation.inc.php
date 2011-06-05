@@ -1,118 +1,48 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Installation routines for s2Member.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Installation
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_installation"))
 	{
+		/**
+		* Installation routines for s2Member.
+		*
+		* @package s2Member\Installation
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_installation
 			{
-				/*
-				Handles activation routines.
+				/**
+				* Activation routines for s2Member.
+				*
+				* @package s2Member\Installation
+				* @since 3.5
+				*
+				* @return null
 				*/
 				public static function activate ()
 					{
-						global $wpdb; /* To update points of origin on a Multisite Network. */
-						global $current_site, $current_blog; /* For Multisite support. */
+						global $wpdb; /* Global database object reference. */
+						global $current_site, $current_blog; /* Multisite. */
 						/**/
 						do_action ("ws_plugin__s2member_before_activation", get_defined_vars ());
 						/**/
-						add_role ("subscriber", "Subscriber");
-						add_role ("s2member_level1", "s2Member Level 1");
-						add_role ("s2member_level2", "s2Member Level 2");
-						add_role ("s2member_level3", "s2Member Level 3");
-						add_role ("s2member_level4", "s2Member Level 4");
-						/**/
-						if ($role = &get_role ("subscriber"))
-							{
-								$role->add_cap ("read");
-								$role->add_cap ("access_s2member_level0");
-							}
-						/**/
-						if ($role = &get_role ("s2member_level1"))
-							{
-								$role->add_cap ("read");
-								$role->add_cap ("level_0");
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-							}
-						/**/
-						if ($role = &get_role ("s2member_level2"))
-							{
-								$role->add_cap ("read");
-								$role->add_cap ("level_0");
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-							}
-						/**/
-						if ($role = &get_role ("s2member_level3"))
-							{
-								$role->add_cap ("read");
-								$role->add_cap ("level_0");
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-							}
-						/**/
-						if ($role = &get_role ("s2member_level4"))
-							{
-								$role->add_cap ("read");
-								$role->add_cap ("level_0");
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-								$role->add_cap ("access_s2member_level4");
-							}
-						/**/
-						if ($role = &get_role ("administrator"))
-							{
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-								$role->add_cap ("access_s2member_level4");
-							}
-						/**/
-						if ($role = &get_role ("editor"))
-							{
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-								$role->add_cap ("access_s2member_level4");
-							}
-						/**/
-						if ($role = &get_role ("author"))
-							{
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-								$role->add_cap ("access_s2member_level4");
-							}
-						/**/
-						if ($role = &get_role ("contributor"))
-							{
-								$role->add_cap ("access_s2member_level0");
-								$role->add_cap ("access_s2member_level1");
-								$role->add_cap ("access_s2member_level2");
-								$role->add_cap ("access_s2member_level3");
-								$role->add_cap ("access_s2member_level4");
-							}
+						c_ws_plugin__s2member_roles_caps::config_roles (); /* Config Roles/Caps. */
 						/**/
 						if (!is_dir ($files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]))
 							if (is_writable (dirname (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir))))
@@ -171,12 +101,12 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) /* No Changelog on a Multisite Farm. */
 									$notice .= '<br />Have fun, <a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-info#rm-changelog")) . '">read the Changelog</a>, and make some money! :-)';
 								/**/
-								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-options"));
+								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 								/**/
 								if (preg_match ("/^win/i", PHP_OS) && is_dir (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir)) && count (scandir (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir))) > 4)
 									{
 										$notice = '<strong>Windows® Server ( NOTICE ):</strong> Your protected files MUST be moved to the <code>/app_data</code> sub-directory. For further details, see: <code>s2Member -> Download Options -> Basic</code>.';
-										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-options"), true);
+										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"), true);
 									}
 							}
 						else /* Otherwise, (initial activation); we'll help the Site Owner out by giving them a link to the Quick Start Guide. */
@@ -188,18 +118,18 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								$notice = '<strong>s2Member</strong> v' . esc_html (WS_PLUGIN__S2MEMBER_VERSION) . ' has been <strong>activated</strong>. Nice work!<br />';
 								$notice .= 'Have fun, <a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-start")) . '">read the Quick Start Guide</a>, and make some money! :-)';
 								/**/
-								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-options"));
+								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 							}
 						/**/
 						update_option ("ws_plugin__s2member_activated_version", WS_PLUGIN__S2MEMBER_VERSION); /* Mark version. */
 						/**/
 						if (is_multisite () && is_main_site ()) /* Network activation routines. A few quick adjustments. */
 							{
-								foreach ((array) ($users = $wpdb->get_results ("SELECT `ID` FROM `" . $wpdb->users . "`")) as $user)
+								foreach ((array)($users = $wpdb->get_results ("SELECT `ID` FROM `" . $wpdb->users . "`")) as $user)
 									{
 										/* Here we convert everyone already in the system; without a point of origin.
-											This will set their point of origin to the Main Site ( Dashboard Blog ). */
-										if (! ($originating_blog = get_user_meta ($user->ID, "s2member_originating_blog", true)))
+											This will set their point of origin to the Main Site. */
+										if (!($originating_blog = get_user_meta ($user->ID, "s2member_originating_blog", true)))
 											update_user_meta ($user->ID, "s2member_originating_blog", $current_site->blog_id);
 									}
 								/**/
@@ -208,7 +138,7 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								$notice .= 'In the Dashboard for your Main Site, see:<br />';
 								$notice .= '<code>s2Member -> Multisite ( Config )</code>.';
 								/**/
-								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-options"));
+								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 								/**/
 								update_option ("ws_plugin__s2member_activated_mms_version", WS_PLUGIN__S2MEMBER_VERSION);
 							}
@@ -217,63 +147,24 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				Handles de-activation / cleanup routines.
+				/**
+				* Deactivation routines for s2Member.
+				*
+				* @package s2Member\Installation
+				* @since 3.5
+				*
+				* @return null
 				*/
 				public static function deactivate ()
 					{
-						global $wpdb; /* May need this for database cleaning. */
-						global $current_site, $current_blog; /* For Multisite support. */
+						global $wpdb; /* Global database object reference. */
+						global $current_site, $current_blog; /* Multisite. */
 						/**/
 						do_action ("ws_plugin__s2member_before_deactivation", get_defined_vars ());
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"])
 							{
-								remove_role ("s2member_level1");
-								remove_role ("s2member_level2");
-								remove_role ("s2member_level3");
-								remove_role ("s2member_level4");
-								/**/
-								if ($role = &get_role ("subscriber"))
-									{
-										$role->remove_cap ("access_s2member_level0");
-									}
-								/**/
-								if ($role = &get_role ("administrator"))
-									{
-										$role->remove_cap ("access_s2member_level0");
-										$role->remove_cap ("access_s2member_level1");
-										$role->remove_cap ("access_s2member_level2");
-										$role->remove_cap ("access_s2member_level3");
-										$role->remove_cap ("access_s2member_level4");
-									}
-								/**/
-								if ($role = &get_role ("editor"))
-									{
-										$role->remove_cap ("access_s2member_level0");
-										$role->remove_cap ("access_s2member_level1");
-										$role->remove_cap ("access_s2member_level2");
-										$role->remove_cap ("access_s2member_level3");
-										$role->remove_cap ("access_s2member_level4");
-									}
-								/**/
-								if ($role = &get_role ("author"))
-									{
-										$role->remove_cap ("access_s2member_level0");
-										$role->remove_cap ("access_s2member_level1");
-										$role->remove_cap ("access_s2member_level2");
-										$role->remove_cap ("access_s2member_level3");
-										$role->remove_cap ("access_s2member_level4");
-									}
-								/**/
-								if ($role = &get_role ("contributor"))
-									{
-										$role->remove_cap ("access_s2member_level0");
-										$role->remove_cap ("access_s2member_level1");
-										$role->remove_cap ("access_s2member_level2");
-										$role->remove_cap ("access_s2member_level3");
-										$role->remove_cap ("access_s2member_level4");
-									}
+								c_ws_plugin__s2member_roles_caps::unlink_roles (); /* Unlink Roles/Caps. */
 								/**/
 								if (is_dir ($files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]))
 									{
@@ -294,12 +185,12 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 										@rmdir($logs_dir) . @rmdir (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($logs_dir));
 									}
 								/**/
-								delete_option ("ws_plugin__s2member_cache");
-								delete_option ("ws_plugin__s2member_notices");
-								delete_option ("ws_plugin__s2member_options");
-								delete_option ("ws_plugin__s2member_configured");
-								delete_option ("ws_plugin__s2member_activated_version");
-								delete_option ("ws_plugin__s2member_activated_mms_version");
+								delete_option("ws_plugin__s2member_cache");
+								delete_option("ws_plugin__s2member_notices");
+								delete_option("ws_plugin__s2member_options");
+								delete_option("ws_plugin__s2member_configured");
+								delete_option("ws_plugin__s2member_activated_version");
+								delete_option("ws_plugin__s2member_activated_mms_version");
 								/**/
 								$wpdb->query ("DELETE FROM `" . $wpdb->options . "` WHERE `option_name` LIKE '%" . esc_sql (like_escape ("s2member_")) . "%'");
 								$wpdb->query ("DELETE FROM `" . $wpdb->options . "` WHERE `option_name` LIKE '" . esc_sql (like_escape ("_transient_s2m_")) . "%'");

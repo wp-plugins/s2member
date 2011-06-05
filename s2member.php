@@ -1,17 +1,27 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
+/**
+* The main plugin file.
+*
+* This file loads the plugin after checking
+* PHP, WordPress® and other compatibility requirements.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member
+* @since 1.0
 */
-/*
-Version: 3.5.8
-Stable tag: 3.5.8
-Framework: WS-P-3.5
+/* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
+
+Version: 110604
+Stable tag: 110604
+Framework: WS-P-110523
 
 SSL Compatible: yes
 bbPress Compatible: yes
@@ -26,9 +36,9 @@ Google® Checkout Compatible: w/ s2Member Pro
 ClickBank® Compatible: w/ s2Member Pro
 AliPay® Compatible: w/ s2Member Pro
 
-Tested up to: 3.1.1
-Requires at least: 3.0
-Requires: WordPress® 3.0+, PHP 5.2.3+
+Tested up to: 3.1.3
+Requires at least: 3.1
+Requires: WordPress® 3.1+, PHP 5.2.3+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -41,26 +51,59 @@ Plugin Name: s2Member
 Video Tutorials: http://www.s2member.com/videos/
 Pro Module / Prices: http://www.s2member.com/prices/
 Forum URI: http://www.primothemes.com/forums/viewforum.php?f=4
+Privacy URI: http://www.primothemes.com/about/privacy-policy/
 PayPal Pro Integration: http://www.primothemes.com/forums/viewtopic.php?f=4&t=304
 Professional Installation URI: http://www.primothemes.com/forums/viewtopic.php?f=4&t=107
 Plugin URI: http://www.primothemes.com/post/product/s2member-membership-plugin-with-paypal/
 Description: Empowers WordPress® with membership capabilities. Integrates seamlessly with PayPal®. Also compatible with Multisite Networking, and even with BuddyPress if you like.
 Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal, s2member, authorize.net, google checkout, ccbill, clickbank, alipay, subscriber, members only, buddypress, buddy press, buddy press compatible, shopping cart, checkout, api, options panel included, websharks framework, w3c validated code, includes extensive documentation, highly extensible
-*/
-/*
-Direct access denial.
-*/
+
+-- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/*
-Define versions.
+/**
+* The installed version of s2Member.
+*
+* @package s2Member
+* @since 3.0
+*
+* @var str
 */
-@define ("WS_PLUGIN__S2MEMBER_VERSION", "3.5.8");
-@define ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3");
-@define ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.0");
-@define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "1.5.8");
+if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "110604");
+/**
+* Minimum PHP version required to run s2Member.
+*
+* @package s2Member
+* @since 3.0
+*
+* @var str
+*/
+if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
+	define ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3");
+/**
+* Minimum WordPress® version required to run s2Member.
+*
+* @package s2Member
+* @since 3.0
+*
+* @var str
+*/
+if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
+	define ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.1");
+/**
+* Minimum Pro version required by the Framework.
+*
+* @package s2Member
+* @since 3.0
+*
+* @var str
+*/
+if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110604");
 /*
-Compatibility checks.
+Several compatibility checks.
+If all pass, load the s2Member plugin.
 */
 if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && version_compare (get_bloginfo ("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">=") && !isset ($GLOBALS["WS_PLUGIN__"]["s2member"]))
 	{
@@ -103,15 +146,18 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		*/
 		do_action ("ws_plugin__s2member_after_loaded");
 	}
+/*
+Else NOT compatible. Do we need admin compatibility errors now?
+*/
 else if (is_admin ()) /* Admin compatibility errors. */
 	{
 		if (!version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">="))
 			{
-				add_action (( (version_compare (get_bloginfo ("version"), "3.1-RC", ">=")) ? "all_admin_notices" : "admin_notices"), create_function ('', 'echo \'<div class="error fade"><p>You need PHP v\' . WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
+				add_action ("all_admin_notices", create_function ('', 'echo \'<div class="error fade"><p>You need PHP v\' . WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
 			}
 		else if (!version_compare (get_bloginfo ("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">="))
 			{
-				add_action (( (version_compare (get_bloginfo ("version"), "3.1-RC", ">=")) ? "all_admin_notices" : "admin_notices"), create_function ('', 'echo \'<div class="error fade"><p>You need WordPress® v\' . WS_PLUGIN__S2MEMBER_MIN_WP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
+				add_action ("all_admin_notices", create_function ('', 'echo \'<div class="error fade"><p>You need WordPress® v\' . WS_PLUGIN__S2MEMBER_MIN_WP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
 			}
 	}
 ?>

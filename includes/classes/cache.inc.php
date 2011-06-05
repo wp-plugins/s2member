@@ -1,27 +1,44 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member's caching routines.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Cache
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_cache"))
 	{
+		/**
+		* s2Member's caching routines.
+		*
+		* @package s2Member\Cache
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_cache
 			{
-				/*
-				Pulls all of the Page links needed for Constants.
-				Page links are cached into the s2Member options on 15 min intervals.
-				This allows the API Constants to provide quick access to them without being forced to execute get_page_link() all the time, which piles up DB queries.
+				/**
+				* Page links needed for Constants.
+				*
+				* Page links are cached into the s2Member options on 15 min intervals.
+				* This allows the API Constants to provide quick access to them without being
+				* forced to execute {@link http://codex.wordpress.org/Function_Reference/get_page_link get_page_link()}
+				* all the time, which piles up DB queries.
+				*
+				* @package s2Member\Cache
+				* @since 3.5
+				*
+				* @return array Array of cached Page links.
 				*/
 				public static function cached_page_links ()
 					{

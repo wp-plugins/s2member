@@ -1,22 +1,53 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Core API Functions *( for site owners )*.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\API_Functions
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `is_user_logged_in()` already exists in WordPress® core.
+	exit("Do not access this file directly.");
+/**
+* Conditional to determine if the current User is NOT logged in.
+*
+* Counterpart {@link http://codex.wordpress.org/Function_Reference/is_user_logged_in is_user_logged_in()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(is_user_logged_in())
+* 	echo 'You ARE logged in.';
+* 	
+* else if(is_user_not_logged_in())
+* 	echo 'You are NOT logged in.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_user_logged_in()]
+* 	You ARE logged in.
+* [/s2If]
+* [s2If is_user_not_logged_in()]
+* 	You are NOT logged in.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @return bool True if the current User is NOT logged in, else false.
+*
+* @see http://codex.wordpress.org/Function_Reference/is_user_logged_in is_user_logged_in()
 */
 if (!function_exists ("is_user_not_logged_in"))
 	{
@@ -25,12 +56,232 @@ if (!function_exists ("is_user_not_logged_in"))
 				return (!is_user_logged_in ());
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can()` already exists in WordPress® core.
-
-$role - required argument.
+/**
+* Conditional to determine if a specific User is/has a specific Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/user_can user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(user_is(123, "subscriber"))
+* 	echo 'User ID# 123 is a Free Subscriber at Level #0.';
+* 	
+* else if(user_is(123, "s2member_level1"))
+* 	echo 'User ID# 123 is a Member at Level #1.';
+* 	
+* else if(user_can(123, "access_s2member_level2"))
+* 	echo 'User ID# 123 has access to content protected at Level #2.';
+* 	# But, (important) they could actually be a Level #3 or #4 Member;
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+*
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If user_is(123, subscriber)]
+* 	User ID# 123 is a Free Subscriber at Level #0.
+* [/s2If]
+* [s2If user_is(123, s2member_level1)]
+* 	User ID# 123 is a Member at Level #1.
+* [/s2If]
+* [s2If user_can(123, access_s2member_level2)]
+* 	User ID# 123 has access to content protected at Level #2.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 110524RC
+*
+* @param int|str $id A numeric WordPress® User ID.
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the specific User is/has the specified Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
+*/
+if (!function_exists ("user_is"))
+	{
+		function user_is ($id = FALSE, $role = FALSE)
+			{
+				$role = ($role === "s2member_level0") ? "subscriber" : $role;
+				return user_can ($id, preg_replace ("/^access_/i", "", $role));
+			}
+	}
+/**
+* Conditional to determine if a specific User is/does NOT have a specific Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/user_can user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Three Functions ————
+* ```
+* <!php
+* if(user_is(123, "subscriber"))
+* 	echo 'User ID# 123 is a Free Subscriber at Level #0.';
+* 	
+* else if(user_is(123, "s2member_level1"))
+* 	echo 'User ID# 123 is a Member at Level #1.';
+* 	
+* else if(user_can(123, "access_s2member_level2") && user_is_not(123, "s2member_level2"))
+* 	echo 'User ID# 123 has access to content protected at Level #2, but they are NOT a Level #2 Member.';
+* 	# So, (important) they could actually be a Level #3 or #4 Member;
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If user_is(123, subscriber)]
+* 	User ID# 123 is a Free Subscriber at Level #0.
+* [/s2If]
+* [s2If user_is(123, s2member_level1)]
+* 	User ID# 123 is a Member at Level #1.
+* [/s2If]
+* [s2If user_can(123, access_s2member_level2) AND user_is_not(123, s2member_level2)]
+* 	User ID# 123 has access to content protected at Level #2, but they are NOT a Level #2 Member.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 110524RC
+*
+* @param int|str $id A numeric WordPress® User ID.
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the specific User is/does NOT have the specified Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
+*/
+if (!function_exists ("user_is_not"))
+	{
+		function user_is_not ($id = FALSE, $role = FALSE)
+			{
+				$role = ($role === "s2member_level0") ? "subscriber" : $role;
+				return (!user_can ($id, preg_replace ("/^access_/i", "", $role)));
+			}
+	}
+/**
+* Conditional to determine if the current User is/has a specific Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(current_user_is("subscriber"))
+* 	echo 'You ARE a Free Subscriber at Level #0.';
+* 	
+* else if(current_user_is("s2member_level1"))
+* 	echo 'You ARE a Member at Level #1.';
+* 	
+* else if(current_user_can("access_s2member_level2"))
+* 	echo 'You DO have access to content protected at Level #2.';
+* 	# But, (important) they could actually be a Level #3 or #4 Member;
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+*
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If curent_user_is(subscriber)]
+* 	You ARE a Free Subscriber at Level #0.
+* [/s2If]
+* [s2If curent_user_is(s2member_level1)]
+* 	You ARE a Member at Level #1.
+* [/s2If]
+* [s2If current_user_can(access_s2member_level2)]
+* 	You DO have access to content protected at Level #2.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User is/has the specified Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_is"))
 	{
@@ -40,12 +291,74 @@ if (!function_exists ("current_user_is"))
 				return current_user_can (preg_replace ("/^access_/i", "", $role));
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can()` already exists in WordPress® core.
-
-$role - required argument.
+/**
+* Conditional to determine if the current User is/does NOT have a specific Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Three Functions ————
+* ```
+* <!php
+* if(current_user_is("subscriber"))
+* 	echo 'You ARE a Free Subscriber at Level #0.';
+* 	
+* else if(current_user_is("s2member_level1"))
+* 	echo 'You ARE a Member at Level #1.';
+* 	
+* else if(current_user_can("access_s2member_level2") && current_user_is_not("s2member_level2"))
+* 	echo 'You DO have access to content protected at Level #2, but you are NOT a Level #2 Member.';
+* 	# So, (important) they could actually be a Level #3 or #4 Member;
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If current_user_is(subscriber)]
+* 	You ARE a Free Subscriber at Level #0.
+* [/s2If]
+* [s2If current_user_is(s2member_level1)]
+* 	You ARE a Member at Level #1.
+* [/s2If]
+* [s2If current_user_can(access_s2member_level2) AND current_user_is_not(s2member_level2)]
+* 	You DO have access to content protected at Level #2, but you are NOT a Level #2 Member.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User is/does NOT have the specified Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_is_not"))
 	{
@@ -55,13 +368,81 @@ if (!function_exists ("current_user_is_not"))
 				return (!current_user_can (preg_replace ("/^access_/i", "", $role)));
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can_for_blog()` already exists in WordPress® core.
-
-$blog_id - required argument.
-$role - required argument.
+/**
+* Conditional to determine if the current User is/has a specific Role, on a specific Blog within a Multisite Network.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Three Functions ————
+* ```
+* <!php
+* if(current_user_is("subscriber"))
+* 	echo 'You ARE a Free Subscriber at Level #0 ( on this Blog ).';
+* 	
+* else if(current_user_is_for_blog(5, "subscriber"))
+* 	echo 'You ARE a Free Subscriber at Level #0 ( on Blog ID 5 ).';
+* 	
+* else if(current_user_is_for_blog(5, "s2member_level1"))
+* 	echo 'You ARE a Member at Level #1 ( on Blog ID 5 ).';
+* 	
+* else if(current_user_can_for_blog(5, "access_s2member_level2"))
+* 	echo 'You DO have access to content protected at Level #2 ( on Blog ID 5 ).';
+* 	# But, (important) they could actually be a Level #3 or #4 Member ( on Blog ID 5 );
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If current_user_is(subscriber)]
+* 	You ARE a Free Subscriber at Level #0 ( on this Blog ).
+* [/s2If]
+* [s2If current_user_is_for_blog(5, subscriber)]
+* 	You ARE a Free Subscriber at Level #0 ( on Blog ID 5 ).
+* [/s2If]
+* [s2If current_user_is_for_blog(5, s2member_level1)]
+* 	You ARE a Member at Level #1 ( on Blog ID 5 ).
+* [/s2If]
+* [s2If current_user_can_for_blog(5, access_s2member_level2)]
+* 	You DO have access to content protected at Level #2 ( on Blog ID 5 ).
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $blog_id A WordPress® Blog ID *( must be numeric )*.
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User is/has the specified Role, on the specified Blog, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_is_for_blog"))
 	{
@@ -71,13 +452,69 @@ if (!function_exists ("current_user_is_for_blog"))
 				return current_user_can_for_blog ($blog_id, preg_replace ("/^access_/i", "", $role));
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can_for_blog()` already exists in WordPress® core.
-
-$blog_id - required argument.
-$role - required argument.
+/**
+* Conditional to determine if the current User is/does NOT have a specific Role, on a specific Blog within a Multisite Network.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Three Functions ————
+* ```
+* <!php
+* if(current_user_is_for_blog(5, "subscriber"))
+* 	echo 'You ARE a Free Subscriber at Level #0 ( on Blog ID 5 ).';
+* 	
+* else if(current_user_can_for_blog(5, "access_s2member_level1") && current_user_is_not_for_blog(5, "s2member_level1"))
+* 	echo 'You DO have access to content protected at Level #1 ( on Blog ID 5 ), but you are NOT a Level #1 Member ( on Blog ID 5 ).';
+* 	# So, (important) they could actually be a Level #2 or #3 or #4 Member ( on Blog ID 5 );
+* 	# because Membership Levels provide incremental access.
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If current_user_is_for_blog(5, subscriber)]
+* 	You ARE a Free Subscriber at Level #0 ( on Blog ID 5 ).
+* [/s2If]
+* [s2If current_user_can_for_blog(5, access_s2member_level1) AND current_user_is_not_for_blog(5, s2member_level1)]
+* 	You DO have access to content protected at Level #1 ( on Blog ID 5 ), but you are NOT a Level #1 Member ( on Blog ID 5 ).
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $blog_id A WordPress® Blog ID *( must be numeric )*.
+* @param str $role A WordPress® Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User is/does NOT have the specified Role, on the specified Blog, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_is_not_for_blog"))
 	{
@@ -87,12 +524,136 @@ if (!function_exists ("current_user_is_not_for_blog"))
 				return (!current_user_can_for_blog ($blog_id, preg_replace ("/^access_/i", "", $role)));
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can()` already exists in WordPress® core.
-
-$capability - required argument.
+/**
+* Conditional to determine if a specific User does NOT have a specific Capability or Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/user_can user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(user_can(123, "access_s2member_level0"))
+* 	echo 'User ID# 123 CAN access content protected at Level #0.';
+* 	
+* else if(user_cannot(123, "access_s2member_level0"))
+* 	echo 'User ID# 123 CANNOT access content at Level #0.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If user_can(123, access_s2member_level0)]
+* 	User ID# 123 CAN access content protected at Level #0.
+* [/s2If]
+* [s2If user_cannot(123, access_s2member_level0)]
+* 	User ID# 123 CANNOT access content at Level #0.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $id A numeric WordPress® User ID.
+* @param str $capability A WordPress® Capability ID *( i.e. `access_s2member_level[0-9]+`, `access_s2member_ccap_music` )*.
+* @return bool True if the specific User does NOT have the specified Capability or Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
+*/
+if (!function_exists ("user_cannot"))
+	{
+		function user_cannot ($id = FALSE, $capability = FALSE)
+			{
+				return (!user_can ($id, $capability));
+			}
+	}
+/**
+* Conditional to determine if the current User does NOT have a specific Capability or Role.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(current_user_can("access_s2member_level0"))
+* 	echo 'You CAN access content protected at Level #0.';
+* 	
+* else if(current_user_cannot("access_s2member_level0"))
+* 	echo 'You CANNOT access content protected at Level #0.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If current_user_can(access_s2member_level0)]
+* 	You CAN access content protected at Level #0.
+* [/s2If]
+* [s2If current_user_cannot(access_s2member_level0)]
+* 	You CANNOT access content protected at Level #0.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $capability A WordPress® Capability ID *( i.e. `access_s2member_level[0-9]+`, `access_s2member_ccap_music` )*.
+* 	Or a Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User does NOT have the specified Capability or Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_cannot"))
 	{
@@ -101,13 +662,68 @@ if (!function_exists ("current_user_cannot"))
 				return (!current_user_can ($capability));
 			}
 	}
-/*
-API function for Conditionals.
-This matches up with a Simple Conditional made available through a Shortcode.
-Function `current_user_can_for_blog()` already exists in WordPress® core.
-
-$blog_id - required argument.
-$capability - required argument.
+/**
+* Conditional to determine if the current User does NOT have a specific Capability or Role, on a specific Blog within a Multisite Network.
+*
+* Another function {@link http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()} already exists in the WordPress® core.
+*
+* ———— Code Sample Using Both Functions ————
+* ```
+* <!php
+* if(current_user_can_for_blog(5, "access_s2member_level0"))
+* 	echo 'You CAN access content protected at Level #0 ( on Blog ID 5 ).';
+* 	
+* else if(current_user_cannot_for_blog(5, "access_s2member_level0"))
+* 	echo 'You CANNOT access content protected at Level #0 ( on Blog ID 5 ).';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If current_user_can_for_blog(5, access_s2member_level0)]
+* 	You CAN access content protected at Level #0 ( on Blog ID 5 ).
+* [/s2If]
+* [s2If current_user_cannot_for_blog(5, access_s2member_level0)]
+* 	You CANNOT access content protected at Level #0 ( on Blog ID 5 ).
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* ———— Membership Levels Provide Incremental Access ————
+*
+* o A Member with Level 4 access, will also be able to access Levels 0, 1, 2, 3.
+* o A Member with Level 3 access, will also be able to access Levels 0, 1, 2.
+* o A Member with Level 2 access, will also be able to access Levels 0, 1
+* o A Member with Level 1 access, will also be able to access Level 0.
+* o A Subscriber with Level 0 access, can ONLY access Level 0.
+* o A public Visitor will have NO access to protected content.
+*
+* WordPress® Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *( a Free Subscriber )*.
+* WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
+* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $blog_id A WordPress® Blog ID *( must be numeric )*.
+* @param str $capability A WordPress® Capability ID *( i.e. `access_s2member_level[0-9]+`, `access_s2member_ccap_music` )*.
+* 	Or a Role ID *( i.e. `s2member_level[0-9]+`, `administrator`, `editor`, `author`, `contributor`, `subscriber` )*.
+* @return bool True if the current User does NOT have the specified Capability or Role, else false.
+*
+* @see s2Member\API_Functions\user_is()
+* @see s2Member\API_Functions\user_is_not()
+*
+* @see s2Member\API_Functions\current_user_is()
+* @see s2Member\API_Functions\current_user_is_not()
+* @see s2Member\API_Functions\current_user_is_for_blog()
+* @see s2Member\API_Functions\current_user_is_not_for_blog()
+*
+* @see s2Member\API_Functions\user_cannot()
+* @see s2Member\API_Functions\current_user_cannot()
+* @see s2Member\API_Functions\current_user_cannot_for_blog()
+*
+* @see http://codex.wordpress.org/Function_Reference/user_can user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
+* @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
 if (!function_exists ("current_user_cannot_for_blog"))
 	{
@@ -116,84 +732,321 @@ if (!function_exists ("current_user_cannot_for_blog"))
 				return (!current_user_can_for_blog ($blog_id, $capability));
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific [Category, Tag, Post, Page, or URI] protected by s2Member?
-
-$__id - optional argument. Defaults to current $post->ID in The Loop.
-$__type - optional argument. One of: `category`, `tag`, `post`, `page`, `singular`, `uri`. Defaults to: `singular`.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific Category, Tag, Post, Page, URL or URI is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $what ( int|str Optional ).**
+* 	Defaults to the current $post ID when called from within {@link http://codex.wordpress.org/The_Loop The Loop}.
+* 	If passed in, this should be a WordPress® Category ID, Tag ID, Post ID, or Page ID. Or a full URL. A URI is also fine.
+*
+* 	o If you pass in an ID, s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* 	o If you pass in a URL or URI, s2Member will ONLY check URI Restrictions, because it has no ID to work with.
+* 	This is useful though. Some protected content is not associated with an ID. In those cases, URI Restrictions are all the matter.
+*
+* 	o Note: when passing in a URL or URI, the $type parameter must be set to `URI` or `uri`. Case insensitive.
+*
+* **Parameter $type ( str Optional ).**
+* 	One of `category`, `tag`, `post`, `page`, `singular` or `uri`. Defaults to `singular` *( i.e. a Post or Page )*.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the content is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_permitted_by_s2member()}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_protected_by_s2member(123))
+* 	echo 'Post or Page ID #123 is protected by s2Member.';
+* 	
+* else if(is_protected_by_s2member(332, "tag"))
+* 	echo 'Tag ID #332 is protected by s2Member.';
+* 	
+* else if(is_protected_by_s2member(554, "category"))
+* 	echo 'Category ID #554 is protected by s2Member.';
+* 	
+* else if(is_protected_by_s2member("http://example.com/members/", "uri"))
+* 	echo 'This URL is protected by URI Restrictions.';
+* 	
+* else if(is_protected_by_s2member("/members/", "uri"))
+* 	echo 'This URI is protected by URI Restrictions.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_protected_by_s2member(123)]
+* 	Post or Page ID #123 is protected by s2Member.
+* [/s2If]
+* [s2If is_protected_by_s2member(332, tag)]
+* 	Tag ID #332 is protected by s2Member.
+* [/s2If]
+* [s2If is_protected_by_s2member(554, category)]
+* 	Category ID #554 is protected by s2Member.
+* [/s2If]
+* [s2If is_protected_by_s2member(http://example.com/members/, uri)]
+* 	This URL is protected by URI Restrictions.
+* [/s2If]
+* [s2If is_protected_by_s2member(/members/, uri)]
+* 	This URI is protected by URI Restrictions.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $what Optional. Defaults to the current $post ID when called from within {@link http://codex.wordpress.org/The_Loop The Loop}.
+* 	If passed in, this should be a WordPress® Category ID, Tag ID, Post ID, or Page ID. Or a full URL. A URI is also fine.
+* @param str $type Optional. One of `category`, `tag`, `post`, `page`, `singular` or `uri`. Defaults to `singular` *( i.e. a Post or Page )*.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the content is not protected *( i.e. available publicly )*.
+* 	When/if content IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the content.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_protected_by_s2member"))
 	{
-		function is_protected_by_s2member ($__id = FALSE, $__type = FALSE, $check_user = FALSE)
+		function is_protected_by_s2member ($what = FALSE, $type = FALSE, $check_user = FALSE)
 			{
 				global $post; /* Global reference to $post in The Loop. */
 				/**/
-				$__id = ($__id) ? $__id : ( (is_object ($post) && $post->ID) ? $post->ID : false);
-				$__type = ($__type) ? strtolower ($__type) : "singular";
+				$what = ($what) ? $what : ((is_object ($post) && $post->ID) ? $post->ID : false);
+				$type = ($type) ? strtolower ($type) : "singular";
 				/**/
-				if ($__type === "category" && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($__id, $check_user)))
+				if ($type === "category" && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
-				else if ($__type === "tag" && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($__id, $check_user)))
+				else if ($type === "tag" && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
-				else if (($__type === "post" || $__type === "singular") && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($__id, $check_user)))
+				else if (($type === "post" || $type === "singular") && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
-				else if (($__type === "page" || $__type === "singular") && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($__id, $check_user)))
+				else if (($type === "page" || $type === "singular") && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
-				else if ($__type === "uri" && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($__id, $check_user)))
+				else if ($type === "uri" && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current User permitted to access this  [Category, Tag, Post, Page, or URI]?
-
-$__id - optional argument. Defaults to current $post->ID in The Loop.
-$__type - optional argument. One of: `category`, `tag`, `post`, `page`, `singular`, `uri`. Defaults to: `singular`.
+/**
+* Conditional to determine if a specific Category, Tag, Post, Page, URL or URI is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $what ( int|str Optional ).**
+* 	Defaults to the current $post ID when called from within {@link http://codex.wordpress.org/The_Loop The Loop}.
+* 	If passed in, this should be a WordPress® Category ID, Tag ID, Post ID, or Page ID. Or a full URL. A URI is also fine.
+*
+* 	o If you pass in an ID, s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* 	o If you pass in a URL or URI, s2Member will ONLY check URI Restrictions, because it has no ID to work with.
+* 	This is useful though. Some protected content is not associated with an ID. In those cases, URI Restrictions are all the matter.
+*
+* 	o Note: when passing in a URL or URI, the $type parameter must be set to `URI` or `uri`. Case insensitive.
+*
+* **Parameter $type ( str Optional ).**
+* 	One of `category`, `tag`, `post`, `page`, `singular` or `uri`. Defaults to `singular` *( i.e. a Post or Page )*.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_permitted_by_s2member(123))
+* 	echo 'Post or Page ID #123 is permitted by s2Member.';
+* 	
+* else if(is_permitted_by_s2member(332, "tag"))
+* 	echo 'Tag ID #332 is permitted by s2Member.';
+* 	
+* else if(is_permitted_by_s2member(554, "category"))
+* 	echo 'Category ID #554 is permitted by s2Member.';
+* 	
+* else if(is_permitted_by_s2member("http://example.com/members/", "uri"))
+* 	echo 'This URL is permitted by s2Member.';
+* 	
+* else if(is_permitted_by_s2member("/members/", "uri"))
+* 	echo 'This URI is permitted by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_permitted_by_s2member(123)]
+* 	Post or Page ID #123 is permitted by s2Member.
+* [/s2If]
+* [s2If is_permitted_by_s2member(332, tag)]
+* 	Tag ID #332 is permitted by s2Member.
+* [/s2If]
+* [s2If is_permitted_by_s2member(554, category)]
+* 	Category ID #554 is permitted by s2Member.
+* [/s2If]
+* [s2If is_permitted_by_s2member(http://example.com/members/, uri)]
+* 	This URL is permitted by s2Member.
+* [/s2If]
+* [s2If is_permitted_by_s2member(/members/, uri)]
+* 	This URI is permitted by s2Member.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $what Optional. Defaults to the current $post ID when called from within {@link http://codex.wordpress.org/The_Loop The Loop}.
+* 	If passed in, this should be a WordPress® Category ID, Tag ID, Post ID, or Page ID. Or a full URL. A URI is also fine.
+* @param str $type Optional. One of `category`, `tag`, `post`, `page`, `singular` or `uri`. Defaults to `singular` *( i.e. a Post or Page )*.
+* @return bool True if the current User IS permitted, else false if the content is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_permitted_by_s2member"))
 	{
-		function is_permitted_by_s2member ($__id = FALSE, $__type = FALSE)
+		function is_permitted_by_s2member ($what = FALSE, $type = FALSE)
 			{
 				global $post; /* Global reference to $post in The Loop. */
 				/**/
-				$__id = ($__id) ? $__id : ( (is_object ($post) && $post->ID) ? $post->ID : false);
-				$__type = ($__type) ? strtolower ($__type) : "singular";
+				$what = ($what) ? $what : ((is_object ($post) && $post->ID) ? $post->ID : false);
+				$type = ($type) ? strtolower ($type) : "singular";
 				/**/
-				if ($__type === "category" && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($__id, true))
+				if ($type === "category" && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($what, true))
 					return false;
 				/**/
-				else if ($__type === "tag" && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($__id, true))
+				else if ($type === "tag" && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($what, true))
 					return false;
 				/**/
-				else if (($__type === "post" || $__type === "singular") && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($__id, true))
+				else if (($type === "post" || $type === "singular") && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($what, true))
 					return false;
 				/**/
-				else if (($__type === "page" || $__type === "singular") && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($__id, true))
+				else if (($type === "page" || $type === "singular") && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($what, true))
 					return false;
 				/**/
-				else if ($__type === "uri" && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($__id, true))
+				else if ($type === "uri" && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($what, true))
 					return false;
 				/**/
 				return true;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific Category protected by s2Member?
-
-$cat_id - required argument.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific Category is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $cat_id ( int Required ).** This should be a WordPress® Category ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the Category is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_category_permitted_by_s2member()}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_category_protected_by_s2member(123))
+* 	echo 'Category ID #123 is protected by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_category_protected_by_s2member(123)]
+* 	Category ID #123 is protected by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $cat_id Required. This should be a WordPress® Category ID.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the Category is not protected *( i.e. available publicly )*.
+* 	When/if the Category IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the Category.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_category_protected_by_s2member"))
 	{
@@ -205,12 +1058,63 @@ if (!function_exists ("is_category_protected_by_s2member"))
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current User permitted to access this Category?
-
-$cat_id - required argument.
+/**
+* Conditional to determine if a specific Category is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_category_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_category_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $cat_id ( int Required ).** This should be a WordPress® Category ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_category_permitted_by_s2member(123))
+* 	echo 'Category ID #123 is permitted by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_category_permitted_by_s2member(123)]
+* 	Category ID #123 is permitted by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $cat_id Required. This should be a WordPress® Category ID.
+* @return bool True if the current User IS permitted, else false if the Category is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_category_permitted_by_s2member"))
 	{
@@ -222,13 +1126,83 @@ if (!function_exists ("is_category_permitted_by_s2member"))
 				return true;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific Tag protected by s2Member?
-
-$tag_id_slug_or_name - required argument.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific Tag is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $tag_id_slug_or_name ( int|str Required ).** This should be a WordPress® Tag ID, Tag Slug, or Tag Name.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID, Slug, or Name.
+* 	In other words, s2Member is capable of determining a URI based on the ID, or Slug, or Name that you pass in.
+* 	So using an ID, or Slug, or Name results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the Tag is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_tag_permitted_by_s2member()}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_tag_protected_by_s2member(123))
+* 	echo 'Tag ID #123 is protected by s2Member.';
+* 	
+* else if(is_tag_protected_by_s2member("members-only"))
+* 	echo 'Tag Slug (members-only) is protected by s2Member.';
+* 	
+* else if(is_tag_protected_by_s2member("Members Only"))
+* 	echo 'Tag Name (Members Only) is protected by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_tag_protected_by_s2member(123)]
+* 	Tag ID #123 is protected by s2Member.
+* [/s2If]
+* [s2If is_tag_protected_by_s2member(members-only)]
+* 	Tag Slug (members-only) is protected by s2Member.
+* [/s2If]
+* NOTE: It's NOT possible to check a Tag Named "Members Only" with [s2If /],
+* because Shortcode Conditionals may NOT contain spaces in their argument values.
+* If you're using [s2If /] to check a Tag, please use the Slug or ID instead.
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $tag_id_slug_or_name Required. This should be a WordPress® Tag ID, Tag Slug, or Tag Name.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the Tag is not protected *( i.e. available publicly )*.
+* 	When/if the Tag IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the Tag.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_tag_protected_by_s2member"))
 	{
@@ -240,12 +1214,76 @@ if (!function_exists ("is_tag_protected_by_s2member"))
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current User permitted to access this Tag?
-
-$tag_id_slug_or_name - required argument.
+/**
+* Conditional to determine if a specific Tag is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_tag_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_tag_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $tag_id_slug_or_name ( int|str Required ).** This should be a WordPress® Tag ID, Tag Slug, or Tag Name.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID, or Slug, or Name.
+* 	In other words, s2Member is capable of determining a URI based on the ID, or Slug, or Name that you pass in.
+* 	So using an ID, or Slug, or Name results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_tag_permitted_by_s2member(123))
+* 	echo 'Tag ID #123 is permitted by s2Member.';
+* 	
+* else if(is_tag_permitted_by_s2member("members-only"))
+* 	echo 'Tag Slug (members-only) is permitted by s2Member.';
+* 	
+* else if(is_tag_permitted_by_s2member("Members Only"))
+* 	echo 'Tag Name (Members Only) is permitted by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_tag_permitted_by_s2member(123)]
+* 	Tag ID #123 is permitted by s2Member.
+* [/s2If]
+* [s2If is_tag_permitted_by_s2member(members-only)]
+* 	Tag Slug (members-only) is permitted by s2Member.
+* [/s2If]
+* NOTE: It's NOT possible to check a Tag Named "Members Only" with [s2If /],
+* because Shortcode Conditionals may NOT contain spaces in their argument values.
+* If you're using [s2If /] to check a Tag, please use the Slug or ID instead.
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int|str $tag_id_slug_or_name Required. This should be a WordPress® Tag ID, Tag Slug, or Tag Name.
+* @return bool True if the current User IS permitted, else false if the Tag is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_tag_permitted_by_s2member"))
 	{
@@ -257,13 +1295,70 @@ if (!function_exists ("is_tag_permitted_by_s2member"))
 				return true;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific Post protected by s2Member?
-
-$post_id - required argument.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific Post ( or Custom Post Type ) is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $post_id ( int Required ).** This should be a WordPress® Post ID, or a Custom Post Type ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the Post is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_post_permitted_by_s2member()}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_post_protected_by_s2member(123))
+* 	echo 'Post ID #123 is protected by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_post_protected_by_s2member(123)]
+* 	Post ID #123 is protected by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $post_id Required. This should be a WordPress® Post ID, or a Custom Post Type ID.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the Post is not protected *( i.e. available publicly )*.
+* 	When/if the Post IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the Post.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_post_protected_by_s2member"))
 	{
@@ -275,12 +1370,63 @@ if (!function_exists ("is_post_protected_by_s2member"))
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current User permitted to access this Post?
-
-$post_id - required argument.
+/**
+* Conditional to determine if a specific Post or Custom Post Type is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_post_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_post_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $post_id ( int Required ).** This should be a WordPress® Post ID, or a Custom Post Type ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_post_permitted_by_s2member(123))
+* 	echo 'Post ID #123 is permitted by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_post_permitted_by_s2member(123)]
+* 	Post ID #123 is permitted by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $post_id Required. This should be a WordPress® Post ID, or a Custom Post Type ID.
+* @return bool True if the current User IS permitted, else false if the Post is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_post_permitted_by_s2member"))
 	{
@@ -292,13 +1438,70 @@ if (!function_exists ("is_post_permitted_by_s2member"))
 				return true;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific Page protected by s2Member?
-
-$page_id - required argument.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific Page is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $page_id ( int Required ).** This should be a WordPress® Page ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the Page is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_page_permitted_by_s2member()}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_page_protected_by_s2member(123))
+* 	echo 'Page ID #123 is protected by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_page_protected_by_s2member(123)]
+* 	Page ID #123 is protected by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $page_id Required. This should be a WordPress® Page ID.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the Page is not protected *( i.e. available publicly )*.
+* 	When/if the Page IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the Page.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_page_protected_by_s2member"))
 	{
@@ -310,12 +1513,63 @@ if (!function_exists ("is_page_protected_by_s2member"))
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current User permitted to access this Page?
-
-$page_id - required argument.
+/**
+* Conditional to determine if a specific Page is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_page_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_page_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $page_id ( int Required ).** This should be a WordPress® Page ID.
+*
+* 	o s2Member will check everything, including your configured URI Restrictions against the ID.
+* 	In other words, s2Member is capable of determining a URI based on the ID that you pass in.
+* 	So using an ID results in an all-inclusive scan against your configured Restrictions,
+* 	including any URI Restrictions that you may have configured.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_page_permitted_by_s2member(123))
+* 	echo 'Page ID #123 is permitted by s2Member.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_page_permitted_by_s2member(123)]
+* 	Page ID #123 is permitted by s2Member.
+* [/s2If]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $page_id Required. This should be a WordPress® Page ID.
+* @return bool True if the current User IS permitted, else false if the Page is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_page_permitted_by_s2member"))
 	{
@@ -327,24 +1581,77 @@ if (!function_exists ("is_page_permitted_by_s2member"))
 				return true;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is a specific URI/URL protected by s2Member?
-
-NOTE: This will ONLY check s2Member's URI Level Access restrictions.
-	- So unlike s2Member's other Query Conditionals,
-		this will NOT check everything.
-
-Use of this function is usually NOT required, because all of these
-other Conditionals already check URI restrictions inclusively:
-	- is_category_protected_by_s2member($cat_id);
-	- is_tag_protected_by_s2member($tag_id [ or slug ]);
-	- is_post_protected_by_s2member($post_id);
-	- is_page_protected_by_s2member($page_id);
-
-$uri_or_full_url - required argument.
-$check_user - optional ( consider the current User? ) defaults to: false.
+/**
+* Conditional to determine if a specific URI or URL is protected by s2Member;
+* without considering the current User's Role/Capabilites.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $uri_or_full_url ( str Required ).** This should be a URI starting with `/`, or a full URL is also fine.
+*
+* **Parameter $check_user ( bool Optional ).**
+* 	Consider the current User? Defaults to false.
+*
+* 	o In other words, by default, this Conditional function is only checking to see if the URI or URL is protected, and that's it.
+* 	o So this function does NOT consider the current User's Role or Capabilities. If you set $check_user to true, it will.
+* 	o When $check_user is true, this function behaves like {@link s2Member\API_Functions\is_uri_permitted_by_s2member()}.
+*
+* ———— Important Notes About This Function ————
+*
+* This function will ONLY test against URI Restrictions you've configured with s2Member.
+* If you need an all-inclusive test, please use {@link s2Member\API_Functions\is_protected_by_s2member()} with an ID.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_uri_protected_by_s2member("/members-only/sub-section"))
+* 	echo 'The URI (/members-only/sub-section) is protected by URI Restrictions.';
+* 	
+* else if(is_uri_protected_by_s2member("http://example.com/members-only/sub-section"))
+* 	echo 'The URL (http://example.com/members-only/sub-section) is protected by URI Restrictions.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_uri_protected_by_s2member(/members-only/sub-section)]
+* 	The URI (/members-only/sub-section) is protected by URI Restrictions.
+* [/s2If]
+* [s2If is_uri_protected_by_s2member(http://example.com/members-only/sub-section)]
+* 	The URL (http://example.com/members-only/sub-section) is protected by URI Restrictions.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $uri_or_full_url Required. This should be a URI starting with `/`, or a full URL is also fine.
+* @param bool $check_user Optional. Consider the current User? Defaults to false.
+* @return array|bool A non-empty array *( meaning true )*, or false if the URI or URL is not protected *( i.e. available publicly )*.
+* 	When/if the URI or URL IS protected, the return array will include one of these keys ``["s2member_(level|sp|ccap)_req"]``
+* 	indicating the Level #, Specific Post/Page ID #, or Custom Capability required to access the URI or URL.
+* 	In other words, the reason why it's protected; based on your s2Member configuration.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_uri_protected_by_s2member"))
 	{
@@ -356,23 +1663,70 @@ if (!function_exists ("is_uri_protected_by_s2member"))
 				return false;
 			}
 	}
-/*
-API function for Conditionals.
-Allows developers to integrate s2Member ( via Themes ).
-Is the current URI/URL permitted to access this Page?
-
-NOTE: This will ONLY check s2Member's URI Level Access restrictions.
-	- So unlike s2Member's other Query Conditionals,
-		this will NOT check everything.
-
-Use of this function is usually NOT required, because all of these
-other Conditionals already check URI restrictions inclusively:
-	- is_category_permitted_by_s2member($cat_id);
-	- is_tag_permitted_by_s2member($tag_id [ or slug ]);
-	- is_post_permitted_by_s2member($post_id);
-	- is_page_permitted_by_s2member($page_id);
-
-$uri_or_full_url - required argument.
+/**
+* Conditional to determine if a specific URI or URL is permitted by s2Member,
+* with consideration given to the current User's Role/Capabilites.
+*
+* This function is similar to {@link s2Member\API_Functions\is_uri_protected_by_s2member()}, except this function considers the current User's Role/Capabilites.
+* Also, this function does NOT return the array like {@link s2Member\API_Functions\is_uri_protected_by_s2member()} does; it only returns true|false.
+*
+* ———— Extra Detail On Function Parameters ————
+*
+* **Parameter $uri_or_full_url ( str Required ).** This should be a URI starting with `/`, or a full URL is also fine.
+*
+* ———— Important Notes About This Function ————
+*
+* This function will ONLY test against URI Restrictions you've configured with s2Member.
+* If you need an all-inclusive test, please use {@link s2Member\API_Functions\is_permitted_by_s2member()} with an ID.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(is_uri_permitted_by_s2member("/members-only/sub-section"))
+* 	echo 'The URI (/members-only/sub-section) is permitted by URI Restrictions.';
+* 	
+* else if(is_uri_permitted_by_s2member("http://example.com/members-only/sub-section"))
+* 	echo 'The URL (http://example.com/members-only/sub-section) is permitted by URI Restrictions.';
+* !>
+* ```
+* ———— Shortcode Conditional Equivalent ————
+* ```
+* [s2If is_uri_permitted_by_s2member(/members-only/sub-section)]
+* 	The URI (/members-only/sub-section) is permitted by URI Restrictions.
+* [/s2If]
+* [s2If is_uri_permitted_by_s2member(http://example.com/members-only/sub-section)]
+* 	The URL (http://example.com/members-only/sub-section) is permitted by URI Restrictions.
+* [/s2If]
+* ```
+* *but please note, `else if()` logic is not possible with `[s2If /]`.*
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $uri_or_full_url Required. This should be a URI starting with `/`, or a full URL is also fine.
+* @return bool True if the current User IS permitted, else false if the URI or URL is NOT available to the current User;
+* 	based on your configuration of s2Member, and based on the current User's Role/Capabilities.
+*
+* @see s2Member\API_Functions\is_protected_by_s2member()
+* @see s2Member\API_Functions\is_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_category_protected_by_s2member()
+* @see s2Member\API_Functions\is_category_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_tag_protected_by_s2member()
+* @see s2Member\API_Functions\is_tag_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_post_protected_by_s2member()
+* @see s2Member\API_Functions\is_post_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_page_protected_by_s2member()
+* @see s2Member\API_Functions\is_page_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\is_uri_protected_by_s2member()
+* @see s2Member\API_Functions\is_uri_permitted_by_s2member()
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("is_uri_permitted_by_s2member"))
 	{
@@ -384,11 +1738,43 @@ if (!function_exists ("is_uri_permitted_by_s2member"))
 				return true;
 			}
 	}
-/*
-API function for custom queries.
-Allows developers to integrate s2Member ( via Themes ).
-Attaches s2Member's query filters; hiding protected content.
-Don't forget to call: `detach_s2member_query_filters()`.
+/**
+* Allows plugin/theme developers to pre-filter WP Queries easily, so that protected content
+* *( i.e content NOT available to the current User )*, is excluded automatically.
+*
+* This functionality is already built right into s2Member's UI configuration panels,
+* but in cases where a plugin/theme developer needs more control, this may come in handy.
+* In the UI configuration for s2Member, please see: `Alternative View Protection`.
+*
+* ———— Code Sample Using s2Member's Query Filters ————
+* ```
+* <!php
+* attach_s2member_query_filters();
+* 	query_posts("posts_per_page=5");
+* 	
+* 	if (have_posts()):
+* 		while (have_posts()):
+* 			the_post();
+* 		# Protected content will be excluded automatically.
+* 		# ( based on the current User's Role/Capabilities )
+* 		endwhile;
+* 	endif;
+* 	
+* 	wp_reset_query();
+* detach_s2member_query_filters();
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @return null
+*
+* @see s2Member\API_Functions\detach_s2member_query_filters()
 */
 if (!function_exists ("attach_s2member_query_filters"))
 	{
@@ -398,10 +1784,43 @@ if (!function_exists ("attach_s2member_query_filters"))
 				add_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 20);
 			}
 	}
-/*
-API function for custom queries.
-Allows developers to integrate s2Member ( via Themes ).
-Detaches filters applied by: `attach_s2member_query_filters()`.
+/**
+* Allows plugin/theme developers to pre-filter WP Queries easily, so that protected content
+* *( i.e content NOT available to the current User )*, is excluded automatically.
+*
+* This functionality is already built right into s2Member's UI configuration panels,
+* but in cases where a plugin/theme developer needs more control, this may come in handy.
+* In the UI configuration for s2Member, please see: `Alternative View Protection`.
+*
+* ———— Code Sample Using s2Member's Query Filters ————
+* ```
+* <!php
+* attach_s2member_query_filters();
+* 	query_posts("posts_per_page=5");
+* 	
+* 	if (have_posts()):
+* 		while (have_posts()):
+* 			the_post();
+* 		# Protected content will be excluded automatically.
+* 		# ( based on the current User's Role/Capabilities )
+* 		endwhile;
+* 	endif;
+* 	
+* 	wp_reset_query();
+* detach_s2member_query_filters();
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @return null
+*
+* @see s2Member\API_Functions\attach_s2member_query_filters()
 */
 if (!function_exists ("detach_s2member_query_filters"))
 	{
@@ -411,27 +1830,88 @@ if (!function_exists ("detach_s2member_query_filters"))
 				add_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 20);
 			}
 	}
-/*
-Alias function for API Scripting usage.
-Function creates a special File Download Key.
-Uses: date("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file.
-
-The optional second argument can be passed in for compatiblity with Quick Cache / WP Super Cache.
-When $cache_compatible is passed in, the salt is reduced to only the $file value.
-	- which is NOT as secure. So use that with caution.
-
-$file - required argument.
+/**
+* Generates a File Download Key that provides access to a File protected by s2Member.
+*
+* By default, s2Member uses your Basic Download Restrictions. For more information on this,
+* please check your Dashboard under: `s2Member -> Download Options -> Basic Download Restrictions`.
+*
+* ———— Advanced Download Restrictions  ————
+*
+* Or, you can also force s2Member to allow File Downloads, using an extra query string parameter `s2member_file_download_key`.
+* A File Download Key is passed through this parameter; it tells s2Member to allow the download of this particular file,
+* regardless of Membership Level; and WITHOUT checking any Basic Restrictions, that you may, or may not, have configured.
+*
+* ———— Code Sample Using A Download Key ————
+* ```
+* <a href="/?s2member_file_download=file.zip&s2member_file_download_key=<!php echo s2member_file_download_key("file.zip"); !>">Download Now</a>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* This API Funtion produces a time-sensitive File Download Key that is unique to each and every visitor.
+* Each Key it produces *( at the time it is produced )*, will be valid for the current day, and only for a specific IP address and User-Agent string;
+* as detected by s2Member. This makes it possible for you to create links on your site, which provide access to protected File Downloads;
+* without having to worry about one visitor sharing their link with another.
+*
+* When `/?s2member_file_download_key` = `a valid Key` generated by this function, it works independently from Member Level Access.
+* That is, a visitor does NOT have to be logged in to receive access; they just need a valid Key.
+* Using this advanced technique, you could extend s2Member's file protection routines,
+* or even combine them with Specific Post/Page Access, and more.
+* The possibilities are limitless really.
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $file Location of the protected File, relative to the `/s2member-files/` directory.
+* @param str|bool $directive Optional. Defaults to false. If you set this to any non-zero value ( i.e. the string `universal` ),
+* 	the resulting Key will be universal *( i.e. valid for any User, at any time, from any browser )*. That is to say; universal, for this particular File.
+* 	It is also possible to pass in the $directive string `ip-forever`, making the Key last forever, but only for a specific IP address.
+* @return str The File Download Key. Which is an MD5 hash *( always 32 characters )*, URL-safe.
+*
+* @todo Create a Shortcode equivalent.
+* @todo Allow custom expiration times.
 */
 if (!function_exists ("s2member_file_download_key"))
 	{
-		function s2member_file_download_key ($file = FALSE, $cache_compatible = FALSE)
+		function s2member_file_download_key ($file = FALSE, $directive = FALSE)
 			{
-				return c_ws_plugin__s2member_files::file_download_key ($file, $cache_compatible);
+				return c_ws_plugin__s2member_files::file_download_key ($file, $directive);
 			}
 	}
-/*
-Retrieves a Registration Time.
-$user_id defaults to the current user; if logged in.
+/**
+* Obtains the Registration Time for the current User, and/or for a particular User.
+*
+* The Registration Time, is the time at which the Username was created for the account, that's it.
+* There's nothing special about this. This simply returns a {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* if(s2member_registration_time() <= strtotime("-30 days"))
+* 	echo 'The current User has existed for at least 30 days.';
+* 	
+* else if(s2member_registration_time(123) <= strtotime("-30 days"))
+* 	echo 'User with ID #123 has existed for at least 30 days.';
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param int $user_id Optional. Defaults to the current User's ID.
+* @return int A {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+* 	The Registration Time, is the time at which the Username was created for the account, that's it.
+*
+* @see s2Member\API_Functions\get_user_field()
+*
+* @todo Create a Shortcode equivalent.
 */
 if (!function_exists ("s2member_registration_time"))
 	{
@@ -440,22 +1920,43 @@ if (!function_exists ("s2member_registration_time"))
 				return c_ws_plugin__s2member_registration_times::registration_time ($user_id);
 			}
 	}
-/*
-Retrieves a Paid Registration Time.
-
-The $level argument is optional. It defaults to the first/initial Paid Registration Time, regardless of Level#.
-Or you could do this: s2member_paid_registration_time("level1"); which will give you the Registration Time at Level #1.
-If a User/Member has never paid for Level #1 ( i.e. they signed up at Level#2 ), the function will return 0.
-
-Here are some other examples:
-$time = s2member_registration_time (); // ... first registration time ( free or otherwise ).
-$time = s2member_paid_registration_time (); // ... first "paid" registration and/or upgrade time.
-$time = s2member_paid_registration_time ("level1"); // ... first "paid" registration or upgrade time at Level#1.
-$time = s2member_paid_registration_time ("level2"); // ... first "paid" registration or upgrade time at Level#2.
-$time = s2member_paid_registration_time ("level3"); // ... first "paid" registration or upgrade time at Level#3.
-$time = s2member_paid_registration_time ("level4"); // ... first "paid" registration or upgrade time at Level#4.
-
-The argument $user_id defaults to the current user; if logged in.
+/**
+* Retrieves a Paid Registration Time for the current User, and/or for a particular User.
+*
+* **NOTE** A Paid Registration Time, is NOT necessarily related specifically to a Payment.
+* s2Member records a Paid Registration Time, anytime a User acquires paid Membership Level Access.
+*
+* In other words, if you create a new User inside your Dashboard at a Membership Level greater than Level #0,
+* s2Member will record a Paid Registration Time immediately, because Membership Levels > 0, are reserved for paying Members.
+* s2Member monitors changes to all User accounts, and records the first Paid Registration Time for each Member, at each paid Membership Level.
+* So, s2Member stores the first Time a Member reaches each Level of paid access; and s2Member does NOT care if they *actually* paid, or not.
+*
+* ———— Code Sample Using Function Parameters ————
+* ```
+* <!php
+* $time = s2member_registration_time (); # first registration time ( free or otherwise ).
+* $time = s2member_paid_registration_time (); # first "paid" registration and/or upgrade time.
+* $time = s2member_paid_registration_time ("level1"); # first "paid" registration or upgrade time at Level#1.
+* $time = s2member_paid_registration_time ("level2"); # first "paid" registration or upgrade time at Level#2.
+* $time = s2member_paid_registration_time ("level3"); # first "paid" registration or upgrade time at Level#3.
+* $time = s2member_paid_registration_time ("level4"); # first "paid" registration or upgrade time at Level#4.
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $level Optional. Defaults to the first/initial Paid Registration Time, regardless of Level#.
+* @param int $user_id Optional. Defaults to the current User's ID.
+* @return int A {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+*
+* @see s2Member\API_Functions\get_user_field()
+*
+* @todo Create a Shortcode equivalent.
 */
 if (!function_exists ("s2member_paid_registration_time"))
 	{
@@ -464,10 +1965,159 @@ if (!function_exists ("s2member_paid_registration_time"))
 				return c_ws_plugin__s2member_registration_times::paid_registration_time ($level, $user_id);
 			}
 	}
-/*
-Retrieves a Custom Field value.
-$field_id - required argument.
-$user_id - defaults to current user.
+/**
+* An powerful function that can retrieve almost anything
+* you need to know about the current User, and/or a particular User.
+*
+* Scans all properties of the {@link http://codex.wordpress.org/Function_Reference/wp_get_current_user WP_User object}.
+* It defaults to the current User, but can also be used to obtain information about a particular User, by passing in a specific User ID.
+*
+* It can be used to retrieve basic information like `first_name`, `last_name`, `user_email`, `user_login`.
+* It can also be used to retrieve User Meta/Options, Role/Capabilities, and even supports
+* Custom Registration Fields configured with s2Member and many other plugins.
+*
+* ———— Here Are A Few Examples ————
+* ```
+* <!php
+* $user_login = get_user_field ("user_login"); # Username for the current User.
+* $user_email = get_user_field ("user_email"); # Email Address for the current User.
+* $first_name = get_user_field ("first_name"); # First Name for the current User.
+* $last_name = get_user_field ("last_name"); # Last Name for the current User.
+* $full_name = get_user_field ("full_name"); # First and Last Name for the current User.
+* $display_name = get_user_field ("display_name"); # Display Name for the current User.
+* !>
+* ```
+* ———— Shortcode Equivalents ————
+* ```
+* [s2Get user_field="user_login" /] # Username for the current User.
+* [s2Get user_field="user_email" /] # Email Address for the current User.
+* [s2Get user_field="first_name" /] # First Name for the current User.
+* [s2Get user_field="last_name" /] # Last Name for the current User.
+* [s2Get user_field="full_name" /] # First and Last Name for the current User.
+* [s2Get user_field="display_name" /] # Display Name for the current User.
+* ```
+* ———— More Examples With s2Member Fields ————
+* ```
+* <!php
+* $s2member_custom = get_user_field ("s2member_custom"); # Custom String value for the current User.
+* $s2member_subscr_id = get_user_field ("s2member_subscr_id"); # Paid Subscr. ID for the current User.
+* $s2member_subscr_or_wp_id = get_user_field ("s2member_subscr_or_wp_id"); # Paid Subscr. ID, else WordPress® User ID.
+* $s2member_subscr_gateway = get_user_field ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
+* $s2member_registration_ip = get_user_field ("s2member_registration_ip"); # IP the current User had during registration.
+* $s2member_custom_fields = get_user_field ("s2member_custom_fields"); # Associative array of all Custom Registration Fields.
+* $s2member_file_download_access_log = get_user_field ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
+* $s2member_auto_eot_time = get_user_field ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
+* $s2member_last_payment_time = get_user_field ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
+* $s2member_paid_registration_times = get_user_field ("s2member_paid_registration_times"); # Timestamps. Associative array of all Paid Registration Times.
+* $s2member_access_role = get_user_field ("s2member_access_role"); # A WordPress® Role ID ( i.e. s2member_level[0-9]+, administrator, editor, author, contributor, subscriber ).
+* $s2member_access_level = get_user_field ("s2member_access_level"); # An s2Member Membership Access Level number.
+* $s2member_access_label = get_user_field ("s2member_access_label"); # An s2Member Membership Access Label ( i.e. Bronze, Gold, Silver, Platinum, or whatever is configured ).
+* $s2member_access_ccaps = get_user_field ("s2member_access_ccaps"); # An array of Custom Capabilities the current User has ( i.e. music,videos ).
+* !>
+* ```
+* ———— Practical Shortcode Equivalents ————
+* ```
+* [s2Get user_field="s2member_custom" /] # Custom String value for the current User.
+* [s2Get user_field="s2member_subscr_id" /] # Paid Subscr. ID for the current User.
+* [s2Get user_field="s2member_subscr_or_wp_id" /] # Paid Subscr. ID, else WordPress® User ID.
+* [s2Get user_field="s2member_subscr_gateway" /] # Paid Subscr. Gateway Code for the current User.
+* [s2Get user_field="s2member_registration_ip" /] # IP Address the current User had during registration.
+* [s2Get user_field="s2member_access_role" /] # A WordPress® Role ID ( i.e. s2member_level[0-9]+, administrator, editor, author, contributor, subscriber ).
+* [s2Get user_field="s2member_access_level" /] # An s2Member Membership Access Level number.
+* [s2Get user_field="s2member_access_label" /] # An s2Member Membership Access Label ( i.e. Bronze, Gold, Silver, Platinum, or whatever is configured ).
+* ```
+* ———— Pulling Data From Your Own Custom Fields ————
+* ```
+* <!php
+* $my_field_data = get_user_field ("my_field_id"); # The Unique Field ID you configured with s2Member.
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* [s2Get user_field="my_field_id" /] # The Unique Field ID you configured with s2Member.
+* ```
+* ———— Pulling Data For A Particular User ID ————
+* ```
+* <!php
+* $user_login = get_user_field ("user_login", 123); # Username for the User with ID #123.
+* $user_email = get_user_field ("user_email", 123); # Email Address for the User with ID #123.
+* $first_name = get_user_field ("first_name", 123); # First Name for the User with ID #123.
+* $last_name = get_user_field ("last_name", 123); # Last Name for the User with ID #123.
+* $full_name = get_user_field ("full_name", 123); # First and Last Name for the User with ID #123.
+* $display_name = get_user_field ("display_name", 123); # Display Name for the User with ID #123.
+* !>
+* ```
+* ———— Shortcode Equivalents ————
+* ```
+* [s2Get user_field="user_login" user_id="123" /] # Username for the User with ID #123.
+* [s2Get user_field="user_email" user_id="123" /] # Email Address for the User with ID #123.
+* [s2Get user_field="first_name" user_id="123" /] # First Name for the User with ID #123.
+* [s2Get user_field="last_name" user_id="123" /] # Last Name for the User with ID #123.
+* [s2Get user_field="full_name" user_id="123" /] # First and Last Name for the User with ID #123.
+* [s2Get user_field="display_name" user_id="123" /] # Display Name for the User with ID #123.
+* ```
+* ———— Finding A User ID, Based On Username ————
+* ```
+* <!php
+* $user = new WP_User("johndoe22");
+* $user_id = $user->ID;
+* !>
+* ```
+* ———— Finding A Username, Based On User ID ————
+* ```
+* <!php
+* $user = new WP_User(123);
+* $user_login = $user->user_login;
+* # Or you could just use this alternate method.
+* $user_login = get_user_field ("user_login", 123);
+* !>
+* ```
+*
+* ———— Alternative Using ``get_user_option()`` Native To WordPress® ————
+* Most of the s2Member fields are stored in the `usermeta` table ( a WordPress® standard ),
+* so they could also be retrieved with {@link http://codex.wordpress.org/Function_Reference/get_user_option get_user_option()} if you prefer,
+* which is already native to WordPress®. That being said, {@link s2Member\API_Functions\get_user_field()} is provided by s2Member as a way to retrieve *almost anything*.
+* ```
+* <!php
+* $s2member_custom = get_user_option ("s2member_custom"); # Custom String value for the current User.
+* $s2member_subscr_id = get_user_option ("s2member_subscr_id"); # Paid Subscr. ID for the current User.
+* $s2member_subscr_gateway = get_user_option ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
+* $s2member_registration_ip = get_user_option ("s2member_registration_ip"); # IP the current User had during registration.
+* $s2member_custom_fields = get_user_option ("s2member_custom_fields"); # Associative array of all Custom Registration Fields.
+* $s2member_file_download_access_log = get_user_option ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
+* $s2member_auto_eot_time = get_user_option ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
+* $s2member_last_payment_time = get_user_option ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
+* $s2member_paid_registration_times = get_user_option ("s2member_paid_registration_times"); # Timestamps. Associative array of all Paid Registration Times.
+* !>
+* ```
+* ———— Practical Shortcode Equivalents ————
+* ```
+* [s2Get user_option="s2member_custom" /] # Custom String value for the current User.
+* [s2Get user_option="s2member_subscr_id" /] # Paid Subscr. ID for the current User.
+* [s2Get user_option="s2member_subscr_gateway" /] # Paid Subscr. Gateway Code for the current User.
+* [s2Get user_option="s2member_registration_ip" /] # IP the current User had during registration.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 3.5
+*
+* @param str $field_id Required. A unique Custom Registration Field ID, that you configured with s2Member.
+* 	Or, this could be set to any property that exists on the WP_User object for a particular User;
+* 	( i.e. `id`, `ID`, `user_login`, `user_email`, `first_name`, `last_name`, `display_name`, `ip`, `IP`,
+* 	`s2member_registration_ip`, `s2member_custom`, `s2member_subscr_id`, `s2member_subscr_or_wp_id`,
+* 	`s2member_subscr_gateway`, `s2member_custom_fields`, `s2member_file_download_access_log`,
+* 	`s2member_auto_eot_time`, `s2member_last_payment_time`, `s2member_paid_registration_times`,
+* 	`s2member_access_role`, `s2member_access_level`, `s2member_access_label`,
+* 	`s2member_access_ccaps`, etc, etc. ).
+* @param int $user_id Optional. Defaults to the current User's ID.
+* @return mixed The value of the requested field, or false if the field does not exist.
+*
+* @see s2Member\API_Functions\s2member_registration_time()
+* @see s2Member\API_Functions\s2member_paid_registration_time()
+*
+* @see http://codex.wordpress.org/Function_Reference/get_user_option get_user_option()
+* @see http://codex.wordpress.org/Function_Reference/update_user_option update_user_option()
+* @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
 */
 if (!function_exists ("get_user_field"))
 	{

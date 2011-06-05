@@ -1,63 +1,80 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member Profile modifications ( inner processing routines ).
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Profiles
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 	{
+		/**
+		* s2Member Profile modifications ( inner processing routines ).
+		*
+		* @package s2Member\Profiles
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_profile_mods_in
 			{
-				/*
-				Function handles Profile Modifications.
-				Attach to: add_action("init");
+				/**
+				* Handles Profile modifications.
+				*
+				* @package s2Member\Profiles
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null After re-configuring the ``$current_user`` object.
+				* 	May also exit script execution when handling the Stand-Alone Profile Modification Form.
 				*/
 				public static function handle_profile_modifications ()
 					{
 						global $current_user; /* We'll need to update this global object. */
 						/**/
+						$user = &$current_user; /* Shorter reference to the $current_user object. */
+						/**/
 						do_action ("ws_plugin__s2member_before_handle_profile_modifications", get_defined_vars ());
 						/**/
-						if ($_POST["ws_plugin__s2member_profile_save"] && is_user_logged_in () && is_object ($current_user) && ($user_id = $current_user->ID))
+						if (!empty ($_POST["ws_plugin__s2member_profile_save"]) && is_user_logged_in () && is_object ($user) && ($user_id = $user->ID))
 							{
 								if (($nonce = $_POST["ws_plugin__s2member_profile_save"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-profile-save"))
 									{
 										$GLOBALS["ws_plugin__s2member_profile_saved"] = true; /* Global flag as having been saved/updated successfully. */
 										/**/
-										$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)); /* Clean POST vars. */
+										$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST));
 										/**/
-										$userdata["ID"] = $user_id = $current_user->ID; /* Needed for database update. */
+										$userdata["ID"] = $user_id; /* Needed for database update. */
 										/**/
-										include_once ABSPATH . WPINC . "/registration.php";
+										if (!empty ($_p["ws_plugin__s2member_profile_email"]))
+											if (is_email ($_p["ws_plugin__s2member_profile_email"]))
+												if (!email_exists ($_p["ws_plugin__s2member_profile_email"]))
+													$userdata["user_email"] = $_p["ws_plugin__s2member_profile_email"];
 										/**/
-										if (is_email ($_p["ws_plugin__s2member_profile_email"]))
-											if (!email_exists ($_p["ws_plugin__s2member_profile_email"]))
-												$userdata["user_email"] = $_p["ws_plugin__s2member_profile_email"];
+										if (!empty ($_p["ws_plugin__s2member_profile_password1"]))
+											if ($user->user_login !== "demo") /* No pass change on demo! */
+												$userdata["user_pass"] = $_p["ws_plugin__s2member_profile_password1"];
 										/**/
-										if ($_p["ws_plugin__s2member_profile_password"])
-											if ($current_user->user_login !== "demo") /* No pass change on demo. */
-												$userdata["user_pass"] = $_p["ws_plugin__s2member_profile_password"];
-										/**/
-										if ($_p["ws_plugin__s2member_profile_first_name"])
+										if (!empty ($_p["ws_plugin__s2member_profile_first_name"]))
 											$userdata["first_name"] = $_p["ws_plugin__s2member_profile_first_name"];
 										/**/
-										if ($_p["ws_plugin__s2member_profile_display_name"])
+										if (!empty ($_p["ws_plugin__s2member_profile_display_name"]))
 											$userdata["display_name"] = $_p["ws_plugin__s2member_profile_display_name"];
 										/**/
-										if ($_p["ws_plugin__s2member_profile_last_name"])
+										if (!empty ($_p["ws_plugin__s2member_profile_last_name"]))
 											$userdata["last_name"] = $_p["ws_plugin__s2member_profile_last_name"];
 										/**/
-										wp_update_user ($userdata); /* OK. Now send this array for an update. */
+										wp_update_user($userdata); /* OK. Now send this array for an update. */
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 											if ($fields_applicable = c_ws_plugin__s2member_custom_reg_fields::custom_fields_configured_at_level ("auto-detection", "profile"))
@@ -70,31 +87,49 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 															$field_id_class = preg_replace ("/_/", "-", $field_var);
 															/**/
 															if (!in_array ($field["id"], $fields_applicable) || preg_match ("/^no/", $field["editable"]))
-																$fields[$field_var] = $_existing_fields[$field_var];
-															/**/
-															else if ($field["required"] === "yes" && empty ($_p["ws_plugin__s2member_profile_" . $field_var]) && $_p["ws_plugin__s2member_profile_" . $field_var] !== "0")
-																$fields[$field_var] = $_existing_fields[$field_var];
-															/**/
-															else /* Otherwise, we can use the newly updated value. */
-																$fields[$field_var] = $_p["ws_plugin__s2member_profile_" . $field_var];
+																{
+																	if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
+																		$fields[$field_var] = $_existing_fields[$field_var];
+																	else /* Else unset. */
+																		unset($fields[$field_var]);
+																}
+															else if ($field["required"] === "yes" && (!isset ($_p["ws_plugin__s2member_profile_" . $field_var]) || (is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || !strlen ($_p["ws_plugin__s2member_profile_" . $field_var])))
+																{
+																	if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
+																		$fields[$field_var] = $_existing_fields[$field_var];
+																	else /* Else unset. */
+																		unset($fields[$field_var]);
+																}
+															else if (isset ($_p["ws_plugin__s2member_profile_" . $field_var]))
+																{
+																	if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || strlen ($_p["ws_plugin__s2member_profile_" . $field_var]))
+																		$fields[$field_var] = $_p["ws_plugin__s2member_profile_" . $field_var];
+																	else /* Else unset. */
+																		unset($fields[$field_var]);
+																}
+															else /* Else ``unset()``. */
+																unset($fields[$field_var]);
 														}
 													/**/
-													update_user_option ($user_id, "s2member_custom_fields", $fields);
+													if (!empty ($fields))
+														update_user_option ($user_id, "s2member_custom_fields", $fields);
+													else /* Else delete their Custom Fields? */
+														delete_user_option ($user_id, "s2member_custom_fields");
 												}
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_handle_profile_modifications", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										$current_user = new WP_User ($user_id); /* Update the WP_User object for current User/Member. */
+										$user = new WP_User ($user_id); /* Update the WP_User object for the current User/Member. */
 										(function_exists ("setup_userdata")) ? setup_userdata () : null; /* Update global vars. */
 										/**/
-										if (!$_p["ws_plugin__s2member_sc_profile_save"]) /* But NOT with Shortcode Profiles. */
+										if (empty ($_p["ws_plugin__s2member_sc_profile_save"]))
 											{
 												echo '<script type="text/javascript">' . "\n";
-												echo "if(window.parent && window.parent != window) { try{ window.parent.Shadowbox.close(); } catch(e){} try{ window.parent.tb_remove(); } catch(e){} window.parent.alert('Profile updated successfully!'); window.parent.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
-												echo "else if(window.opener) { window.close(); window.opener.alert('Profile updated successfully!'); window.opener.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
-												echo "else { alert('Profile updated successfully!'); window.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
+												echo "if(window.parent && window.parent != window) { window.parent.alert('Profile updated successfully.'); window.parent.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
+												echo "else if(window.opener) { window.alert('Profile updated successfully.'); window.opener.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; window.close(); }";
+												echo "else { alert('Profile updated successfully.'); window.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
 												echo '</script>' . "\n";
 												/**/
 												exit (); /* Clean exit. */

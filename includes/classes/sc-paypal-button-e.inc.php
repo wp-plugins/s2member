@@ -1,31 +1,48 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Shortcode `[s2Member-PayPal-Button]` ( encryption sub-routines ).
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\PayPal
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 	{
+		/**
+		* Shortcode `[s2Member-PayPal-Button]` ( encryption sub-routines ).
+		*
+		* @package s2Member\PayPal
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_sc_paypal_button_e
 			{
-				/*
-				Handles PayPal® Button encryption ( when/if configured ).
-				This uses the PayPal® API. s2Member will NOT attempt to encrypt Buttons until there is at least a Business Email Address and API Username configured.
-				s2Member also maintains a log of communication with the PayPal® API. If logging is enabled, check: `/wp-content/plugins/s2member-logs/paypal-api.log`.
+				/**
+				* Handles PayPal® Button encryption.
+				*
+				* This uses the PayPal® API. s2Member will NOT attempt to encrypt Buttons until there is at least a Business Email Address and API Username configured.
+				* s2Member also maintains a log of communication with the PayPal® API. If logging is enabled, check: `/wp-content/plugins/s2member-logs/paypal-api.log`.
+				*
+				* @package s2Member\PayPal
+				* @since 3.5
+				*
+				* @param str $code The PayPal® Button Code before encryption.
+				* @param array $vars An array of defined variables in the scope of the calling Filter.
+				* @return str The Resulting PayPal® Button Code *( possibly encrypted, depending on configuration )*.
 				*/
 				public static function sc_paypal_button_encryption ($code = FALSE, $vars = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_paypal_button_encryption", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -33,14 +50,14 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 							{
 								$cache = apply_filters ("ws_plugin__s2member_sc_paypal_button_encryption_cache", true, get_defined_vars ()); /* Are we caching? */
 								/**/
-								eval ('$_code = $vars["_code"]; $attr = $vars["attr"];'); /* Let's unpack ( i.e. use shorter references ) to these two important data vars. */
+								eval('$_code = $vars["_code"]; $attr = $vars["attr"];'); /* Let's unpack ( i.e. use shorter references ) to these two important data vars. */
 								/**/
 								if ($cache && ($transient = "s2m_btn_" . md5 ($code . c_ws_plugin__s2member_utilities::ver_checksum ())) && ($cache = get_transient ($transient)))
 									$code = $cache; /* Great, so we can use the cached version here to save processing time. Notice the MD5 hash uses $code and NOT $_code. */
 								/**/
 								else if (is_array ($inputs = c_ws_plugin__s2member_utils_forms::form_whips_2_array ($_code)) && !empty ($inputs)) /* Were we able to parse hidden input variables? */
 									{
-										$paypal = array ("METHOD" => "BMCreateButton", "BUTTONCODE" => "ENCRYPTED", "BUTTONTYPE" => ( ($attr["sp"] || $attr["rr"] === "BN") ? "BUYNOW" : "SUBSCRIBE"));
+										$paypal = array ("METHOD" => "BMCreateButton", "BUTTONCODE" => "ENCRYPTED", "BUTTONTYPE" => (($attr["sp"] || $attr["rr"] === "BN") ? "BUYNOW" : "SUBSCRIBE"));
 										/**/
 										$i = 0; /* Initialize incremental variable counter. PayPal® wants these numbered using L_BUTTONVAR{n}; where {n} starts at zero. */
 										foreach ($inputs as $input => $value) /* Now run through each of the input variables that we parsed from the Full Button Code */
@@ -54,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 													$i++; /* Increment variable counter. */
 												}
 										/**/
-										if (($paypal = c_ws_plugin__s2member_paypal_utilities::paypal_api_response ($paypal)) && !$paypal["__error"] && $paypal["WEBSITECODE"] && ($code = $paypal["WEBSITECODE"]))
+										if (($paypal = c_ws_plugin__s2member_paypal_utilities::paypal_api_response ($paypal)) && empty ($paypal["__error"]) && !empty ($paypal["WEBSITECODE"]) && ($code = $paypal["WEBSITECODE"]))
 											/* Only proceed if we DID get a valid response from the PayPal® API. This works as a nice fallback; just in case the API connection fails. */
 											{
 												$default_image = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"; /* Default PayPal® image. */

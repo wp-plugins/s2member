@@ -1,29 +1,49 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Readme file parsing.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Readmes
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_readmes"))
 	{
+		/**
+		* Readme file parsing.
+		*
+		* @package s2Member\Readmes
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_readmes
 			{
-				/*
-				Function that handles readme.txt parsing.
+				/**
+				* Handles readme parsing.
+				*
+				* @package s2Member\Readmes
+				* @since 3.5
+				*
+				* @param str $specific_path Optional. Path to a specific readme file to parse. Defaults to that of the software itself.
+				* 	When/if a readme-dev.txt file is available, that will be used instead of the default readme.txt.
+				* @param str $specific_section Optional. The title of a specific section to parse, instead of the entire file.
+				* @param bool $_blank_targets Optional. Defaults to true. If false, no target attribute is used.
+				* @param bool $process_wp_syntax Optional. Defaults to false.
+				* 	If true, and WP Syntax is installed; it will be used to parse code samples.
+				* @return str Parsed readme file, or a parsed readme file section; based on parameter configuration.
 				*/
 				public static function parse_readme ($specific_path = FALSE, $specific_section = FALSE, $_blank_targets = TRUE, $process_wp_syntax = FALSE)
 					{
-						if (! ($path = $specific_path)) /* Was a specific path passed in? */
+						if (!($path = $specific_path)) /* Was a specific path passed in? */
 							{
 								$path = dirname (dirname (dirname (__FILE__))) . "/readme.txt";
 								$dev_path = dirname (dirname (dirname (__FILE__))) . "/readme-dev.txt";
@@ -40,7 +60,7 @@ if (!class_exists ("c_ws_plugin__s2member_readmes"))
 								@ini_set ("pcre.backtrack_limit", 10000000);
 								/**/
 								if (!function_exists ("NC_Markdown"))
-									include_once dirname (dirname (__FILE__)) . "/markdown/nc-markdown.inc.php";
+									include_once dirname (dirname (__FILE__)) . "/_xtnls/markdown/nc-markdown.inc.php";
 								/**/
 								$rm = file_get_contents ($path); /* Get readme.txt file contents. */
 								$mb = function_exists ("mb_convert_encoding") ? @mb_convert_encoding ($rm, "UTF-8",@mb_detect_encoding ($rm, "WINDOWS-1252, UTF-8")) : $rm;
@@ -150,8 +170,14 @@ if (!class_exists ("c_ws_plugin__s2member_readmes"))
 								return "Unable to parse /readme.txt.";
 							}
 					}
-				/*
-				Callback function that helps readme file parsing with specs.
+				/**
+				* Callback parses specs in a readme file.
+				*
+				* @package s2Member\Readmes
+				* @since 3.5
+				*
+				* @param str $str A string *( i.e. the specs section )*.
+				* @return str Parsed specs. With HTML markup for list item display.
 				*/
 				public static function _parse_readme_specs ($str = FALSE)
 					{
@@ -163,14 +189,22 @@ if (!class_exists ("c_ws_plugin__s2member_readmes"))
 						/**/
 						return apply_filters ("_ws_plugin__s2member_parse_readme_specs", $str, get_defined_vars ());
 					}
-				/*
-				Function for parsing readme.txt files and returning a key value.
+				/**
+				* Parses readme specification keys.
+				*
+				* @package s2Member\Readmes
+				* @since 3.5
+				*
+				* @param str $key A key *( within the specs section )*.
+				* @param str $specific_path Optional. Path to a specific readme file to parse. Defaults to that of the software itself.
+				* 	When/if a readme-dev.txt file is available, that will be used instead of the default readme.txt.
+				* @return str|bool The value of the key, else false if not found.
 				*/
 				public static function parse_readme_value ($key = FALSE, $specific_path = FALSE)
 					{
-						static $readme = array (); /* For repeated lookups across different paths. */
+						static $readme = array (); /* For repeated lookups. */
 						/**/
-						if (! ($path = $specific_path)) /* Was a specific path passed in? */
+						if (!($path = $specific_path)) /* Was a specific path passed in? */
 							{
 								$path = dirname (dirname (dirname (__FILE__))) . "/readme.txt";
 								$dev_path = dirname (dirname (dirname (__FILE__))) . "/readme-dev.txt";
@@ -181,9 +215,9 @@ if (!class_exists ("c_ws_plugin__s2member_readmes"))
 						do_action ("ws_plugin__s2member_before_parse_readme_value", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($readme[$path] || file_exists ($path))
+						if (!empty ($readme[$path]) || file_exists ($path))
 							{
-								if (!$readme[$path]) /* If not already opened, we need open it up now. */
+								if (empty ($readme[$path])) /* If not already opened. */
 									{
 										$readme[$path] = file_get_contents ($path); /* Get readme.txt file contents. */
 										$mb = function_exists ("mb_convert_encoding") ? @mb_convert_encoding ($readme[$path], "UTF-8",@mb_detect_encoding ($readme[$path], "WINDOWS-1252, UTF-8")) : $readme[$path];
@@ -192,7 +226,7 @@ if (!class_exists ("c_ws_plugin__s2member_readmes"))
 								/**/
 								preg_match ("/(^)(" . preg_quote ($key, "/") . ")(\:)( )(.+?)($)/m", $readme[$path], $m);
 								/**/
-								return strlen ($m[5] = trim ($m[5])) ? apply_filters ("ws_plugin__s2member_parse_readme_value", $m[5], get_defined_vars ()) : false;
+								return apply_filters ("ws_plugin__s2member_parse_readme_value", ((isset ($m[5]) && strlen ($m[5] = trim ($m[5]))) ? $m[5] : false), get_defined_vars ());
 							}
 						else /* Nope. */
 							return false;

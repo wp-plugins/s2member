@@ -1,26 +1,41 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Membership Level Labels.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Roles_Caps
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_labels"))
 	{
+		/**
+		* Membership Level Labels.
+		*
+		* @package s2Member\Roles_Caps
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_labels
 			{
-				/*
-				Function configures Label translations.
-				Attach to: add_action("init");
+				/**
+				* Configures Label translations.
+				*
+				* @package s2Member\Roles_Caps
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null
 				*/
 				public static function config_label_translations ()
 					{
@@ -33,9 +48,18 @@ if (!class_exists ("c_ws_plugin__s2member_labels"))
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				A sort of callback function that deals with Label translations.
-				Attach to: add_filter("gettext_with_context");
+				/**
+				* A sort of callback function that deals with Label translations.
+				*
+				* @package s2Member\Roles_Caps
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("gettext_with_context");``
+				*
+				* @param str $translation Expects a string; already translated.
+				* @param str $text The original text, passed in by the calling Filter.
+				* @param str $context Contextual specification for this translation.
+				* @return str The ``$translation``, after translations applied by this routine.
 				*/
 				public static function _label_translations ($translation = FALSE, $text = FALSE, $context = FALSE)
 					{

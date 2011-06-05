@@ -1,38 +1,39 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member's Category protection routines *( for current page )*.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Categories
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_catgs"))
 	{
+		/**
+		* s2Member's Category protection routines *( for current page )*.
+		*
+		* @package s2Member\Categories
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_catgs
 			{
-				/*
-				Function for handling Category Level Access permissions.
-				Attach to: add_action("template_redirect");
-				
-				Don't call this function directly, use one of these API functions:
-					
-					Is it protected by s2Member at all?
-					- is_category_protected_by_s2member($cat_id);
-					- is_protected_by_s2member($cat_id, "category");
-					
-					Is the current User permitted/authorized?
-					- is_category_permitted_by_s2member($cat_id);
-					- is_permitted_by_s2member($cat_id, "category");
-				
-				see: `/s2member/includes/functions/api-functions.inc.php`.
+				/**
+				* Handles Category Level Access *( for current page )*.
+				*
+				* @package s2Member\Categories
+				* @since 3.5
+				*
+				* @return null Or exits script execution after redirection.
 				*/
 				public static function check_catg_level_access ()
 					{
@@ -44,45 +45,45 @@ if (!class_exists ("c_ws_plugin__s2member_catgs"))
 						/**/
 						if (!$excluded && is_category () && ($cat_id = get_query_var ("cat")) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
 							{
-								$current_user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Get the current User's object. */
+								$user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Get the current User's object. */
 								/**/
-								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($current_user)) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_nocache::nocache_constants (true) !== "nill" && (!$current_user || !current_user_can ("access_s2member_level0")))
+								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) !== "nill" && (!$user || !current_user_can ("access_s2member_level0")))
 									{
 										wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => "0")), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 										exit ();
 									}
 								else if (!c_ws_plugin__s2member_systematics::is_systematic_use_page ()) /* Do NOT protect Systematics. However, there is 1 exception above ^. */
 									{
-										for ($i = 0; $i <= 4; $i++) /* Category Level restrictions. Go through each Membership Level. We also check nested Categories, using `cat_is_ancestor_of()`. */
+										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Category Level restrictions. Go through each Level. We also check nested Categories. */
 											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"] === "all" && c_ws_plugin__s2member_nocache::nocache_constants (true) !== "nill" && (!$current_user || !current_user_can ("access_s2member_level" . $i)))
+												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] === "all" && c_ws_plugin__s2member_no_cache::no_cache_constants (true) !== "nill" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 													{
-														wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $i)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+														wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 														exit ();
 													}
 												/**/
-												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"] && in_array ($cat_id, ($catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]))) && c_ws_plugin__s2member_nocache::nocache_constants (true) !== "nill" && (!$current_user || !current_user_can ("access_s2member_level" . $i)))
+												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] && in_array ($cat_id, ($catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]))) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) !== "nill" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 													{
-														wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $i)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+														wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 														exit ();
 													}
 												/**/
-												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]) /* Check Category ancestry. */
-													foreach (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]) as $catg)
-														if ($catg && cat_is_ancestor_of ($catg, $cat_id) && c_ws_plugin__s2member_nocache::nocache_constants (true) !== "nill" && (!$current_user || !current_user_can ("access_s2member_level" . $i)))
+												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) /* Check Category ancestry. */
+													foreach (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) as $catg)
+														if ($catg && cat_is_ancestor_of ($catg, $cat_id) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) !== "nill" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 															{
-																wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $i)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+																wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 																exit ();
 															}
 											}
 										/**/
-										for ($i = 0; $i <= 4; $i++) /* URIs. Go through each Membership Level. */
+										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* URIs. Go through each Level. */
 											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_ruris"])
-													foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_ruris"], $current_user)) as $str)
-														if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_nocache::nocache_constants (true) !== "nill" && (!$current_user || !current_user_can ("access_s2member_level" . $i)))
+												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"])
+													foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
+														if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) !== "nill" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 															{
-																wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $i)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+																wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "catg-" . $cat_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 																exit ();
 															}
 											}

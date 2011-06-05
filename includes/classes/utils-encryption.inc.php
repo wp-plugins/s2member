@@ -1,26 +1,45 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Encryption utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 	{
+		/**
+		* Encryption utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_encryption
 			{
-				/*
-				RIJNDAEL 256: two-way encryption/decryption, with a url-safe base64 wrapper.
-				Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				/**
+				* RIJNDAEL 256: two-way encryption/decryption, with a URL-safe base64 wrapper.
+				*
+				* Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $string A string of data to encrypt.
+				* @param str $key Optional. Key used for encryption.
+				* 	Defaults to the one configured for s2Member.
+				* 	Short of that, defaults to: ``wp_salt()``.
+				* @return str Encrypted string.
 				*/
 				public static function encrypt ($string = FALSE, $key = FALSE)
 					{
@@ -42,9 +61,19 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						else /* Fallback on XOR encryption. */
 							return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key);
 					}
-				/*
-				RIJNDAEL 256: two-way encryption/decryption, with a url-safe base64 wrapper.
-				Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				/**
+				* RIJNDAEL 256: two-way encryption/decryption, with a URL-safe base64 wrapper.
+				*
+				* Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
+				* @param str $key Optional. Key used originally for encryption.
+				* 	Defaults to the one configured for s2Member.
+				* 	Short of that, defaults to: ``wp_salt()``.
+				* @return str Decrypted string.
 				*/
 				public static function decrypt ($base64 = FALSE, $key = FALSE)
 					{
@@ -69,8 +98,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						else /* Fallback on XOR decryption. */
 							return c_ws_plugin__s2member_utils_encryption::xdecrypt ($base64, $key);
 					}
-				/*
-				XOR two-way encryption/decryption, with a base64 wrapper.
+				/**
+				* XOR two-way encryption/decryption, with a base64 wrapper.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $string A string of data to encrypt.
+				* @param str $key Optional. Key used for encryption.
+				* 	Defaults to the one configured for s2Member.
+				* 	Short of that, defaults to: ``wp_salt()``.
+				* @return str Encrypted string.
 				*/
 				public static function xencrypt ($string = FALSE, $key = FALSE)
 					{
@@ -92,8 +130,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						/**/
 						return ($base64 = str_replace (array ("+", "/", "="), array ("-", "_", "~"), base64_encode ($encrypted)));
 					}
-				/*
-				XOR two-way encryption/decryption, with a base64 wrapper.
+				/**
+				* XOR two-way encryption/decryption, with a base64 wrapper.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
+				* @param str $key Optional. Key used originally for encryption.
+				* 	Defaults to the one configured for s2Member.
+				* 	Short of that, defaults to: ``wp_salt()``.
+				* @return str Decrypted string.
 				*/
 				public static function xdecrypt ($base64 = FALSE, $key = FALSE)
 					{

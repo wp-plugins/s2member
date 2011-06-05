@@ -1,26 +1,42 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Cron routines handled by s2Member ( inner processing routines ).
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Cron_Jobs
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_cron_jobs_in"))
 	{
+		/**
+		* Cron routines handled by s2Member ( inner processing routines ).
+		*
+		* @package s2Member\Cron_Jobs
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_cron_jobs_in
 			{
-				/*
-				Extends the WP-Cron schedules to support 10 minute intervals.
-				Attach to: add_filter("cron_schedules");
+				/**
+				* Extends WP-Cron schedules to support 10 minute intervals.
+				*
+				* @package s2Member\Cron_Jobs
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("cron_schedules");``
+				*
+				* @param array $schedules Expects an array of WP_Cron schedules passed in by the Filter.
+				* @return array Array of WP_Cron schedules after having added a 10 minute cycle.
 				*/
 				public static function extend_cron_schedules ($schedules = array ())
 					{
@@ -32,15 +48,21 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs_in"))
 						/**/
 						return apply_filters ("ws_plugin__s2member_extend_cron_schedules", array_merge ($array, $schedules), get_defined_vars ());
 					}
-				/*
-				This function allows the Auto-EOT Sytem to be processed through a server-side Cron Job.
-				Attach to: add_action("init");
+				/**
+				* Allows the Auto-EOT Sytem to be processed through a server-side Cron Job.
+				*
+				* @package s2Member\Cron_Jobs
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null Or exits script execution after task completed.
 				*/
 				public static function auto_eot_system_via_cron ()
 					{
 						do_action ("ws_plugin__s2member_before_auto_eot_system_via_cron", get_defined_vars ());
 						/**/
-						if ($_GET["s2member_auto_eot_system_via_cron"]) /* Being called through HTTP? */
+						if (!empty ($_GET["s2member_auto_eot_system_via_cron"])) /* Being called through HTTP? */
 							{
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["auto_eot_system_enabled"])
 									{

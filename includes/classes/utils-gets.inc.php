@@ -1,25 +1,39 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Get utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 	{
+		/**
+		* Get utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_gets
 			{
-				/*
-				Function retrieves a list of all Category IDs from the database.
+				/**
+				* Retrieves a list of all Category IDs in the database.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return array Array of all Category IDs.
 				*/
 				public static function get_all_category_ids ()
 					{
@@ -27,8 +41,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function retrieves a list of all child Category IDs from the database.
+				/**
+				* Retrieves a list of all child Category IDs from the database.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param int|str $parent Expects a numeric Category ID.
+				* @return array Array of all Category IDs under the ``$parent``.
 				*/
 				public static function get_all_child_category_ids ($parent = FALSE)
 					{
@@ -38,8 +58,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$child_ids;
 					}
-				/*
-				Function retrieves a list of all Tag IDs from the database.
+				/**
+				* Retrieves a list of all Tag IDs in the database.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return array Array of all Tag IDs.
 				*/
 				public static function get_all_tag_ids ()
 					{
@@ -50,9 +75,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function retrieves a list of all Post IDs from the database.
-					- Includes Custom Post Types.
+				/**
+				* Retrieves a list of all Post IDs in the database.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return array Array of all Post IDs.
+				* 	Includes Custom Post Types. Excludes `page|attachment|revision`.
 				*/
 				public static function get_all_post_ids ()
 					{
@@ -62,8 +92,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function retrieves a list of all Page IDs from the database.
+				/**
+				* Retrieves a list of all Page IDs from the database.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return array Array of all Page IDs.
 				*/
 				public static function get_all_page_ids ()
 					{
@@ -73,9 +108,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function converts a comma-delimited list of:
-					Tag slugs/names/ids - into all IDs.
+				/**
+				* Converts a comma-delimited list of: Tag slugs/names/ids - into all IDs.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $tags Tag slugs/names/IDs, comma-delimited.
+				* @return array Array of all Tag IDs.
 				*/
 				public static function convert_tags_2_ids ($tags = FALSE)
 					{
@@ -100,10 +140,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function retrieves a list of singular IDs from the database.
-				- Only returns Posts that require Custom Capabilities.
-				and ONLY those which are NOT satisfied by $user.
+				/**
+				* Retrieves a list of singular IDs from the database.
+				*
+				* Only returns Posts that require Custom Capabilities;
+				* 	and ONLY those which are NOT satisfied by ``$user``.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param obj $user Optional. A `WP_User` object.
+				* @return array Array of all singular IDs not available to ``$user`` because of Custom Capability restrictions.
 				*/
 				public static function get_singular_ids_with_ccaps_req ($user = FALSE)
 					{
@@ -113,7 +160,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 							{
 								foreach ($results as $result) /* Now we need to check Custom Capabilities against $user. */
 									{
-										if (!is_object ($user) || !$user->ID) /* No $user? / not logged-in?. */
+										if (!is_object ($user) || !$user->ID) /* No ``$user``? / not logged-in?. */
 											$ids[] = $result->post_id; /* There's no way to satisfy anything here. */
 										/**/
 										else if (is_array ($ccaps = @unserialize ($result->meta_value)))
@@ -130,10 +177,16 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						return (array)$ids;
 					}
-				/*
-				Function retrieves a list of singular IDs from the database.
-				- Only returns Posts that require Specific Post/Page Access.
-				& ONLY those which are NOT satisfied by the current Visitor.
+				/**
+				* Retrieves a list of singular IDs from the database.
+				*
+				* Only returns Posts that require Specific Post/Page Access;
+				* 	and ONLY those which are NOT satisfied by the current Visitor.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return array Array of all singular IDs not available to ``$user`` because of Specific Post/Page restrictions.
 				*/
 				public static function get_singular_ids_with_sp_req ()
 					{

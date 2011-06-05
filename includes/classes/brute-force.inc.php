@@ -1,31 +1,49 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member's Brute Force protection routines.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Brute_Force
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_brute_force"))
 	{
+		/**
+		* s2Member's Brute Force protection routines.
+		*
+		* @package s2Member\Brute_Force
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_brute_force
 			{
-				/*
-				This prevents an attacker from guessing Usernames/Passwords.
-				Allows only 5 failed login attempts every 30 minutes.
-				Attach to: add_action("wp_login_failed");
+				/**
+				* Tracks failed login attempts.
+				*
+				* Prevents an attacker from guessing Usernames/Passwords.
+				* Allows only 5 failed login attempts every 30 minutes.
+				*
+				* @package s2Member\Brute_Force
+				* @since 3.5
+				*
+				* @attaches-to ``add_action("wp_login_failed");``
+				*
+				* @param str $username Expects the $username to be passed in through the Hook.
+				* @return null
 				*/
 				public static function track_failed_logins ($username = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_track_failed_logins", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -42,14 +60,24 @@ if (!class_exists ("c_ws_plugin__s2member_brute_force"))
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				This prevents an attacker from guessing Usernames/Passwords.
-				Allows only 5 failed login attempts every 30 minutes.
-				Attach to: add_filter("authenticate");
+				/**
+				* Stops anyone attempting a Brute Force attack.
+				*
+				* Prevents an attacker from guessing Usernames/Passwords.
+				* Allows only 5 failed login attempts every 30 minutes.
+				*
+				* @package s2Member\Brute_Force
+				* @since 3.5
+				*
+				* @attaches-to ``add_filter("authenticate");``
+				*
+				* @param obj $user Expects a WP_User object, or possibly a null value.
+				* 	This parameter value is simply passed through this routine.
+				* @return obj|null Either null, the ``$user`` obj, or a `WP_Error` obj.
 				*/
 				public static function stop_brute_force_logins ($user = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_stop_brute_force_logins", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -64,13 +92,13 @@ if (!class_exists ("c_ws_plugin__s2member_brute_force"))
 									{
 										$errors = new WP_Error ("incorrect_password", "Max failed logins. Please wait " . $about . " and try again.");
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_stop_brute_force_logins", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 									}
 							}
 						/**/
-						return apply_filters ("ws_plugin__s2member_stop_brute_force_logins", (($errors) ? $errors : $user), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_stop_brute_force_logins", ((!empty ($errors)) ? $errors : $user), get_defined_vars ());
 					}
 			}
 	}

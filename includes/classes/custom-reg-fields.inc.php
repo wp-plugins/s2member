@@ -1,35 +1,60 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Custom Registration Fields for s2Member.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Custom_Reg_Fields
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 	{
+		/**
+		* Custom Registration Fields for s2Member.
+		*
+		* @package s2Member\Custom_Reg_Fields
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_custom_reg_fields
 			{
-				/*
-				Handles the creation of Custom Fields.
+				/**
+				* Generates all Custom Fields.
+				*
+				* @package s2Member\Custom_Reg_Fields
+				* @since 3.5
+				*
+				* @param str $_function Function calling upon this routine.
+				* @param array $_field The Field array of configuration options.
+				* @param str $_name_prefix The `name=""` attribute prefix.
+				* @param str $_id_prefix The `id=""` attribute prefix.
+				* @param str $_classes Optional. String of space separated classes that will go inside the Field's `class=""` attribute.
+				* @param str $_styles Optional. String of CSS styles that will go inside the Field's `style=""` attribute.
+				* @param str|int $_tabindex. Optional numeric tabindex for the `tabindex=""` attribute.
+				* @param str $_attrs Optional. Some additional Field attributes and values.
+				* @param array $_submission Optional. But should be passed in with any submission data related to this Field. For instance, you might pass in ``$_POST``.
+				* @param str|array $_value Optional. The value of this Field, either by default, or from the ``$_submission`` array.
+				* @param str $_editable_context Optional. One of `profile|profile-view|registration`.
+				* @return str The resulting Custom Field, in HTML format.
 				*/
-				public static function custom_field_gen ($_function = FALSE, $_field = FALSE, $_name_prefix = FALSE, $_id_prefix = FALSE, $_classes = FALSE, $_styles = FALSE, $_tabindex = FALSE, $_attrs = FALSE, $_submission = FALSE, $_value = FALSE, $_lock_uneditables = FALSE)
+				public static function custom_field_gen ($_function = FALSE, $_field = FALSE, $_name_prefix = FALSE, $_id_prefix = FALSE, $_classes = FALSE, $_styles = FALSE, $_tabindex = FALSE, $_attrs = FALSE, $_submission = FALSE, $_value = FALSE, $_editable_context = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_custom_field_gen", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($_function && is_array ($field = $_field) && $field["type"] && $field["id"] && $_name_prefix && $_id_prefix)
+						if (!($gen = "") && $_function && is_array ($field = $_field) && !empty ($field["type"]) && !empty ($field["id"]) && $_name_prefix && $_id_prefix)
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_field_gen_before", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -42,130 +67,218 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 								$common = ''; /* Common attribute configuration. */
 								$common .= ' name="' . esc_attr ($field_name) . '"';
 								$common .= ' id="' . esc_attr ($_id_prefix . $field_id_class) . '"';
-								$common .= ( ($field["required"] === "yes") ? ' aria-required="true"' : '');
-								$common .= ( (strlen ($_tabindex)) ? ' tabindex="' . esc_attr ($_tabindex) . '"' : '');
-								$common .= ( ($field["expected"]) ? ' data-expected="' . esc_attr ($field["expected"]) . '"' : '');
-								$common .= ( (preg_match ("/^no/", $field["editable"]) && $_lock_uneditables) ? ' disabled="disabled"' : '');
-								$common .= ( ($_classes || $field["classes"]) ? ' class="' . esc_attr (trim ($_classes . ( ($field["classes"]) ? ' ' . $field["classes"] : ''))) . '"' : '');
-								$common .= ( ($_styles || $field["styles"]) ? ' style="' . esc_attr (trim ($_styles . ( ($field["styles"]) ? ' ' . $field["styles"] : ''))) . '"' : '');
-								$common .= ( ($_attrs || $field["attrs"]) ? ' ' . trim ($_attrs . ( ($field["attrs"]) ? ' ' . $field["attrs"] : '')) : '');
+								$common .= ((!empty ($field["required"]) && $field["required"] === "yes") ? ' aria-required="true"' : '');
+								$common .= ((strlen ($_tabindex)) ? ' tabindex="' . esc_attr ($_tabindex) . '"' : ''); /* No tabindex if empty. */
+								$common .= ((!empty ($field["expected"])) ? ' data-expected="' . esc_attr ($field["expected"]) . '"' : ''); /* Certain data expected? */
+								$common .= (($_editable_context === "profile-view" || (!empty ($field["editable"]) && preg_match ("/^no/", $field["editable"]) && $_editable_context === "profile")) ? ' disabled="disabled"' : '');
+								$common .= (($_classes || !empty ($field["classes"])) ? ' class="' . esc_attr (trim ($_classes . ((!empty ($field["classes"])) ? ' ' . $field["classes"] : ''))) . '"' : '');
+								$common .= (($_styles || !empty ($field["styles"])) ? ' style="' . esc_attr (trim ($_styles . ((!empty ($field["styles"])) ? ' ' . $field["styles"] : ''))) . '"' : '');
+								$common .= (($_attrs || !empty ($field["attrs"])) ? ' ' . trim ($_attrs . ((!empty ($field["attrs"])) ? ' ' . $field["attrs"] : '')) : '');
 								/**/
 								if ($field["type"] === "text")
 									{
-										$gen = '<input type="text" maxlength="100"';
-										$gen .= ' value="' . format_to_edit ((string)$_value) . '"';
-										$gen .= $common . ' />';
+										if ($_editable_context === "profile-view")
+											$gen = esc_html ((string)$_value);
+										/**/
+										else /* Else handle this Field normally. */
+											{
+												$gen = '<input type="text" maxlength="100"';
+												$gen .= ' value="' . format_to_edit ((isset ($field["deflt"]) && strlen ($field["deflt"]) && !$_submission) ? (string)$field["deflt"] : (string)$_value) . '"';
+												$gen .= $common . ' />';
+											}
 									}
 								/**/
 								else if ($field["type"] === "textarea")
 									{
-										$gen = '<textarea rows="3"' . $common . '>';
-										$gen .= format_to_edit ((string)$_value);
-										$gen .= '</textarea>';
-									}
-								/**/
-								else if ($field["type"] === "select" && $field["options"])
-									{
-										$gen = '<select' . $common . '>';
-										foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
+										if ($_editable_context === "profile-view")
+											$gen = nl2br (esc_html ((string)$_value));
+										/**/
+										else /* Else handle this Field normally. */
 											{
-												list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
-												$gen .= '<option value="' . esc_attr ($option_value) . '"' . ( ( ($option_default && !$_submission) || $option_value === (string)$_value) ? ' selected="selected"' : '') . '>' . $option_label . '</option>';
-											}
-										$gen .= '</select>';
-									}
-								/**/
-								else if ($field["type"] === "selects" && $field["options"])
-									{
-										$common = preg_replace ('/ name\="(.+?)"/', ' name="$1[]"', $common);
-										$common = preg_replace ('/ style\="(.+?)"/', ' style="height:auto; $1"', $common);
-										/**/
-										$gen = '<select multiple="multiple" size="3"' . $common . '>';
-										foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
-											{
-												list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
-												$gen .= '<option value="' . esc_attr ($option_value) . '"' . ( ( ($option_default && !$_submission) || in_array ($option_value, (array)$_value)) ? ' selected="selected"' : '') . '>' . $option_label . '</option>';
-											}
-										$gen .= '</select>';
-									}
-								/**/
-								else if ($field["type"] === "checkbox")
-									{
-										$gen = '<input type="checkbox" value="1"';
-										$gen .= ( ((string)$_value) ? ' checked="checked"' : '');
-										$gen .= $common . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class) . '" style="display:inline;">' . $field["label"] . '</label>';
-									}
-								/**/
-								else if ($field["type"] === "pre_checkbox")
-									{
-										$gen = '<input type="checkbox" value="1"';
-										$gen .= ( (!$_submission || (string)$_value) ? ' checked="checked"' : '');
-										$gen .= $common . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class) . '" style="display:inline;">' . $field["label"] . '</label>';
-									}
-								/**/
-								else if ($field["type"] === "checkboxes" && $field["options"])
-									{
-										$gen = ""; /* Initialize generated field. */
-										/**/
-										$common = preg_replace ('/ name\="(.+?)"/', ' name="$1[]"', $common);
-										/**/
-										$sep = apply_filters ("ws_plugin__s2member_custom_field_gen_" . $field["type"] . "_sep", "&nbsp;&nbsp;", get_defined_vars ());
-										$opl = apply_filters ("ws_plugin__s2member_custom_field_gen_" . $field["type"] . "_opl", "ws-plugin--s2member-custom-reg-field-op-l", get_defined_vars ());
-										/**/
-										foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
-											{
-												$common_i = preg_replace ('/ id\="(.+?)"/', ' id="$1-' . ($i) . '"', $common);
-												/**/
-												list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
-												/**/
-												$gen .= ($i > 0) ? $sep : ''; /* Separators can be filtered above. */
-												$gen .= '<input type="checkbox" value="' . esc_attr ($option_value) . '"';
-												$gen .= ( ( ($option_default && !$_submission) || in_array ($option_value, (array)$_value)) ? ' checked="checked"' : '');
-												$gen .= $common_i . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class . "-" . $i) . '" class="' . esc_attr ($opl) . '" style="display:inline;">' . $option_label . '</label>';
+												$gen = '<textarea rows="3"' . $common . '>';
+												$gen .= format_to_edit ((isset ($field["deflt"]) && strlen ($field["deflt"]) && !$_submission) ? (string)$field["deflt"] : (string)$_value);
+												$gen .= '</textarea>';
 											}
 									}
 								/**/
-								else if ($field["type"] === "radios" && $field["options"])
+								else if ($field["type"] === "select" && !empty ($field["options"]))
 									{
-										$gen = ""; /* Initialize generated field. */
-										/**/
-										$sep = apply_filters ("ws_plugin__s2member_custom_field_gen_" . $field["type"] . "_sep", "&nbsp;&nbsp;", get_defined_vars ());
-										$opl = apply_filters ("ws_plugin__s2member_custom_field_gen_" . $field["type"] . "_opl", "ws-plugin--s2member-custom-reg-field-op-l", get_defined_vars ());
-										/**/
-										foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
+										if ($_editable_context === "profile-view")
 											{
-												$common_i = preg_replace ('/ id\="(.+?)"/', ' id="$1-' . ($i) . '"', $common);
-												/**/
-												list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
-												/**/
-												$gen .= ($i > 0) ? $sep : ''; /* Separators can be filtered above. */
-												$gen .= '<input type="radio" value="' . esc_attr ($option_value) . '"';
-												$gen .= ( ( ($option_default && !$_submission) || $option_value === (string)$_value) ? ' checked="checked"' : '');
-												$gen .= $common_i . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class . "-" . $i) . '" class="' . esc_attr ($opl) . '" style="display:inline;">' . $option_label . '</label>';
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														if ($option_value === (string)$_value)
+															{
+																$gen = $option_label;
+																break;
+															}
+													}
+											}
+										else /* Else handle this Field normally. */
+											{
+												$gen = '<select' . $common . '>';
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														$gen .= '<option value="' . esc_attr ($option_value) . '"' . ((($option_default && !$_submission) || $option_value === (string)$_value) ? ' selected="selected"' : '') . '>' . $option_label . '</option>';
+													}
+												$gen .= '</select>';
 											}
 									}
-								else /* Otherwise, we use a default text field. */
+								/**/
+								else if ($field["type"] === "selects" && !empty ($field["options"]))
 									{
-										$gen = '<input type="text" maxlength="100"';
-										$gen .= ' value="' . format_to_edit ((string)$_value) . '"';
-										$gen .= $common . ' />';
+										if ($_editable_context === "profile-view")
+											{
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														if (in_array ($option_value, (array)$_value))
+															$gen .= $option_label . ", ";
+													}
+												$gen = trim ($gen, ", \r\n\t\0\x0B");
+											}
+										else /* Else handle this Field normally. */
+											{
+												$common = preg_replace ('/ name\="(.+?)"/', ' name="$1[]"', $common);
+												$common = preg_replace ('/ style\="(.+?)"/', ' style="height:auto; $1"', $common);
+												/**/
+												$gen = '<select multiple="multiple" size="3"' . $common . '>';
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														$gen .= '<option value="' . esc_attr ($option_value) . '"' . ((($option_default && !$_submission) || in_array ($option_value, (array)$_value)) ? ' selected="selected"' : '') . '>' . $option_label . '</option>';
+													}
+												$gen .= '</select>';
+											}
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								else if ($field["type"] === "checkbox" && !empty ($field["label"]))
+									{
+										if ($_editable_context === "profile-view")
+											$gen = ((string)$_value) ? "yes" : "no";
+										/**/
+										else /* Else handle this Field normally. */
+											{
+												$gen = '<input type="checkbox" value="1"';
+												$gen .= (((string)$_value) ? ' checked="checked"' : '');
+												$gen .= $common . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class) . '" style="display:inline !important; margin:0 !important;">' . $field["label"] . '</label>';
+											}
+									}
+								/**/
+								else if ($field["type"] === "pre_checkbox" && !empty ($field["label"]))
+									{
+										if ($_editable_context === "profile-view")
+											$gen = ((string)$_value) ? "yes" : "no";
+										/**/
+										else /* Else handle this Field normally. */
+											{
+												$gen = '<input type="checkbox" value="1"';
+												$gen .= ((!$_submission || (string)$_value) ? ' checked="checked"' : '');
+												$gen .= $common . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class) . '" style="display:inline !important; margin:0 !important;">' . $field["label"] . '</label>';
+											}
+									}
+								/**/
+								else if ($field["type"] === "checkboxes" && !empty ($field["options"]))
+									{
+										if ($_editable_context === "profile-view")
+											{
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														if (in_array ($option_value, (array)$_value))
+															$gen .= $option_label . ", ";
+													}
+												$gen = trim ($gen, ", \r\n\t\0\x0B");
+											}
+										else /* Else handle this Field normally. */
+											{
+												$common = preg_replace ('/ name\="(.+?)"/', ' name="$1[]"', $common);
+												/**/
+												$sep = apply_filters ("ws_plugin__s2member_custom_field_gen_checkboxes_sep", "&nbsp;&nbsp;", get_defined_vars ());
+												$opl = apply_filters ("ws_plugin__s2member_custom_field_gen_checkboxes_opl", "ws-plugin--s2member-custom-reg-field-op-l", get_defined_vars ());
+												/**/
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
+													{
+														$common_i = preg_replace ('/ id\="(.+?)"/', ' id="$1-' . ($i) . '"', $common);
+														/**/
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														/**/
+														$gen .= ($i > 0) ? $sep : ''; /* Separators can be filtered above. */
+														$gen .= '<input type="checkbox" value="' . esc_attr ($option_value) . '"';
+														$gen .= ((($option_default && !$_submission) || in_array ($option_value, (array)$_value)) ? ' checked="checked"' : '');
+														$gen .= $common_i . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class . "-" . $i) . '" class="' . esc_attr ($opl) . '" style="display:inline !important; margin:0 !important;">' . $option_label . '</label>';
+													}
+											}
+									}
+								/**/
+								else if ($field["type"] === "radios" && !empty ($field["options"]))
+									{
+										if ($_editable_context === "profile-view")
+											{
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
+													{
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														if ($option_value === (string)$_value)
+															{
+																$gen = $option_label;
+																break;
+															}
+													}
+											}
+										else /* Else handle this Field normally. */
+											{
+												$sep = apply_filters ("ws_plugin__s2member_custom_field_gen_radios_sep", "&nbsp;&nbsp;", get_defined_vars ());
+												$opl = apply_filters ("ws_plugin__s2member_custom_field_gen_radios_opl", "ws-plugin--s2member-custom-reg-field-op-l", get_defined_vars ());
+												/**/
+												foreach (preg_split ("/[\r\n\t]+/", $field["options"]) as $i => $option_line)
+													{
+														$common_i = preg_replace ('/ id\="(.+?)"/', ' id="$1-' . ($i) . '"', $common);
+														/**/
+														list ($option_value, $option_label, $option_default) = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/\|/", trim ($option_line)));
+														/**/
+														$gen .= ($i > 0) ? $sep : ''; /* Separators can be filtered above. */
+														$gen .= '<input type="radio" value="' . esc_attr ($option_value) . '"';
+														$gen .= ((($option_default && !$_submission) || $option_value === (string)$_value) ? ' checked="checked"' : '');
+														$gen .= $common_i . ' /><label for="' . esc_attr ($_id_prefix . $field_id_class . "-" . $i) . '" class="' . esc_attr ($opl) . '" style="display:inline !important; margin:0 !important;">' . $option_label . '</label>';
+													}
+											}
+									}
+								else /* Default to using a text field. */
+									{
+										if ($_editable_context === "profile-view")
+											$gen = esc_html ((string)$_value);
+										/**/
+										else /* Else handle this Field normally. */
+											{
+												$gen = '<input type="text" maxlength="100"';
+												$gen .= ' value="' . format_to_edit ((isset ($field["deflt"]) && strlen ($field["deflt"]) && !$_submission) ? (string)$field["deflt"] : (string)$_value) . '"';
+												$gen .= $common . ' />';
+											}
+									}
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_field_gen_after", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
 						return apply_filters ("ws_plugin__s2member_custom_field_gen", $gen, get_defined_vars ());
 					}
-				/*
-				Determines whether or not Custom Fields apply to a specific Level.
-				The $level parameter defaults to the current User's Access Level number.
-					$level MUST be numeric >= 0.
+				/**
+				* Determines which Custom Fields apply to a specific Level.
+				*
+				* @package s2Member\Custom_Reg_Fields
+				* @since 3.5
+				*
+				* @param str|int $_level Optional. Defaults to the current User's Access Level number.
+				* 	You can either pass in a numeric Level number, or the string `auto-detection`.
+				* @param str $_editable_context Optional. One of `profile|profile-view|registration`.
+				* @return array Array of Custom Field IDs applicable.
 				*/
 				public static function custom_fields_configured_at_level ($_level = "auto-detection", $_editable_context = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_custom_fields_configured_at_level", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -173,22 +286,31 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 						if ($_level === "auto-detection" && $level < 0 && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($cookie = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))))
 							list ($level) = preg_split ("/\:/", $cookie, 3);
 						/**/
-						$level = (!is_numeric ($level) || $level < 0) ? 0 : $level; /* Always default to Level #0. */
+						$level = ($level !== "any" && (!is_numeric ($level) || $level < 0)) ? 0 : $level; /* Default zero. */
 						/**/
-						if (is_numeric ($level) && $level >= 0 && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
+						if (($level === "any" || (is_numeric ($level) && $level >= 0)) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 							{
 								foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
-									if ($field["levels"] === "all" || in_array ($level, preg_split ("/[;,]+/", preg_replace ("/[^0-9,]/", "", $field["levels"]))))
-										if (!$_editable_context || ($_editable_context === "registration" && $field["editable"] !== "yes-invisible") || ($_editable_context === "profile" && $field["editable"] !== "no-invisible"))
+									if ($level === "any" || $field["levels"] === "all" || in_array ($level, preg_split ("/[;,]+/", preg_replace ("/[^0-9,]/", "", $field["levels"]))))
+										if (empty ($_editable_context) || $_editable_context === "administrative" || ($_editable_context === "registration" && $field["editable"] !== "yes-invisible") || (($_editable_context === "profile" || $_editable_context === "profile-view") && $field["editable"] !== "no-invisible"))
 											$configured[] = $field["id"]; /* Add this to the array. */
 							}
 						/**/
-						return apply_filters ("ws_plugin__s2member_custom_fields_configured_at_level", $configured, get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_custom_fields_configured_at_level", ((!empty ($configured)) ? $configured : array ()), get_defined_vars ());
 					}
-				/*
-				This adds custom fields to `wp-signup.php`.
-				Attach to: add_action("signup_extra_fields");
-				~ For Multisite Blog Farms.
+				/**
+				* Adds Custom Fields to: `/wp-signup.php`.
+				*
+				* For Multisite Blog Farms.
+				*
+				* @package s2Member\Custom_Reg_Fields
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("signup_extra_fields");``
+				*
+				* @return null
+				*
+				* @todo Optimize with ``empty()``.
 				*/
 				public static function ms_custom_registration_fields ()
 					{
@@ -196,43 +318,48 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 						/**/
 						if (is_multisite () && is_main_site ()) /* Must be Multisite / Main Site. */
 							{
-								$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST));
+								$_p = (!empty ($_POST)) ? c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)) : array ();
 								/**/
 								echo '<input type="hidden" name="ws_plugin__s2member_registration" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-registration")) . '" />' . "\n";
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_first_name", get_defined_vars ());
-								unset ($__refs, $__v); /* Unset defined __refs, __v. */
-								/**/
-								echo '<label for="ws-plugin--s2member-custom-reg-field-first-name">First Name *</label>' . "\n";
-								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" />' . "\n";
-								echo '<br />' . "\n";
-								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_first_name", get_defined_vars ());
-								unset ($__refs, $__v); /* Unset defined __refs, __v. */
-								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_last_name", get_defined_vars ());
-								unset ($__refs, $__v); /* Unset defined __refs, __v. */
-								/**/
-								echo '<label for="ws-plugin--s2member-custom-reg-field-last-name">Last Name *</label>' . "\n";
-								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" />' . "\n";
-								echo '<br />' . "\n";
-								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_last_name", get_defined_vars ());
-								unset ($__refs, $__v); /* Unset defined __refs, __v. */
+								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"])
+									{
+										echo '<div class="ws-plugin--s2member-custom-reg-field-divider-section"></div>' . "\n";
+										/**/
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_first_name", get_defined_vars ());
+										unset ($__refs, $__v); /* Unset defined __refs, __v. */
+										/**/
+										echo '<label for="ws-plugin--s2member-custom-reg-field-first-name">First Name *</label>' . "\n";
+										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" />' . "\n";
+										echo '<br />' . "\n";
+										/**/
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_first_name", get_defined_vars ());
+										unset ($__refs, $__v); /* Unset defined __refs, __v. */
+										/**/
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_last_name", get_defined_vars ());
+										unset ($__refs, $__v); /* Unset defined __refs, __v. */
+										/**/
+										echo '<label for="ws-plugin--s2member-custom-reg-field-last-name">Last Name *</label>' . "\n";
+										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" />' . "\n";
+										echo '<br />' . "\n";
+										/**/
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_last_name", get_defined_vars ());
+										unset ($__refs, $__v); /* Unset defined __refs, __v. */
+									}
 								/**/
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 									if ($fields_applicable = c_ws_plugin__s2member_custom_reg_fields::custom_fields_configured_at_level ("auto-detection", "registration"))
 										foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_custom_fields", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -241,122 +368,144 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 														$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 														$field_id_class = preg_replace ("/_/", "-", $field_var);
 														/**/
-														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														if (apply_filters ("ws_plugin__s2member_during_ms_custom_registration_fields_during_custom_fields_display", true, get_defined_vars ()))
 															{
-																echo '<label for="ws-plugin--s2member-custom-reg-field-' . esc_attr ($field_id_class) . '"' . ( (preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? ' style="display:none;"' : '') . '>' . $field["label"] . ( ($field["required"] === "yes") ? ' *' : '') . '</label>' . "\n";
-																echo c_ws_plugin__s2member_custom_reg_fields::custom_field_gen (__FUNCTION__, $field, "ws_plugin__s2member_custom_reg_field_", "ws-plugin--s2member-custom-reg-field-", "ws-plugin--s2member-custom-reg-field", "", "", "", $_p, $_p["ws_plugin__s2member_custom_reg_field_" . $field_var]);
+																if (!empty ($field["section"]) && $field["section"] === "yes") /* Starts a new section? */
+																	echo '<div class="ws-plugin--s2member-custom-reg-field-divider-section' . ((!empty ($field["sectitle"])) ? '-title' : '') . '">' . ((!empty ($field["sectitle"])) ? $field["sectitle"] : '') . '</div>';
+																/**/
+																echo '<label for="ws-plugin--s2member-custom-reg-field-' . esc_attr ($field_id_class) . '"' . ((preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? ' style="display:none;"' : '') . '>' . $field["label"] . (($field["required"] === "yes") ? ' *' : '') . '</label>' . ((preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? '<br />' : '') . "\n";
+																echo c_ws_plugin__s2member_custom_reg_fields::custom_field_gen (__FUNCTION__, $field, "ws_plugin__s2member_custom_reg_field_", "ws-plugin--s2member-custom-reg-field-", "ws-plugin--s2member-custom-reg-field", "", "", "", $_p, $_p["ws_plugin__s2member_custom_reg_field_" . $field_var], "registration");
 																echo '<br />' . "\n";
 															}
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_custom_fields", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 								/**/
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] && c_ws_plugin__s2member_list_servers::list_servers_integrated ())
 									{
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_before_opt_in", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										echo '<label for="ws-plugin--s2member-custom-reg-field-opt-in">' . "\n";
-										echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_field_opt_in" id="ws-plugin--s2member-custom-reg-field-opt-in" class="ws-plugin--s2member-custom-reg-field" value="1"' . ( ( (empty ($_p) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) || $_p["ws_plugin__s2member_custom_reg_field_opt_in"]) ? ' checked="checked"' : '') . ' />' . "\n";
+										echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_field_opt_in" id="ws-plugin--s2member-custom-reg-field-opt-in" class="ws-plugin--s2member-custom-reg-field" value="1"' . (((empty ($_p) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) || $_p["ws_plugin__s2member_custom_reg_field_opt_in"]) ? ' checked="checked"' : '') . ' />' . "\n";
 										echo $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in_label"] . "\n";
 										echo '</label>' . "\n";
 										echo '<br />' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after_opt_in", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 									}
 								/**/
-								echo '<br />' . "\n"; /* Toss in one extra line break ( extra margin ). */
-								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_ms_custom_registration_fields_after", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_ms_custom_registration_fields", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						return; /* Return for uniformity. */
 					}
-				/*
-				This adds custom fields to `wp-login.php?action=register`.
-				Attach to: add_action("register_form");
+				/**
+				* Adds Custom Fields to: `/wp-login.php?action=register`.
+				*
+				* @package s2Member\Custom_Reg_Fields
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("register_form");``
+				*
+				* @return null
+				*
+				* @todo Optimize with ``empty()``.
 				*/
 				public static function custom_registration_fields ()
 					{
 						do_action ("ws_plugin__s2member_before_custom_registration_fields", get_defined_vars ());
 						/**/
-						$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST));
+						$_p = (!empty ($_POST)) ? c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)) : array ();
 						/**/
 						echo '<input type="hidden" name="ws_plugin__s2member_registration" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-registration")) . '" />' . "\n";
 						/**/
 						$tabindex = 20; /* Incremented tabindex starting with 20. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_custom_registration_fields_before", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) /* Custom Passwords? */
+						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"])
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_registration_fields_before_user_pass", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
 								echo '<p>' . "\n";
-								echo '<label>' . "\n";
-								echo '<span>Password *</span><br />' . "\n";
-								echo '<input aria-required="true" type="password" maxlength="100" autocomplete="off" name="ws_plugin__s2member_custom_reg_field_user_pass" id="ws-plugin--s2member-custom-reg-field-user-pass" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_user_pass"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
-								echo '</label>' . "\n";
-								echo '</p>';
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								echo '<label for="ws-plugin--s2member-custom-reg-field-user-pass1" title="Please type your Password twice to confirm.">' . "\n";
+								echo '<span>Password ( please type it twice ) *</span><br />' . "\n";
+								echo '<input aria-required="true" type="password" maxlength="100" autocomplete="off" name="ws_plugin__s2member_custom_reg_field_user_pass1" id="ws-plugin--s2member-custom-reg-field-user-pass1" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_user_pass1"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '</label>' . "\n";
+								/**/
+								echo '<label for="ws-plugin--s2member-custom-reg-field-user-pass2" title="Please type your Password twice to confirm.">' . "\n";
+								echo '<input type="password" maxlength="100" autocomplete="off" name="ws_plugin__s2member_custom_reg_field_user_pass2" id="ws-plugin--s2member-custom-reg-field-user-pass2" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_user_pass2"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '</label>' . "\n";
+								/**/
+								echo '<div id="ws-plugin--s2member-custom-reg-field-user-pass-strength" class="ws-plugin--s2member-password-strength"><em>password strength indicator</em></div>' . "\n";
+								/**/
+								echo '</p>' . "\n";
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_registration_fields_after_user_pass", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_during_custom_registration_fields_before_first_name", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
-						echo '<p>' . "\n";
-						echo '<label>' . "\n";
-						echo '<span>First Name *</span><br />' . "\n";
-						echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
-						echo '</label>' . "\n";
-						echo '</p>';
-						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_during_custom_registration_fields_after_first_name", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_during_custom_registration_fields_before_last_name", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
-						echo '<p>' . "\n";
-						echo '<label>' . "\n";
-						echo '<span>Last Name *</span><br />' . "\n";
-						echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
-						echo '</label>' . "\n";
-						echo '</p>';
-						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_during_custom_registration_fields_after_last_name", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
+						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"])
+							{
+								echo '<div class="ws-plugin--s2member-custom-reg-field-divider-section"></div>' . "\n";
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								do_action ("ws_plugin__s2member_during_custom_registration_fields_before_first_name", get_defined_vars ());
+								unset ($__refs, $__v); /* Unset defined __refs, __v. */
+								/**/
+								echo '<p>' . "\n";
+								echo '<label for="ws-plugin--s2member-custom-reg-field-first-name">' . "\n";
+								echo '<span>First Name *</span><br />' . "\n";
+								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '</label>' . "\n";
+								echo '</p>' . "\n";
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								do_action ("ws_plugin__s2member_during_custom_registration_fields_after_first_name", get_defined_vars ());
+								unset ($__refs, $__v); /* Unset defined __refs, __v. */
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								do_action ("ws_plugin__s2member_during_custom_registration_fields_before_last_name", get_defined_vars ());
+								unset ($__refs, $__v); /* Unset defined __refs, __v. */
+								/**/
+								echo '<p>' . "\n";
+								echo '<label for="ws-plugin--s2member-custom-reg-field-last-name">' . "\n";
+								echo '<span>Last Name *</span><br />' . "\n";
+								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '</label>' . "\n";
+								echo '</p>' . "\n";
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								do_action ("ws_plugin__s2member_during_custom_registration_fields_after_last_name", get_defined_vars ());
+								unset ($__refs, $__v); /* Unset defined __refs, __v. */
+							}
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 							if ($fields_applicable = c_ws_plugin__s2member_custom_reg_fields::custom_fields_configured_at_level ("auto-detection", "registration"))
 								foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 									{
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_custom_registration_fields_before_custom_fields", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -365,81 +514,51 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 												$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 												$field_id_class = preg_replace ("/_/", "-", $field_var);
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												if (apply_filters ("ws_plugin__s2member_during_custom_registration_fields_during_custom_fields_display", true, get_defined_vars ()))
 													{
+														if (!empty ($field["section"]) && $field["section"] === "yes") /* Starts a new section? */
+															echo '<div class="ws-plugin--s2member-custom-reg-field-divider-section' . ((!empty ($field["sectitle"])) ? '-title' : '') . '">' . ((!empty ($field["sectitle"])) ? $field["sectitle"] : '') . '</div>';
+														/**/
 														echo '<p>' . "\n";
-														echo '<label>' . "\n";
-														echo '<span' . ( (preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? ' style="display:none;"' : '') . '>' . $field["label"] . ( ($field["required"] === "yes") ? ' *' : '') . '</span>' . ( (preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? '' : '<br />') . "\n";
-														echo c_ws_plugin__s2member_custom_reg_fields::custom_field_gen (__FUNCTION__, $field, "ws_plugin__s2member_custom_reg_field_", "ws-plugin--s2member-custom-reg-field-", "ws-plugin--s2member-custom-reg-field", "", ($tabindex = $tabindex + 10), "", $_p, $_p["ws_plugin__s2member_custom_reg_field_" . $field_var]);
-														echo '</label>' . "\n";
-														echo '</p>';
+														echo '<label for="ws-plugin--s2member-custom-reg-field-' . esc_attr ($field_id_class) . '">' . "\n";
+														echo '<span' . ((preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? ' style="display:none;"' : '') . '>' . $field["label"] . (($field["required"] === "yes") ? ' *' : '') . '</span></label>' . ((preg_match ("/^(checkbox|pre_checkbox)$/", $field["type"])) ? '' : '<br />') . "\n";
+														echo c_ws_plugin__s2member_custom_reg_fields::custom_field_gen (__FUNCTION__, $field, "ws_plugin__s2member_custom_reg_field_", "ws-plugin--s2member-custom-reg-field-", "ws-plugin--s2member-custom-reg-field", "", ($tabindex = $tabindex + 10), "", $_p, $_p["ws_plugin__s2member_custom_reg_field_" . $field_var], "registration");
+														echo '</p>' . "\n";
 													}
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_custom_registration_fields_after_custom_fields", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 									}
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] && c_ws_plugin__s2member_list_servers::list_servers_integrated ())
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_registration_fields_before_opt_in", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
 								echo '<p>' . "\n";
-								echo '<label>' . "\n";
-								echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_field_opt_in" id="ws-plugin--s2member-custom-reg-field-opt-in" class="ws-plugin--s2member-custom-reg-field" value="1"' . ( ( (empty ($_p) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) || $_p["ws_plugin__s2member_custom_reg_field_opt_in"]) ? ' checked="checked"' : '') . ' tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '<label for="ws-plugin--s2member-custom-reg-field-opt-in">' . "\n";
+								echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_field_opt_in" id="ws-plugin--s2member-custom-reg-field-opt-in" class="ws-plugin--s2member-custom-reg-field" value="1"' . (((empty ($_p) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) || $_p["ws_plugin__s2member_custom_reg_field_opt_in"]) ? ' checked="checked"' : '') . ' tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 								echo $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in_label"] . "\n";
 								echo '</label>' . "\n";
-								echo '</p>';
+								echo '</p>' . "\n";
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_custom_registration_fields_after_opt_in", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_custom_registration_fields_after", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_custom_registration_fields", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
-						return; /* Return for uniformity. */
-					}
-				/*
-				This adds an opt-in checkbox to the BuddyPress signup form.
-				Attach to: add_action("bp_before_registration_submit_buttons");
-				*/
-				public static function opt_in_4bp ()
-					{
-						do_action ("ws_plugin__s2member_before_opt_in_4bp", get_defined_vars ());
-						/**/
-						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] && c_ws_plugin__s2member_list_servers::list_servers_integrated ())
-							{
-								do_action ("ws_plugin__s2member_during_opt_in_4bp_before", get_defined_vars ());
-								/**/
-								$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST));
-								/**/
-								echo '<div class="s2member-opt-in-4bp" style="' . apply_filters ("ws_plugin__s2member_opt_in_4bp_styles", "clear:both; padding-top:10px; margin-left:-3px;", get_defined_vars ()) . '">' . "\n";
-								/**/
-								echo '<p>' . "\n";
-								echo '<label>' . "\n";
-								echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_field_opt_in" id="ws-plugin--s2member-custom-reg-field-opt-in" class="ws-plugin--s2member-custom-reg-field" value="1"' . ( ( (empty ($_p) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) || $_p["ws_plugin__s2member_custom_reg_field_opt_in"]) ? ' checked="checked"' : '') . ' />' . "\n";
-								echo $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in_label"] . "\n";
-								echo '</label>' . "\n";
-								echo '</p>';
-								/**/
-								echo '</div>' . "\n";
-								/**/
-								do_action ("ws_plugin__s2member_during_opt_in_4bp_after", get_defined_vars ());
-							}
-						/**/
-						do_action ("ws_plugin__s2member_after_opt_in_4bp", get_defined_vars ());
 						/**/
 						return; /* Return for uniformity. */
 					}

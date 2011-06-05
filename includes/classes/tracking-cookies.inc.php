@@ -1,41 +1,62 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Tracking Cookies.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Tracking
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 	{
+		/**
+		* Tracking Cookies.
+		*
+		* @package s2Member\Tracking
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_tracking_cookies
 			{
-				/*
-				Deletes s2Member's temporary tracking cookie.
-				Attach to: add_action("init");
+				/**
+				* Deletes s2Member's temporary tracking cookie.
+				*
+				* @package s2Member\Tracking
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null|inner Return-value of inner routine.
 				*/
 				public static function delete_signup_tracking_cookie ()
 					{
-						if ($_GET["s2member_delete_signup_tracking_cookie"]) /* Call inner function? */
+						if (!empty ($_GET["s2member_delete_signup_tracking_cookie"])) /* Call inner routine? */
 							{
 								return c_ws_plugin__s2member_tracking_cookies_in::delete_signup_tracking_cookie ();
 							}
 					}
-				/*
-				Deletes s2Member's temporary tracking cookie.
-				Attach to: add_action("init");
+				/**
+				* Deletes s2Member's temporary tracking cookie.
+				*
+				* @package s2Member\Tracking
+				* @since 3.5
+				*
+				* @attaches-to: ``add_action("init");``
+				*
+				* @return null|inner Return-value of inner routine.
 				*/
 				public static function delete_sp_tracking_cookie ()
 					{
-						if ($_GET["s2member_delete_sp_tracking_cookie"]) /* Call inner function? */
+						if (!empty ($_GET["s2member_delete_sp_tracking_cookie"])) /* Call inner routine? */
 							{
 								return c_ws_plugin__s2member_tracking_cookies_in::delete_sp_tracking_cookie ();
 							}

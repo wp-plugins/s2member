@@ -1,25 +1,40 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Array utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 	{
+		/**
+		* Array utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_arrays
 			{
-				/*
-				Extends array_unique to support multi-dimensional arrays.
+				/**
+				* Extends ``array_unique()`` to support multi-dimensional arrays.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param array $array Expects an incoming array.
+				* @return array Returns the ``$array`` after having reduced it to a unique set of values.
 				*/
 				public static function array_unique ($array = FALSE)
 					{
@@ -44,8 +59,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 								return $array;
 							}
 					}
-				/*
-				Searches a multi-dimensional array using a regular expression match against array values.
+				/**
+				* Searches an array *( or even a multi-dimensional array )* using a regular expression match against array values.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $regex A regular expression to look for inside the array.
+				* @return bool True if the regular expression matched at least one value in the array, else false.
 				*/
 				public static function regex_in_array ($regex = FALSE, $array = FALSE)
 					{
@@ -70,8 +91,15 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						else /* False. */
 							return false;
 					}
-				/*
-				Searches a multi-dimensional array of regular expressions, to match against a string value.
+				/**
+				* Searches an array *( or even a multi-dimensional array )* of regular expressions, to match against a string value.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $string A string to test against.
+				* @param array $array An array of regex patterns to match against ``$string``.
+				* @return bool True if at least one regular expression in the ``$array`` matched ``$string``, else false.
 				*/
 				public static function in_regex_array ($string = FALSE, $array = FALSE)
 					{

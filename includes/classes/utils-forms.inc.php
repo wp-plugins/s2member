@@ -1,25 +1,40 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Form utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 	{
+		/**
+		* Form utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_forms
 			{
-				/*
-				Function converts a form with hidden inputs into a URL w/ query string.
+				/**
+				* Converts a form with hidden inputs into a URL w/ query string.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $form A form tag with hidden input fields.
+				* @return str A URL with query string equivalents.
 				*/
 				public static function form_whips_2_url ($form = FALSE)
 					{
@@ -46,8 +61,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 						/**/
 						return false;
 					}
-				/*
-				Function converts a form with hidden inputs into an associative array.
+				/**
+				* Converts a form with hidden inputs into an associative array.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $form A form tag with hidden input fields.
+				* @return array An associative array of all hidden input fields.
 				*/
 				public static function form_whips_2_array ($form = FALSE)
 					{

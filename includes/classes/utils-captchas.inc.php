@@ -1,25 +1,41 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* Captcha utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 	{
+		/**
+		* Captcha utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_utils_captchas
 			{
-				/*
-				Function verifies a reCaptcha code though a connection to Google®.
+				/**
+				* Verifies a reCaptcha code though a connection to Google®.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $challenge The value of `recaptcha_challenge_field` during form submisson.
+				* @param str $response The value of `recaptcha_response_field` during form submission. 
+				* @return bool True if ``$response`` is valid, else false.
 				*/
 				public static function recaptcha_code_validates ($challenge = FALSE, $response = FALSE)
 					{
@@ -27,8 +43,16 @@ if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 						/**/
 						return preg_match ("/^true/i", trim (c_ws_plugin__s2member_utils_urls::remote ("http://www.google.com/recaptcha/api/verify", $post_vars)));
 					}
-				/*
-				Function that builds a reCaptcha <script></script> tag for display.
+				/**
+				* Builds a reCaptcha JavaScript `script` tag for display.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $theme Optional. The theme used in display. Defaults to `clean`.
+				* @param str $tabindex Optional. Value of `tabindex=""` attribute. Defaults to `-1`.
+				* @param str $error Optional. An error message to display.
+				* @return str HTML markup for JavaScript tag.
 				*/
 				public static function recaptcha_script_tag ($theme = FALSE, $tabindex = FALSE, $error = FALSE)
 					{

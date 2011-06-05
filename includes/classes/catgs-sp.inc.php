@@ -1,37 +1,41 @@
 <?php
-/*
-Copyright: © 2009 WebSharks, Inc. ( coded in the USA )
-<mailto:support@websharks-inc.com> <http://www.websharks-inc.com/>
-
-Released under the terms of the GNU General Public License.
-You should have received a copy of the GNU General Public License,
-along with this software. In the main directory, see: /licensing/
-If not, see: <http://www.gnu.org/licenses/>.
-*/
-/*
-Direct access denial.
+/**
+* s2Member's Category protection routines *( for specific Categories )*.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Categories
+* @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_catgs_sp"))
 	{
+		/**
+		* s2Member's Category protection routines *( for specific Categories )*.
+		*
+		* @package s2Member\Categories
+		* @since 3.5
+		*/
 		class c_ws_plugin__s2member_catgs_sp
 			{
-				/*
-				Function checks Category Level Access permissions- for a specific Category.
-				
-				Don't call this function directly, use one of these API functions:
-					
-					Is it protected by s2Member at all?
-					- is_category_protected_by_s2member($cat_id);
-					- is_protected_by_s2member($cat_id, "category");
-					
-					Is the current User permitted/authorized?
-					- is_category_permitted_by_s2member($cat_id);
-					- is_permitted_by_s2member($cat_id, "category");
-				
-				see: `/s2member/includes/functions/api-functions.inc.php`.
+				/**
+				* Handles Category Level Access *( for specific Categories )*.
+				*
+				* @package s2Member\Categories
+				* @since 3.5
+				*
+				* @param int|str $cat_id Numeric Category ID.
+				* @param bool $check_user Test permissions against the current User? Defaults to true.
+				* @return null|array Non-empty array ( with details ) if access is denied, else null if access is allowed.
 				*/
 				public static function check_specific_catg_level_access ($cat_id = FALSE, $check_user = TRUE)
 					{
@@ -41,38 +45,35 @@ if (!class_exists ("c_ws_plugin__s2member_catgs_sp"))
 						/**/
 						if (!$excluded && $cat_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"]) /* Check? */
 							{
-								$cat_link = get_category_link ($cat_id); /* Determine link to this Category. */
-								$cat_path = parse_url ($cat_link, PHP_URL_PATH); /* Parse req path. */
-								$cat_query = parse_url ($cat_link, PHP_URL_QUERY); /* Parse query. */
-								$cat_uri = ($cat_query) ? $cat_path . "?" . $cat_query : $cat_path;
+								$cat_uri = c_ws_plugin__s2member_utils_urls::parse_uri (get_category_link ($cat_id));
 								/**/
-								$current_user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Get the current User's object. */
+								$user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Get the current User's object. */
 								/**/
-								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($current_user)) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $cat_uri) && (!$check_user || !$current_user || !current_user_can ("access_s2member_level0")))
+								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $cat_uri) && (!$check_user || !$user || !current_user_can ("access_s2member_level0")))
 									return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => 0), get_defined_vars ());
 								/**/
-								else if (!c_ws_plugin__s2member_systematics_sp::is_systematic_use_specific_page (null, $cat_uri)) /* Never restrict Systematic Use Pages. However, there is 1 exception above ^. */
+								else if (!c_ws_plugin__s2member_systematics_sp::is_systematic_use_specific_page (null, $cat_uri)) /* Never restrict Systematics. However, there is 1 exception ^. */
 									{
-										for ($i = 0; $i <= 4; $i++) /* Category Level restrictions. Go through each Membership Level. We also check nested Categories, using `cat_is_ancestor_of()`. */
+										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Category Level restrictions. Go through each Level. We also check nested Categories. */
 											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"] === "all" && (!$check_user || !$current_user || !current_user_can ("access_s2member_level" . $i)))
-													return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $i), get_defined_vars ());
+												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] === "all" && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
+													return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 												/**/
-												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"] && in_array ($cat_id, ($catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]))) && (!$check_user || !$current_user || !current_user_can ("access_s2member_level" . $i)))
-													return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $i), get_defined_vars ());
+												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] && in_array ($cat_id, ($catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]))) && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
+													return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 												/**/
-												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]) /* Check Category ancestry. */
-													foreach (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_catgs"]) as $catg)
-														if ($catg && cat_is_ancestor_of ($catg, $cat_id) && (!$check_user || !$current_user || !current_user_can ("access_s2member_level" . $i)))
-															return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $i), get_defined_vars ());
+												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) /* Check Category ancestry. */
+													foreach (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) as $catg)
+														if ($catg && cat_is_ancestor_of ($catg, $cat_id) && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
+															return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 											}
 										/**/
-										for ($i = 0; $i <= 4; $i++) /* URIs. Go through each Membership Level. */
+										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* URIs. Go through each Level. */
 											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_ruris"])
-													foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $i . "_ruris"], $current_user)) as $str)
-														if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $cat_uri) && (!$check_user || !$current_user || !current_user_can ("access_s2member_level" . $i)))
-															return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $i), get_defined_vars ());
+												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"])
+													foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
+														if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $cat_uri) && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
+															return apply_filters ("ws_plugin__s2member_check_specific_catg_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 											}
 									}
 								/**/

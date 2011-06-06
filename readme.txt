@@ -1,6 +1,6 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110605
+Version: 110606
 Stable tag: 110605
 Framework: WS-P-110523
 
@@ -172,6 +172,11 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= 110606 =
+* **(s2Member). MailChimp® over SSL.** s2Member has been updated to communicate with the MailChimp® API over SSL, for improved security. No action or reconfiguration is necessary, as this only affects the HTTP protocol used during communication with the MailChimp® API.
+* **(s2Member). Documentation update.** s2Member has been updated to mention the PHP Execution plugin, which is required to take full advantage of `"Advanced" Download Restrictions`, through the application of a File Download Key. The creation of a File Download `Key`, requires a small PHP code snippet. In order to use PHP scripting inside your Posts/Pages, you'll need to install this handy plugin ( [PHP Execution](http://wordpress.org/extend/plugins/php-execution-plugin/) ).
+* **(s2Member). MailChimp® data center prefix.** Starting with this release, the data center prefix ( ex: `us1`, etc ), will be recorded in s2Member's log file for MailChimp® communication. The only change here, is the inclusion of the prefix in the log file. s2Member has always used proper data center prefixes, they just weren't included in the log file until now.
 
 = 110605 =
 * **(s2Member). Bug fix.** If File Download protection was enabled, changes introduced in the previous release, were causing some site Administrators to receive a "File Download Limit Exceeded" error under the right circumstances. This has been corrected in the release of s2Member v110605.

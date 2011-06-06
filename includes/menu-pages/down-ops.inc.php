@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 	{
@@ -218,7 +218,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-restrictions-section">' . "\n";
 								echo '<h3>Advanced Download Restrictions ( optional, for greater flexibility )</h3>' . "\n";
-								echo '<p>By default, s2Member uses your Basic Download Restrictions - as configured above. However, you can force s2Member to allow file downloads, using an extra query string parameter ( <code>s2member_file_download_key</code> ). A file download `Key` is passed through this parameter, and it tells s2Member to allow the download of this particular file, regardless of Membership Level; and WITHOUT checking any Basic Restrictions, that you may, or may not, have configured above.</p>' . "\n";
+								echo '<p>By default, s2Member uses your Basic Download Restrictions, as configured above. However, you can force s2Member to allow File Downloads, using an extra query string parameter ( <code>s2member_file_download_key</code> ). A File Download `Key` is passed through this parameter, and it tells s2Member to allow the download of this particular file, regardless of Membership Level; and WITHOUT checking any Basic Restrictions, that you may, or may not, have configured above. The creation of a File Download `Key`, requires a small PHP code snippet. In order to use PHP scripting inside your Posts/Pages, you\'ll need to install this handy plugin ( <a href="http://wordpress.org/extend/plugins/php-execution-plugin/" target="_blank" rel="external">PHP Execution</a> ).</p>' . "\n";
 								echo '<p>' . esc_html (site_url ("/?s2member_file_download=example-file.zip")) . '<code>&amp;s2member_file_download_key=&lt;?php echo s2member_file_download_key("example-file.zip"); ?&gt;</code><br />&nbsp;&nbsp;<small><em><strong>s2member_file_download_key</strong> = &lt;?php echo s2member_file_download_key("location of the file, relative to the /' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dirs ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/ directory"); ?&gt;</em></small></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_down_ops_page_during_left_sections_during_advanced_restrictions", get_defined_vars ());
 								/**/

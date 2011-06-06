@@ -2407,8 +2407,9 @@ class NC_MCAPI {
         	list($key, $dc) = explode("-",$this->api_key,2);
             if (!$dc) $dc = "us1";
         }
-        $host = $dc.".".$this->apiUrl["host"];
-		$params["apikey"] = $this->api_key;
+        $this->apiUrl["prefix"] = $dc;
+		$host = $dc.".".$this->apiUrl["host"];
+        $params["apikey"] = $this->api_key;
 
         $this->errorMessage = "";
         $this->errorCode = "";

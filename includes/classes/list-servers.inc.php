@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 	{
@@ -72,7 +72,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_process_list_servers", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -88,7 +88,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 										if (!class_exists ("NC_MCAPI")) /* Include the MailChimp® API Class here. */
 											include_once dirname (dirname (__FILE__)) . "/_xtnls/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
 										/**/
-										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]); /* MailChimp® API ( no-conflict ). */
+										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"], true); /* MailChimp® API ( no-conflict ). */
 										/**/
 										foreach (preg_split ("/[\r\n\t;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]) as $mailchimp_list)
 											{
@@ -168,7 +168,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 											}
 									}
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_process_list_servers", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -176,7 +176,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 									c_ws_plugin__s2member_email_configs::email_config ();
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_process_list_servers", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -208,7 +208,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -222,7 +222,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 										if (!class_exists ("NC_MCAPI")) /* Include the MailChimp® API Class here. */
 											include_once dirname (dirname (__FILE__)) . "/_xtnls/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
 										/**/
-										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]); /* MailChimp® API ( no-conflict ). */
+										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"], true); /* MailChimp® API ( no-conflict ). */
 										/**/
 										foreach (preg_split ("/[\r\n\t;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]) as $mailchimp_list)
 											{
@@ -230,7 +230,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 												/**/
 												if (($mailchimp["list_id"] = trim (preg_replace ("/\:\:.*$/", "", $mailchimp_list)))) /* Trim & strip groups. */
 													{
-														if ($mailchimp["api_removal_response"] = $mcapi->{$mailchimp["api_removal_method"]}($mailchimp["list_id"], $email, /* See: `http://apidocs.mailchimp.com/` for full details. */
+														if ($mailchimp["api_removal_response"] = $mcapi->{$mailchimp["api_removal_method"]}($mailchimp["list_id"], $email, /* See: `http://apidocs.mailchimp.com/`. */
 														($mailchimp["api_removal_delete_member"] = apply_filters ("ws_plugin__s2member_mailchimp_removal_delete_member", false, get_defined_vars ())), /* Completely delete? */
 														($mailchimp["api_removal_send_goodbye"] = apply_filters ("ws_plugin__s2member_mailchimp_removal_send_goodbye", false, get_defined_vars ())), /* Send goodbye letter? */
 														($mailchimp["api_removal_send_notify"] = apply_filters ("ws_plugin__s2member_mailchimp_removal_send_notify", false, get_defined_vars ())))) /* Send notification? */
@@ -278,7 +278,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 											}
 									}
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_process_list_server_removals", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -286,7 +286,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 									c_ws_plugin__s2member_email_configs::email_config ();
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -321,7 +321,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 						global $current_site, $current_blog; /* For Multisite support. */
 						static $auto_processed = array (); /* Only process ONE time for each User ID. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_auto_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -340,7 +340,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 									}
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_auto_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

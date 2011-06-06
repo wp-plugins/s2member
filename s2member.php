@@ -19,7 +19,7 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 110605
+Version: 110606
 Stable tag: 110605
 Framework: WS-P-110523
 
@@ -70,7 +70,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "110605");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "110606");
 /**
 * Minimum PHP version required to run s2Member.
 *

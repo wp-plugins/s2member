@@ -1966,7 +1966,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 			}
 	}
 /**
-* An powerful function that can retrieve almost anything
+* A powerful function that can retrieve almost anything
 * you need to know about the current User, and/or a particular User.
 *
 * Scans all properties of the {@link http://codex.wordpress.org/Function_Reference/wp_get_current_user WP_User object}.

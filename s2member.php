@@ -20,7 +20,7 @@
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
 Version: 110606
-Stable tag: 110605
+Stable tag: 110606
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -100,7 +100,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110605");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110606");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

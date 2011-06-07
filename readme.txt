@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
 Version: 110606
-Stable tag: 110605
+Stable tag: 110606
 Framework: WS-P-110523
 
 SSL Compatible: yes

@@ -173,15 +173,16 @@ Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/)
 
 == Changelog ==
 
-= 110606 =
+= v110606 =
 * **(s2Member). MailChimp® over SSL.** s2Member has been updated to communicate with the MailChimp® API over SSL, for improved security. No action or reconfiguration is necessary, as this only affects the HTTP protocol used during communication with the MailChimp® API.
 * **(s2Member). Documentation update.** s2Member has been updated to mention the PHP Execution plugin, which is required to take full advantage of `"Advanced" Download Restrictions`, through the application of a File Download Key. The creation of a File Download `Key`, requires a small PHP code snippet. In order to use PHP scripting inside your Posts/Pages, you'll need to install this handy plugin ( [PHP Execution](http://wordpress.org/extend/plugins/php-execution-plugin/) ).
 * **(s2Member). MailChimp® data center prefix.** Starting with this release, the data center prefix ( ex: `us1`, etc ), will be recorded in s2Member's log file for MailChimp® communication. The only change here, is the inclusion of the prefix in the log file. s2Member has always used proper data center prefixes, they just weren't included in the log file until now.
+* **(s2Member). Amazon® S3 bug fix.** s2Member has been updated to support all regions, and not just the `US Standard`. If you were getting errors in the previous release, related to Amazon® S3 storage locations being accessed inproperly, this release of s2Member v110606 should resolve the issue for you. To put it simply, s2Member now connects to your S3 Bucket using `[bucket].s3.amazonaws.com`, instead of `s3.amazonaws.com/[bucket]`, making s2Member more compatible in this regard; and as suggested by [this documentation](http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?RESTAuthentication.html). This also improves the User experience, since your Bucket name will appear in the host name of the download, instead of just `s3.amazonaws.com`. For further discussion, please check [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=10054).
 
-= 110605 =
+= v110605 =
 * **(s2Member). Bug fix.** If File Download protection was enabled, changes introduced in the previous release, were causing some site Administrators to receive a "File Download Limit Exceeded" error under the right circumstances. This has been corrected in the release of s2Member v110605.
 
-= 110604 ( instead of s2Member v3.6 ) =
+= v110604 ( instead of s2Member v3.6 ) =
 * **(s2Member/s2Member Pro). Versioning.** Starting with this release, s2Member and s2Member Pro will be released with dated versions following this format: `yymmdd`. The version for this release is: `110604`.
 * **(s2Member/s2Member Pro). s2Member Security Badge.** An s2Member® Security Badge ( optional ), can be used to express your site's concern for security; demonstrating to all Users/Members that your site ( and the s2Member software ), takes security seriously. However, in order to qualify your site, you MUST generate a Security Encryption Key and pass other security standards. For more information, please check your Dashboard under: `s2Member -> General Options -> Security Badge`.
 * **(s2Member/s2Member Pro). Custom Fields For BuddyPress.** s2Member can now integrate your Custom Fields into BuddyPress. Please check your Dashboard for all configuration options. You'll find BuddyPress integration available here: `DashBoard -> s2Member -> General Options -> Custom Registration Fields`.

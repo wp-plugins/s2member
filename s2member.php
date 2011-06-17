@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 110606
-Stable tag: 110606
+Version: 110617
+Stable tag: 110617
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -70,7 +70,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "110606");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "110617");
 /**
 * Minimum PHP version required to run s2Member.
 *

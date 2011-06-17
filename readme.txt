@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110606
-Stable tag: 110606
+Version: 110617
+Stable tag: 110617
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -172,6 +172,10 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110617 =
+* **(s2Member)** Bug fix. ** A bug first introduced in s2Member v110604 has been corrected. This bug was hindering s2Member's ability to identify MIME types for protected File Downloads.
+* **(s2Member)** HTML 5 MIME types. ** s2Member has been updated to provide support through File Download protection for HTML 5 MIME types: `video/ogg` and  `video/webm`.
 
 = v110606 =
 * **(s2Member). MailChimp® over SSL.** s2Member has been updated to communicate with the MailChimp® API over SSL, for improved security. No action or reconfiguration is necessary, as this only affects the HTTP protocol used during communication with the MailChimp® API.

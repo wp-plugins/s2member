@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110617
-Stable tag: 110617
+Version: 110620
+Stable tag: 110620
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -173,9 +173,12 @@ Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/)
 
 == Changelog ==
 
+= v110620 =
+* **(s2Member) Bug fix.** s2Member has been updated to support GMT offset in date calculations for Registration Time. In previous versions, this was addressed using `date_i18n()`, but this update now includes the proper function call to `get_date_from_gmt()`. No changes are necessary, as this update simply corrects the way Registration Times are displayed in your list of Users. Starting with v110620, s2Member will now display Registration Times with the correct GMT offset, based on your configuration of `WordPress -> General Options -> Timezone`.
+
 = v110617 =
-* **(s2Member)** Bug fix. ** A bug first introduced in s2Member v110604 has been corrected. This bug was hindering s2Member's ability to identify MIME types for protected File Downloads.
-* **(s2Member)** HTML 5 MIME types. ** s2Member has been updated to provide support through File Download protection for HTML 5 MIME types: `video/ogg` and  `video/webm`.
+* **(s2Member) Bug fix.** A bug first introduced in s2Member v110604 has been corrected. This bug was hindering s2Member's ability to identify MIME types for protected File Downloads.
+* **(s2Member) HTML 5 MIME types.** s2Member has been updated to provide support through File Download protection for HTML 5 MIME types: `video/ogg` and  `video/webm`.
 
 = v110606 =
 * **(s2Member). MailChimp® over SSL.** s2Member has been updated to communicate with the MailChimp® API over SSL, for improved security. No action or reconfiguration is necessary, as this only affects the HTTP protocol used during communication with the MailChimp® API.

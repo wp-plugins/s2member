@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 	{
@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® Restriction Options</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® Restriction Options</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -62,91 +60,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-posts">' . "\n";
-								echo 'Posts That Require Level #0 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-posts">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Posts That Require Highest Level #' . $n . ':' . "\n" : 'Posts That Require Level #' . $n . ' Or Higher:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_posts" id="ws-plugin--s2member-level' . $n . '-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]) . '" /><br />' . "\n";
+										echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_posts" id="ws-plugin--s2member-level0-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_posts"]) . '" /><br />' . "\n";
-								echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-posts">' . "\n";
-								echo 'Posts That Require Level #1 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_posts" id="ws-plugin--s2member-level1-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_posts"]) . '" /><br />' . "\n";
-								echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-posts">' . "\n";
-								echo 'Posts That Require Level #2 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_posts" id="ws-plugin--s2member-level2-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_posts"]) . '" /><br />' . "\n";
-								echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-posts">' . "\n";
-								echo 'Posts That Require Level #3 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_posts" id="ws-plugin--s2member-level3-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_posts"]) . '" /><br />' . "\n";
-								echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-posts">' . "\n";
-								echo 'Posts That Require Highest Level #4:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_posts" id="ws-plugin--s2member-level4-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_posts"]) . '" /><br />' . "\n";
-								echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";
@@ -170,91 +105,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-pages">' . "\n";
-								echo 'Pages That Require Level #0 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-pages">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Pages That Require Highest Level #' . $n . ':' . "\n" : 'Pages That Require Level #' . $n . ' Or Higher:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_pages" id="ws-plugin--s2member-level' . $n . '-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]) . '" /><br />' . "\n";
+										echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_pages" id="ws-plugin--s2member-level0-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_pages"]) . '" /><br />' . "\n";
-								echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-pages">' . "\n";
-								echo 'Pages That Require Level #1 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_pages" id="ws-plugin--s2member-level1-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_pages"]) . '" /><br />' . "\n";
-								echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-pages">' . "\n";
-								echo 'Pages That Require Level #2 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_pages" id="ws-plugin--s2member-level2-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_pages"]) . '" /><br />' . "\n";
-								echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-pages">' . "\n";
-								echo 'Pages That Require Level #3 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_pages" id="ws-plugin--s2member-level3-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_pages"]) . '" /><br />' . "\n";
-								echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-pages">' . "\n";
-								echo 'Pages That Require Highest Level #4:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_pages" id="ws-plugin--s2member-level4-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_pages"]) . '" /><br />' . "\n";
-								echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";
@@ -278,91 +150,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-ptags">' . "\n";
-								echo 'Tags That Require Level #0 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-ptags">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Tags That Require Highest Level #' . $n . ':' . "\n" : 'Tags That Require Level #' . $n . ' Or Higher:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_ptags" id="ws-plugin--s2member-level' . $n . '-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]) . '" /><br />' . "\n";
+										echo 'Tags in comma-delimited format. Example: ' . (($n === 0) ? '<code>free,subscribers only</code>' : '<code>members,members only</code>') . ' — or you can type: <code>all</code>.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_ptags" id="ws-plugin--s2member-level0-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_ptags"]) . '" /><br />' . "\n";
-								echo 'Tags in comma-delimited format. Example: <code>free,subscribers only</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-ptags">' . "\n";
-								echo 'Tags That Require Level #1 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_ptags" id="ws-plugin--s2member-level1-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_ptags"]) . '" /><br />' . "\n";
-								echo 'Tags in comma-delimited format. Example: <code>premium,members only</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-ptags">' . "\n";
-								echo 'Tags That Require Level #2 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_ptags" id="ws-plugin--s2member-level2-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_ptags"]) . '" /><br />' . "\n";
-								echo 'Tags in comma-delimited format. Example: <code>premium,members only</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-ptags">' . "\n";
-								echo 'Tags That Require Level #3 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_ptags" id="ws-plugin--s2member-level3-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_ptags"]) . '" /><br />' . "\n";
-								echo 'Tags in comma-delimited format. Example: <code>premium,members only</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-ptags">' . "\n";
-								echo 'Tags That Require Highest Level #4:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_ptags" id="ws-plugin--s2member-level4-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_ptags"]) . '" /><br />' . "\n";
-								echo 'Tags in comma-delimited format. Example: <code>premium,members only</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";
@@ -386,91 +195,30 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-catgs">' . "\n";
-								echo 'Categories That Require Level #0 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-catgs">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Categories That Require Highest Level #' . $n . ':' . "\n" : 'Categories That Require Level #' . $n . ' Or Higher:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_catgs" id="ws-plugin--s2member-level' . $n . '-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) . '" /><br />' . "\n";
+										echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										/**/
+										echo '<tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_catgs" id="ws-plugin--s2member-level0-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_catgs"]) . '" /><br />' . "\n";
-								echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-catgs">' . "\n";
-								echo 'Categories That Require Level #1 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_catgs" id="ws-plugin--s2member-level1-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_catgs"]) . '" /><br />' . "\n";
-								echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-catgs">' . "\n";
-								echo 'Categories That Require Level #2 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_catgs" id="ws-plugin--s2member-level2-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_catgs"]) . '" /><br />' . "\n";
-								echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-catgs">' . "\n";
-								echo 'Categories That Require Level #3 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_catgs" id="ws-plugin--s2member-level3-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_catgs"]) . '" /><br />' . "\n";
-								echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-catgs">' . "\n";
-								echo 'Categories That Require Highest Level #4:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_catgs" id="ws-plugin--s2member-level4-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_catgs"]) . '" /><br />' . "\n";
-								echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";
@@ -495,91 +243,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-ruris">' . "\n";
-								echo 'URIs That Require Level #0 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-ruris">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'URIs That Require Highest Level #' . $n . ':' . "\n" : 'URIs That Require Level #' . $n . ' Or Higher:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<textarea name="ws_plugin__s2member_level' . $n . '_ruris" id="ws-plugin--s2member-level' . $n . '-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"]) . '</textarea><br />' . "\n";
+										echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<textarea name="ws_plugin__s2member_level0_ruris" id="ws-plugin--s2member-level0-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_ruris"]) . '</textarea><br />' . "\n";
-								echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-ruris">' . "\n";
-								echo 'URIs That Require Level #1 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<textarea name="ws_plugin__s2member_level1_ruris" id="ws-plugin--s2member-level1-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_ruris"]) . '</textarea><br />' . "\n";
-								echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-ruris">' . "\n";
-								echo 'URIs That Require Level #2 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<textarea name="ws_plugin__s2member_level2_ruris" id="ws-plugin--s2member-level2-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_ruris"]) . '</textarea><br />' . "\n";
-								echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-ruris">' . "\n";
-								echo 'URIs That Require Level #3 Or Higher:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<textarea name="ws_plugin__s2member_level3_ruris" id="ws-plugin--s2member-level3-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_ruris"]) . '</textarea><br />' . "\n";
-								echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-ruris">' . "\n";
-								echo 'URIs That Require Highest Level #4:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<textarea name="ws_plugin__s2member_level4_ruris" id="ws-plugin--s2member-level4-ruris" rows="3" wrap="off" spellcheck="false">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_ruris"]) . '</textarea><br />' . "\n";
-								echo 'URIs and/or word fragments found in URIs. One per line please.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 	{
@@ -44,8 +44,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 						/**/
 						$users = (int)mysql_result ($q2, 0);
 						/**/
-						mysql_free_result ($q2);
-						mysql_free_result ($q1);
+						mysql_free_result($q2);
+						mysql_free_result($q1);
 						/**/
 						return $users;
 					}
@@ -317,7 +317,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 								else if (strcasecmp ($field_id, "ip") === 0 && is_object ($current_user) && $current_user->ID === $user_id)
 									return $_SERVER["REMOTE_ADDR"]; /* The current User's IP address, right now. */
 								/**/
-								else if (strcasecmp ($field_id, "s2member_registration_ip") === 0 || strcasecmp ($field_id, "ip") === 0)
+								else if (strcasecmp ($field_id, "s2member_registration_ip") === 0 || strcasecmp ($field_id, "reg_ip") === 0 || strcasecmp ($field_id, "ip") === 0)
 									return get_user_option ("s2member_registration_ip", $user_id);
 								/**/
 								else if (strcasecmp ($field_id, "s2member_subscr_or_wp_id") === 0)

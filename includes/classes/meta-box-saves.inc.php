@@ -56,28 +56,19 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 												{
 													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* Just needs to be set. CAN be empty. */
 														{
-															$pages["0"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_pages"]));
-															$pages["1"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_pages"]));
-															$pages["2"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_pages"]));
-															$pages["3"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_pages"]));
-															$pages["4"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_pages"]));
+															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																$pages[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
 															/**/
-															if (($i = array_search ($page_id, $pages["0"])) !== false) /* Remove $page_id. */
-																unset ($pages["0"][$i]);
-															else if (($i = array_search ($page_id, $pages["1"])) !== false)
-																unset ($pages["1"][$i]);
-															else if (($i = array_search ($page_id, $pages["2"])) !== false)
-																unset ($pages["2"][$i]);
-															else if (($i = array_search ($page_id, $pages["3"])) !== false)
-																unset ($pages["3"][$i]);
-															else if (($i = array_search ($page_id, $pages["4"])) !== false)
-																unset ($pages["4"][$i]);
+															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																if (($i = array_search ($page_id, $pages[$n])) !== false)
+																	unset ($pages[$n][$i]);
 															/**/
-															if (strlen ($_p["ws_plugin__s2member_security_meta_box_level"]) && is_array ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]]))
+															if (isset ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]]) && is_array ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]]))
 																if ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all"))
 																	array_push ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]], $page_id);
 															/**/
-															$new_options = array_merge ((array)$new_options, array ("ws_plugin__s2member_level0_pages" => implode (",", $pages["0"]), "ws_plugin__s2member_level1_pages" => implode (",", $pages["1"]), "ws_plugin__s2member_level2_pages" => implode (",", $pages["2"]), "ws_plugin__s2member_level3_pages" => implode (",", $pages["3"]), "ws_plugin__s2member_level4_pages" => implode (",", $pages["4"])));
+															for ($n = 0, $new_options = array (); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																$new_options = array_merge ($new_options, array ("ws_plugin__s2member_level" . $n . "_pages" => trim (implode (",", $pages[$n]))));
 															/**/
 															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_save_meta_boxes", get_defined_vars ());
@@ -91,28 +82,19 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 												{
 													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* Just needs to be set. CAN be empty. */
 														{
-															$posts["0"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_posts"]));
-															$posts["1"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_posts"]));
-															$posts["2"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_posts"]));
-															$posts["3"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_posts"]));
-															$posts["4"] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_posts"]));
+															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																$posts[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
 															/**/
-															if (($i = array_search ($post_id, $posts["0"])) !== false) /* Remove $post_id. */
-																unset ($posts["0"][$i]);
-															else if (($i = array_search ($post_id, $posts["1"])) !== false)
-																unset ($posts["1"][$i]);
-															else if (($i = array_search ($post_id, $posts["2"])) !== false)
-																unset ($posts["2"][$i]);
-															else if (($i = array_search ($post_id, $posts["3"])) !== false)
-																unset ($posts["3"][$i]);
-															else if (($i = array_search ($post_id, $posts["4"])) !== false)
-																unset ($posts["4"][$i]);
+															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																if (($i = array_search ($post_id, $posts[$n])) !== false)
+																	unset ($posts[$n][$i]);
 															/**/
-															if (strlen ($_p["ws_plugin__s2member_security_meta_box_level"]) && is_array ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]]))
+															if (isset ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]]) && is_array ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]]))
 																if ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all"))
 																	array_push ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]], $post_id);
 															/**/
-															$new_options = array_merge ((array)$new_options, array ("ws_plugin__s2member_level0_posts" => implode (",", $posts["0"]), "ws_plugin__s2member_level1_posts" => implode (",", $posts["1"]), "ws_plugin__s2member_level2_posts" => implode (",", $posts["2"]), "ws_plugin__s2member_level3_posts" => implode (",", $posts["3"]), "ws_plugin__s2member_level4_posts" => implode (",", $posts["4"])));
+															for ($n = 0, $new_options = array (); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																$new_options = array_merge ($new_options, array ("ws_plugin__s2member_level" . $n . "_posts" => trim (implode (",", $posts[$n]))));
 															/**/
 															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_save_meta_boxes", get_defined_vars ());

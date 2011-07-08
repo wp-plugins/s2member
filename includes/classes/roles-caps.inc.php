@@ -15,7 +15,7 @@
 * @since 110524RC
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_roles_caps"))
 	{
@@ -111,8 +111,8 @@ if (!class_exists ("c_ws_plugin__s2member_roles_caps"))
 								if (($role = &get_role ("subscriber")))
 									$role->remove_cap ("access_s2member_level0");
 								/**/
-								for ($n = 1; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									remove_role ("s2member_level" . $n);
+								for ($n = 1; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["max_levels"]; $n++)
+									remove_role("s2member_level" . $n);
 								/**/
 								foreach (array ("administrator", "editor", "author", "contributor", "bbp_moderator") as $role)
 									{
@@ -142,10 +142,10 @@ if (!class_exists ("c_ws_plugin__s2member_roles_caps"))
 							{
 								c_ws_plugin__s2member_roles_caps::config_roles ();
 								/**/
-								exit ("1"); /* Success. */
+								exit("1"); /* Success. */
 							}
 						else
-							exit ("0"); /* Locked. */
+							exit("0"); /* Locked. */
 					}
 			}
 	}

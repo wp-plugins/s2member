@@ -44,7 +44,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						Custom conditionals can be applied by filters.
 						*/
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						if (!($postvars = apply_filters ("ws_plugin__s2member_during_paypal_postvars_conditionals", array (), get_defined_vars ())))
+						if (! ($postvars = apply_filters ("ws_plugin__s2member_during_paypal_postvars_conditionals", array (), get_defined_vars ())))
 							{
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -145,7 +145,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						do_action ("ws_plugin__s2member_before_paypal_api_response", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$url = "https://" . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "api-3t.sandbox.paypal.com" : "api-3t.paypal.com") . "/nvp";
+						$url = "https://" . ( ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "api-3t.sandbox.paypal.com" : "api-3t.paypal.com") . "/nvp";
 						/**/
 						$post_vars = apply_filters ("ws_plugin__s2member_paypal_api_post_vars", $post_vars, get_defined_vars ());
 						$post_vars = (is_array ($post_vars)) ? $post_vars : array (); /* Must be an array. */
@@ -290,7 +290,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						else if (is_string ($string = $array_or_string) && !empty ($string))
 							$subscr_id = trim ($string);
 						/**/
-						return apply_filters ("ws_plugin__s2member_paypal_pro_subscr_id", ((!empty ($subscr_id)) ? $subscr_id : false), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_paypal_pro_subscr_id", ( (!empty ($subscr_id)) ? $subscr_id : false), get_defined_vars ());
 					}
 				/**
 				* Get `item_number` from either an array with `PROFILEREFERENCE|rp_invoice_id|item_number1|item_number`, or use an existing string.
@@ -309,7 +309,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						if (is_array ($array = $array_or_string) && (!empty ($array["PROFILEREFERENCE"]) || !empty ($array["rp_invoice_id"])))
-							list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ((!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
+							list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ( (!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
 						/**/
 						else if (is_array ($array = $array_or_string) && !empty ($array["item_number1"]))
 							$_item_number = trim ($array["item_number1"]);
@@ -320,13 +320,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						else if (is_string ($string = $array_or_string) && !empty ($string))
 							$_item_number = trim ($string);
 						/**/
-						if (!empty ($_item_number) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", $_item_number))
+						if (!empty ($_item_number) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $_item_number))
 							$item_number = $_item_number;
 						/**/
-						else if (!empty ($_item_number) && preg_match ("/^sp\:[0-9,]+\:[0-9]+$/", $_item_number))
+						else if (!empty ($_item_number) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"], $_item_number))
 							$item_number = $_item_number;
 						/**/
-						return apply_filters ("ws_plugin__s2member_paypal_pro_item_number", ((!empty ($item_number)) ? $item_number : false), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_paypal_pro_item_number", ( (!empty ($item_number)) ? $item_number : false), get_defined_vars ());
 					}
 				/**
 				* Get `item_name` from either an array with `product_name|item_name1|item_name`, or use an existing string.
@@ -355,7 +355,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						else if (is_string ($string = $array_or_string) && !empty ($string))
 							$item_name = trim ($string);
 						/**/
-						return apply_filters ("ws_plugin__s2member_paypal_pro_item_name", ((!empty ($item_name)) ? $item_name : false), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_paypal_pro_item_name", ( (!empty ($item_name)) ? $item_name : false), get_defined_vars ());
 					}
 				/**
 				* Get `period1` from either an array with `PROFILEREFERENCE|rp_invoice_id|period1`, or use an existing string.
@@ -378,7 +378,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						/**/
 						if (is_array ($array = $array_or_string) && (!empty ($array["PROFILEREFERENCE"]) || !empty ($array["rp_invoice_id"])))
 							{
-								list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ((!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
+								list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ( (!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
 								list ($_start_time, $_period1, $_period3) = array_map ("trim", preg_split ("/\:/", $_reference, 3));
 							}
 						else if (is_array ($array = $array_or_string) && !empty ($array["period1"]))
@@ -430,7 +430,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						/**/
 						if (is_array ($array = $array_or_string) && (!empty ($array["PROFILEREFERENCE"]) || !empty ($array["rp_invoice_id"])))
 							{
-								list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ((!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
+								list ($_reference, $_domain, $_item_number) = array_map ("trim", preg_split ("/~/", ( (!empty ($array["PROFILEREFERENCE"])) ? $array["PROFILEREFERENCE"] : $array["rp_invoice_id"]), 3));
 								list ($_start_time, $_period1, $_period3) = array_map ("trim", preg_split ("/\:/", $_reference, 3));
 							}
 						else if (is_array ($array = $array_or_string) && !empty ($array["period3"]))

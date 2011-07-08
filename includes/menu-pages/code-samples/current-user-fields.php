@@ -8,20 +8,23 @@ Custom Fields are also included in the JSON decoded array.
 
 ---- s2member Shortcode Equivalents ----
 
+[s2Get user_field="id" /]
+[s2Get user_field="ip" /]
+[s2Get user_field="reg_ip" /]
+[s2Get user_field="email" /]
+[s2Get user_field="login" /]
 [s2Get user_field="first_name" /]
 [s2Get user_field="last_name" /]
-[s2Get user_field="Website URL" /]
-[s2Get user_field="My Custom Field Name" /]
-[s2Get user_field="my_custom_field_name" /]
+[s2Get user_field="display_name" /]
+[s2Get user_field="s2member_custom" /]
+[s2Get user_field="s2member_subscr_id" /]
+[s2Get user_field="s2member_subscr_or_wp_id" /]
+[s2Get user_field="s2member_subscr_gateway" /]
+[s2Get user_field="my_custom_field_id" /]
 [s2Get user_field="any other WP_User property" /]
 
-You can also pull details from the meta table.
-[s2Get user_option="s2member_custom" /]
-[s2Get user_option="s2member_subscr_id" /]
-[s2Get user_option="s2member_subscr_gateway" /]
-[s2Get user_option="s2member_last_payment_time" /]
-[s2Get user_option="s2member_auto_eot_time" /]
-[s2Get user_option="any other meta_key" /]
-
-Or to include the JSON encoded array into a JavaScript routine.
-[s2Get constant="S2MEMBER_CURRENT_USER_FIELDS" /]
+Or, to include the JSON encoded array in a JavaScript routine.
+<script type="text/javascript">
+	var fieldsObj = [s2Get constant="S2MEMBER_CURRENT_USER_FIELDS" /];
+	document.write(fieldsObj.display_name);
+</script>

@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110620
-Stable tag: 110620
+Version: 110708
+Stable tag: 110708
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -19,7 +19,7 @@ ClickBank® Compatible: w/ s2Member Pro
 AliPay® Compatible: w/ s2Member Pro
 ccBill® Compatible: w/ s2Member Pro
 
-Tested up to: 3.1.3
+Tested up to: 3.2
 Requires at least: 3.1
 Requires: WordPress® 3.1+, PHP 5.2.3+
 
@@ -53,22 +53,16 @@ s2Member® (Membership w/ PayPal®). Powerful (free) membership capabilities. Pr
 = Upgrading to the latest version? =
 Please visit [this page](http://www.primothemes.com/forums/viewtopic.php?f=36&t=247) for [easy upgrade instructions](http://www.primothemes.com/forums/viewtopic.php?f=36&t=247).
 
-= Auto-installing through WordPress® ( memory errors? ) =
-This depends on your hosting provider and/or server configuration. Some web hosting companies impose very low limits on the amount of memory available to WordPress® during the execution of a single script. Since s2Member is a larger plugin, WordPress® may exceed conservative limits set forth by shared hosting companies. Don't feel bad, it's a very common problem. The solution is to install manually, using the instructions above. Memory limits only affect the WordPress® auto-installation routine, not the actual functionality of WordPress® or s2Member.
-
 = Is s2Member compatible with Multisite Networking ? =
 Yes. s2Member, and also s2Member Pro, are BOTH compatible with Multisite Networking enabled. After you enable Multisite Networking, install the s2Member plugin. Then navigate to `s2Member -> Multisite ( Config )` in the Dashboard on your ( Main Site ).
-
-= What about Multisite Networking ( WPMU ), used on a Blog Farm? =
-Yes, preliminary ( experimental ) support for Multisite Blog Farms has also been implemented. If you're running a Multisite Blog Farm ( i.e. you offer Blogs ), please contact s2Member.com for further details. With Multisite Networking enabled, your site could ALSO offer a Customer access to create a Blog of their own, where a Customer becomes a "Member" of your ( Main Site ), and also a Blog Owner/Administrator. With s2Member installed ( Network wide ), each of your Blog Owners could offer Membership too, using a single installation of the s2Member plugin ( which is a great selling point ). We refer to this as a Multisite Blog Farm. You can get started now, by turning on [Multisite Networking](http://codex.wordpress.org/Create_A_Network) inside your installation of WordPress®. Then, install the s2Member plugin ( Network wide ). In the Dashboard for your Main Site, see: `s2Member -> Multisite ( Config )`.
 
 == Description ==
 
 [youtube http://www.youtube.com/watch?v=FyA8Qmm2DHY /]
 
-s2Member® (Membership w/ PayPal®). Powerful (free) membership capabilities. Protect members only content. The s2Member Framework (free) integrates w/ PayPal® (very easy), and fully supports recurring billing. s2Member supports custom Pages for registration (including Custom Registration Fields), account access, and a whole lot more. s2Member is now compatible with Multisite Networking too, and even with BuddyPress and bbPress. In addition, with the s2Member Pro Module (an optional paid upgrade), you can add support for PayPal® Pro (w/ Pro Forms), Authorize.Net® (w/ Pro Forms), ccBill®, Google® Checkout, ClickBank®, and reach over 1 billion people in China with s2Member's AliPay® integration. Videos available at: [s2Member.com / Videos](http://www.s2member.com/videos/).
+s2Member® (Membership w/ PayPal®). Powerful (free) membership capabilities. Protect members only content. The s2Member Framework (free) integrates w/ PayPal® (very easy), and fully supports recurring billing. s2Member supports custom Pages for registration (including Custom Registration Fields), account access, and a lot more. s2Member is now compatible with Multisite Networking too, and even with BuddyPress and bbPress. In addition, with the s2Member Pro Module (an optional paid upgrade), you can add support for unlimited Membership Levels, PayPal® Pro (w/ Pro Forms), Authorize.Net® (w/ Pro Forms), ccBill®, Google® Checkout, ClickBank®, AliPay®, advanced User Import/Export tools, the ability to use Coupon Codesm, and more. Videos available at: [s2Member.com / Videos](http://www.s2member.com/videos/).
 
-s2Member supports Free Subscribers (at Level #0), and up to four primary Membership Levels, [1-4]; plus unlimited Custom Capability Packages. You can label your Membership Levels anything you like. The defaults are Free, Bronze, Silver, Gold, and Platinum. Custom Capabilities are an easy way to extend s2Member in creative ways. Custom Capabilities allow you to create an unlimited number of Membership Packages, all with different Capabilities and prices.
+s2Member supports Free Subscribers (at Level #0), and four primary Membership Levels [1-4] (unlimited with s2Member Pro). You can label your Membership Levels anything you like. The defaults are Free, Bronze, Silver, Gold, and Platinum. s2Member also supports an unlimited number of Custom Capability Packages. Custom Capabilities are an easy way to extend s2Member in creative ways. Custom Capabilities allow you to create an unlimited number of Membership Packages, all with different Capabilities and prices.
 
 s2Member allows you to protect Pages, Posts, Tags, Categories, URIs, URI word fragments, URI Replacement Codes for BuddyPress, Specific Post/Page "Buy Now" Access, and even portions of content within Posts/Pages/themes/plugins. Everything is configurable through the s2Member Options Panel. This makes s2Member VERY easy to integrate into any WordPress® site. With s2Member, you can also protect downloadable files, using restrictions to control how many downloads can occur within a certain amount of time; all based on Membership Level. sMember also integrates with Amazon® S3 (optional).
 
@@ -76,7 +70,7 @@ Each Membership Level can have different restrictions, and you could even integr
 
 You can also sell Specific Post/Page Access (membership not required), using "Buy Now" buttons. You can even package multiple Posts/Pages together into one "Buy Now" transaction. Further details are provided under `s2Member -> PayPal® Buttons -> Specific Posts/Pages`. Specific Post/Page Access, is like selling a product. Only, instead of shipping anything to the Customer, you just give them access to a specific Post/Page on your site; one that you created in WordPress®. A Specific Post/Page protected by s2Member, might contain a download link for your eBook, access to file & music downloads, access to support services, and the list goes on. The possibilities with this are endless; as long as your digital product can be delivered through access to a WordPress® Post/Page. For instance, you might sell an existing Member an additional item (without affecting their current Membership plan).
 
-New! - [s2Member Pro](http://www.s2member.com/) is an add-on for the free version of s2Member. [s2Member Pro](http://www.s2member.com/) adds [PayPal® Pro integration](http://www.primothemes.com/forums/viewtopic.php?f=4&t=304), PayPal® Pro Form Generators, Authorize.Net® integration, ccBill®, Google® Checkout, ClickBank®, AliPay®, advanced User Import/Export tools, support for Coupon Codes, and more. A purchase of s2Member Pro includes free lifetime upgrades; along with full access to our [video tutorial library](http://www.s2member.com/videos/).
+New! - [s2Member Pro](http://www.s2member.com/) is an add-on for the free version of s2Member. [s2Member Pro](http://www.s2member.com/) adds support for unlimited Membership Levels, PayPal® Pro (w/ Pro Forms), Authorize.Net® (w/ Pro Forms), ccBill®, Google® Checkout, ClickBank®, AliPay®, advanced User Import/Export tools, and the ability to use Coupon Codes. Videos available at: [s2Member.com / Videos](http://www.s2member.com/videos/).
 
 == Screenshots ==
 
@@ -108,14 +102,14 @@ Yes, many [common questions/problems/tips](http://www.primothemes.com/forums/vie
 = Where can I download older versions of s2Member? =
 Archived releases of s2Member are maintained [here](http://wordpress.org/extend/plugins/s2member/download/).
 
-= Does s2Member install any new database tables? =
-No, s2Member has been fully integrated with Roles/Capabilities; already built into WordPress®. It is designed to be completely seamless, without code bloat. We've carefully structured the entire framework, in order to maximize s2Member's ability to operate with other plugins installed. For instance, s2Member is also compatible with BuddyPress; and can even be used to protect forums powered by bbPress.
-
 = Does PayPal integration work right-out-of-the-box? =
 Yes, it can even generate your PayPal® Subscription Buttons for you. Everything is fully integrated. You even get to create your own Pages within WordPress® to handle Membership Options, the Login Welcome Page, etc. For advanced webmasters, there are scripting techniques that are documented as well. These will help you further develop your site and tailor it to meet your specific needs. s2Member API Scripting is NOT required however.
 
 = How many Membership Levels are supported? =
-s2Member supports Free Subscribers ( at Level #0 ), and four primary Membership Levels [1-4]; plus unlimited Custom Capability packages. You can label your Membership Levels anything you like. The defaults are Free, Bronze, Silver, Gold, Platinum. Custom Capabilities are an easy way to extend s2Member in very creative ways. Custom Capabilities allow you to create an unlimited number of Membership Packages, all with different Capabilities and prices. s2Member also makes it possible to sell an unlimited number of Specific Post/Page Access Links using "Buy Now" buttons. Further details are provided under `s2Member -> PayPal® Buttons -> Specific Posts/Pages`.
+s2Member supports Free Subscribers (at Level #0), and four primary Membership Levels [1-4] (unlimited with s2Member Pro). You can label your Membership Levels anything you like. The defaults are Free, Bronze, Silver, Gold, and Platinum. s2Member also supports an unlimited number of Custom Capability Packages. Custom Capabilities are an easy way to extend s2Member in creative ways. Custom Capabilities allow you to create an unlimited number of Membership Packages, all with different Capabilities and prices.
+
+= How can I extend s2Member beyond four Levels? =
+With s2Member "Pro" installed, you may configure an unlimited number of Membership Levels. You can set the number of Membership Levels by adding this line to your /wp-config.php file: `define("MEMBERSHIP_LEVELS", 4);`. Feel free to change the default value of 4 to whatever you need. The miniumum allowed value is `1`. The recommended maximum is `100`.
 
 = Does s2Member utilize the PayPal® IPN system? =
 Yes, s2Member supports automation of account activation, welcome emails, confirmations, renewals, deactivation, refunds, etc. The integration with PayPal® is seamless. s2Member even provides API Notifications, which are an added layer of functionality. These are not to be confused with the IPN service. s2Member API Notifications make it easier to integrate back-office routines, affiliate programs, list servers, or any other 3rd-party applications that should react to certain events.
@@ -141,26 +135,20 @@ Yes, there were some bugs in the beginning, but they have been fixed now. Both Q
 = Is s2Member compatible with Multisite Networking? =
 Yes. s2Member, and also s2Member Pro, are both compatible with Multisite Networking enabled. After you enable Multisite Networking, install the s2Member plugin. Then navigate to `s2Member -> Multisite ( Config )` in the Dashboard on your ( Main Site ).
 
-= What about Multisite Networking ( WPMU ), used on a Blog Farm? =
-Yes, preliminary ( experimental ) support for Multisite Blog Farms has also been implemented. If you're running a Multisite Blog Farm ( i.e. you offer Blogs ), please contact s2Member.com for further details. With Multisite Networking enabled, your site could ALSO offer a Customer access to create a Blog of their own, where a Customer becomes a "Member" of your ( Main Site ), and also a Blog Owner/Administrator. With s2Member installed ( network wide ), each of your Blog Owners could offer Membership too, using a single installation of the s2Member plugin ( which is a great selling point! ). We refer to this as a Multisite Blog Farm. You can get started now, by turning on [Multisite Networking](http://codex.wordpress.org/Create_A_Network) inside your installation of WordPress®. Then, install the s2Member plugin ( network wide ). In the Dashboard for your Main Site, see: `s2Member -> Multisite ( Config )`.
-
 = Is s2Member compatible with the BuddyPress plugin for WordPress? =
 Yes it is. In fact, we must say... the s2Member/BuddyPress combination is just awesome. These two plugins running together make all sorts of things possible.
 
 = How does s2Member know when to demote a paid Member to a Free Subscriber? =
 s2Member uses its built-in Auto-EOT System. EOT = End Of Term. Whenever you generate a PayPal® Button with s2Member, you'll configure a length for the Subscription. Depending on the type of Subscription you choose ( recurring, non-recurring, lifetime, or fixed-term ); s2Member will either use PayPal's IPN/`subscr_payment,subscr_cancel,subscr_eot` notices, or it will set an Automatic EOT Time, which is processed automatically by s2Member via WP_Cron. For each Member, you can also override the EOT Time, by forcing a specific expiration date. To manually adjust the EOT Time for a specific Member, go to: `WordPress® -> Users`, and click the Edit link next the Member you want to work on.
 
-= Why do I get memory errors during installation and/or upgrade? =
-This depends on your hosting provider and/or server configuration. Some web hosting companies impose very low limits on the amount of memory available to WordPress® during the execution of a single script. Since s2Member is a larger plugin, WordPress® may exceed conservative limits set forth by shared hosting companies. Don't feel bad, it's a very common problem. The solution is to upgrade manually. Memory limits only affect the WordPress® auto-installation/upgrade routine, not the actual functionality of WordPress® or s2Member.
-
 = How can I see more of what's going on behind-the-scene? =
-s2Member comes with three very sophisticated logging routines for PayPal®. One for its PayPal® IPN communication ( and resulting actions ). Another logs Return-Data processing. Another logs PayPal® API communication ( i.e. for dynamic Button Encryption, if enabled; and/or for the s2Member Pro add-on communication with the PayPal® Pro API ). You can enable all of these logging routines, by going to: `s2Member -> PayPal® Options -> Account Details -> Logging`.
+s2Member comes with very sophisticated logging routines for PayPal®. One for its PayPal® IPN communication ( and resulting actions ). Another logs Return-Data processing. Another logs PayPal® API communication ( i.e. for dynamic Button Encryption, if enabled; and/or for the s2Member Pro add-on communication with the PayPal® Pro API ). You can enable all of these logging routines, by going to: `s2Member -> PayPal® Options -> Account Details -> Logging`.
 
 = When a User/Member is demoted by the Auto-EOT System, are Custom Capabilities removed too? =
 Yes, whenever a User/Member is demoted, s2Member resets their account back to a Free Subscriber. Any Custom Capabilities the Member had, will be removed.
 
 = When a User/Member upgrades, are existing Custom Capabilities preserved? =
-No, by default, s2Member will reset their Custom Capabilities to the ones listed in the Payment Button/Form that initiates the upgrade. However, starting with s2Member v3.5+, it is now possible to start your list of Custom Capabilities with a `+` sign. This tells s2Member to (ADD) a comma-delimited list of new Custom Capabilities to any that may or may not already exist for a given Member. So this behavior can now be modified during Button/Form generation with s2Member.
+No, by default, s2Member will reset their Custom Capabilities to the ones listed in the Payment Button/Form that initiates the upgrade. However, starting with s2Member v3.5+, it is now possible to start your list of Custom Capabilities with a `+` sign. This tells s2Member to (ADD) a comma-delimited list of new Custom Capabilities to any that may, or may not, already exist for a given Member. So this behavior can now be modified during Button/Form generation with s2Member.
 
 = Can s2Member implement a Captcha Code on my Login/Registration Forms? =
 Yes and no. We've left this feature out of the plugin intentionally, because many site owners prefer to use Captcha plugins that encompass all aspects of their site ( including comment forms ). We recommend this one: [SI CAPTCHA Anti-Spam](http://wordpress.org/extend/plugins/si-captcha-for-wordpress/). That being said, [s2Member's Pro Forms](http://www.s2member.com/) for PayPal® Pro and Authorize.Net® ( including Free Registration Forms ) CAN be configured to use Google's reCAPTCHA service. Just add this Attribute to any Pro Form Shortcode ( `captcha="clean"` ). For further details, please check your Dashboard under: `s2Member -> PayPal® Pro Forms -> Shortcode Attributes ( explained )`.
@@ -172,6 +160,15 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110708 =
+* **(s2Member/s2Member Pro) Compatibility.** s2Member updated to support WordPress® v3.2.
+* **(s2Member Pro) Unlimited Membership Levels.** With s2Member Pro installed, you may now configure an unlimited number of Membership Levels. You can set the number of Membership Levels by adding this line to your /wp-config.php file: `define("MEMBERSHIP_LEVELS", 4);`. Feel free to change the default value of 4 to whatever you need. The miniumum allowed value is 1. The recommended maximum is 100. For further details, please check your Dashboard, under: `s2Member -> General Options -> Membership Levels/Labels`.
+* **(s2Member/s2Member Pro) Email Configuration.** Some new options are now available that allow site owners to customize the email that contains the Username/Password for new Users/Members. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.
+* **(s2Member/s2Member Pro) Bug fix.** A problem with certain email addresses routed through the `wp_mail()` function, containing special characters in the "Name" portion. The issue was related to the way in which `wp_mail()` handles recipient addresses in the format `"Name" <address>`. s2Member now strips double quotes dynamically ( i.e. internally ), so that `wp_mail()` and the PHPMailer class can deal with this format on their own. This bug fix should also prevent seemingly random `500 Internal Server Error` messages during checkout. One symptom of this bug was to find "Premature end of script headers" inside your Apache error log, followed by an error code of `500` reported in the browser. These issues have been corrected in this release of s2Member.
+* **(s2Member) Bug fix.** A bug first introduced in v110604 was preventing s2Member from setting a User's "Display Name" during Registration properly. This bug has been corrected in the latest release. In addition, a new configurable option for this behavior has been added to the s2Member General Options panel. For further details, please check your Dashboard under: `s2Member -> General Options -> Custom Registration Fields -> Display Name`.
+* **(s2Member) Bug fix.** A bug first introduced in v110604 was preventing s2Member from handling password strenth meters in the Stand-Alone Profile Editing Panel ( i.e. the popup version ).
+* **(s2Member) Documentation.** s2Member's `API Scripting` sections inside your Dashboard have been updated in various places, in support of some new API Functions/Constants introduced in the latest versions of s2Member; and also to reference relevant articles in the [s2Member Codex](http://www.primothemes.com/forums/viewforum.php?f=40).
 
 = v110620 =
 * **(s2Member) Bug fix.** s2Member has been updated to support GMT offset in date calculations for Registration Time. In previous versions, this was addressed using `date_i18n()`, but this update now includes the proper function call to `get_date_from_gmt()`. No changes are necessary, as this update simply corrects the way Registration Times are displayed in your list of Users. Starting with v110620, s2Member will now display Registration Times with the correct GMT offset, based on your configuration of `WordPress -> General Options -> Timezone`.

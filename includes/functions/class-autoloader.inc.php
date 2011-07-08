@@ -20,9 +20,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/*
-The __autoload function for s2Member classes.
-*/
+/**/
 if (!function_exists ("ws_plugin__s2member_classes"))
 	{
 		/**

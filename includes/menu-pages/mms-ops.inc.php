@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 	{
@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® Multisite ( Configuration )</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® Multisite ( Configuration )</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -130,9 +128,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-mms-registration-section">' . "\n";
 										echo '<img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/large-icon.png" title="s2Member ( a Membership management system for WordPress® )" alt="" style="float:right; margin:0 0 0 25px; border:0;" />' . "\n";
 										echo '<h3>Multisite Registration ( Main Site Configuration )</h3>' . "\n";
-										echo '<p>s2Member supports Free Subscribers ( at Level #0 ), along with four Primary Levels [1-4] of paid Membership. If you want your visitors to be capable of registering absolutely free, you will want to "allow" Open Registration. Whenever a visitor registers without paying, they\'ll automatically become a Free Subscriber, at Level #0.</p>' . "\n";
+										echo '<p>s2Member supports Free Subscribers <em>( at Level #0 )</em>, and several Primary Roles created by the s2Member plugin (<em> i.e. s2Member Levels 1-4, or up to the number of configured Levels )</em>. If you want your visitors to be capable of registering absolutely free, you will want to "allow" Open Registration. Whenever a visitor registers without paying, they\'ll automatically become a Free Subscriber, at Level #0.</p>' . "\n";
 										/**/
-										echo '<p><strong>Running A Multisite Blog Farm?</strong> With Multisite Networking enabled, your Main Site could ALSO offer a Customer access to create a Blog of their own <em>( optional )</em>, where a Customer becomes a "Member" of your Main Site, and also a Blog Owner/Administrator of at least one other Blog on your Network. With s2Member installed ( Network wide ), each of your Blog Owners could offer Membership too, using a single copy of the s2Member plugin, which is a great selling point<em>!</em> We refer to this type of installation as a Multisite Blog Farm. If your Network is making it possible for Members to create and/or manage Blogs, s2Member will consider your installation to be a Multisite Blog Farm.</p>' . "\n";
+										echo '<p><strong>Running A Multisite Blog Farm?</strong> With Multisite Networking enabled, your Main Site could ALSO offer a Customer access to create a Blog of their own <em>( optional )</em>, where a Customer becomes a "Member" of your Main Site, and also a Blog Owner/Administrator of at least one other Blog on your Network. With s2Member installed <em>( Network wide )</em>, each of your Blog Owners could offer Membership too, using a single copy of the s2Member plugin, which is a great selling point<em>!</em> We refer to this type of installation as a Multisite Blog Farm. If your Network is making it possible for Members to create and/or manage Blogs, s2Member will consider your installation to be a Multisite Blog Farm.</p>' . "\n";
 										/**/
 										echo '<p>Multisite Networking makes a new Registration Form available <em>( driven by your theme )</em>; which we refer to as: <code>/wp-signup.php</code>. If, and only if, you\'re planning to offer Blogs, you MUST use <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external">/wp-signup.php</a>, instead of using the Standard Login/Registration Form. In a Multisite installation, we refer to the Standard Login/Registration Form, as: <code>/wp-login.php?action=register</code>. If you\'re planning to offer Membership Access only, and NOT Blogs, you can simply use the <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external">Standard Login/Registration Form</a>, which is easily customized through <code>s2Member -> General Options -> Login/Registration Design</code>, on your Main Site. In either case, s2Member Pro Forms are possible too. If you\'ve purchased s2Member Pro, you could use Pro Forms instead of these WordPress® defaults. That being said, even with s2Member Pro Forms, if you are offering Blogs, you will still need to facilitate the actual creation of each Blog through <code>/wp-signup.php</code>. In other words, Customers can register through s2Member Pro Forms, and even checkout. But when it comes time to setup a new Blog, you will need to redirect your Customer to <code>/wp-signup.php</code>, while they are logged-in. This will allow them to create a new Blog on your Network, based on the configuration options you set below.</p>' . "\n";
 										do_action ("ws_plugin__s2member_during_mms_ops_page_during_left_sections_during_mms_registration", get_defined_vars ());
@@ -260,74 +258,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 										/**/
 										echo '<table class="form-table ws-plugin--s2member-mms-registration-wp-signup" style="margin:0;">' . "\n";
 										echo '<tbody>' . "\n";
-										echo '<tr>' . "\n";
 										/**/
-										echo '<th style="padding-top:0;">' . "\n";
-										echo '<label for="ws-plugin--s2member-mms-registration-blogs-level1">' . "\n";
-										echo 'Membership Level #1 / Maximum Blogs Allowed:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
+										for ($n = 1; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+											{
+												echo '<tr>' . "\n";
+												/**/
+												echo '<th style="padding-top:0;">' . "\n";
+												echo '<label for="ws-plugin--s2member-mms-registration-blogs-level' . $n . '">' . "\n";
+												echo 'Membership Level #' . $n . ' / Maximum Blogs Allowed:' . "\n";
+												echo '</label>' . "\n";
+												echo '</th>' . "\n";
+												/**/
+												echo '</tr>' . "\n";
+												echo '<tr>' . "\n";
+												/**/
+												echo '<td>' . "\n";
+												echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level' . $n . '" id="ws-plugin--s2member-mms-registration-blogs-level' . $n . '" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $n]) . '" /><br />' . "\n";
+												echo 'How many blogs can a Member ( at Level #' . $n . ' ) create?' . "\n";
+												echo '</td>' . "\n";
+												/**/
+												echo '</tr>' . "\n";
+											}
 										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level1" id="ws-plugin--s2member-mms-registration-blogs-level1" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level1"]) . '" /><br />' . "\n";
-										echo 'How many blogs can a Member ( at Level #1 ) create?' . "\n";
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<th>' . "\n";
-										echo '<label for="ws-plugin--s2member-mms-registration-blogs-level2">' . "\n";
-										echo 'Membership Level #2 / Maximum Blogs Allowed:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level2" id="ws-plugin--s2member-mms-registration-blogs-level2" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level2"]) . '" /><br />' . "\n";
-										echo 'How many blogs can a Member ( at Level #2 ) create?' . "\n";
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<th>' . "\n";
-										echo '<label for="ws-plugin--s2member-mms-registration-blogs-level3">' . "\n";
-										echo 'Membership Level #3 / Maximum Blogs Allowed:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level3" id="ws-plugin--s2member-mms-registration-blogs-level3" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level3"]) . '" /><br />' . "\n";
-										echo 'How many blogs can a Member ( at Level #3 ) create?' . "\n";
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<th>' . "\n";
-										echo '<label for="ws-plugin--s2member-mms-registration-blogs-level4">' . "\n";
-										echo 'Membership Level #4 / Maximum Blogs Allowed:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level4" id="ws-plugin--s2member-mms-registration-blogs-level4" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level4"]) . '" /><br />' . "\n";
-										echo 'How many blogs can a Member ( at Level #4 ) create?' . "\n";
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
 										echo '</tbody>' . "\n";
 										echo '</table>' . "\n";
 										echo '</div>' . "\n";

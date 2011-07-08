@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 	{
@@ -66,7 +66,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 														/*
 														Custom conditionals can be applied by Filters.
 														*/
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														if (!apply_filters ("ws_plugin__s2member_during_paypal_return_conditionals", false, get_defined_vars ()))
 															{
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
@@ -74,11 +74,11 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																Specific Post/Page Access ~ Sales.
 																*/
 																if (/**/(preg_match ("/^web_accept$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ("/^sp\:[0-9,]+\:[0-9]+$/", $paypal["item_number"]))/**/
+																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"], $paypal["item_number"]))/**/
 																&& (!preg_match ($payment_status_issues, $paypal["payment_status"]))/**/
 																&& ($paypal["txn_id"])/**/)
 																	{
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_before_sp_access", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																		/**/
@@ -114,13 +114,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																													}
 																					}
 																				/**/
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_during_sp_access", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																				/**/
 																				$paypal["s2member_log"][] = "Redirecting Customer to the Specific Post/Page.";
 																				/**/
-																				wp_redirect($sp_access_url); /* Redirect Customer to the Specific Post/Page. */
+																				wp_redirect ($sp_access_url); /* Redirect Customer to the Specific Post/Page. */
 																			}
 																		else /* Otherwise, the ID must have been invalid. Or the Post/Page was deleted. */
 																			{
@@ -134,7 +134,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																				echo '</script>' . "\n";
 																			}
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_after_sp_access", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	}
@@ -147,11 +147,11 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																So we need to look for (web_accept|subscr_signup|subscr_payment), and treat the same.
 																*/
 																else if (/**/(preg_match ("/^(web_accept|subscr_signup|subscr_payment)$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", $paypal["item_number"]))/**/
+																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $paypal["item_number"]))/**/
 																&& ($paypal["subscr_id"] || ($paypal["subscr_id"] = $paypal["txn_id"]))/**/
 																&& (!preg_match ($payment_status_issues, $paypal["payment_status"]))/**/)
 																	{
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																		/**/
@@ -169,7 +169,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																			/* This advanced method is required whenever a Subscription that is already completed, or was never setup to recur in the first place needs to be modified.
 																			PayPal® will not allow the `modify=1|2` parameter to be used in those scenarios, because technically there is no billing to update; only the account. */
 																			{
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_w_update_vars", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																				/**/
@@ -184,7 +184,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																								/**/
 																								if (is_multisite () && !is_user_member_of_blog ($user_id))
 																									{
-																										add_existing_user_to_blog(array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
+																										add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
 																										$user = new WP_User ($user_id);
 																									}
 																								/**/
@@ -231,7 +231,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																								/**/
 																								$paypal["s2member_log"][] = "s2Member Level/Capabilities updated w/ advanced update routines.";
 																								/**/
-																								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																								do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_w_update_vars", get_defined_vars ());
 																								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																								/**/
@@ -278,7 +278,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																						echo '</script>' . "\n";
 																					}
 																				/**/
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_w_update_vars", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																			}
@@ -287,7 +287,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																		*/
 																		else /* Else this is a normal Subscription signup, we are not updating an existing Subscription. */
 																			{
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_wo_update_vars", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																				/**/
@@ -298,11 +298,11 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																				setcookie ("s2member_subscr_gateway", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["subscr_gateway"]), time () + 31556926, "/");
 																				setcookie ("s2member_subscr_id", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["subscr_id"]), time () + 31556926, "/");
 																				setcookie ("s2member_custom", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["custom"]), time () + 31556926, "/");
-																				setcookie ("s2member_level", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["item_number"]), time () + 31556926, "/");
+																				setcookie ("s2member_item_number", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["item_number"]), time () + 31556926, "/");
 																				/**/
 																				$paypal["s2member_log"][] = "Registration Cookies set on (web_accept|subscr_signup|subscr_payment) w/o update vars.";
 																				/**/
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_wo_update_vars", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																				/**/
@@ -349,12 +349,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																							}
 																					}
 																				/**/
-																				eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																				do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_wo_update_vars", get_defined_vars ());
 																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																			}
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	}
@@ -362,10 +362,10 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																Subscription modifications.
 																*/
 																else if (/**/(preg_match ("/^subscr_modify$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", $paypal["item_number"]))/**/
+																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $paypal["item_number"]))/**/
 																&& ($paypal["subscr_id"])/**/)
 																	{
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_modify", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																		/**/
@@ -385,7 +385,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																						/**/
 																						if (is_multisite () && !is_user_member_of_blog ($user_id))
 																							{
-																								add_existing_user_to_blog(array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
+																								add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
 																								$user = new WP_User ($user_id); /* Now update the $user object we're using. */
 																							}
 																						/**/
@@ -424,7 +424,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																						/**/
 																						$paypal["s2member_log"][] = "s2Member Level/Capabilities updated on Subscription modification.";
 																						/**/
-																						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																						do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_modify", get_defined_vars ());
 																						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																						/**/
@@ -471,7 +471,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																				echo '</script>' . "\n";
 																			}
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_modify", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	}
@@ -504,13 +504,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 											}
 										else /* In this case ... a Proxy has explicitly requested ty-email processing. */
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_before_explicit_ty_email", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
 												$paypal["s2member_log"][] = "Customer must wait for Email Confirmation ( proxy_use: ty-email ).";
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_during_explicit_ty_email", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -522,20 +522,20 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 												echo "window.location = '" . esc_js (home_url ("/")) . "';";
 												echo '</script>' . "\n";
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_after_explicit_ty_email", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 									}
 								else if (!isset ($_GET["tx"])) /* No Return-Data from PayPal® at all? */
 									{
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_paypal_return_before_no_return_data", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										$paypal["s2member_log"][] = "No Return-Data from PayPal®. Customer must wait for Email Confirmation.";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_paypal_return_during_no_return_data", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -547,7 +547,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 										echo "window.location = '" . esc_js (home_url ("/")) . "';";
 										echo '</script>' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_paypal_return_after_no_return_data", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 									}
@@ -594,14 +594,14 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 										if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
 											file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($paypal, true) . "\n\n", FILE_APPEND);
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
 								exit (); /* Clean exit. */
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_paypal_return", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 					}

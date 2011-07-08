@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_labels"))
 	{
@@ -65,10 +65,10 @@ if (!class_exists ("c_ws_plugin__s2member_labels"))
 					{
 						if ($text && $context && stripos ($context, "User role") === 0 && ($role = $text))
 							{
-								if (preg_match ("/^(Free )?Subscriber$/i", $role) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"])
+								if (preg_match ("/^(Free )?Subscriber$/i", $role) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"]))
 									$translation = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"];
 								/**/
-								else if (preg_match ("/^s2Member Level ([0-9]+)$/i", $role, $m) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $m[1] . "_label"])
+								else if (preg_match ("/^s2Member Level ([0-9]+)$/i", $role, $m) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $m[1] . "_label"]))
 									$translation = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $m[1] . "_label"];
 								/**/
 								$translation = apply_filters ("_ws_plugin__s2member_label_translations", $translation, get_defined_vars ());

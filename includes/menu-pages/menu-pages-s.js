@@ -98,7 +98,7 @@ jQuery(document).ready (function($)
 			{
 				ws_plugin__s2member_generateSecurityKey = function() /* Generates a unique Security Key. */
 					{
-						var mt_rand = function(min, max) /* The PHP equivalent to mt_rand(). */
+						var mt_rand = function(min, max) /* The JS equivalent to mt_rand(). */
 							{
 								min = (arguments.length < 1) ? 0 : min;
 								max = (arguments.length < 2) ? 2147483647 : max;
@@ -908,21 +908,26 @@ jQuery(document).ready (function($)
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-paypal-buttons/))
 			{
-				$('select#ws-plugin--s2member-level1-term, select#ws-plugin--s2member-level2-term, select#ws-plugin--s2member-level3-term, select#ws-plugin--s2member-level4-term, select#ws-plugin--s2member-modification-term').change (function()
+				$('div.ws-menu-page select[id]').filter (function() /* Filter all select elements with an id. */
+					{
+						return this.id.match (/^ws-plugin--s2member-(level[1-9][0-9]*|modification)-term$/);
+					}).change (function()
 					{
 						var button = this.id.replace (/^ws-plugin--s2member-(.+?)-term$/g, '$1');
-						/**/
 						var trialDisabled = ($(this).val ().split ('-')[2].replace (/[^0-1BN]/g, '') === 'BN') ? 1 : 0;
 						/**/
 						$('p#ws-plugin--s2member-' + button + '-trial-line').css ('display', (trialDisabled ? 'none' : ''));
 						$('span#ws-plugin--s2member-' + button + '-trial-then').css ('display', (trialDisabled ? 'none' : ''));
 						$('span#ws-plugin--s2member-' + button + '-20p-rule').css ('display', (trialDisabled ? 'none' : ''));
 						/**/
-						(trialDisabled) ? $('input#ws-plugin--s2member-' + form + '-trial-period').val (0) : null;
-						(trialDisabled) ? $('input#ws-plugin--s2member-' + form + '-trial-amount').val ('0.00') : null;
+						(trialDisabled) ? $('input#ws-plugin--s2member-' + button + '-trial-period').val (0) : null;
+						(trialDisabled) ? $('input#ws-plugin--s2member-' + button + '-trial-amount').val ('0.00') : null;
 					});
 				/**/
-				$('input#ws-plugin--s2member-level1-ccaps, input#ws-plugin--s2member-level2-ccaps, input#ws-plugin--s2member-level3-ccaps, input#ws-plugin--s2member-level4-ccaps, input#ws-plugin--s2member-modification-ccaps').keyup (function()
+				$('div.ws-menu-page input[id]').filter (function() /* Filter all input elements with an id. */
+					{
+						return this.id.match (/^ws-plugin--s2member-(level[1-9][0-9]*|modification)-ccaps$/);
+					}).keyup (function()
 					{
 						var value = this.value.replace (/^\+/, ''), plus = (this.value.match (/^\+/)) ? '+' : '';
 						if (value.match (/[^a-z_0-9,]/)) /* Only if there is a problem; because this causes interruptions. */
@@ -933,7 +938,7 @@ jQuery(document).ready (function($)
 					{
 						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '', labels = {};
 						/**/
-						eval("<?php echo c_ws_plugin__s2member_utils_strings::esc_sq($labels); ?>"); /* Labels will NOT contain any double quotes. */
+						eval("<?php echo c_ws_plugin__s2member_utils_strings::esc_dq($labels); ?>");
 						/**/
 						var shortCode = $('input#ws-plugin--s2member-' + button + '-shortcode');
 						var code = $('textarea#ws-plugin--s2member-' + button + '-button');

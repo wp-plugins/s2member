@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 	{
@@ -51,15 +51,15 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 					{
 						do_action ("ws_plugin__s2member_before_display_signup_tracking_codes", get_defined_vars ());
 						/**/
-						if ((!empty ($_COOKIE["s2member_subscr_id"]) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"]))) || (!empty ($_COOKIE["s2member_signup_tracking"]) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_signup_tracking"]))))
+						if ((($reg_cookies = c_ws_plugin__s2member_register_access::reg_cookies_ok ()) && extract ($reg_cookies)) || (!empty ($_COOKIE["s2member_signup_tracking"]) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_signup_tracking"]))))
 							{
 								if (($code = get_transient ($transient = "s2m_" . md5 ("s2member_transient_signup_tracking_codes_" . $subscr_id))))
 									{
-										delete_transient($transient); /* Only display this ONE time. Delete transient immediately. */
+										delete_transient ($transient); /* Only display this ONE time. Delete transient immediately. */
 										/**/
 										echo '<img src="' . esc_attr (site_url ("/?s2member_delete_signup_tracking_cookie=1")) . '" alt="." style="width:1px; height:1px; border:0;" />' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_display_signup_tracking_codes", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -101,11 +101,11 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 							{
 								if (($code = get_transient ($transient = "s2m_" . md5 ("s2member_transient_sp_tracking_codes_" . $txn_id))))
 									{
-										delete_transient($transient); /* Only display this ONE time. Delete transient immediately. */
+										delete_transient ($transient); /* Only display this ONE time. Delete transient immediately. */
 										/**/
 										echo '<img src="' . esc_attr (site_url ("/?s2member_delete_sp_tracking_cookie=1")) . '" alt="." style="width:1px; height:1px; border:0;" />' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_display_sp_tracking_codes", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -115,7 +115,7 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 											}
 										else /* Otherwise, it's safe to allow PHP code. */
 											{
-												eval("?>" . $code);
+												eval ("?>" . $code);
 											}
 									}
 							}

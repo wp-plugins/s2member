@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_start"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® / Quick-Start Guide</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® / Quick-Start Guide</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -89,7 +87,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_start"))
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-login-reg-form-section">' . "\n";
 								echo '<h3>Your Login/Registration Form ( already built-in )</h3>' . "\n";
 								echo '<p>s2Member uses the existing WordPress® Login/Registration system. This is the same Login/Registration Form that you use to access your WP® Dashboard. However, with s2Member installed, your Login/Registration Forms can be customized <em>( re-branded )</em>. <em>See: <code>s2Member -> General Options -> Login/Registration Design</code>.</em> You can make the default Login/Registration Forms match your WordPress® theme design; by changing the background color/image, your logo image, add Custom Fields, and more<em>!</em></p>' . "\n";
-								echo '<p>Since s2Member uses the default Login/Registration system for WordPress®, s2Member is also compatible with themes, and other plugins ( such as BuddyPress ). If your theme has a login form built-in already, chances are, it\'s perfectly compatible with s2Member. There are also many plugins available that are designed to place login forms into your Sidebar; and many of those are also compatible with s2Member\'s integration.</p>' . "\n";
+								echo '<p>Since s2Member uses the default Login/Registration system for WordPress®, s2Member is also compatible with themes, and other plugins <em>( such as BuddyPress )</em>. If your theme has a login form built-in already, chances are, it\'s perfectly compatible with s2Member. There are also many plugins available that are designed to place login forms into your Sidebar; and many of those are also compatible with s2Member\'s integration.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_start_page_during_left_sections_during_log_reg_form", get_defined_vars ());
 								echo '</div>' . "\n";
 								/**/

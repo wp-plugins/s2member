@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 	{
@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® API / Scripting</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® API / Scripting</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -64,13 +62,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_simple_way", get_defined_vars ());
 								/**/
-								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site ()) /* Two versions here. */
+								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site ()) /* Two versions. */
 									{
-										echo '<div class="ws-menu-page-group" title="Using Simple Conditionals">' . "\n";
+										echo '<div class="ws-menu-page-group" title="Simple/Shortcode Conditionals">' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-api-simple-way-section">' . "\n";
 										echo '<h3>Simple Conditionals ( via WordPress® Shortcodes )</h3>' . "\n";
-										echo '<p>In an effort to give you even more control over access restrictions, s2Member makes Simple Conditionals available to you from within WordPress®, using Shortcodes that are fully compatible with both the Visual Editor, and also the HTML Tab in WordPress®. In this section, we\'ll demonstrate several functions that are possible using Shortcodes: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>. To make use of these functions, please follow our code samples below. Using Shortcodes, it\'s easy to build Simple Conditionals within your content; based on a Member\'s Level, or even based on Custom Capabilities. s2Member\'s Shortcodes can be used inside a Post/Page, and also inside Text Widgets.</p>' . "\n";
+										echo '<p>In an effort to give you even more control over access restrictions, s2Member makes Simple Conditionals available to you from within WordPress®, using Shortcodes that are fully compatible with both the Visual Editor, and also the HTML Tab in WordPress®. In this section, we\'ll demonstrate several functions that are possible using Shortcodes: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>user_is(user_id, role)</code></strong>, <strong><code>user_is_not(user_id, role)</code></strong>, <strong><code>user_can(user_id, capability)</code></strong>, <strong><code>user_cannot(user_id, capability)</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>. To make use of these functions, please follow our code samples below. Using Shortcodes, it\'s easy to build Simple Conditionals within your content; based on a Member\'s Level, or even based on Custom Capabilities. s2Member\'s Shortcodes can be used inside a Post/Page, and also inside Text Widgets.</p>' . "\n";
 										echo '<p><em>There are <strong>two different Shortcodes</strong> being demonstrated here:<br /><strong>1. <code>s2If</code></strong> ( for testing simple conditional expressions ).<br /><strong>2. <code>s2Get</code></strong> ( to get an API Constant value, a Custom Field, or meta key ).</em></p>' . "\n";
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_simple_way_farm", get_defined_vars ());
 										/**/
@@ -112,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><em><strong>s2Member supports many <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank" rel="external">Conditional Tags</a> in WordPress®.</strong> Including: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>is_admin()</code></strong>, <strong><code>is_blog_admin()</code></strong>, <strong><code>is_user_admin()</code></strong>, <strong><code>is_network_admin()</code></strong>, <strong><code>is_404()</code></strong>, <strong><code>is_home()</code></strong>, <strong><code>is_front_page()</code></strong>, <strong><code>is_singular(ID|slug|{slug,ID})"</code></strong>, <strong><code>is_single(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page_template(file.php)</code></strong>, <strong><code>is_attachment()</code></strong>, <strong><code>is_feed()</code></strong>, <strong><code>is_archive()</code></strong>, <strong><code>is_search()</code></strong>, <strong><code>is_category(ID|slug|{slug,ID})</code></strong>, <strong><code>is_tax(taxonomy,term)</code></strong>, <strong><code>is_tag(slug|{slug,slug})"</code></strong>, <strong><code>has_tag(slug|{slug,slug})"</code></strong>, <strong><code>is_author(ID|slug|{slug,ID})</code></strong>, <strong><code>is_date()</code></strong>, <strong><code>is_day()</code></strong>, <strong><code>is_month()</code></strong>, <strong><code>is_time()</code></strong>, <strong><code>is_year()</code></strong>, <strong><code>is_sticky(ID)</code></strong>, <strong><code>is_paged()</code></strong>, <strong><code>is_preview()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>in_the_loop()</code></strong>, <strong><code>comments_open()</code></strong>, <strong><code>pings_open()</code></strong>, <strong><code>has_excerpt(ID)</code></strong>, <strong><code>has_post_thumbnail(ID)</code></strong>.</em></p>' . "\n";
+										echo '<p><em><strong>s2Member supports many <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank" rel="external">Conditional Tags</a> in WordPress®.</strong> Including: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>user_is(user_id, role)</code></strong>, <strong><code>user_is_not(user_id, role)</code></strong>, <strong><code>user_can(user_id, capability)</code></strong>, <strong><code>user_cannot(user_id, capability)</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>is_admin()</code></strong>, <strong><code>is_blog_admin()</code></strong>, <strong><code>is_user_admin()</code></strong>, <strong><code>is_network_admin()</code></strong>, <strong><code>is_404()</code></strong>, <strong><code>is_home()</code></strong>, <strong><code>is_front_page()</code></strong>, <strong><code>is_singular(ID|slug|{slug,ID})"</code></strong>, <strong><code>is_single(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page_template(file.php)</code></strong>, <strong><code>is_attachment()</code></strong>, <strong><code>is_feed()</code></strong>, <strong><code>is_archive()</code></strong>, <strong><code>is_search()</code></strong>, <strong><code>is_category(ID|slug|{slug,ID})</code></strong>, <strong><code>is_tax(taxonomy,term)</code></strong>, <strong><code>is_tag(slug|{slug,slug})"</code></strong>, <strong><code>has_tag(slug|{slug,slug})"</code></strong>, <strong><code>is_author(ID|slug|{slug,ID})</code></strong>, <strong><code>is_date()</code></strong>, <strong><code>is_day()</code></strong>, <strong><code>is_month()</code></strong>, <strong><code>is_time()</code></strong>, <strong><code>is_year()</code></strong>, <strong><code>is_sticky(ID)</code></strong>, <strong><code>is_paged()</code></strong>, <strong><code>is_preview()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>in_the_loop()</code></strong>, <strong><code>comments_open()</code></strong>, <strong><code>pings_open()</code></strong>, <strong><code>has_excerpt(ID)</code></strong>, <strong><code>has_post_thumbnail(ID)</code></strong>.</em></p>' . "\n";
 										/**/
 										echo '<p><em><strong>Passing arguments into a Simple Conditional:</strong></em></p>' . "\n";
 										echo '<p><em>1. True/false -> ex: <code>current_user_can()</code> / <code>!current_user_can()</code><br />2. False explicitly -> ex: <code>current_user_cannot()</code><br />3. Passing an ID -> ex: <code>is_page(24)</code><br />4. Passing a Slug -> ex: <code>is_page(my-cool-page)</code><br />5. Passing an Array -> ex: <code>is_page({my-cool-page,24,about,contact-form})</code></em></p>' . "\n";
@@ -128,13 +126,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 									}
 								else /* Otherwise, we can display the standardized version of this information. */
 									{
-										echo '<div class="ws-menu-page-group" title="Using Simple Conditionals">' . "\n";
+										echo '<div class="ws-menu-page-group" title="Simple/Shortcode Conditionals">' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-api-simple-way-section">' . "\n";
 										echo '<h3>Simple Conditionals ( via WordPress® Shortcodes )</h3>' . "\n";
-										echo '<p>In an effort to give you even more control over access restrictions, s2Member makes Simple Conditionals available to you from within WordPress®, using Shortcodes that are fully compatible with both the Visual Editor, and also the HTML Tab in WordPress®. In this section, we\'ll demonstrate several functions that are possible using Shortcodes: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>current_user_is_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_is_not_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_can_for_blog(blog_id,capability)</code></strong>, <strong><code>current_user_cannot_for_blog(blog_id,capability)</code></strong>. To make use of these functions, please follow our code samples below. Using Shortcodes, it\'s easy to build Simple Conditionals within your content; based on a Member\'s Level, or even based on Custom Capabilities. s2Member\'s Shortcodes can be used inside a Post/Page, and also inside Text Widgets.</p>' . "\n";
+										echo '<p>In an effort to give you even more control over access restrictions, s2Member makes Simple Conditionals available to you from within WordPress®, using Shortcodes that are fully compatible with both the Visual Editor, and also the HTML Tab in WordPress®. In this section, we\'ll demonstrate several functions that are possible using Shortcodes: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>user_is(user_id, role)</code></strong>, <strong><code>user_is_not(user_id, role)</code></strong>, <strong><code>user_can(user_id, capability)</code></strong>, <strong><code>user_cannot(user_id, capability)</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>current_user_is_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_is_not_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_can_for_blog(blog_id,capability)</code></strong>, <strong><code>current_user_cannot_for_blog(blog_id,capability)</code></strong>. To make use of these functions, please follow our code samples below. Using Shortcodes, it\'s easy to build Simple Conditionals within your content; based on a Member\'s Level, or even based on Custom Capabilities. s2Member\'s Shortcodes can be used inside a Post/Page, and also inside Text Widgets.</p>' . "\n";
 										echo '<p><em>There are <strong>two different Shortcodes</strong> being demonstrated here:<br /><strong>1. <code>s2If</code></strong> ( for testing simple conditional expressions ).<br /><strong>2. <code>s2Get</code></strong> ( to get an API Constant value, a Custom Field, or meta key ).</em></p>' . "\n";
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_simple_way", get_defined_vars ());
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -174,7 +177,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><em><strong>s2Member supports ALL <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank" rel="external">Conditional Tags</a> in WordPress®.</strong> Including, but not limited to: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>current_user_is_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_is_not_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_can_for_blog(blog_id,capability)</code></strong>, <strong><code>current_user_cannot_for_blog(blog_id,capability)</code></strong>, <strong><code>is_multisite()</code></strong>, <strong><code>is_main_site()</code></strong>, <strong><code>is_super_admin()</code></strong>, <strong><code>is_admin()</code></strong>, <strong><code>is_blog_admin()</code></strong>, <strong><code>is_user_admin()</code></strong>, <strong><code>is_network_admin()</code></strong>, <strong><code>is_404()</code></strong>, <strong><code>is_home()</code></strong>, <strong><code>is_front_page()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>is_singular(ID|slug|{slug,ID})"</code></strong>, <strong><code>is_single(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page_template(file.php)</code></strong>, <strong><code>is_attachment()</code></strong>, <strong><code>is_feed()</code></strong>, <strong><code>is_trackback()</code></strong>, <strong><code>is_archive()</code></strong>, <strong><code>is_search()</code></strong>, <strong><code>is_category(ID|slug|{slug,ID})</code></strong>, <strong><code>is_tax(taxonomy,term)</code></strong>, <strong><code>is_tag(slug|{slug,slug})"</code></strong>, <strong><code>has_tag(slug|{slug,slug})"</code></strong>, <strong><code>is_author(ID|slug|{slug,ID})</code></strong>, <strong><code>is_date()</code></strong>, <strong><code>is_day()</code></strong>, <strong><code>is_month()</code></strong>, <strong><code>is_time()</code></strong>, <strong><code>is_year()</code></strong>, <strong><code>is_sticky(ID)</code></strong>, <strong><code>is_paged()</code></strong>, <strong><code>is_preview()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>in_the_loop()</code></strong>, <strong><code>comments_open()</code></strong>, <strong><code>pings_open()</code></strong>, <strong><code>has_excerpt(ID)</code></strong>, <strong><code>has_post_thumbnail(ID)</code></strong>, <strong><code>is_active_sidebar(ID|number)</code></strong>.</em></p>' . "\n";
+										echo '<p><em><strong>s2Member supports ALL <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank" rel="external">Conditional Tags</a> in WordPress®.</strong> Including, but not limited to: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>user_is(user_id, role)</code></strong>, <strong><code>user_is_not(user_id, role)</code></strong>, <strong><code>user_can(user_id, capability)</code></strong>, <strong><code>user_cannot(user_id, capability)</code></strong>, <strong><code>current_user_is(role)</code></strong>, <strong><code>current_user_is_not(role)</code></strong>, <strong><code>current_user_can(capability)</code></strong>, <strong><code>current_user_cannot(capability)</code></strong>, <strong><code>current_user_is_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_is_not_for_blog(blog_id,role)</code></strong>, <strong><code>current_user_can_for_blog(blog_id,capability)</code></strong>, <strong><code>current_user_cannot_for_blog(blog_id,capability)</code></strong>, <strong><code>is_multisite()</code></strong>, <strong><code>is_main_site()</code></strong>, <strong><code>is_super_admin()</code></strong>, <strong><code>is_admin()</code></strong>, <strong><code>is_blog_admin()</code></strong>, <strong><code>is_user_admin()</code></strong>, <strong><code>is_network_admin()</code></strong>, <strong><code>is_404()</code></strong>, <strong><code>is_home()</code></strong>, <strong><code>is_front_page()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>is_singular(ID|slug|{slug,ID})"</code></strong>, <strong><code>is_single(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page(ID|slug|{slug,ID})</code></strong>, <strong><code>is_page_template(file.php)</code></strong>, <strong><code>is_attachment()</code></strong>, <strong><code>is_feed()</code></strong>, <strong><code>is_trackback()</code></strong>, <strong><code>is_archive()</code></strong>, <strong><code>is_search()</code></strong>, <strong><code>is_category(ID|slug|{slug,ID})</code></strong>, <strong><code>is_tax(taxonomy,term)</code></strong>, <strong><code>is_tag(slug|{slug,slug})"</code></strong>, <strong><code>has_tag(slug|{slug,slug})"</code></strong>, <strong><code>is_author(ID|slug|{slug,ID})</code></strong>, <strong><code>is_date()</code></strong>, <strong><code>is_day()</code></strong>, <strong><code>is_month()</code></strong>, <strong><code>is_time()</code></strong>, <strong><code>is_year()</code></strong>, <strong><code>is_sticky(ID)</code></strong>, <strong><code>is_paged()</code></strong>, <strong><code>is_preview()</code></strong>, <strong><code>is_comments_popup()</code></strong>, <strong><code>in_the_loop()</code></strong>, <strong><code>comments_open()</code></strong>, <strong><code>pings_open()</code></strong>, <strong><code>has_excerpt(ID)</code></strong>, <strong><code>has_post_thumbnail(ID)</code></strong>, <strong><code>is_active_sidebar(ID|number)</code></strong>.</em></p>' . "\n";
 										/**/
 										echo '<p><em><strong>Passing arguments into a Simple Conditional:</strong></em></p>' . "\n";
 										echo '<p><em>1. True/false -> ex: <code>current_user_can()</code> / <code>!current_user_can()</code><br />2. False explicitly -> ex: <code>current_user_cannot()</code><br />3. Passing an ID -> ex: <code>is_page(24)</code><br />4. Passing a Slug -> ex: <code>is_page(my-cool-page)</code><br />5. Passing an Array -> ex: <code>is_page({my-cool-page,24,about,contact-form})</code></em></p>' . "\n";
@@ -196,12 +199,17 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_advanced_way", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="Using Advanced Conditionals">' . "\n";
+								echo '<div class="ws-menu-page-group" title="Advanced/PHP Conditionals">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-api-advanced-way-section">' . "\n";
 								echo '<h3>The Advanced Way ( some PHP scripting required )</h3>' . "\n";
-								echo '<p>In an effort to give you even more control over access restrictions, s2Member makes some PHP functions, and also some PHP Constants, available to you from within WordPress®. In this section, we\'ll demonstrate several functions: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>current_user_is("role")</code></strong>, <strong><code>current_user_is_not("role")</code></strong>, <strong><code>current_user_can("capability")</code></strong>, <strong><code>current_user_cannot("capability")</code></strong>, <strong><code>current_user_is_for_blog($blog_id,"role")</code></strong>, <strong><code>current_user_is_not_for_blog($blog_id,"role")</code></strong>, <strong><code>current_user_can_for_blog($blog_id,"capability")</code></strong>, &amp; <strong><code>current_user_cannot_for_blog($blog_id,"capability")</code></strong>. To make use of these functions, please follow our PHP code samples below. Using PHP, is a very powerful way to build Advanced Conditionals within your content; based on a Member\'s Level, Custom Capabilities, and/or other factors. In order to use PHP scripting inside your Posts/Pages, you\'ll need to install this handy plugin ( <a href="http://wordpress.org/extend/plugins/php-execution-plugin/" target="_blank" rel="external">PHP Execution</a> ).</p>' . "\n";
+								echo '<p>In an effort to give you even more control over access restrictions, s2Member makes some PHP functions, and also some PHP Constants, available to you from within WordPress®. In this section, we\'ll demonstrate several functions: <strong><code>is_user_logged_in()</code></strong>, <strong><code>is_user_not_logged_in()</code></strong>, <strong><code>user_is(user_id, role)</code></strong>, <strong><code>user_is_not(user_id, role)</code></strong>, <strong><code>user_can(user_id, capability)</code></strong>, <strong><code>user_cannot(user_id, capability)</code></strong>, <strong><code>current_user_is("role")</code></strong>, <strong><code>current_user_is_not("role")</code></strong>, <strong><code>current_user_can("capability")</code></strong>, <strong><code>current_user_cannot("capability")</code></strong>, <strong><code>current_user_is_for_blog($blog_id,"role")</code></strong>, <strong><code>current_user_is_not_for_blog($blog_id,"role")</code></strong>, <strong><code>current_user_can_for_blog($blog_id,"capability")</code></strong>, &amp; <strong><code>current_user_cannot_for_blog($blog_id,"capability")</code></strong>. To make use of these functions, please follow our PHP code samples below. Using PHP, is a very powerful way to build Advanced Conditionals within your content; based on a Member\'s Level, Custom Capabilities, and/or other factors. In order to use PHP scripting inside your Posts/Pages, you\'ll need to install this handy plugin ( <a href="http://wordpress.org/extend/plugins/php-execution-plugin/" target="_blank" rel="external">PHP Execution</a> ).</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_advanced_way", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -259,13 +267,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_queries", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="Advanced Query Conditionals">' . "\n";
+								echo '<div class="ws-menu-page-group" title="Advanced/PHP Query Conditionals">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-api-advanced-way-section">' . "\n";
 								echo '<h3>Advanced Query Conditionals ( some PHP scripting required )</h3>' . "\n";
 								echo '<p>s2Member provides several built-in API Functions that are tailored to meet the needs of developers integrating s2Member into their themes. Such as: <strong><code>is_protected_by_s2member($id, "[category,tag,post,page,singular,uri]")</code></strong>, <strong><code>is_permitted_by_s2member($id, "[category,tag,post,page,singular,uri]")</code></strong>, <strong><code>is_category_protected_by_s2member($cat_id)</code></strong>, <strong><code>is_category_permitted_by_s2member($cat_id)</code></strong>, <strong><code>is_tag_protected_by_s2member($tag_id [slug or tag name])</code></strong>, <strong><code>is_tag_permitted_by_s2member($tag_id [slug or tag name])</code></strong>, <strong><code>is_post_protected_by_s2member($post_id)</code></strong>, <strong><code>is_post_permitted_by_s2member($post_id)</code></strong>, <strong><code>is_page_protected_by_s2member($page_id)</code></strong>, <strong><code>is_page_permitted_by_s2member($page_id)</code></strong>, <strong><code>is_uri_protected_by_s2member($uri [or full url])</code></strong>, <strong><code>is_uri_permitted_by_s2member($uri [ or full url])</code></strong>.</p>' . "\n";
 								echo '<p>In addition, there are two special functions that can be applied by theme authors before making custom queries: <strong><code>attach_s2member_query_filters()</code></strong>, <strong><code>detach_s2member_query_filters()</code></strong>. These can be used before and after a call to <strong><code>query_posts()</code></strong> for example. s2Member will automatically filter all protected content ( not available to the current User/Member ).</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_queries", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -296,11 +309,6 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								/**/
 								echo '<p><strong>Example #6:</strong> Checking Post Restrictions, including Custom Post Types.</strong></p>' . "\n";
 								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-post-restrictions.php")) . '</p>' . "\n";
-								/**/
-								echo '<div class="ws-menu-page-hr"></div>' . "\n";
-								/**/
-								echo '<p><strong>Additional examples:</strong> documentation on these function calls.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/query-conditional-examples.php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -316,13 +324,20 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-custom-capabilities-section">' . "\n";
 								echo '<h3>Packaging Together Custom Capabilities w/ Membership</h3>' . "\n";
-								echo '<p>Using one of s2Member\'s Payment Button and/or Form Generators, you can add Custom Capabilities in comma-delimited format. s2Member builds upon existing functionality offered by WordPress® Roles/Capabilities. s2Member supports Free Subscribers ( at Level #0 ), and up to four Primary Roles ( i.e. s2Member Levels 1-4 ). Each s2Member Level provides <code>current_user_can("access_s2member_level0"), 1, 2, 3, 4</code>. These are the default Capabilities that come with each Membership Level. Now... If you\'d like to package together some variations of each Membership Level that you\'re selling, you can! All you do is add some Custom Capabilities whenever you create your Payment Button and/or Form Shortcode ( <em>there is a field in the Button &amp; Form Generators where you can enter Custom Capabilities</em> ). You can sell Membership Packages that come with Custom Capabilities, and even with custom prices.</p>' . "\n";
+								echo '<p>Using one of s2Member\'s Payment Button and/or Form Generators, you can add Custom Capabilities in comma-delimited format. s2Member builds upon existing functionality offered by <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank" rel="external">WordPress® Roles/Capabilities</a>. s2Member supports Free Subscribers <em>( at Level #0 )</em>, and several Primary Roles created by the s2Member plugin <em>( i.e. s2Member Levels 1-4, or up to the number of configured Levels )</em>. Each s2Member Level <em>( aka: s2Member Role )</em> provides the Capability <code>current_user_can("access_s2member_level0"), 1, 2, 3, 4</code>, where <code>access_s2member_level[0-4]</code> is the Capability associated with each Role; and Membership Levels provide incremental access <em>( i.e. Level #4 Members can also access content at Levels 0, 1, 2, and 3 beneath them )</em>. In short, these Level-based permissions are the default Capabilities that come with each Membership Level being sold on your site.</p>' . "\n";
+								echo '<p>Now, if you\'d like to package together some variations of each Membership Level that you\'re selling, you can! All you do is add <strong>Custom Capabilities</strong> whenever you create your Payment Button and/or Form Shortcode ( <em>there is a field in the Button &amp; Form Generators where you can enter Custom Capabilities</em> ). You can sell Membership Packages that come with Custom Capabilities, and even with custom prices.</p>' . "\n";
 								echo '<p>Custom Capabilities are an extension to a feature that already exists in WordPress®. The <code>current_user_can()</code> function, can be used to test for these additional Capabilities that you allow. Whenever a Member completes the checkout process, after having purchased a Membership from you ( one that included Custom Capabilities ), s2Member will add those Custom Capabilities to the account for that specific Member.</p>' . "\n";
 								echo '<p>Custom Capabilities are always prepended with <code>access_s2member_ccap_</code>. You fill in the last part, with ONLY lowercase alpha-numerics and/or underscores. For example, let\'s say you want to sell Membership Level #1, as is. But, you also want to sell a slight variation of Membership Level #1, that includes the ability to access the Music &amp; Video sections of your site. So, instead of selling this additional access under a whole new Membership Level, you could just sell a modified version of Membership Level #1. Add the the Custom Capabilities: <code>music,videos</code>. Once a Member has these Capabilities, you can test for these Capabilities using <code>current_user_can("access_s2member_ccap_music")</code> and <code>current_user_can("access_s2member_ccap_videos")</code>.</p>' . "\n";
-								echo '<p>The important thing to realize, is that Custom Capabilities, are just that. They\'re custom. s2Member only deals with the default Capabilities that it uses. If you start using Custom Capabilities, you MUST use Simple or Advanced Conditionals ( <em>i.e. <code>current_user_can</code> logic</em> ) to test for them. Either in your theme files with PHP, or in Posts/Pages using Simple Conditionals ( powered by Shortcodes ).</p>' . "\n";
-								echo '<p><em class="ws-menu-page-hilite"><strong>*New*</strong> Starting with s2Member v3.2+, you can now tell s2Member to require certain Custom Capabilities on a per Post/Page basis. So now, s2Member ( if you prefer ) CAN handle Custom Capabilities for you automatically! Whenever you edit a Post/Page, you can tell s2Member ( i.e. there is a Meta Box for s2Member in your Post/Page editing station )... you can tell s2Member to require certain Custom Capabilities that you type in, using comma-delimited format. In other words, you will need to type in some of the trigger words that you used whenever you created your Payment Buttons/Forms. This way paying Members will have the Custom Capabilities to view different kinds of content that you offer.</em></p>' . "\n";
-								echo '<p><em class="ws-menu-page-hilite"><strong>*New*</strong> By default, a Checkout Button or Form generated by s2Member is designed to set and/or reset a Member\'s Custom Capabilities to the ones you specify in the Button/Form Code. However, starting with s2Member v3.5+, you can tell s2Member to (ADD) additional Custom Capabilities to any that already exist for a particular Member. This is accomplished on a per Form/Button basis by preceding your comma-delimited list of Custom Capabilities with a (+) sign. For further details on this topic, click the <a href="#" onclick="alert(\'*ADVANCED TIP: You can specifiy a comma-delimited list of Custom Capabilities that come with a purchase. Or, you could tell s2Member to (ADD) Custom Capabilities to any that already exist for a particular Member. Just start your list of Custom Capabilities with a (+) sign.\\n\\nSo instead of setting a Member\\\'s full set of Custom Capabilities to:\\nmusic,videos,archives,gifts\\n\\nYou could (ADD) new ones to any that already exist:\\n+calendar,forums,tools\\n\\nOr to prevent any changes, (ADD) nothing:\\n+\'); return false;" tabindex="-1">[?]</a> icon next to the Custom Capabilities field in any Button/Form Generator supplied by s2Member.</em></p>' . "\n";
+								echo '<p>The important thing to realize, is that Custom Capabilities, are just that. They\'re custom. s2Member only deals with the default Capabilities that it uses. If you start using Custom Capabilities, you MUST use Simple or Advanced Conditionals ( <em>i.e. <code>current_user_can()</code> logic</em> ) to test for them. Either in your theme files with PHP, or in Posts/Pages using Simple Conditionals <em>( powered by Shortcodes )</em>.</p>' . "\n";
+								echo '<p><strong>*New*</strong> Starting with s2Member v3.2+, you can now tell s2Member to require certain Custom Capabilities on a per Post/Page basis. So now, s2Member <em>( if you prefer )</em> CAN handle Custom Capabilities for you automatically! Whenever you edit a Post/Page, you can tell s2Member <em>( i.e. there is a Meta Box for s2Member in your Post/Page editing station )</em>... you can tell s2Member to require certain Custom Capabilities that you type in, using comma-delimited format. In other words, you will need to type in some of the trigger words that you used whenever you created your Payment Buttons/Forms. This way paying Members will have the Custom Capabilities to view different kinds of content that you offer.</p>' . "\n";
+								echo '<p><strong>*New*</strong> By default, a Checkout Button or Form generated by s2Member is designed to set and/or reset a Member\'s Custom Capabilities to the ones you specify in the Button/Form Code. However, starting with s2Member v3.5+, you can tell s2Member to (ADD) additional Custom Capabilities to any that already exist for a particular Member. This is accomplished on a per Form/Button basis by preceding your comma-delimited list of Custom Capabilities with a (+) sign. For further details on this topic, click the <a href="#" onclick="alert(\'*ADVANCED TIP: You can specifiy a comma-delimited list of Custom Capabilities that come with a purchase. Or, you could tell s2Member to (ADD) Custom Capabilities to any that already exist for a particular Member. Just start your list of Custom Capabilities with a (+) sign.\\n\\nSo instead of setting a Member\\\'s full set of Custom Capabilities to:\\nmusic,videos,archives,gifts\\n\\nYou could (ADD) new ones to any that already exist:\\n+calendar,forums,tools\\n\\nOr to prevent any changes, (ADD) nothing:\\n+\'); return false;" tabindex="-1">[?]</a> icon next to the Custom Capabilities field in any Button/Form Generator supplied by s2Member.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_custom_capabilities", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://wordpress.org/extend/plugins/user-role-editor/" target="_blank" rel="external">Plugins -> User Role Editor</a> <em>( may come in handy for some )</em>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -349,6 +364,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<p>If you\'re NOT familiar with Custom Capabilities yet, please read the section above, titled: `Custom Capability Packages`, and also see: `s2Member -> Download Options`, both as primers; BEFORE you read this section. Once you understand the basic concept of Custom Capabilities &amp; Protected File Downloads, you\'ll see that ( by default ) s2Member does NOT handle File Download Protection with respect to Custom Capabilities. That\'s where Custom Capability Sub-directories come in.</p>' . "\n";
 								echo '<p>You can create Custom Capability Sub-directories under: <code>' . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '</code>. For instance, if you have a Custom Capability <code>music</code>, you can place protected files that should ONLY be accessible to Members with <code>access_s2member_ccap_music</code>, inside: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dirs ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-ccap-music/</code>. Some examples are provided below.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_custom_capability_files", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -384,6 +404,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<h3>Dripping Content ( some PHP scripting required )</h3>' . "\n";
 								echo '<p>Content Dripping is the gradual, pre-scheduled release of premium website content to paying Members. This has become increasingly popular, because it allows older Members; those who have paid you more, due to recurring charges; to acquire access to more content progressively; based on their original paid registration time. It also gives you ( as the site owner ), the ability to launch multiple membership site portals, operating on autopilot, without any direct day-to-day involvement in a content release process. This requires some PHP scripting. In order to use PHP scripting inside your Posts/Pages, you\'ll need to install this handy plugin ( <a href="http://wordpress.org/extend/plugins/php-execution-plugin/" target="_blank" rel="external">PHP Execution</a> ).</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_advanced_dripping", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -423,16 +448,16 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Shortcode:</strong> for an Inline Profile Modification Form:<br />' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( standard link tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1-ops.php"))) . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( open the link in a popup window ):</p>' . "\n";
-								echo '<p><textarea rows="2" spellcheck="false" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();">' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.php"))) . '"</textarea></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( embed the Form with an IFRAME tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3-ops.php"))) . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -444,33 +469,33 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_constants", get_defined_vars ());
 								/**/
-								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site ()) /* Two versions here. */
+								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site ()) /* Two versions. */
 									{
 										echo '<div class="ws-menu-page-group" title="s2Get / s2Member API Constants">' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-api-constants-section">' . "\n";
 										echo '<h3>Using s2Get w/ s2Member API Constants</h3>' . "\n";
-										echo '<p>A Constant, is an identifier ( a name ) for a simple value. Below is a comprehensive list that includes all of the defined Constants available to you. We recommend using some of these Constants in the creation of your Login Welcome Page; which is described in the s2Member General Options Panel. It is not required, but you can get pretty creative with your Login Welcome Page if you know how to use the <code>[s2Get constant="" /]</code> Shortcode for WordPress®.</p>' . "\n";
+										echo '<p>A Constant, is an identifier ( a name ) for a simple value. Below is a comprehensive list that includes all of the defined Constants available to you. We recommend using some of these Constants in the creation of your Login Welcome Page; which is described in the s2Member General Options Panel. These are NOT required, but you can get pretty creative with your Login Welcome Page if you know how to use the <code>[s2Get constant="" /]</code> Shortcode for WordPress®.</p>' . "\n";
 										echo '<p>For example, you might use <code>[s2Get constant="S2MEMBER_CURRENT_USER_ACCESS_LABEL" /]</code> to display the type of Membership a Customer has.</em></p>' . "\n";
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_constants_farm", get_defined_vars ());
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0. Dated versions began with s2Member v110604.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN</strong><br />This will always be (bool) true or false. True if a User/Member is currently logged in with an Access Level >= 0.</p>' . "\n";
-										#echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN</strong><br />This will always be (bool) true or false. True if a User/Member is currently logged in with an Access Level >= 0.</p>' . "\n";
+										echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
 										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER</strong><br />This will always be (bool) true or false. True if a Member is currently logged in with an Access Level >= 1.</p>' . "\n";
-										#echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER</strong><br />This will always be (bool) true or false. True if a Member is currently logged in with an Access Level >= 1.</p>' . "\n";
+										echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
 										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</strong><br />This will always be (int) -1 thru 4. -1 if not logged in. 0 if logged in as a Free Subscriber.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</strong><br />This will always be (int) <code>-1</code> thru <code>4</code> <em>( or, up to the total number Membership Levels you\'ve configured )</em>. <code>-1</code> if not logged in. <code>0</code> if logged in as a Free Subscriber.</p>' . "\n";
 										echo '<p><strong>Membership Levels provide incremental access:</strong></p>' . "\n";
 										echo '<p>* A Member with Level 4 access, will also be able to access Levels 0, 1, 2 &amp; 3.<br />* A Member with Level 3 access, will also be able to access Levels 0, 1 &amp; 2.<br />* A Member with Level 2 access, will also be able to access Levels 0 &amp; 1.<br />* A Member with Level 1 access, will also be able to access Level 0.<br />* A Subscriber with Level 0 access, will ONLY be able to access Level 0.<br />* A public Visitor will have NO access to protected content.</p>' . "\n";
 										echo '<p><em>* WordPress® Subscribers are at Membership Level 0. If you\'re allowing Open Registration, Subscribers will be at Level 0 ( a Free Subscriber ). WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member. All of their other Roles/Capabilities are left untouched.</em></p>' . "\n";
@@ -501,15 +526,15 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</strong><br />This will always be an (int). 0 if not logged in. This is the number of days that have passed since the User originally registered their Username for access to your site; for free or otherwise. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME</strong><br />This will always be an (int); in the form of a Unix timestamp. However, this will be 0 if they\'re not logged in; or if they\'ve never paid you at all <em>( i.e. if they\'re still a Free Subscriber )</em>. This holds the recorded time at which the Member originally registered their Username (or upgraded for) any type of "paid" access to your site. This value is preserved for the lifetime of their account, even if they upgrade, and even if they\'re demoted at some point. Once this value is recorded, it never changes under any circumstance. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_REGISTRATION_TIME</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</strong><br />This will always be an (int); in the form of a Unix timestamp. However, this will be 0 if they\'re not logged in; or if they\'ve never paid you at all <em>( i.e. if they\'re still a Free Subscriber )</em>. This is the number of days that have passed since the Member originally registered their Username (or upgraded for) any type of "paid" access to your site. The underlying timestamp behind this value is preserved for the lifetime of their account, even if they upgrade, and even if they\'re demoted at some point. Once the underlying timestamp behind this value is recorded, it never changes under any circumstance. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</strong><br />This will always be an (int). 0 if not logged in. This is the number of days that have passed since the User originally registered their Username for access to your site; for free or otherwise. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -533,7 +558,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_IP</strong><br />This will always be a (string) containing the current User\'s IP Address. Empty if browsing anonymously.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_IP</strong><br />This will always be a (string) containing the current User\'s IP Address, even when/if NOT logged-in. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if browsing anonymously.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_IP</strong><br />This is a (string) containing the IP Address the current User had at the time they registered. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if not logged in.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -541,34 +570,34 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_FIELDS</strong><br />This will always be a JSON encoded array, in (string) format. An empty JSON encoded array, in (string) format, if not logged in. This JSON encoded array will contain the following fields: <code>id, ip, email, login, first_name, last_name, display_name, subscr_id, subscr_or_wp_id, subscr_gateway, custom</code>. If you\'ve configured additional Custom Fields, those Custom Fields will also be added to this array. For example, if you configured the Custom Field: <code>Street Address</code>, it would be included in this array as: <code>street_address</code>. Custom Field references are converted to lowercase format, and spaces are replaced by underscores. You can do <code>print_r(json_decode(S2MEMBER_CURRENT_USER_FIELDS, true));</code> to get a full list for testing.</p>' . "\n";
+										#echo '<p><strong>S2MEMBER_CURRENT_USER_FIELDS</strong><br />This will always be a JSON encoded array, in (string) format. An empty JSON encoded array, in (string) format, if not logged in. This JSON encoded array will contain the following fields: <code>id, ip, reg_ip, email, login, first_name, last_name, display_name, subscr_id, subscr_or_wp_id, subscr_gateway, custom</code>. If you\'ve configured additional Custom Fields, those Custom Fields will also be added to this array. You can do <code>print_r(json_decode(S2MEMBER_CURRENT_USER_FIELDS, true));</code> to get a full list for testing.</p>' . "\n";
 										/**/
 										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'re allowed to download. 0 means no access.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED</strong><br />This will always be (bool) true or false. A value of true means their allowed downloads are >= 999999999, and false means it is not. This is useful if you are allowing unlimited ( 999999999 ) downloads on some Membership Levels. You can display `Unlimited` instead of a number.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'ve downloaded in the current period.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS</strong><br />This will always be an (int) value >= 0. This indicates how many total days make up the current period. 0 means no access.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL</strong><br />This is a Stand-Alone URL where a User can modify their Profile.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'re allowed to download. 0 means no access.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										#echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL</strong><br />This is the full URL to the Limit Exceeded Page ( informational ).</p>' . "\n";
-										#echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED</strong><br />This will always be (bool) true or false. A value of true means their allowed downloads are >= 999999999, and false means it is not. This is useful if you are allowing unlimited ( 999999999 ) downloads on some Membership Levels. You can display `Unlimited` instead of a number.</p>' . "\n";
 										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'ve downloaded in the current period.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS</strong><br />This will always be an (int) value >= 0. This indicates how many total days make up the current period. 0 means no access.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL</strong><br />This is a Stand-Alone URL where a User can modify their Profile. In addition to this Stand-Alone version, s2Member also makes a Shortcode available which produces an Inline Profile Editing Form. Use <code>[s2Member-Profile /]</code> in any Post/Page, or even in a Text Widget if you like.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL</strong><br />This is the full URL to the Limit Exceeded Page ( informational ).</p>' . "\n";
+										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL</strong><br />This is the full URL to the Membership Options Page ( the signup page ).</p>' . "\n";
 										echo '<p><strong>S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL.</p>' . "\n";
@@ -588,69 +617,21 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL0_LABEL</strong><br />This is the (string) Label that you created for Membership Level 0.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_LABEL</strong><br />This is the (string) Label that you configured for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL1_LABEL</strong><br />This is the (string) Label that you created for Membership Level 1.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL2_LABEL</strong><br />This is the (string) Label that you created for Membership Level 2.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL3_LABEL</strong><br />This is the (string) Label that you created for Membership Level 3.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS</strong><br />This is the (string) list of extensions to display inline.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL4_LABEL</strong><br />This is the (string) Label that you created for Membership Level 4.</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 0.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 1.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL2_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 2.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL3_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 3.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL4_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 4.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 0.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 1.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL2_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 2.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL3_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 3.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_LEVEL4_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 4.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										#echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS</strong><br />This is the (string) list of extensions to display inline.</p>' . "\n";
-										/**/
-										#echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_REG_EMAIL_FROM_NAME</strong><br />This is the Name that outgoing email messages are sent by.</p>' . "\n";
 										/**/
@@ -668,11 +649,15 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_PAYPAL_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® server.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_PAYPAL_BUSINESS</strong><br />This is the Email Address that identifies your PayPal® Business.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_PAYPAL_BUSINESS</strong><br />This is the Email Address that identifies your PayPal® Business.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_PAYPAL_ENDPOINT</strong><br />PayPal® Endpoint Domain <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_PAYPAL_API_ENDPOINT</strong><br />PayPal® API Endpoint Domain <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -694,9 +679,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_list_of_api_constants_farm", get_defined_vars ());
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0</strong> ... This auto-fills the <code>on0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>on0</code> input variable, with the string: <code>"Referencing Customer ID"</code>. Otherwise, it will be an empty string.</p>' . "\n";
-										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0</strong> ... This auto-fills the <code>os0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>os0</code> input variable, with the value of <code>S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID</code>. Otherwise, it will be an empty string.</p>' . "\n";
-										echo '<p>These two Constants are special. They are used by the PayPal® Button Generator for s2Member. This is how s2Member identifies an existing Member ( and/or a Free Subscriber ), who is already logged in when they click a PayPal® Modification Button that was generated for you by s2Member. Instead of forcing a Member ( and/or a Free Subscriber ) to re-register for a new account, s2Member can identify their existing account, and update it, according to the modified terms in your Button Code. These three Button Code parameters: <code>on0, os0, modify</code>, work together in harmony. If you\'re using the Shortcode Format for PayPal® Buttons, you won\'t even see these, because they\'re added internally by the Shortcode processor. Anyway, they\'re just documented here for clarity; you probably won\'t use these directly; the Button Generator pops them in.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0</strong> ... This auto-fills the <code>on0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>on0</code> input variable, with the string: <code>"Referencing Customer ID"</code>. Otherwise, it will be set to a default value of: <code>"Originating Domain"</code>.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0</strong> ... This auto-fills the <code>os0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>os0</code> input variable, with the value of <code>S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID</code>. Otherwise, it will be set to a default value of <code>$_SERVER["HTTP_HOST"]</code> <em>( the originating domain name )</em>.</p>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1</strong> ... This auto-fills the <code>on1</code> value in PayPal® Button Codes. This always contains the string: <code>"Customer IP Address"</code>.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1</strong> ... This auto-fills the <code>os1</code> value in PayPal® Button Codes. This always contains the value of <code>$_SERVER["REMOTE_ADDR"]</code> <em>( the Customer\'s IP address )</em>.</p>' . "\n";
+										/**/
+										echo '<p><em>These four Constants above are special. They\'re used by the PayPal® Button Generator for s2Member. This is how s2Member identifies an existing Member ( and/or a Free Subscriber ), who is already logged in when they click a PayPal® Modification Button that was generated for you by s2Member. Instead of forcing a Member ( and/or a Free Subscriber ) to re-register for a new account, s2Member can identify their existing account, and update it, according to the modified terms in your Button Code. Specifically, these three Button Code parameters: <code>on0, os0, modify</code>, work together in harmony. If you\'re using the Shortcode Format for PayPal® Buttons, you won\'t even see these, because they\'re added internally by the Shortcode processor. Anyway, they\'re just documented here for clarity; you probably won\'t use these directly; the Button Generator pops them in.</em></p>' . "\n";
 										/**/
 										echo '</div>' . "\n";
 										/**/
@@ -708,8 +697,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-api-constants-section">' . "\n";
 										echo '<h3>You Have Access To PHP Constants ( some PHP scripting required )</h3>' . "\n";
-										echo '<p>A Constant, is an identifier ( name ) for a simple value in PHP scripting. Below is a comprehensive list that includes all of the PHP defined Constants available to you. All of these Constants are also available through JavaScript as Global Variables. Example code has been provided in the documentation below. If you\'re a web developer, we suggest using some of these Constants in the creation of your Login Welcome Page; which is described in the s2Member General Options Panel. It is not required mind you, but you can get pretty creative with the Login Welcome Page, if you know a little PHP.</p>' . "\n";
-										echo '<p>For example, you might use `S2MEMBER_CURRENT_USER_ACCESS_LABEL` to display the type of Membership a Customer has. Or, you could use `S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL` to provide Customers\' with an easy way to update their Membership Profile. If you get stuck on this, you might want to check out Elance.com. You can hire a freelancer to do this for you. It\'s about a $100 job. There are many other possibilities; <em>limitless actually!</em></p>' . "\n";
+										echo '<p>A Constant, is an identifier <em>( i.e. a name )</em> for a simple value in PHP scripting. Below is a comprehensive list that includes all of the PHP defined Constants available to you. All of these Constants are also available through JavaScript as Global Variables. Example code has been provided in the documentation below. If you\'re a web developer, we suggest using some of these Constants in the creation of your Login Welcome Page; which is described in the s2Member General Options Panel. These are NOT required, but you can get pretty creative with the Login Welcome Page, if you know a little PHP.</p>' . "\n";
+										echo '<p>If you don\'t know any PHP, you can use the <code>[s2Get constant="NAME_OF_CONSTANT" /]</code> Shortcode for WordPress®. For example, you might use <code>[s2Get constant="S2MEMBER_CURRENT_USER_ACCESS_LABEL" /]</code> to display the type of Membership a Customer has. The <code>[s2Get constant="" /]</code> Shortcode will work for any of the API Constants documented below.</p>' . "\n";
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_constants", get_defined_vars ());
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -719,7 +708,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0.</p>' . "\n";
+										echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0. Dated versions began with s2Member v110604.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/version.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -736,7 +730,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</strong><br />This will always be (int) -1 thru 4. -1 if not logged in. 0 if logged in as a Free Subscriber.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</strong><br />This will always be (int) <code>-1</code> thru <code>4</code> <em>( or, up to the total number Membership Levels you\'ve configured )</em>. <code>-1</code> if not logged in. <code>0</code> if logged in as a Free Subscriber.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-access-level.php")) . '</p>' . "\n";
 										echo '<p><strong>Membership Levels provide incremental access:</strong></p>' . "\n";
 										echo '<p>* A Member with Level 4 access, will also be able to access Levels 0, 1, 2 &amp; 3.<br />* A Member with Level 3 access, will also be able to access Levels 0, 1 &amp; 2.<br />* A Member with Level 2 access, will also be able to access Levels 0 &amp; 1.<br />* A Member with Level 1 access, will also be able to access Level 0.<br />* A Subscriber with Level 0 access, will ONLY be able to access Level 0.<br />* A public Visitor will have NO access to protected content.</p>' . "\n";
@@ -814,8 +808,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_IP</strong><br />This will always be a (string) containing the current User\'s IP Address. Empty if browsing anonymously.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_IP</strong><br />This will always be a (string) containing the current User\'s IP Address, even when/if NOT logged in. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if browsing anonymously.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-ip.php")) . '</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_IP</strong><br />This will always be a (string) containing the current User\'s original IP Address during registration. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if not logged in.</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-ip.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -824,7 +823,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_FIELDS</strong><br />This will always be a JSON encoded array, in (string) format. An empty JSON encoded array, in (string) format, if not logged in. This JSON encoded array will contain the following fields: <code>id, ip, email, login, first_name, last_name, display_name, subscr_id, subscr_or_wp_id, subscr_gateway, custom</code>. If you\'ve configured additional Custom Fields, those Custom Fields will also be added to this array. For example, if you configured the Custom Field: <code>Street Address</code>, it would be included in this array as: <code>street_address</code>. Custom Field references are converted to lowercase format, and spaces are replaced by underscores. You can do <code>print_r(json_decode(S2MEMBER_CURRENT_USER_FIELDS, true));</code> to get a full list for testing.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_FIELDS</strong><br />This will always be a JSON encoded array, in (string) format. An empty JSON encoded array, in (string) format, if not logged in. This JSON encoded array will contain the following fields: <code>id, ip, reg_ip, email, login, first_name, last_name, display_name, subscr_id, subscr_or_wp_id, subscr_gateway, custom</code>. If you\'ve configured additional Custom Fields, those Custom Fields will also be added to this array. You can do <code>print_r(json_decode(S2MEMBER_CURRENT_USER_FIELDS, true));</code> to get a full list for testing.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-fields.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -849,7 +848,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL</strong><br />This is a Stand-Alone URL where a User can modify their Profile.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL</strong><br />This is a Stand-Alone URL where a User can modify their Profile. In addition to this Stand-Alone version, s2Member also makes a Shortcode available which produces an Inline Profile Editing Form. Use <code>[s2Member-Profile /]</code> in any Post/Page, or even in a Text Widget if you like.</p>' . "\n";
 										echo '<p><strong>Code Sample #1</strong> ( standard link ):</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1.php")) . '</p>' . "\n";
 										echo '<p><strong>Code Sample #2</strong> ( open the link in a popup window ):</p>' . "\n";
@@ -887,78 +886,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL0_LABEL</strong><br />This is the (string) Label that you created for Membership Level 0.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level0-label.php")) . '</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_LABEL</strong><br />This is the (string) Label that you created for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #..</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-label.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL1_LABEL</strong><br />This is the (string) Label that you created for Membership Level 1.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level1-label.php")) . '</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_LEVEL2_LABEL</strong><br />This is the (string) Label that you created for Membership Level 2.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level2-label.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL3_LABEL</strong><br />This is the (string) Label that you created for Membership Level 3.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level3-label.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL4_LABEL</strong><br />This is the (string) Label that you created for Membership Level 4.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level4-label.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 0.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level0-file-downloads-allowed.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 1.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level1-file-downloads-allowed.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL2_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 2.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level2-file-downloads-allowed.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL3_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 3.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level3-file-downloads-allowed.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL4_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for Level 4.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level4-file-downloads-allowed.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 0.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level0-file-downloads-allowed-days.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 1.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level1-file-downloads-allowed-days.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL2_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 2.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level2-file-downloads-allowed-days.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL3_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 3.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level3-file-downloads-allowed-days.php")) . '</p>' . "\n";
-										/**/
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<p><strong>S2MEMBER_LEVEL4_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for Level 4.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level4-file-downloads-allowed-days.php")) . '</p>' . "\n";
+										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed-days.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -987,12 +926,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_PAYPAL_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® server.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_PAYPAL_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® server <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-endpoint.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
-										echo '<p><strong>S2MEMBER_PAYPAL_API_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® API server.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_PAYPAL_API_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® API server <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-endpoint.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -1028,10 +967,15 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_list_of_api_constants", get_defined_vars ());
 										/**/
-										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0</strong> ... This auto-fills the <code>on0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>on0</code> input variable, with the string: <code>"Referencing Customer ID"</code>. Otherwise, it will be an empty string.</p>' . "\n";
-										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0</strong> ... This auto-fills the <code>os0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>os0</code> input variable, with the value of <code>S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID</code>. Otherwise, it will be an empty string.</p>' . "\n";
-										echo '<p>These two Constants are special. They are used by the PayPal® Button Generator for s2Member. This is how s2Member identifies an existing Member ( and/or a Free Subscriber ), who is already logged in when they click a PayPal® Modification Button that was generated for you by s2Member. Instead of forcing a Member ( and/or a Free Subscriber ) to re-register for a new account, s2Member can identify their existing account, and update it, according to the modified terms in your Button Code. These three Button Code parameters: <code>on0, os0, modify</code>, work together in harmony. If you\'re using the Shortcode Format for PayPal® Buttons, you won\'t even see these, because they\'re added internally by the Shortcode processor. Anyway, they\'re just documented here for clarity; you probably won\'t use these directly; the Button Generator pops them in.</p>' . "\n";
-										echo '<p><em>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-value-for-pp-on0-os0.php")) . '</em></p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0</strong> ... This auto-fills the <code>on0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>on0</code> input variable, with the string: <code>"Referencing Customer ID"</code>. Otherwise, it will be set to a default value of: <code>"Originating Domain"</code>.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0</strong> ... This auto-fills the <code>os0</code> value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member, this will auto-fill the value for the <code>os0</code> input variable, with the value of <code>S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID</code>. Otherwise, it will be set to a default value of <code>$_SERVER["HTTP_HOST"]</code> <em>( the originating domain name )</em>.</p>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1</strong> ... This auto-fills the <code>on1</code> value in PayPal® Button Codes. This always contains the string: <code>"Customer IP Address"</code>.</p>' . "\n";
+										echo '<p><strong>S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1</strong> ... This auto-fills the <code>os1</code> value in PayPal® Button Codes. This always contains the value of <code>$_SERVER["REMOTE_ADDR"]</code> <em>( the Customer\'s IP address )</em>.</p>' . "\n";
+										/**/
+										echo '<p><em>These four Constants are special. They are used by the PayPal® Button Generator for s2Member. This is how s2Member identifies an existing Member ( and/or a Free Subscriber ), who is already logged in when they click a PayPal® Modification Button that was generated for you by s2Member. Instead of forcing a Member ( and/or a Free Subscriber ) to re-register for a new account, s2Member can identify their existing account, and update it, according to the modified terms in your Button Code. Specifically, these three Button Code parameters: <code>on0, os0, modify</code>, work together in harmony. If you\'re using the Shortcode Format for PayPal® Buttons, you won\'t even see these, because they\'re added internally by the Shortcode processor. Anyway, they\'re just documented here for clarity; you probably won\'t use these directly; the Button Generator pops them in.</em></p>' . "\n";
+										/**/
+										echo '<p><em>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-value-for-pp-on0-os0-on1-os1.php")) . '</em></p>' . "\n";
 										/**/
 										echo '</div>' . "\n";
 										/**/
@@ -1041,7 +985,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_after_api_constants", get_defined_vars ());
 							}
 						/**/
-						if (apply_filters ("ws_plugin__s2member_during_scripting_page_during_left_sections_display_api_js_globals", (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()), get_defined_vars ()))
+						if (apply_filters ("ws_plugin__s2member_during_scripting_page_during_left_sections_display_api_js_globals", true, get_defined_vars ()))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_js_globals", get_defined_vars ());
 								/**/
@@ -1049,7 +993,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-api-js-globals-section">' . "\n";
 								echo '<h3>You Also Have Access To JS Globals ( some JavaScript knowledge required )</h3>' . "\n";
-								echo '<p>Unless noted otherwise, all of the PHP Constants, are also available through JavaScript, as Global Variables ( with the exact same names/types as their PHP counterparts ). s2Member automatically loads it\'s compressed JavaScript API ( only 2kbs ) into your theme for WordPress®. s2Member is very intelligent about the way it loads ( and maintains ) it\'s JavaScript API. You can rely on the JavaScript Globals, the same way you rely on PHP Constants. The only exceptions are related to security. Variables that include private server-side details, like Identity Tokens and other API service credentials, will be excluded automatically.</p>' . "\n";
+								echo '<p>Unless noted otherwise, all of the PHP Constants, are also available through JavaScript, as Global Variables <em>( with the exact same names/types as their PHP counterparts )</em>. s2Member automatically loads it\'s compressed JavaScript API into your theme for WordPress®. s2Member is very intelligent about the way it loads <em>( and maintains )</em> it\'s JavaScript API. You can rely on the JavaScript Globals, the same way you rely on PHP Constants. The only exceptions are related to security. Variables that include private server-side details, like Identity Tokens and other API service credentials, will be excluded automatically.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_js_globals", get_defined_vars ());
 								echo '</div>' . "\n";
 								/**/
@@ -1066,9 +1010,17 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-api-mop-vars-section">' . "\n";
 								echo '<h3>Membership Options Page Variables ( some scripting required )</h3>' . "\n";
-								echo '<p>At the core of s2Member, is it\'s ability to protect content ( i.e. Posts, Pages, Tags, Categories, URI word fragments, etc ). Whenever a public User, or even an existing Member attempts to access an area of your site that is unavailable to them; either because they are not logged-in, not a paying Member at all; or maybe they are logged-in, but they don\'t have access to content you\'ve protected at a higher Membership Level; — <strong>s2Member will always redirect these un-authenticated requests to your Membership Options Page</strong>. So your Membership Options Page is a key element of your site. It serves as the focal point of your s2Member installation.</p>' . "\n";
-								echo '<p>Understanding this, it becomes important for s2Member to provide information about what the User/Member was attempting to access <strong>( before they were redirected to the Membership Options Page )</strong>. This is where s2Member\'s MOP Vars come in <em>( i.e. Membership Options Page Variables )</em>. Whenever s2Member redirects a User/Member to your Membership Options Page, it will include these important MOP Variables in the query string of the URL. These Variables can be used to provide more informative messages; or even to provide a different set of Membership Options ( i.e. Payment Buttons ), based on what a User/Member was attempting to access. Documentation and code samples are provided below.</p>' . "\n";
+								echo '<p>At the core of s2Member, is it\'s ability to protect content <em>( i.e. Posts, Pages, Tags, Categories, URI word fragments, etc )</em>. Whenever a public User, or even an existing Member attempts to access an area of your site that is unavailable to them; either because they are not logged-in, not a paying Member at all; or maybe they are logged-in, but they don\'t have access to content you\'ve protected at a higher Membership Level; s2Member will always redirect these unauthenticated requests to your Membership Options Page.</p>' . "\n";
+								echo '<p>So your Membership Options Page is a key element of your site. It serves as the focal point of your s2Member installation. Understanding this, you can see it becomes important for s2Member to provide information about what the User/Member was attempting to access <em>( e.g. before they were redirected to the Membership Options Page )</em>. This is where s2Member\'s MOP Vars come in <em>( i.e. Membership Options Page Variables )</em>. Whenever s2Member redirects a User/Member to your Membership Options Page, it will include these important MOP Variables in the query string of the URL. These Variables can be used to provide more informative messages; or even to provide a different set of Membership Options <em>( i.e. Payment Buttons )</em>, based on what a User/Member was attempting to access.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_mop_vars", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
 								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars.php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
@@ -1081,13 +1033,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 							{
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_before_api_hooks", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="s2Member API / WP® Hooks &amp; Filters">' . "\n";
+								echo '<div class="ws-menu-page-group" title="Hooks/Filters ( For Developers )">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-api-hooks-section">' . "\n";
 								echo '<h3>WP® Hooks For Theme/Plugin Developers ( scripting required )</h3>' . "\n";
-								echo '<p>In addition to its API Constants, s2Member also makes several Hooks/Filters available throughout its framework. This makes it possible to build onto ( or even modify ) s2Member in lots of different ways. If you need to add custom processing routines, modify the behavior of existing processing routines, or tinker with things otherwise; you should use API Hooks/Filters. API Hooks &amp; Filters, give you the ability to "hook into", and/or "filter" processing routines, with files/functions of your own; instead of editing the s2Member plugin files directly. If you don\'t use a Hook/Filter, and instead, you edit the plugin files for s2Member, you\'ll have to merge all of your changes every time a new version of s2Member is released. If you create custom processing routines, you could place those routines into a PHP file here: <code>/wp-content/mu-plugins/my-s2member-hacks.php</code>. If you don\'t have an /mu-plugins/ directory, please create one. These are (mu) MUST USE plugins, which are loaded into WordPress® automatically; that\'s what you want!</p>' . "\n";
-								echo '<p>Un-documented. There are simply too many Hooks/Filters spread throughout s2Member\'s framework. Rather than documenting each Hook/Filter, it is easier to browse through the files inside: <code>/s2member/includes/classes/</code>. Inspecting Hooks/Filters in this way, also leads you to a better understanding of how they work. One way to save time, is to run a search for <code>do_action</code> and/or <code>apply_filters</code>. If you\'re new to the concept of Hooks/Filters for WordPress®, we suggest <a href="http://codex.wordpress.org/Plugin_API" target="_blank" rel="external">this article</a> as a primer.</p>' . "\n";
+								echo '<p>In addition to its API Constants, s2Member also makes several Hooks/Filters available throughout its framework. This makes it possible to build onto ( or even modify ) s2Member in lots of different ways. If you need to add custom processing routines, modify the behavior of existing processing routines, or tinker with things otherwise; you should use API Hooks/Filters. API Hooks &amp; Filters, give you the ability to "hook into", and/or "filter" processing routines, with files/functions of your own; instead of editing the s2Member plugin files directly. If you don\'t use a Hook/Filter, and instead, you edit the plugin files for s2Member, you\'ll have to merge all of your changes every time a new version of s2Member is released. If you create custom processing routines, you could place those routines into a PHP file here: <code>/wp-content/mu-plugins/s2-hacks.php</code>. If you don\'t have an <code>/mu-plugins/</code> directory, please create one. These are (mu) MUST USE plugins, which are loaded into WordPress® automatically; that\'s what you want!</p>' . "\n";
+								echo '<p><strong>Attn Developers:</strong> There are simply too many Hooks/Filters spread throughout s2Member\'s framework <em>( over 1000 total )</em>. Rather than documenting each Hook/Filter, it is easier to browse through the files inside: <code>/s2member/includes/classes/</code>. Inspecting Hooks/Filters in this way, also leads you to a better understanding of how they work. One way to save time, is to run a search for <code>do_action</code> and/or <code>apply_filters</code>. If you\'re new to the concept of Hooks/Filters for WordPress/s2Member, we suggest <a href="http://www.primothemes.com/forums/viewforum.php?f=40#src_doc_overview_description" target="_blank" rel="external">this article</a> as a primer. The <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a> also contains information about all Hooks/Filters that come with s2Member.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_api_hooks", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

@@ -56,7 +56,10 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 										/**/
 										echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n";
 										/**/
-										echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>' . "\n";
+										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-includes/js/jquery/jquery.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
+										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-includes/js/l10n.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
+										echo '<script type="text/javascript">var pwsL10n = {empty: "Strength indicator", short: "Very weak", bad: "Weak", good: "Medium", strong: "Strong", mismatch: "Mismatch"}; try{convertEntities(pwsL10n);}catch(e){};</script>' . "\n";
+										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-admin/js/password-strength-meter.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
 										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/?ws_plugin__s2member_js_w_globals=" . urlencode (WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5) . "&amp;qcABC=1&amp;ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
 										echo '<link href="' . esc_attr (site_url ("/?ws_plugin__s2member_css=1&amp;qcABC=1&amp;ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '" type="text/css" rel="stylesheet" media="all" />' . "\n";
 										/**/

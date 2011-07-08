@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 110620
-Stable tag: 110620
+Version: 110708
+Stable tag: 110708
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -33,10 +33,12 @@ Multisite Blog Farm Compatible: yes
 PayPal® Standard Compatible: yes
 PayPal® Pro Compatible: w/ s2Member Pro
 Google® Checkout Compatible: w/ s2Member Pro
+Authorize.Net® Compatible: w/ s2Member Pro
 ClickBank® Compatible: w/ s2Member Pro
 AliPay® Compatible: w/ s2Member Pro
+ccBill® Compatible: w/ s2Member Pro
 
-Tested up to: 3.1.3
+Tested up to: 3.2
 Requires at least: 3.1
 Requires: WordPress® 3.1+, PHP 5.2.3+
 
@@ -53,9 +55,9 @@ Pro Module / Prices: http://www.s2member.com/prices/
 Forum URI: http://www.primothemes.com/forums/viewforum.php?f=4
 Privacy URI: http://www.primothemes.com/about/privacy-policy/
 PayPal Pro Integration: http://www.primothemes.com/forums/viewtopic.php?f=4&t=304
-Professional Installation URI: http://www.primothemes.com/forums/viewtopic.php?f=4&t=107
+Professional Installation URI: http://www.s2member.com/professional-installation/
 Plugin URI: http://www.primothemes.com/post/product/s2member-membership-plugin-with-paypal/
-Description: Empowers WordPress® with membership capabilities. Integrates seamlessly with PayPal®. Also compatible with Multisite Networking, and even with BuddyPress if you like.
+Description: s2Member® (Membership w/ PayPal®). Powerful (free) membership capabilities. Protect/secure members only content w/ roles/capabilities for members.
 Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal, s2member, authorize.net, google checkout, ccbill, clickbank, alipay, subscriber, members only, buddypress, buddy press, buddy press compatible, shopping cart, checkout, api, options panel included, websharks framework, w3c validated code, includes extensive documentation, highly extensible
 
 -- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
@@ -70,7 +72,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "110620");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "110708");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -100,7 +102,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110606");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110708");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

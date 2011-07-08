@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® General Options</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® General Options</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -200,9 +198,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-group" title="Email Configuration">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-email-section">' . "\n";
-								echo '<h3>EMail From: ' . esc_html ('"Name" <address>') . '</h3>' . "\n";
-								echo '<p>This is the name/address that will appear in outgoing email notifications sent by the s2Member plugin.</p>' . "\n";
-								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_email_config", get_defined_vars ());
+								/**/
+								echo '<h3 style="margin:0;">Email From: ' . esc_html ('"Name" <address>') . '</h3>' . "\n";
+								echo '<p style="margin:0;">This is the name/address that will appear in outgoing email notifications sent by the s2Member plugin.</p>' . "\n";
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_email_from_name_config", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
@@ -210,7 +209,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<th>' . "\n";
 								echo '<label for="ws-plugin--s2member-reg-email-from-name">' . "\n";
-								echo 'EMail From Name:' . "\n";
+								echo 'Email From Name:' . "\n";
 								echo '</label>' . "\n";
 								echo '</th>' . "\n";
 								/**/
@@ -227,7 +226,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<th>' . "\n";
 								echo '<label for="ws-plugin--s2member-reg-email-from-email">' . "\n";
-								echo 'EMail From Address:' . "\n";
+								echo 'Email From Address:' . "\n";
 								echo '</label>' . "\n";
 								echo '</th>' . "\n";
 								/**/
@@ -242,6 +241,85 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"])
+									{
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<h3 style="margin:0;">New User Email Message</h3>' . "\n";
+										echo '<p style="margin:0;">This email is sent to all new Users/Members. It should always contain their Username/Password. In addition to this email, s2Member will also send new paying Customers a Signup Confirmation Email, which you can customize from your Dashboard, under: <code>s2Member -> PayPal® Options</code>. You may wish to customize these emails further, by providing details that are specifically geared to your site.</p>' . "\n";
+										do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_email_new_user_config", get_defined_vars ());
+										/**/
+										echo '<table class="form-table">' . "\n";
+										echo '<tbody>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-new-user-email-subject">' . "\n";
+										echo 'New User Email Subject:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_new_user_email_subject" id="ws-plugin--s2member-new-user-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_subject"]) . '" /><br />' . "\n";
+										echo 'Subject Line used in the email sent to new Users/Members.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-new-user-email-message">' . "\n";
+										echo 'New User Email Message:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<textarea name="ws_plugin__s2member_new_user_email_message" id="ws-plugin--s2member-new-user-email-message" rows="10">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_message"]) . '</textarea><br />' . "\n";
+										echo 'Message Body used in the email sent to new Users/Members.<br /><br />' . "\n";
+										echo '<strong>You can also use these special Replacement Codes if you need them:</strong>' . "\n";
+										echo '<ul>' . "\n";
+										echo '<li><code>%%user_first_name%%</code> = The First Name of the Member who registered their Username.</li>' . "\n";
+										echo '<li><code>%%user_last_name%%</code> = The Last Name of the Member who registered their Username.</li>' . "\n";
+										echo '<li><code>%%user_full_name%%</code> = The Full Name ( First &amp; Last ) of the Member who registered their Username.</li>' . "\n";
+										echo '<li><code>%%user_email%%</code> = The Email Address of the Member who registered their Username.</li>' . "\n";
+										echo '<li><code>%%user_login%%</code> = The Username the Member selected during registration.</li>' . "\n";
+										echo '<li><code>%%user_pass%%</code> = The Password selected or generated during registration.</li>' . "\n";
+										echo '<li><code>%%user_ip%%</code> = The User\'s IP Address, detected via <code>$_SERVER["REMOTE_ADDR"]</code>.</li>' . "\n";
+										echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID generated during registration.</li>' . "\n";
+										echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
+										echo '</ul>' . "\n";
+										/**/
+										echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
+										echo '<ul>' . "\n";
+										echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+										echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
+										echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
+										echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+										echo '</ul>' . "\n";
+										/**/
+										echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
+										echo '<ul>' . "\n";
+										echo '<li><code>%%cv0%%</code> = The domain of your site, which is passed through the `custom` attribute in your Shortcode.</li>' . "\n";
+										echo '<li><code>%%cv1%%</code> = If you need to track additional custom variables, you can pipe delimit them into the `custom` attribute; inside your Shortcode, like this: <code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|cv1|cv2|cv3"</code>. You can have an unlimited number of custom variables. Obviously, this is for advanced webmasters; but the functionality has been made available for those who need it.</li>' . "\n";
+										echo '</ul>' . "\n";
+										echo '<strong>This example uses cv1 to record a special marketing campaign:</strong><br />' . "\n";
+										echo '<em>( The campaign ( i.e. christmas-promo ) could be referenced using <code>%%cv1%%</code> )</em><br />' . "\n";
+										echo '<code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|christmas-promo"</code>' . "\n";
+										/**/
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '</tbody>' . "\n";
+										echo '</table>' . "\n";
+									}
+								/**/
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -314,97 +392,34 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-membership-levels-section">' . "\n";
 								echo '<h3>Membership Levels ( required, please customize these )</h3>' . "\n";
-								echo '<p>The default Membership Levels are labeled generically; feel free to modify them as needed. s2Member supports Free Subscribers ( at Level #0 ), along with four Primary Levels [1-4] of paid Membership' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '; plus unlimited Custom Capability packages' : '') . '. That being said, you don\'t have to use all of the Membership Levels if you don\'t want to. To use only 1 or 2 of these Levels, just create and/or modify your Membership Options Page, so that it only includes payment Buttons for the Levels you wish to use.</p>' . "\n";
-								echo (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '<p><em>Support for Custom Capabilities is available. If you\'re an advanced site owner, a theme designer, or a web developer integrating s2Member for a client, please see: <code>s2Member -> API Scripting -> Custom Capabilities</code></em></p>' . "\n" : '';
+								echo '<p>The default Membership Levels are labeled generically; feel free to modify them as needed. s2Member supports Free Subscribers <em>( at Level #0 )</em>, along with several Primary Roles for paid Membership <em>( i.e. Levels 1-4 )</em>, created by the s2Member plugin.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' s2Member also supports unlimited Custom Capability Packages <em>( see <code>s2Member -> API Scripting -> Custom Capabilities</code> )</em>' : '') . '. That being said, you don\'t have to use all of the Membership Levels if you don\'t want to. To use only 1 or 2 of these Levels, just create and/or modify your Membership Options Page, so that it only includes payment Buttons for the Levels you wish to use.</p>' . "\n";
+								echo (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '<p><em><strong>TIP:</strong> <strong>Unlimited Membership Levels</strong> are only possible with <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro</a>. However, Custom Capabilities are possible in all versions of s2Member, including the free version. Custom Capabilities are a great way to extend s2Member in creative ways. If you\'re an advanced site owner, a theme designer, or a web developer integrating s2Member for a client, please check your Dashboard, under: <code>s2Member -> API Scripting -> Custom Capabilities</code>. We also recommend the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.</em></p>' . "\n" : '';
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_membership_levels", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-label">' . "\n";
-								echo 'Level #0 ( Free Subscribers ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-label">' . "\n";
+										echo ($n === 0) ? 'Level #' . $n . ' <em>( Free Subscribers )</em>:' . "\n" : 'Level #' . $n . ' Members:' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_label" id="ws-plugin--s2member-level' . $n . '-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"]) . '" /><br />' . "\n";
+										echo 'This is the Label for Level #' . $n . (($n === 0) ? ' ( Free Subscribers )' : ' Members') . '.<br />' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_label" id="ws-plugin--s2member-level0-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"]) . '" /><br />' . "\n";
-								echo 'This is the Label for Level 0 ( reserved for Free Subscribers ).<br />' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-label">' . "\n";
-								echo 'Membership Level #1 Label:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_label" id="ws-plugin--s2member-level1-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_label"]) . '" /><br />' . "\n";
-								echo 'This is the Label for Membership Level 1.<br />' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-label">' . "\n";
-								echo 'Membership Level #2 Label:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_label" id="ws-plugin--s2member-level2-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_label"]) . '" /><br />' . "\n";
-								echo 'This is the Label for Membership Level 2.<br />' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-label">' . "\n";
-								echo 'Membership Level #3 Label:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_label" id="ws-plugin--s2member-level3-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_label"]) . '" /><br />' . "\n";
-								echo 'This is the Label for Membership Level 3.<br />' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-label">' . "\n";
-								echo 'Membership Level #4 Label:' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_label" id="ws-plugin--s2member-level4-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_label"]) . '" /><br />' . "\n";
-								echo 'This is the Label for Membership Level 4.<br />' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								/**/
@@ -425,7 +440,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="radio" name="ws_plugin__s2member_apply_label_translations" id="ws-plugin--s2member-apply-label-translations-0" value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["apply_label_translations"]) ? ' checked="checked"' : '') . ' /> <label for="ws-plugin--s2member-apply-label-translations-0">No</label> &nbsp;&nbsp;&nbsp; <input type="radio" name="ws_plugin__s2member_apply_label_translations" id="ws-plugin--s2member-apply-label-translations-1" value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["apply_label_translations"]) ? ' checked="checked"' : '') . ' /> <label for="ws-plugin--s2member-apply-label-translations-1">Yes, force WordPress® to use my Labels.</label><br />' . "\n";
-								echo 'This particular option affects your administrative Dashboard only ( i.e. your list of Users ). s2Member can force WordPress® to use your Labels instead of referencing Roles by `s2Member Level #`. If this is your first installation of s2Member, we suggest leaving this set to <code>no</code> until you\'ve had a chance to get acclimated with s2Member\'s functionality. In fact, many site owners choose to leave this off, because they find it less confusing when Roles are referred to by their s2Member Level #.' . "\n";
+								echo 'This particular option affects your administrative Dashboard only <em>( i.e. your list of Users )</em>. s2Member can force WordPress® to use your Labels instead of referencing Roles by `s2Member Level #`. If this is your first installation of s2Member, we suggest leaving this set to <code>no</code> until you\'ve had a chance to get acclimated with s2Member\'s functionality. In fact, many site owners choose to leave this off, because they find it less confusing when Roles are referred to by their s2Member Level #.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -748,7 +763,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<h3 style="margin:0;">Footer Design ( i.e. Bottom )</h3>' . "\n";
-								echo '<p style="margin:0;">Requires WP 3.1+. This field accepts raw HTML' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' ( and/or PHP )' : '') . ' code.</p>' . "\n";
+								echo '<p style="margin:0;">This field accepts raw HTML' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' ( and/or PHP )' : '') . ' code.</p>' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -782,7 +797,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 							{
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_before_custom_reg_fields", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="Custom Registration Fields">' . "\n";
+								echo '<div class="ws-menu-page-group" title="Custom Registration Fields/Options">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-custom-reg-fields-section">' . "\n";
 								echo '<h3>Custom Registration Fields ( optional, for further customization )</h3>' . "\n";
@@ -833,6 +848,28 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '</select><br />' . "\n";
 								echo 'Recommended setting ( <code>Yes</code> ). It\'s usually a good idea to leave this on.' . "\n";
 								echo (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")) ? '<br /><em>* s2Member Pro (Checkout) Forms always require a First/Last Name.</em>' . "\n" : '';
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-custom-reg-display-name">' . "\n";
+								echo 'Set "Display Name" during Registration?' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<select name="ws_plugin__s2member_custom_reg_display_name" id="ws-plugin--s2member-custom-reg-display-name">' . "\n";
+								echo '<option value="full"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"] === "full") ? ' selected="selected"' : '') . '>Yes ( set Display Name to User\'s Full Name )</option>' . "\n";
+								echo '<option value="first"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"] === "first") ? ' selected="selected"' : '') . '>Yes ( set Display Name to User\'s First Name )</option>' . "\n";
+								echo '<option value="last"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"] === "last") ? ' selected="selected"' : '') . '>Yes ( set Display Name to User\'s Last Name )</option>' . "\n";
+								echo '<option value="login"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"] === "login") ? ' selected="selected"' : '') . '>Yes ( set Display Name to User\'s Username )</option>' . "\n";
+								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"]) ? ' selected="selected"' : '') . '>No ( leave Display Name at default WordPress® value )</option>' . "\n";
+								echo '</select>' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1036,17 +1073,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
-								echo '<p><strong>Shortcode:</strong> for an Inline Profile Modification Form:<br />' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><strong>Shortcode ( copy/paste )</strong>, for an Inline Profile Modification Form:<br />' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
-								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( standard link tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1-ops.php"))) . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
-								/**/
-								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( open the link in a popup window ):</p>' . "\n";
-								echo '<p><textarea rows="2" spellcheck="false" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();">' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.php"))) . '"</textarea></p>' . "\n";
-								/**/
-								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( embed the Form with an IFRAME tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3-ops.php"))) . '" style="background:#EEEEEE; font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p style="margin-top:20px;"><strong>Stand-Alone ( copy/paste )</strong>, for popup window:</p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

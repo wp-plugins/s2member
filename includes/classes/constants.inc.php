@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_constants"))
 	{
@@ -62,7 +62,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						$custom_fields = ($user) ? get_user_option ("s2member_custom_fields", $user->ID) : array ();
 						$paid_registration_times = ($user) ? get_user_option ("s2member_paid_registration_times", $user->ID) : array ();
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_constants", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**
@@ -923,6 +923,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* o `id` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_ID}
 						* o `ip` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_IP}
+						* o `reg_ip` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_REGISTRATION_IP}
 						* o `email` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_EMAIL}
 						* o `login` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_LOGIN}
 						* o `first_name` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_FIRST_NAME}
@@ -948,8 +949,9 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ```
 						* [s2Get user_field="id" /]
 						* [s2Get user_field="ip" /]
-						* [s2Get user_field="user_email" /]
-						* [s2Get user_field="user_login" /]
+						* [s2Get user_field="reg_ip" /]
+						* [s2Get user_field="email" /]
+						* [s2Get user_field="login" /]
 						* [s2Get user_field="first_name" /]
 						* [s2Get user_field="last_name" /]
 						* [s2Get user_field="display_name" /]
@@ -957,11 +959,11 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* [s2Get user_field="s2member_subscr_wp_id" /]
 						* [s2Get user_field="s2member_subscr_gateway" /]
 						* [s2Get user_field="s2member_custom" /]
-						* [s2Get user_field="my_field_id" /]
+						* [s2Get user_field="my_custom_field_id" /]
 						* 
 						* <script type="text/javascript">
-						* 	var obj = jQuery.parseJSON(S2MEMBER_CURRENT_USER_FIELDS);
-						* 	document.write(obj.display_name);
+						* 	document.write(S2MEMBER_CURRENT_USER_FIELDS.id);
+						* 	document.write(S2MEMBER_CURRENT_USER_FIELDS.display_name);
 						* </script>
 						* ```
 						*
@@ -975,7 +977,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_FIELDS"))
-							define ("S2MEMBER_CURRENT_USER_FIELDS", ($c[] = (($user) ? json_encode (array_merge (array ("id" => S2MEMBER_CURRENT_USER_ID, "ip" => S2MEMBER_CURRENT_USER_IP, "email" => S2MEMBER_CURRENT_USER_EMAIL, "login" => S2MEMBER_CURRENT_USER_LOGIN, "first_name" => S2MEMBER_CURRENT_USER_FIRST_NAME, "last_name" => S2MEMBER_CURRENT_USER_LAST_NAME, "display_name" => S2MEMBER_CURRENT_USER_DISPLAY_NAME, "subscr_id" => S2MEMBER_CURRENT_USER_SUBSCR_ID, "subscr_or_wp_id" => S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID, "subscr_gateway" => S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY, "custom" => S2MEMBER_CURRENT_USER_CUSTOM), (array)$custom_fields)) : json_encode (array ()))));
+							define ("S2MEMBER_CURRENT_USER_FIELDS", ($c[] = (($user) ? json_encode (array_merge (array ("id" => S2MEMBER_CURRENT_USER_ID, "ip" => S2MEMBER_CURRENT_USER_IP, "reg_ip" => S2MEMBER_CURRENT_USER_REGISTRATION_IP, "email" => S2MEMBER_CURRENT_USER_EMAIL, "login" => S2MEMBER_CURRENT_USER_LOGIN, "first_name" => S2MEMBER_CURRENT_USER_FIRST_NAME, "last_name" => S2MEMBER_CURRENT_USER_LAST_NAME, "display_name" => S2MEMBER_CURRENT_USER_DISPLAY_NAME, "subscr_id" => S2MEMBER_CURRENT_USER_SUBSCR_ID, "subscr_or_wp_id" => S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID, "subscr_gateway" => S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY, "custom" => S2MEMBER_CURRENT_USER_CUSTOM), (array)$custom_fields)) : json_encode (array ()))));
 						/**
 						* Indicates the number of unique Files the current User is allowed to download every X days.
 						*

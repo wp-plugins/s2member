@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 	{
@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® API / List Servers</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® API / List Servers</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -78,95 +76,30 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-mailchimp-list-ids">' . "\n";
-								echo 'List ID(s) for Free Subscribers ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-mailchimp-list-ids">' . "\n";
+										echo 'List ID(s) for ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' ( comma-delimited ):' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_mailchimp_list_ids" id="ws-plugin--s2member-level' . $n . '-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_mailchimp_list_ids"]) . '" /><br />' . "\n";
+										echo 'New ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' will be subscribed to these List IDs.<br />' . "\n";
+										echo 'Ex: <code>4a44fRio5d, 434ksvviEdf, 8834jsdf923, ee9djfs4jel3</code><br />' . "\n";
+										echo 'Or: <code>4a44fRio5d::Group Title::Group|Another Group</code>' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_mailchimp_list_ids" id="ws-plugin--s2member-level0-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_mailchimp_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Free Subscribers will be subscribed to these List IDs.<br />' . "\n";
-								echo 'Ex: <code>4a44fRio5d, 434ksvviEdf, 8834jsdf923, ee9djfs4jel3</code><br />' . "\n";
-								echo 'Or: <code>4a44fRio5d::Group Title::Group|Another Group</code>' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-mailchimp-list-ids">' . "\n";
-								echo 'List ID(s) for Level #1 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_mailchimp_list_ids" id="ws-plugin--s2member-level1-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_mailchimp_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 1 Members will be subscribed to these List IDs.<br />' . "\n";
-								echo 'Ex: <code>4a44fRio5d, 434ksvviEdf, 8834jsdf923, ee9djfs4jel3</code><br />' . "\n";
-								echo 'Or: <code>4a44fRio5d::Group Title::Group|Another Group</code>' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-mailchimp-list-ids">' . "\n";
-								echo 'List ID(s) for Level #2 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_mailchimp_list_ids" id="ws-plugin--s2member-level2-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_mailchimp_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 2 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-mailchimp-list-ids">' . "\n";
-								echo 'List ID(s) for Level #3 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_mailchimp_list_ids" id="ws-plugin--s2member-level3-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_mailchimp_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 3 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-mailchimp-list-ids">' . "\n";
-								echo 'List ID(s) for Level #4 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_mailchimp_list_ids" id="ws-plugin--s2member-level4-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_mailchimp_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 4 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";
@@ -191,93 +124,29 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								/**/
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-aweber-list-ids">' . "\n";
-								echo 'List ID(s) for Free Subscribers ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th>' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-aweber-list-ids">' . "\n";
+										echo 'List ID(s) for ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' ( comma-delimited ):' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_aweber_list_ids" id="ws-plugin--s2member-level' . $n . '-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_aweber_list_ids"]) . '" /><br />' . "\n";
+										echo 'New ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' will be subscribed to these List IDs.<br />' . "\n";
+										echo 'Ex: <code>mylist, myotherlist, anotherlist</code>' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_aweber_list_ids" id="ws-plugin--s2member-level0-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_aweber_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Free Subscribers will be subscribed to these List IDs.<br />' . "\n";
-								echo 'Ex: <code>mylist, myotherlist, anotherlist</code>' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-aweber-list-ids">' . "\n";
-								echo 'List ID(s) for Level #1 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_aweber_list_ids" id="ws-plugin--s2member-level1-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_aweber_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 1 Members will be subscribed to these List IDs.<br />' . "\n";
-								echo 'Ex: <code>mylist, myotherlist, anotherlist</code>' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-aweber-list-ids">' . "\n";
-								echo 'List ID(s) for Level #2 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_aweber_list_ids" id="ws-plugin--s2member-level2-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_aweber_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 2 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-aweber-list-ids">' . "\n";
-								echo 'List ID(s) for Level #3 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_aweber_list_ids" id="ws-plugin--s2member-level3-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_aweber_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 3 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-aweber-list-ids">' . "\n";
-								echo 'List ID(s) for Level #4 ( comma-delimited ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_aweber_list_ids" id="ws-plugin--s2member-level4-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_aweber_list_ids"]) . '" /><br />' . "\n";
-								echo 'New Level 4 Members will be subscribed to these List IDs.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";

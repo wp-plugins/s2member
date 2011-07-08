@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 	{
@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® API / Notifications</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® API / Notifications</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -166,7 +164,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo 'Registration Notifications take place silently behind-the-scene, using an HTTP connection.<br /><br />' . "\n";
 								echo '<strong>You can also use these special Replacement Codes if you need them:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%role%%</code> = The Role ID <code>( subscriber, s2member_level[1-4], administrator, editor, author, contributor )</code>.</li>' . "\n";
+								echo '<li><code>%%role%%</code> = The Role ID <code>( subscriber, s2member_level[0-9]+, administrator, editor, author, contributor )</code>.</li>' . "\n";
 								echo '<li><code>%%level%%</code> = The Level number <code>( 0, 1, 2, 3, 4 )</code>. ( <em>deprecated, no longer recommended; use <code>%%role%%</code></em> )</li>' . "\n";
 								echo '<li><code>%%ccaps%%</code> = Custom Capabilities. Ex: <code>music,videos,free_gift</code> ( <em>in comma-delimited format</em> ).</li>' . "\n";
 								echo '<li><code>%%auto_eot_time%%</code> = Auto-EOT Time ( if applicable ). Ex: <code>1299925670</code> ( <em>unix timestamp</em> ).</li>' . "\n";

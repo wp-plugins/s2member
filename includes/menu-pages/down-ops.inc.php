@@ -32,9 +32,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 						echo '<div class="wrap ws-menu-page">' . "\n";
 						/**/
 						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2><div>Developed by <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Plugin URI")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-light.png" alt="." /></a></div>s2Member® File Download Options</h2>' . "\n";
-						/**/
-						echo '<div class="ws-menu-page-hr"></div>' . "\n";
+						echo '<h2>s2Member® File Download Options</h2>' . "\n";
 						/**/
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -73,91 +71,30 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								/**/
 								echo '<table class="form-table" style="margin-top:0;">' . "\n";
 								echo '<tbody>' . "\n";
-								echo '<tr>' . "\n";
 								/**/
-								echo '<th style="padding-top:0;">' . "\n";
-								echo '<label for="ws-plugin--s2member-level0-file-downloads-allowed">' . "\n";
-								echo 'File Downloads ( Level #0 Or Higher ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										echo '<tr>' . "\n";
+										/**/
+										echo '<th style="padding-top:0;">' . "\n";
+										echo '<label for="ws-plugin--s2member-level' . $n . '-file-downloads-allowed">' . "\n";
+										echo ($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'File Downloads ( Highest Level #' . $n . ' ):' . "\n" : 'File Downloads ( Level #' . $n . ' Or Higher ):' . "\n";
+										echo '</label>' . "\n";
+										echo '</th>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										echo '<tr>' . "\n";
+										/**/
+										echo '<td>' . "\n";
+										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed_days" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
+										echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
+										echo '</td>' . "\n";
+										/**/
+										echo '</tr>' . "\n";
+										/**/
+										echo ($n < $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? '<tr><td><div class="ws-menu-page-hr"></div></td></tr>' : '';
+									}
 								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level0_file_downloads_allowed" id="ws-plugin--s2member-level0-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level0_file_downloads_allowed_days" id="ws-plugin--s2member-level0-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
-								echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level1-file-downloads-allowed">' . "\n";
-								echo 'File Downloads ( Level #1 Or Higher ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level1_file_downloads_allowed" id="ws-plugin--s2member-level1-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level1_file_downloads_allowed_days" id="ws-plugin--s2member-level1-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level1_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
-								echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level2-file-downloads-allowed">' . "\n";
-								echo 'File Downloads ( Level #2 Or Higher ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level2_file_downloads_allowed" id="ws-plugin--s2member-level2-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level2_file_downloads_allowed_days" id="ws-plugin--s2member-level2-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level2_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
-								echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level3-file-downloads-allowed">' . "\n";
-								echo 'File Downloads ( Level #3 Or Higher ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level3_file_downloads_allowed" id="ws-plugin--s2member-level3-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level3_file_downloads_allowed_days" id="ws-plugin--s2member-level3-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level3_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
-								echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<th>' . "\n";
-								echo '<label for="ws-plugin--s2member-level4-file-downloads-allowed">' . "\n";
-								echo 'File Downloads ( Highest Level #4 ):' . "\n";
-								echo '</label>' . "\n";
-								echo '</th>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
-								echo '<tr>' . "\n";
-								/**/
-								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_level4_file_downloads_allowed" id="ws-plugin--s2member-level4-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level4_file_downloads_allowed_days" id="ws-plugin--s2member-level4-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level4_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> days.<br />' . "\n";
-								echo 'Only this many unique downloads ( <code><em>999999999 = unlimited</em></code> ) will be permitted every X days.' . "\n";
-								echo '</td>' . "\n";
-								/**/
-								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								echo '</div>' . "\n";

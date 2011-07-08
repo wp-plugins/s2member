@@ -35,7 +35,7 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 				*
 				* @return null
 				*/
-				public static function activate ()
+				public static function activate ($reactivation_reason = FALSE)
 					{
 						global $wpdb; /* Global database object reference. */
 						global $current_site, $current_blog; /* Multisite. */
@@ -43,6 +43,8 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 						do_action ("ws_plugin__s2member_before_activation", get_defined_vars ());
 						/**/
 						c_ws_plugin__s2member_roles_caps::config_roles (); /* Config Roles/Caps. */
+						/**/
+						update_option ("ws_plugin__s2member_activated_levels", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]);
 						/**/
 						if (!is_dir ($files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]))
 							if (is_writable (dirname (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir))))
@@ -95,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, "blog:users.php", false, false, true);
 									}
 								/**/
-								$notice = '<strong>s2Member</strong> has been <strong>re-activated</strong>, with the latest version.<br />';
+								$notice = '<strong>s2Member</strong> has been <strong>reactivated</strong>, with ' . (($reactivation_reason === "levels") ? '<code>' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) . '</code> Membership Levels' : 'the latest version') . '.<br />';
 								$notice .= 'You now have version ' . esc_html (WS_PLUGIN__S2MEMBER_VERSION) . '. Your existing configuration remains.';
 								/**/
 								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) /* No Changelog on a Multisite Farm. */
@@ -189,6 +191,7 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								delete_option("ws_plugin__s2member_notices");
 								delete_option("ws_plugin__s2member_options");
 								delete_option("ws_plugin__s2member_configured");
+								delete_option("ws_plugin__s2member_activated_levels");
 								delete_option("ws_plugin__s2member_activated_version");
 								delete_option("ws_plugin__s2member_activated_mms_version");
 								/**/

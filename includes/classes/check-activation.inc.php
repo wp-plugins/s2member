@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_check_activation"))
 	{
@@ -41,11 +41,15 @@ if (!class_exists ("c_ws_plugin__s2member_check_activation"))
 					{
 						if (!($v = get_option ("ws_plugin__s2member_activated_version")) || !version_compare ($v, WS_PLUGIN__S2MEMBER_VERSION, ">="))
 							{
-								c_ws_plugin__s2member_installation::activate ();
+								c_ws_plugin__s2member_installation::activate ("version");
 							}
 						else if (is_multisite () && is_main_site () && (!($mms_v = get_option ("ws_plugin__s2member_activated_mms_version")) || !version_compare ($mms_v, WS_PLUGIN__S2MEMBER_VERSION, ">=")))
 							{
-								c_ws_plugin__s2member_installation::activate ();
+								c_ws_plugin__s2member_installation::activate ("mms_version");
+							}
+						else if (!($l = (int)get_option ("ws_plugin__s2member_activated_levels")) || $l !== $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"])
+							{
+								c_ws_plugin__s2member_installation::activate ("levels");
 							}
 						/**/
 						return; /* Return for uniformity. */

@@ -28,65 +28,7 @@ Here is a breakdown on each of these Variables:
 	`s2member_seeking` is always passed in; it is never excluded.
 	`s2member_level_req`, `s2member_ccap_req`, `s2member_sp_req` are mutually exclusive. 
 	 Only ONE of these three Variables will be passed in combination with `s2member_seeking`.
-
------------------------------------------------------------------------------------------------------------
-
-Example PHP code ( and conditionals ) that could be implemented within your Membership Options Page.
-	( TIP: these code samples are intended for "advanced" site owners and developers )
-
-<?php /* Parse s2Member's MOP Vars into local variables. */
-	list($seeking, $id) = preg_split("/-/", $_GET["s2member_seeking"], 2);
-	list($seeking, $uri) = preg_split("/-/", $_GET["s2member_seeking"], 2);
-	list($seeking, $file) = preg_split("/-/", $_GET["s2member_seeking"], 2);
-	$level_req = $_GET["s2member_level_req"];
-	$ccap_req = $_GET["s2member_ccap_req"];
-	$sp_req = $_GET["s2member_sp_req"]; ?>
-
------------------------------------------------------------------------------------------------------------
-You probably will NOT use all of these conditionals; but this attempts to provide several examples for you.
------------------------------------------------------------------------------------------------------------
-
-<?php if(is_user_logged_in() && $level_req){ /* A Member is already logged-in. */ ?>
-
-	The content you requested, requires an upgrade to Level# <?php echo $level_req; ?>.
-
-<?php else if(is_user_logged_in() && $ccap_req){ /* A Member is already logged-in. */ ?>
-
-	The content you requested, requires an upgrade; for access to: <?php echo $ccap_req; ?>.
-
-<?php else if(is_user_logged_in() && $sp_req){ /* A Member is already logged-in. */ ?>
-
-	The content you requested, requires a separate purchase of: <?php echo get_the_title($id); ?>.
-
-<?php else if(preg_match("/^(post|page)$/", $seeking) && $id && $level_req){ /* A Post or Page ( i.e. post|page ). */ ?>
-
-	The Post/Page you were looking for ( <?php echo get_the_title($id); ?> ) requires access @ Level #<?php echo $level_req; ?>.
-
-<?php } else if($seeking === "catg" && $id && $level_req && !is_wp_error($catg_name = get_term_field("name", $id, "category"))){ ?>
-
-	The Category you were looking for ( <?php echo $catg_name; ?> ) requires access @ Level #<?php echo $level_req; ?>.
-
-<?php } else if($seeking === "ptag" && $id && $level_req && !is_wp_error($ptag_name = get_term_field("name", $id, "post_tag"))){ ?>
-
-	The Tag you were looking for ( <?php echo $ptag_name; ?> ) requires access @ Level #<?php echo $level_req; ?>.
-
-<?php } else if($seeking === "ruri" && $uri && $level_req && ($uri = base64_decode($uri))){ /* Decoding the URI value. */ ?>
-
-	The URI you were looking for ( <?php echo $uri; ?> ) requires access @ Level #<?php echo $level_req; ?>.
-
-<?php } else if($seeking && $id && $sp_req){ /* Specific Post/Page Access ( i.e. s2member_sp_req ) */ ?>
-
-	Buy Now: The Post/Page you were looking for ( <?php echo get_the_title($id); ?> ) requires payment.
-
-<?php } else { /* It's good to include a general default handler. */ ?>
-
-	Buy Now ( general default ).
-
-<?php } ?>
 	
 -----------------------------------------------------------------------------------------------------------
-* All of the conditional examples above are 100% completely optional ( for advanced site owners ).
- By default, s2Member will simply display your Membership Options Page; in its entirety.
 
-* If you DO implement PHP conditionals within a Post/Page, you'll need this plugin.
- See: http://wordpress.org/extend/plugins/php-execution-plugin/
+* The use of MOP Vars is 100% completely optional ( for advanced site owners ).

@@ -143,7 +143,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						else if (!is_admin () && !$users_can_register) /* Do NOT run these security checks on option pages; it's confusing to a site owner. */
 							if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || !is_main_site () || is_super_admin () || current_user_can ("create_users"))
 								{
-									if ((is_multisite () && is_super_admin ()) || current_user_can ("create_users") || (($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && !($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
+									if ((is_multisite () && is_super_admin ()) || current_user_can ("create_users") || c_ws_plugin__s2member_register_access::reg_cookies_ok ())
 										{
 											return apply_filters ("ws_plugin__s2member_check_register_access", ($users_can_register = "1"), get_defined_vars ());
 										}
@@ -181,17 +181,15 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						/**/
 						else if (!is_admin () && $users_can_register !== "all") /* Do NOT run these checks on option pages; it's confusing to a site owner. */
 							{
-								if (is_super_admin () || current_user_can ("create_users") || (($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"]))) && !($exists = $wpdb->get_var ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1"))))
+								if (is_super_admin () || current_user_can ("create_users") || (($reg_cookies = c_ws_plugin__s2member_register_access::reg_cookies_ok ()) && extract ($reg_cookies)))
 									{
 										if (is_super_admin () || current_user_can ("create_users")) /* Either a Super Administrator, or an Administrator that can create. */
 											{
 												return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = "all"), get_defined_vars ());
 											}
-										else if ($subscr_gateway && $subscr_id && $custom && $level) /* A paying Customer? Cookies already authenticated above. */
+										else if (!empty ($reg_cookies) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $item_number, $m) && !empty ($m[1]) && is_numeric ($level = $m[1]))
 											{
-												list ($level) = preg_split ("/\:/", $level, 1); /* Parse out the Membership Level now. We'll need this below. */
-												/**/
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $level]) /* Blog(s) allowed? */
+												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $level])) /* Blog(s)? */
 													{
 														return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = "all"), get_defined_vars ());
 													}

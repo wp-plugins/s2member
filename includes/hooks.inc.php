@@ -28,7 +28,6 @@ add_action ("init", "c_ws_plugin__s2member_user_securities::initialize", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_no_cache::no_cache", 1);
 /**/
-add_action ("init", "c_ws_plugin__s2member_profile::profile", 1);
 add_action ("init", "c_ws_plugin__s2member_register::register", 1);
 add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 1);
 add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 1);
@@ -48,11 +47,15 @@ add_action ("init", "c_ws_plugin__s2member_css_js::css", 1);
 add_action ("init", "c_ws_plugin__s2member_constants::constants", 1);
 add_action ("init", "c_ws_plugin__s2member_css_js::js_w_globals", 1);
 /**/
+add_action ("init", "c_ws_plugin__s2member_profile::profile", 1);
+/**/
 add_action ("init", "c_ws_plugin__s2member_labels::config_label_translations");
 add_action ("init", "c_ws_plugin__s2member_login_redirects_r::remove_login_redirect_filters", 11);
 /**/
 add_action ("template_redirect", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
 add_action ("template_redirect", "c_ws_plugin__s2member_security::security_gate", 1);
+/**/
+add_filter ("wp_mail", "c_ws_plugin__s2member_email_configs::email_filter");
 /**/
 add_filter ("widget_text", "do_shortcode"); /* Shortcodes in widgets. */
 /**/

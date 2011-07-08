@@ -444,18 +444,16 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 								$_pmr = array_merge ($_p, $meta, $GLOBALS["ws_plugin__s2member_registration_vars"]); /* Merge these all together now. */
 								unset ($_p, $meta, $GLOBALS["ws_plugin__s2member_registration_vars"]); /* These vars can all be unset now; we now have them all inside $_pmr. */
 								/**/
-								if (!is_admin () /* Only run this particular routine whenever a Member Level [1-4] is registering themselves with paid authorization cookies in their browser. */
-								&& ($subscr_gateway = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_gateway"])) && ($subscr_id = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_subscr_id"])) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", ($custom = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_custom"]))) && preg_match ("/^[1-4](\:|$)([\+a-z_0-9,]+)?(\:)?([0-9]+ [A-Z])?$/", ($level = c_ws_plugin__s2member_utils_encryption::decrypt ($_COOKIE["s2member_level"])))/**/
-								&& (!$usermeta = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' AND `meta_value` = '" . $wpdb->escape ($subscr_id) . "' LIMIT 1")))
-									/* ^ This is for security ^ It checks the database to make sure the User/Member has NOT already registered in the past, with the same Paid Subscr. ID. */
-									{ /*
-										This routine could be processed through `wp-login.php?action=register`, `wp-activate.php`, or `/activate` via BuddyPress`.
+								$custom_reg_display_name = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"]; /* Can be configured by the site owner. */
+								/**/
+								if (!is_admin () && ($reg_cookies = c_ws_plugin__s2member_register_access::reg_cookies_ok ()) && extract ($reg_cookies))
+									{ /* This routine could be processed through `wp-login.php?action=register`, `wp-activate.php`, or `/activate` via BuddyPress`.
 										This may also be processed through a standard BuddyPress installation, or another plugin calling `user_register`.
 										If processed through `wp-activate.php`, it could've originated inside the admin, via `user-new.php`. */
 										$processed = "yes"; /* Mark this as yes, to indicate that a routine was processed. */
 										/**/
 										$current_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-										list ($level, $ccaps, $eotper) = preg_split ("/\:/", $level, 3);
+										list ($level, $ccaps, $eotper) = preg_split ("/\:/", $item_number, 3);
 										$role = "s2member_level" . $level; /* Membership Level. */
 										/**/
 										$email = $user->user_email;
@@ -522,8 +520,17 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if (!$user->last_name && $lname)
 											update_user_meta ($user_id, "last_name", $lname);
 										/**/
-										if (!$user->display_name && $name)
-											wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+										if (!$user->display_name || $user->display_name === $user->user_login)
+											{
+												if ($custom_reg_display_name === "full" && $name)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+												else if ($custom_reg_display_name === "first" && $fname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $fname));
+												else if ($custom_reg_display_name === "last" && $lname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $lname));
+												else if ($custom_reg_display_name === "login" && $login)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $login));
+											}
 										/**/
 										if (is_multisite ()) /* Should we handle Main Site permissions and Originating Blog ID#? */
 											{
@@ -595,20 +602,21 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 									}
 								/**/
 								else if (!is_admin ()) /* Otherwise, if we are NOT inside the Dashboard during the creation of this account. */
-									{ /*
-										This routine could be processed through `wp-login.php?action=register`, `wp-activate.php`, or `/activate` via BuddyPress`.
+									{ /* This routine could be processed through `wp-login.php?action=register`, `wp-activate.php`, or `/activate` via BuddyPress`.
 										This may also be processed through a standard BuddyPress installation, or another plugin calling `user_register`.
 										If processed through `wp-activate.php`, it could've originated inside the admin, via `user-new.php`. */
 										$processed = "yes"; /* Mark this as yes, to indicate that a routine was processed. */
 										/**/
 										$current_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-										$role = ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) ? "s2member_level" . $level : $role;
+										$role = ""; /* Initialize $role to an empty string here, before processing. */
+										$role = (!$role && ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) > 0) ? "s2member_level" . $level : $role;
+										$role = (!$role && ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) === "0") ? "subscriber" : $role;
 										$role = (!$role && $current_role) ? $current_role : $role; /* Use existing Role? */
 										$role = (!$role) ? get_option ("default_role") : $role; /* Otherwise default. */
 										/**/
 										$level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"];
 										$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? "4" : $level;
-										$level = (!$level && preg_match ("/^s2member_level[1-4]$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
+										$level = (!$level && preg_match ("/^s2member_level[1-9][0-9]*$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
 										$level = (!$level && preg_match ("/^subscriber$/i", $role)) ? "0" : $level;
 										$level = (!$level) ? "0" : $level;
 										/**/
@@ -679,8 +687,17 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if (!$user->last_name && $lname)
 											update_user_meta ($user_id, "last_name", $lname);
 										/**/
-										if (!$user->display_name && $name)
-											wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+										if (!$user->display_name || $user->display_name === $user->user_login)
+											{
+												if ($custom_reg_display_name === "full" && $name)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+												else if ($custom_reg_display_name === "first" && $fname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $fname));
+												else if ($custom_reg_display_name === "last" && $lname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $lname));
+												else if ($custom_reg_display_name === "login" && $login)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $login));
+											}
 										/**/
 										if (is_multisite ()) /* Should we handle Main Site permissions and Originating Blog ID#? */
 											{
@@ -731,18 +748,19 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 									}
 								/**/
 								else if (is_blog_admin () && $pagenow === "user-new.php")
-									{ /*
-										This routine can ONLY be processed through `user-new.php` in the Administrative area. */
+									{ /* This routine can ONLY be processed through `user-new.php` in the Administrative area. */
 										$processed = "yes"; /* Mark this as yes, to indicate that a routine was processed. */
 										/**/
 										$current_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-										$role = ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) ? "s2member_level" . $level : $role;
+										$role = ""; /* Initialize $role to an empty string here, before processing. */
+										$role = (!$role && ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) > 0) ? "s2member_level" . $level : $role;
+										$role = (!$role && ($level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"]) === "0") ? "subscriber" : $role;
 										$role = (!$role && $current_role) ? $current_role : $role; /* Use existing Role? */
 										$role = (!$role) ? get_option ("default_role") : $role; /* Otherwise default. */
 										/**/
 										$level = $_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"];
 										$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? "4" : $level;
-										$level = (!$level && preg_match ("/^s2member_level[1-4]$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
+										$level = (!$level && preg_match ("/^s2member_level[1-9][0-9]*$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
 										$level = (!$level && preg_match ("/^subscriber$/i", $role)) ? "0" : $level;
 										$level = (!$level) ? "0" : $level;
 										/**/
@@ -803,8 +821,17 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if (!$user->last_name && $lname)
 											update_user_meta ($user_id, "last_name", $lname);
 										/**/
-										if (!$user->display_name && $name)
-											wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+										if (!$user->display_name || $user->display_name === $user->user_login)
+											{
+												if ($custom_reg_display_name === "full" && $name)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $name));
+												else if ($custom_reg_display_name === "first" && $fname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $fname));
+												else if ($custom_reg_display_name === "last" && $lname)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $lname));
+												else if ($custom_reg_display_name === "login" && $login)
+													wp_update_user (array ("ID" => $user_id, "display_name" => $login));
+											}
 										/**/
 										if (is_multisite ()) /* Should we handle Main Site permissions and Originating Blog ID#? */
 											{
@@ -976,7 +1003,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 												@setcookie ("s2member_subscr_gateway", "", time () + 31556926, "/");
 												@setcookie ("s2member_subscr_id", "", time () + 31556926, "/");
 												@setcookie ("s2member_custom", "", time () + 31556926, "/");
-												@setcookie ("s2member_level", "", time () + 31556926, "/");
+												@setcookie ("s2member_item_number", "", time () + 31556926, "/");
 											}
 										/**/
 										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');

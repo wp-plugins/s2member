@@ -28,7 +28,18 @@ content_url (preg_replace ("/^(.*?)\/" . preg_quote (basename (WP_CONTENT_DIR), 
 /*
 Configure the number of Membership Levels being used with s2Member. This is NOT ready ( yet ). Some areas of s2Member are still hard-coded at 4 Levels + Subscribers.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"] = apply_filters ("ws_plugin__s2member_levels", 4); /* Please do NOT Filter. This is NOT ready ( yet ). */
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"] = 4; /* Hard coded in at 4 Levels. This can only be extended when/if s2Member Pro is installed. */
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["min_levels"] = 1; /* A lower limit to protect the integrity of the s2Member software application. */
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["max_levels"] = apply_filters ("ws_plugin__s2member_max_levels", 100); /* Filterable. */
+/*
+Configure regular expression matches for Membership Access Item Numbers ( including those with only Custom Capabilities ).
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"] = "/^([1-9][0-9]*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_ccaps_only_item_number_regex"] = "/^(\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+/*
+Configure regular expression match for Specific Post/Page Access Item Numbers ( all elements required here ).
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"] = "/^(sp)(?:(?:\:([1-9][0-9,]*))(?:\:([1-9][0-9]*)))$/";
 /*
 Configure the directory for files protected by s2Member.
 */
@@ -58,6 +69,10 @@ Configure checksum time for the syscon.inc.php file.
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["checksum"] = filemtime (__FILE__);
 /*
+Configure an array of pluggable functions handled by s2Member.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"] = array ();
+/*
 Configure & validate all of the s2Member options; and set their defaults.
 */
 if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"))
@@ -76,191 +91,169 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 		*/
 		function ws_plugin__s2member_configure_options_and_their_defaults ($options = FALSE)
 			{
-				global $current_site, $current_blog; /* Multisite Networking compatiblity. */
+				global $current_site, $current_blog;
 				/**/
-				$default_options = apply_filters ("ws_plugin__s2member_default_options", array ( /* For Filters. */
+				$default_options["options_checksum"] = "";
+				$default_options["options_version"] = "1.0";
 				/**/
-				"options_checksum" => "", /* Used internally to maintain integrity of all options. */
-				"options_version" => "1.0", /* Used internally to maintain integrity of all options. */
+				$default_options["gateway_debug_logs"] = "0";
 				/**/
-				"gateway_debug_logs" => "0", /* Enable debugging/logging for development testing? */
+				$default_options["sec_encryption_key"] = "";
+				$default_options["sec_encryption_key_history"] = array ();
+				$default_options["s_badge_status_enabled"] = "0";
 				/**/
-				"sec_encryption_key" => "", /* For security. This keeps each installation unique. */
-				"sec_encryption_key_history" => array (), /* Keeps a history of the last 10 keys. */
-				"s_badge_status_enabled" => "0", /* This is optional. Defaults to being disabled. */
+				$default_options["max_ip_restriction"] = "5";
+				$default_options["max_ip_restriction_time"] = "3600";
+				$default_options["max_failed_login_attempts"] = "5";
 				/**/
-				"max_ip_restriction" => "5", /* Maximum IPs on record for each Username/Post/Page. */
-				"max_ip_restriction_time" => "3600", /* How long before restrictions are lifted? */
-				"max_failed_login_attempts" => "5", /* Stop after five failed login attempts. */
+				$default_options["run_deactivation_routines"] = "1";
 				/**/
-				"run_deactivation_routines" => "1", /* Should deactivation routines be processed? */
+				$default_options["custom_reg_fields"] = "";
+				$default_options["custom_reg_names"] = "1";
+				$default_options["custom_reg_display_name"] = "full";
+				$default_options["custom_reg_password"] = "0";
+				$default_options["custom_reg_opt_in"] = "1";
+				$default_options["custom_reg_opt_in_label"] = "Yes, I want to receive updates via email.";
+				$default_options["custom_reg_auto_opt_outs"] = array ();
+				$default_options["custom_reg_auto_opt_out_transitions"] = "0";
+				$default_options["custom_reg_fields_4bp"] = array ();
+				$default_options["custom_reg_force_personal_emails"] = "";
 				/**/
-				"custom_reg_fields" => "", /* A JSON encoded array of Custom Fields to collect/use. */
-				"custom_reg_names" => "1", /* Collect first/last/display names from each User/Member? */
-				"custom_reg_password" => "0", /* Allow users to register their own Custom Password? */
-				"custom_reg_opt_in" => "1", /* Use a Double Opt-In Checkbox on the Registration Form? */
-				"custom_reg_opt_in_label" => "Yes, I want to receive updates via email.", /* Label. */
-				"custom_reg_auto_opt_outs" => array (), /* Automatically remove Subscribers? */
-				"custom_reg_auto_opt_out_transitions" => "0", /* Automatically transition? */
-				"custom_reg_fields_4bp" => array (), /* (registration|profile-view|profile). */
-				"custom_reg_force_personal_emails" => "", /* List of non-personal users@. */
+				$default_options["allow_subscribers_in"] = "0";
+				$default_options["force_admin_lockouts"] = "0";
+				$default_options["filter_wp_query"] = "none";
 				/**/
-				"allow_subscribers_in" => "0", /* Allow Subscribers to register for absolutely free access? */
-				"mms_auto_patch" => "1", /* Automatically patch WordPress® when Multisite Networking is enabled? */
-				"mms_registration_file" => "wp-login", /* A Multisite registration ( on the main site ) uses which file? */
-				"mms_registration_grants" => "none", /* A public visitor, on a Multisite Blog Farm can register what? */
-				"mms_registration_blogs_level0" => "0", /* A Visitor on a Multisite Farm, can create how many Blogs? */
-				"mms_registration_blogs_level1" => "1", /* A Customer on a Multisite Farm can create how many Blogs? */
-				"mms_registration_blogs_level2" => "5", /* A Customer on a Multisite Farm can create how many Blogs? */
-				"mms_registration_blogs_level3" => "25", /* A Customer on a Multisite Farm can create how many Blogs? */
-				"mms_registration_blogs_level4" => "100", /* A Customer on a Multisite Farm can create how many Blogs? */
-				"force_admin_lockouts" => "0", /* Redirects admin Pages/Profile to the Login Welcome Page. */
-				"filter_wp_query" => "none", /* Off by default (none|searches|feeds|searches,feeds|all). */
+				$default_options["mms_auto_patch"] = "1";
+				$default_options["mms_registration_file"] = "wp-login";
+				$default_options["mms_registration_grants"] = "none";
+				for ($n = 0, $v = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++, $v = $v + 5)
+					$default_options["mms_registration_blogs_level" . $n] = (string)$v;
 				/**/
-				"login_welcome_page" => "", /* Defaults to the Home Page. */
-				"login_redirection_override" => "", /* Alternate redirection location; instead of the Welcome Page. */
-				"membership_options_page" => "", /* Defaults to the Home Page. */
+				$default_options["login_welcome_page"] = "";
+				$default_options["login_redirection_override"] = "";
+				$default_options["membership_options_page"] = "";
 				/**/
-				"login_reg_background_color" => "FFFFFF", /* Defaults to white, and the bg.png is also white. */
-				"login_reg_background_image" => $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images/bg.png",/**/
-				"login_reg_background_image_repeat" => "repeat", /* How should the background image repeat? repeat[-x|y]*/
+				$default_options["login_reg_background_color"] = "FFFFFF";
+				$default_options["login_reg_background_image"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images/bg.png";
+				$default_options["login_reg_background_image_repeat"] = "repeat";
 				/**/
-				"login_reg_background_text_color" => "000000", /* Defaults to black, which is high contrast on white. */
-				"login_reg_background_text_shadow_color" => "EEEEEE", /* Defaults to gray, which is slightly visible. */
-				"login_reg_background_box_shadow_color" => "EEEEEE", /* Defaults to gray, which is slightly visible. */
+				$default_options["login_reg_background_text_color"] = "000000";
+				$default_options["login_reg_background_text_shadow_color"] = "EEEEEE";
+				$default_options["login_reg_background_box_shadow_color"] = "EEEEEE";
 				/**/
-				"login_reg_logo_src" => $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images/logo.png",/**/
-				"login_reg_logo_src_width" => "550", /* Defaults to the logo_src image width. */
-				"login_reg_logo_src_height" => "100", /* Defaults to the logo_src image height. */
-				"login_reg_logo_url" => home_url ("/"), /* Defaults to the home page location. */
-				"login_reg_logo_title" => get_bloginfo ("name"), /* Defaults to the site name. */
+				$default_options["login_reg_logo_src"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images/logo.png";
+				$default_options["login_reg_logo_src_width"] = "550";
+				$default_options["login_reg_logo_src_height"] = "100";
+				$default_options["login_reg_logo_url"] = home_url ("/");
+				$default_options["login_reg_logo_title"] = get_bloginfo ("name");
 				/**/
-				"login_reg_font_size" => "12px", /* Overall font size. Used as the base size. */
-				"login_reg_font_family" => "'Verdana', 'Arial', sans-serif", /* Overall fonts. */
-				"login_reg_font_field_size" => "18px", /* This is size for all form fields. */
+				$default_options["login_reg_font_size"] = "12px";
+				$default_options["login_reg_font_family"] = "'Verdana', 'Arial', sans-serif";
+				$default_options["login_reg_font_field_size"] = "18px";
 				/**/
-				"login_reg_footer_design" => "", /* Contains raw code for Login/Registration. */
+				$default_options["login_reg_footer_design"] = "";
 				/**/
-				"reg_email_from_name" => get_bloginfo ("name"), /* Defaults to the site name. */
-				"reg_email_from_email" => get_bloginfo ("admin_email"), /* Defaults to the admin. */
+				$default_options["reg_email_from_name"] = get_bloginfo ("name");
+				$default_options["reg_email_from_email"] = get_bloginfo ("admin_email");
 				/**/
-				"paypal_sandbox" => "0", /* Use the PayPal® Sandbox for development testing? */
-				"paypal_business" => "", /* PayPal® email address for their Business account. */
-				"paypal_api_username" => "", /* PayPal® API Username for their Business account. */
-				"paypal_api_password" => "", /* PayPal® API Password for their Business account. */
-				"paypal_api_signature" => "", /* PayPal® API Signature for their Business acct. */
-				"paypal_identity_token" => "", /* PayPal® PDT Identity Token for their Business. */
-				"paypal_btn_encryption" => "0", /* Enable PayPal® Button encryption? */
+				$default_options["new_user_email_subject"] = "[" . get_bloginfo ("name") . "] Username/Password";
+				$default_options["new_user_email_message"] = "[" . get_bloginfo ("name") . "] Username/Password\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%";
 				/**/
-				"signup_tracking_codes" => "", /* Signup Tracking Codes. */
-				"signup_email_recipients" => '"%%full_name%%" <%%payer_email%%>',/**/
-				"signup_email_subject" => "Congratulations! ( your membership has been approved )",/**/
-				"signup_email_message" => "Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name"),/**/
+				$default_options["new_user_admin_email_recipients"] = get_bloginfo ("admin_email");
+				$default_options["new_user_admin_email_subject"] = "[" . get_bloginfo ("name") . "] New User Registration";
+				$default_options["new_user_admin_email_message"] = "[" . get_bloginfo ("name") . "] New User Registration\n\nUsername: %%user_login%%\nEmail: %%user_email%%";
 				/**/
-				"sp_tracking_codes" => "", /* Specific Post/Page Tracking. */
-				"sp_email_recipients" => '"%%full_name%%" <%%payer_email%%>',/**/
-				"sp_email_subject" => "Thank You! ( instructions for access )",/**/
-				"sp_email_message" => "Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name"),/**/
+				$default_options["paypal_sandbox"] = "0";
+				$default_options["paypal_business"] = "";
+				$default_options["paypal_api_username"] = "";
+				$default_options["paypal_api_password"] = "";
+				$default_options["paypal_api_signature"] = "";
+				$default_options["paypal_identity_token"] = "";
+				$default_options["paypal_btn_encryption"] = "0";
 				/**/
-				"mailchimp_api_key" => "", /* MailChimp® API Key for MailChimp® integration. */
+				$default_options["signup_tracking_codes"] = "";
+				$default_options["signup_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
+				$default_options["signup_email_subject"] = "Congratulations! ( your membership has been approved )";
+				$default_options["signup_email_message"] = "Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
 				/**/
-				"level0_mailchimp_list_ids" => "", /* Comma-delimited MailChimp® List IDs. */
-				"level1_mailchimp_list_ids" => "", /* Comma-delimited MailChimp® List IDs. */
-				"level2_mailchimp_list_ids" => "", /* Comma-delimited MailChimp® List IDs. */
-				"level3_mailchimp_list_ids" => "", /* Comma-delimited MailChimp® List IDs. */
-				"level4_mailchimp_list_ids" => "", /* Comma-delimited MailChimp® List IDs. */
+				$default_options["sp_tracking_codes"] = "";
+				$default_options["sp_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
+				$default_options["sp_email_subject"] = "Thank You! ( instructions for access )";
+				$default_options["sp_email_message"] = "Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
 				/**/
-				"level0_aweber_list_ids" => "", /* Comma-delimited AWeber® List IDs. */
-				"level1_aweber_list_ids" => "", /* Comma-delimited AWeber® List IDs. */
-				"level2_aweber_list_ids" => "", /* Comma-delimited AWeber® List IDs. */
-				"level3_aweber_list_ids" => "", /* Comma-delimited AWeber® List IDs. */
-				"level4_aweber_list_ids" => "", /* Comma-delimited AWeber® List IDs. */
+				$default_options["mailchimp_api_key"] = "";
 				/**/
-				"signup_notification_urls" => "", /* Line-delimited Signup Notification URLs. */
-				"registration_notification_urls" => "", /* Line-delimited Registration Notification URLs. */
-				"payment_notification_urls" => "", /* Line-delimited Payment Notification URLs. */
-				"modification_notification_urls" => "", /* Line-delimited Modification Notification URLs. */
-				"cancellation_notification_urls" => "", /* Line-delimited Cancellation Notification URLs. */
-				"eot_del_notification_urls" => "", /* Line-delimited EOT/Del Notification URLs. */
-				"ref_rev_notification_urls" => "", /* Line-delimited Ref/Rev Notification URLs. */
-				"sp_sale_notification_urls" => "", /* Line-delimited Specific Post/Page Notification URLs. */
-				"sp_ref_rev_notification_urls" => "", /* Line-delimited Specific Post/Page Notification URLs. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_mailchimp_list_ids"] = "";
 				/**/
-				"signup_notification_recipients" => "", /* Signup Notification recipients. */
-				"registration_notification_recipients" => "", /* Registration Notification recipients. */
-				"payment_notification_recipients" => "", /* Payment Notification recipients. */
-				"modification_notification_recipients" => "", /* Modification Notification recipients. */
-				"cancellation_notification_recipients" => "", /* Cancellation Notification recipients. */
-				"eot_del_notification_recipients" => "", /* EOT/Del Notification recipients. */
-				"ref_rev_notification_recipients" => "", /* Ref/Rev Notification recipients. */
-				"sp_sale_notification_recipients" => "", /* Specific Post/Page Notification recipients. */
-				"sp_ref_rev_notification_recipients" => "", /* Specific Post/Page Notification recipients. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_aweber_list_ids"] = "";
 				/**/
-				"level0_label" => "Free Subscriber", /* An initial generic Level Label. */
-				"level1_label" => "Bronze Member", /* An initial generic Level Label. */
-				"level2_label" => "Silver Member", /* An initial generic Level Label. */
-				"level3_label" => "Gold Member", /* An initial generic Level Label. */
-				"level4_label" => "Platinum Member", /* An initial generic Level Label. */
+				$default_options["signup_notification_urls"] = "";
+				$default_options["registration_notification_urls"] = "";
+				$default_options["payment_notification_urls"] = "";
+				$default_options["modification_notification_urls"] = "";
+				$default_options["cancellation_notification_urls"] = "";
+				$default_options["eot_del_notification_urls"] = "";
+				$default_options["ref_rev_notification_urls"] = "";
+				$default_options["sp_sale_notification_urls"] = "";
+				$default_options["sp_ref_rev_notification_urls"] = "";
 				/**/
-				"apply_label_translations" => "0", /* Apply Label translations globally? */
+				$default_options["signup_notification_recipients"] = "";
+				$default_options["registration_notification_recipients"] = "";
+				$default_options["payment_notification_recipients"] = "";
+				$default_options["modification_notification_recipients"] = "";
+				$default_options["cancellation_notification_recipients"] = "";
+				$default_options["eot_del_notification_recipients"] = "";
+				$default_options["ref_rev_notification_recipients"] = "";
+				$default_options["sp_sale_notification_recipients"] = "";
+				$default_options["sp_ref_rev_notification_recipients"] = "";
 				/**/
-				"level0_file_downloads_allowed" => "", /* Should always be numeric or empty. */
-				"level1_file_downloads_allowed" => "", /* Should always be numeric or empty. */
-				"level2_file_downloads_allowed" => "", /* Should always be numeric or empty. */
-				"level3_file_downloads_allowed" => "", /* Should always be numeric or empty. */
-				"level4_file_downloads_allowed" => "", /* Should always be numeric or empty. */
+				for ($n = 0, $l = array ("Free Subscriber", "Bronze Member", "Silver Member", "Gold Member", "Platinum Member"); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_label"] = (!empty ($l[$n])) ? $l[$n] : "Level " . $n . " Member";
 				/**/
-				"level0_file_downloads_allowed_days" => "", /* Should be numeric or empty. */
-				"level1_file_downloads_allowed_days" => "", /* Should be numeric or empty. */
-				"level2_file_downloads_allowed_days" => "", /* Should be numeric or empty. */
-				"level3_file_downloads_allowed_days" => "", /* Should be numeric or empty. */
-				"level4_file_downloads_allowed_days" => "", /* Should be numeric or empty. */
+				$default_options["apply_label_translations"] = "0";
 				/**/
-				"file_download_limit_exceeded_page" => "", /* Defaults to the Home Page. */
-				"file_download_inline_extensions" => "", /* List of Extensions to serve Inline. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_file_downloads_allowed"] = "";
 				/**/
-				"amazon_s3_files_bucket" => "", /* Defaults empty ( Amazon® S3 not enabled ). */
-				"amazon_s3_files_access_key" => "", /* Amazon® S3 Access Key ID string value. */
-				"amazon_s3_files_secret_key" => "", /* Amazon® S3 Secret Key ID string value. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_file_downloads_allowed_days"] = "";
 				/**/
-				"level0_ruris" => "", /* Line-delimited list of URIs, and/or URI fragments. */
-				"level1_ruris" => "", /* Line-delimited list of URIs, and/or URI fragments. */
-				"level2_ruris" => "", /* Line-delimited list of URIs, and/or URI fragments. */
-				"level3_ruris" => "", /* Line-delimited list of URIs, and/or URI fragments. */
-				"level4_ruris" => "", /* Line-delimited list of URIs, and/or URI fragments. */
+				$default_options["file_download_limit_exceeded_page"] = "";
+				$default_options["file_download_inline_extensions"] = "";
 				/**/
-				"level0_catgs" => "", /* Comma-delimited list of Category IDs to protect. */
-				"level1_catgs" => "", /* Comma-delimited list of Category IDs to protect. */
-				"level2_catgs" => "", /* Comma-delimited list of Category IDs to protect. */
-				"level3_catgs" => "", /* Comma-delimited list of Category IDs to protect. */
-				"level4_catgs" => "", /* Comma-delimited list of Category IDs to protect. */
+				$default_options["amazon_s3_files_bucket"] = "";
+				$default_options["amazon_s3_files_access_key"] = "";
+				$default_options["amazon_s3_files_secret_key"] = "";
 				/**/
-				"level0_ptags" => "", /* Comma-delimited list of Post/Page Tags to protect. */
-				"level1_ptags" => "", /* Comma-delimited list of Post/Page Tags to protect. */
-				"level2_ptags" => "", /* Comma-delimited list of Post/Page Tags to protect. */
-				"level3_ptags" => "", /* Comma-delimited list of Post/Page Tags to protect. */
-				"level4_ptags" => "", /* Comma-delimited list of Post/Page Tags to protect. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_ruris"] = "";
 				/**/
-				"level0_posts" => "", /* Comma-delimited list of Post IDs to protect. */
-				"level1_posts" => "", /* Comma-delimited list of Post IDs to protect. */
-				"level2_posts" => "", /* Comma-delimited list of Post IDs to protect. */
-				"level3_posts" => "", /* Comma-delimited list of Post IDs to protect. */
-				"level4_posts" => "", /* Comma-delimited list of Post IDs to protect. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_catgs"] = "";
 				/**/
-				"level0_pages" => "", /* Comma-delimited list of Page IDs to protect. */
-				"level1_pages" => "", /* Comma-delimited list of Page IDs to protect. */
-				"level2_pages" => "", /* Comma-delimited list of Page IDs to protect. */
-				"level3_pages" => "", /* Comma-delimited list of Page IDs to protect. */
-				"level4_pages" => "", /* Comma-delimited list of Page IDs to protect. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_ptags"] = "";
 				/**/
-				"specific_ids" => "", /* Comma-delimited list of Specific Post/Page IDs. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_posts"] = "";
 				/**/
-				"triggers_immediate_eot" => "refunds,reversals", /* Immediate EOT? */
-				"membership_eot_behavior" => "demote", /* Demote or delete Members? */
-				"eot_time_ext_behavior" => "extend", /* Auto-extend? ( extend|reset ). */
-				"auto_eot_system_enabled" => "1", /* 0|1|2. 1 = WP-Cron, 2 = Cron tab. */
+				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_pages"] = "";
 				/**/
-				"wp_footer_code" => "")); /* Possible footer code. */
+				$default_options["specific_ids"] = "";
+				/**/
+				$default_options["triggers_immediate_eot"] = "refunds,reversals";
+				$default_options["membership_eot_behavior"] = "demote";
+				$default_options["eot_time_ext_behavior"] = "extend";
+				$default_options["auto_eot_system_enabled"] = "1";
+				/**/
+				$default_options["wp_footer_code"] = "";
+				/**/
+				$default_options = apply_filters ("ws_plugin__s2member_default_options", $default_options);
+				/**/
+				unset ($n, $v, $l); /* Unset/cleanup these working variables from the routines above. */
 				/*
 				Disable de-activation routines ( by default ) on a Multisite Blog Farm installation; excluding the Main Site.
 				*/
@@ -334,6 +327,9 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^custom_reg_(names|password|opt_in|auto_opt_out_transitions)$/", $key) && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
+								else if ($key === "custom_reg_display_name" && (!is_string ($value) || !preg_match ("/^(full|first|last|login|0)$/", $value)))
+									$value = $default_options[$key];
+								/**/
 								else if ($key === "custom_reg_opt_in_label" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
@@ -358,7 +354,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "mms_registration_grants" && (!is_string ($value) || !preg_match ("/^(none|user|all)$/", $value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^mms_registration_blogs_level[0-4]$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
+								else if (preg_match ("/^mms_registration_blogs_level[0-9]+$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "force_admin_lockouts" && (!is_string ($value) || !is_numeric ($value)))
@@ -388,6 +384,12 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^reg_email_from_(name|email)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
+								else if (preg_match ("/^new_user_email_(subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
+									$value = $default_options[$key];
+								/**/
+								else if (preg_match ("/^new_user_admin_email_(recipients|subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
+									$value = $default_options[$key];
+								/**/
 								else if ($key === "paypal_sandbox" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
@@ -409,10 +411,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "mailchimp_api_key" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_mailchimp_list_ids$/", $key) && (!is_string ($value) || !strlen ($value = preg_replace ("/[\r\n\t]+/", "", $value))))
+								else if (preg_match ("/^level[0-9]+_mailchimp_list_ids$/", $key) && (!is_string ($value) || !strlen ($value = preg_replace ("/[\r\n\t]+/", "", $value))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_aweber_list_ids$/", $key) && (!is_string ($value) || !strlen ($value = preg_replace ("/\s+/", "", $value))))
+								else if (preg_match ("/^level[0-9]+_aweber_list_ids$/", $key) && (!is_string ($value) || !strlen ($value = preg_replace ("/\s+/", "", $value))))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^(signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_urls$/", $key) && (!is_string ($value) || !strlen ($value)))
@@ -421,16 +423,16 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^(signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_recipients$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_label$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^level[0-9]+_label$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "apply_label_translations" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_file_downloads_allowed$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
+								else if (preg_match ("/^level[0-9]+_file_downloads_allowed$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_file_downloads_allowed_days$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
+								else if (preg_match ("/^level[0-9]+_file_downloads_allowed_days$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "file_download_limit_exceeded_page" && (!is_string ($value) || !is_numeric ($value)))
@@ -442,19 +444,19 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^amazon_s3_files_(bucket|access_key|secret_key)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_ruris$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^level[0-9]+_ruris$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_catgs$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_catgs$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_ptags$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/( +)/", " ", trim (preg_replace ("/( *),( *)/", ",", $value))), ",")))))
+								else if (preg_match ("/^level[0-9]+_ptags$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/( +)/", " ", trim (preg_replace ("/( *),( *)/", ",", $value))), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_posts$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_posts$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-4]_pages$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_pages$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "specific_ids" && (!is_string ($value) || !($value = trim (preg_replace ("/[^0-9,]/", "", $value), ","))))

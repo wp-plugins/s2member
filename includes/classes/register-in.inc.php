@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_register_in"))
 	{
@@ -45,36 +45,50 @@ if (!class_exists ("c_ws_plugin__s2member_register_in"))
 							{
 								if (is_array ($register = preg_split ("/\:\.\:\|\:\.\:/", c_ws_plugin__s2member_utils_encryption::decrypt (trim (stripslashes ($_GET["s2member_register"]))))))
 									{
-										if (count ($register) === 6 && $register[0] === "subscr_gateway_subscr_id_custom_item_number_time" && $register[1] && $register[2] && $register[3] && $register[4] && $register[5])
+										if (count ($register) === 6 && !empty ($register[0]) && $register[0] === "subscr_gateway_subscr_id_custom_item_number_time" && !empty ($register[1]) && !empty ($register[2]) && !empty ($register[3]) && !empty ($register[4]) && !empty ($register[5]))
 											{
 												if ($register[5] <= strtotime ("now") && $register[5] >= strtotime ("-" . apply_filters ("ws_plugin__s2member_register_link_exp_time", "2 days", get_defined_vars ())))
 													{
-														setcookie ("s2member_subscr_gateway", c_ws_plugin__s2member_utils_encryption::encrypt ($register[1]), time () + 31556926, "/");
-														setcookie ("s2member_subscr_id", c_ws_plugin__s2member_utils_encryption::encrypt ($register[2]), time () + 31556926, "/");
-														setcookie ("s2member_custom", c_ws_plugin__s2member_utils_encryption::encrypt ($register[3]), time () + 31556926, "/");
-														setcookie ("s2member_level", c_ws_plugin__s2member_utils_encryption::encrypt ($register[4]), time () + 31556926, "/");
+														$_COOKIE["s2member_subscr_gateway"] = c_ws_plugin__s2member_utils_encryption::encrypt ($register[1]);
+														$_COOKIE["s2member_subscr_id"] = c_ws_plugin__s2member_utils_encryption::encrypt ($register[2]);
+														$_COOKIE["s2member_custom"] = c_ws_plugin__s2member_utils_encryption::encrypt ($register[3]);
+														$_COOKIE["s2member_item_number"] = c_ws_plugin__s2member_utils_encryption::encrypt ($register[4]);
 														/**/
-														do_action ("ws_plugin__s2member_during_register", get_defined_vars ());
-														/**/
-														if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
+														if (($reg_cookies = c_ws_plugin__s2member_register_access::reg_cookies_ok ()) && extract ($reg_cookies))
 															{
-																echo '<script type="text/javascript">' . "\n";
-																echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . "';";
-																echo '</script>' . "\n";
+																setcookie ("s2member_subscr_gateway", c_ws_plugin__s2member_utils_encryption::encrypt ($register[1]), time () + 31556926, "/");
+																setcookie ("s2member_subscr_id", c_ws_plugin__s2member_utils_encryption::encrypt ($register[2]), time () + 31556926, "/");
+																setcookie ("s2member_custom", c_ws_plugin__s2member_utils_encryption::encrypt ($register[3]), time () + 31556926, "/");
+																setcookie ("s2member_item_number", c_ws_plugin__s2member_utils_encryption::encrypt ($register[4]), time () + 31556926, "/");
+																/**/
+																do_action ("ws_plugin__s2member_during_register", get_defined_vars ());
+																/**/
+																if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
+																	{
+																		echo '<script type="text/javascript">' . "\n";
+																		echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . "';";
+																		echo '</script>' . "\n";
+																	}
+																else /* Otherwise, this is NOT a Multisite install. Or it is, but the Super Admin is NOT selling Blogs. */
+																	{
+																		echo '<script type="text/javascript">' . "\n";
+																		echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . "';";
+																		echo '</script>' . "\n";
+																	}
 															}
-														else /* Otherwise, this is NOT a Multisite install. Or it is, but the Super Admin is NOT selling Blogs. */
-															{
-																echo '<script type="text/javascript">' . "\n";
-																echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . "';";
-																echo '</script>' . "\n";
-															}
+														else
+															echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
 													}
+												else
+													echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
 											}
+										else
+											echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
 									}
+								else
+									echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
 								/**/
-								echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
-								/**/
-								exit (); /* $_GET["s2member_register"] has expired. Or simply invalid. */
+								exit (); /* Clean exit. This is always the case with `$_GET["s2member_register"]`. */
 							}
 						/**/
 						do_action ("ws_plugin__s2member_after_register", get_defined_vars ());

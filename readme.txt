@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110708
-Stable tag: 110708
+Version: 110709
+Stable tag: 110709
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -160,6 +160,9 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110709 =
+* **(s2Member/s2Member Pro) Email Configuration ( bug fix ).** New file `/s2member/includes/functions/pluggables.inc.php` was missing in the last release, weird. This release adds the missing file that implements this new feature included in the previous Changelog. FEATURE: Some new options are now available that allow site owners to customize the email that contains the Username/Password for new Users/Members. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.
 
 = v110708 =
 * **(s2Member/s2Member Pro) Compatibility.** s2Member and s2Member Pro have both been updated to support WordPress® v3.2.

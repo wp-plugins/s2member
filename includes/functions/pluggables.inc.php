@@ -15,9 +15,9 @@
 * @since 110707
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
-if (apply_filters ("ws_plugin__s2member_pluggable_wp_new_user_notification_ov", (!function_exists ("wp_new_user_notification"))))
+if (!function_exists ("wp_new_user_notification"))
 	{
 		/**
 		* New User notifications.
@@ -27,13 +27,16 @@ if (apply_filters ("ws_plugin__s2member_pluggable_wp_new_user_notification_ov", 
 		* @package s2Member
 		* @since 110707
 		*
-		* @return null|class Return-value of class method.
+		* @return class Return-value of class method.
 		*/
-		function wp_new_user_notification () /* Accepts any number of arguments. */
+		if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_emails_enabled"])
 			{
-				$args = func_get_args (); /* Pulls the arguments passed in to this function. */
-				/**/
-				return call_user_func_array ("c_ws_plugin__s2member_email_configs::new_user_notification", $args);
+				function wp_new_user_notification () /* Accepts any number of arguments. */
+					{
+						$args = func_get_args (); /* Pulls the arguments passed in to this function. */
+						/**/
+						return call_user_func_array ("c_ws_plugin__s2member_email_configs::new_user_notification", $args);
+					}
 			}
 		$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"] = true;
 	}

@@ -198,7 +198,6 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-group" title="Email Configuration">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-email-section">' . "\n";
-								/**/
 								echo '<h3 style="margin:0;">Email From: ' . esc_html ('"Name" <address>') . '</h3>' . "\n";
 								echo '<p style="margin:0;">This is the name/address that will appear in outgoing email notifications sent by the s2Member plugin.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_email_from_name_config", get_defined_vars ());
@@ -242,83 +241,202 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								/**/
-								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"])
-									{
-										echo '<div class="ws-menu-page-hr"></div>' . "\n";
-										/**/
-										echo '<h3 style="margin:0;">New User Email Message</h3>' . "\n";
-										echo '<p style="margin:0;">This email is sent to all new Users/Members. It should always contain their Username/Password. In addition to this email, s2Member will also send new paying Customers a Signup Confirmation Email, which you can customize from your Dashboard, under: <code>s2Member -> PayPal® Options</code>. You may wish to customize these emails further, by providing details that are specifically geared to your site.</p>' . "\n";
-										do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_email_new_user_config", get_defined_vars ());
-										/**/
-										echo '<table class="form-table">' . "\n";
-										echo '<tbody>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<th>' . "\n";
-										echo '<label for="ws-plugin--s2member-new-user-email-subject">' . "\n";
-										echo 'New User Email Subject:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_new_user_email_subject" id="ws-plugin--s2member-new-user-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_subject"]) . '" /><br />' . "\n";
-										echo 'Subject Line used in the email sent to new Users/Members.' . "\n";
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<th>' . "\n";
-										echo '<label for="ws-plugin--s2member-new-user-email-message">' . "\n";
-										echo 'New User Email Message:' . "\n";
-										echo '</label>' . "\n";
-										echo '</th>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '<tr>' . "\n";
-										/**/
-										echo '<td>' . "\n";
-										echo '<textarea name="ws_plugin__s2member_new_user_email_message" id="ws-plugin--s2member-new-user-email-message" rows="10">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_message"]) . '</textarea><br />' . "\n";
-										echo 'Message Body used in the email sent to new Users/Members.<br /><br />' . "\n";
-										echo '<strong>You can also use these special Replacement Codes if you need them:</strong>' . "\n";
-										echo '<ul>' . "\n";
-										echo '<li><code>%%user_first_name%%</code> = The First Name of the Member who registered their Username.</li>' . "\n";
-										echo '<li><code>%%user_last_name%%</code> = The Last Name of the Member who registered their Username.</li>' . "\n";
-										echo '<li><code>%%user_full_name%%</code> = The Full Name ( First &amp; Last ) of the Member who registered their Username.</li>' . "\n";
-										echo '<li><code>%%user_email%%</code> = The Email Address of the Member who registered their Username.</li>' . "\n";
-										echo '<li><code>%%user_login%%</code> = The Username the Member selected during registration.</li>' . "\n";
-										echo '<li><code>%%user_pass%%</code> = The Password selected or generated during registration.</li>' . "\n";
-										echo '<li><code>%%user_ip%%</code> = The User\'s IP Address, detected via <code>$_SERVER["REMOTE_ADDR"]</code>.</li>' . "\n";
-										echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID generated during registration.</li>' . "\n";
-										echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
-										echo '</ul>' . "\n";
-										/**/
-										echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
-										echo '<ul>' . "\n";
-										echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-										echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-										echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-										echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
-										echo '</ul>' . "\n";
-										/**/
-										echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
-										echo '<ul>' . "\n";
-										echo '<li><code>%%cv0%%</code> = The domain of your site, which is passed through the `custom` attribute in your Shortcode.</li>' . "\n";
-										echo '<li><code>%%cv1%%</code> = If you need to track additional custom variables, you can pipe delimit them into the `custom` attribute; inside your Shortcode, like this: <code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|cv1|cv2|cv3"</code>. You can have an unlimited number of custom variables. Obviously, this is for advanced webmasters; but the functionality has been made available for those who need it.</li>' . "\n";
-										echo '</ul>' . "\n";
-										echo '<strong>This example uses cv1 to record a special marketing campaign:</strong><br />' . "\n";
-										echo '<em>( The campaign ( i.e. christmas-promo ) could be referenced using <code>%%cv1%%</code> )</em><br />' . "\n";
-										echo '<code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|christmas-promo"</code>' . "\n";
-										/**/
-										echo '</td>' . "\n";
-										/**/
-										echo '</tr>' . "\n";
-										echo '</tbody>' . "\n";
-										echo '</table>' . "\n";
-									}
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<h3 style="margin:0;">New User Email Configuration</h3>' . "\n";
+								echo '<input type="hidden" id="ws-plugin--s2member-pluggables-wp-new-user-notification" value="' . esc_attr ((empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"])) ? '0' : '1') . '" />' . "\n";
+								echo (empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"])) ? '<p class="ws-menu-page-error" style="margin:0;"><em><strong>Conflict warning:</strong> You have another theme or plugin installed that is preventing s2Member from controlling this aspect of your installation. When the pluggable function <code><a href="http://codex.wordpress.org/Function_Reference/wp_new_user_notification" target="_blank" rel="external">wp_new_user_notification()</a></code> is handled by another plugin, it\'s not possible for s2Member to allow customization of New User Emails. This is NOT a major issue. In fact, in some cases, it might be desirable. That being said, if you DO want to use s2Member\'s customization of New User Emails, you will need to deactivate one plugin at a time until this conflict warning goes away.</em></p>' . "\n" : '';
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_new_user_emails", get_defined_vars ());
+								/**/
+								echo '<table class="form-table">' . "\n";
+								echo '<tbody>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<select name="ws_plugin__s2member_new_user_emails_enabled" id="ws-plugin--s2member-new-user-emails-enabled">' . "\n";
+								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_emails_enabled"]) ? ' selected="selected"' : '') . '>No ( default, use WordPress® defaults )</option>' . "\n";
+								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_emails_enabled"]) ? ' selected="selected"' : '') . '>Yes ( customize New User Emails with s2Member )</option>' . "\n";
+								echo '</select>' . "\n";
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '</tbody>' . "\n";
+								echo '</table>' . "\n";
+								/**/
+								echo '<div id="ws-plugin--s2member-new-user-emails">' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<h3 style="margin:0;">New User Email Message ( <a href="#" onclick="jQuery(\'div#ws-plugin--s2member-new-user-email-details\').toggle(); return false;" class="ws-dotted-link">click to customize</a> )</h3>' . "\n";
+								echo '<p style="margin:0;">This email is sent to all new Users/Members. It should always contain their Username/Password. In addition to this email, s2Member will also send new paying Customers a Signup Confirmation Email, which you can customize from your Dashboard, under: <code>s2Member -> PayPal® Options</code>. You may wish to customize these emails further, by providing details that are specifically geared to your site.</p>' . "\n";
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_new_user_email", get_defined_vars ());
+								/**/
+								echo '<div id="ws-plugin--s2member-new-user-email-details" style="display:none;">' . "\n";
+								echo '<table class="form-table">' . "\n";
+								echo '<tbody>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-new-user-email-subject">' . "\n";
+								echo 'New User Email Subject:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<input type="text" name="ws_plugin__s2member_new_user_email_subject" id="ws-plugin--s2member-new-user-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_subject"]) . '" /><br />' . "\n";
+								echo 'Subject Line used in the email sent to new Users/Members.' . "\n";
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-new-user-email-message">' . "\n";
+								echo 'New User Email Message:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<textarea name="ws_plugin__s2member_new_user_email_message" id="ws-plugin--s2member-new-user-email-message" rows="10">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_message"]) . '</textarea><br />' . "\n";
+								echo 'Message Body used in the email sent to new Users/Members.<br /><br />' . "\n";
+								echo '<strong>You can also use these special Replacement Codes if you need them:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%user_first_name%%</code> = The First Name of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_last_name%%</code> = The Last Name of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_full_name%%</code> = The Full Name ( First &amp; Last ) of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_email%%</code> = The Email Address of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_login%%</code> = The Username the Member selected during registration.</li>' . "\n";
+								echo '<li><code>%%user_pass%%</code> = The Password selected or generated during registration.</li>' . "\n";
+								echo '<li><code>%%user_ip%%</code> = The User\'s IP Address, detected via <code>$_SERVER["REMOTE_ADDR"]</code>.</li>' . "\n";
+								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID generated during registration.</li>' . "\n";
+								echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
+								echo '</ul>' . "\n";
+								/**/
+								echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '</ul>' . "\n";
+								/**/
+								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%cv0%%</code> = The domain of your site, which is passed through the `custom` attribute in your Shortcode.</li>' . "\n";
+								echo '<li><code>%%cv1%%</code> = If you need to track additional custom variables, you can pipe delimit them into the `custom` attribute; inside your Shortcode, like this: <code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|cv1|cv2|cv3"</code>. You can have an unlimited number of custom variables. Obviously, this is for advanced webmasters; but the functionality has been made available for those who need it.</li>' . "\n";
+								echo '</ul>' . "\n";
+								echo '<strong>This example uses cv1 to record a special marketing campaign:</strong><br />' . "\n";
+								echo '<em>( The campaign ( i.e. christmas-promo ) could be referenced using <code>%%cv1%%</code> )</em><br />' . "\n";
+								echo '<code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|christmas-promo"</code>' . "\n";
+								/**/
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '</tbody>' . "\n";
+								echo '</table>' . "\n";
+								echo '</div>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<h3 style="margin:0;">Administrative: New User Notification ( <a href="#" onclick="jQuery(\'div#ws-plugin--s2member-new-user-admin-email-details\').toggle(); return false;" class="ws-dotted-link">click to customize</a> )</h3>' . "\n";
+								echo '<p style="margin:0;">This email notification is sent to you, each time a new User/Member registers.</p>' . "\n";
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_new_user_admin_email", get_defined_vars ());
+								/**/
+								echo '<div id="ws-plugin--s2member-new-user-admin-email-details" style="display:none;">' . "\n";
+								echo '<table class="form-table">' . "\n";
+								echo '<tbody>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-new-user-admin-email-recipients">' . "\n";
+								echo 'New User Notification Recipients:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<input type="text" name="ws_plugin__s2member_new_user_admin_email_recipients" id="ws-plugin--s2member-new-user-admin-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_recipients"]) . '" /><br />' . "\n";
+								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
+								echo '<code>"Name" &lt;user@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-new-user-admin-email-subject">' . "\n";
+								echo 'New User Notification Subject:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<input type="text" name="ws_plugin__s2member_new_user_admin_email_subject" id="ws-plugin--s2member-new-user-admin-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_subject"]) . '" /><br />' . "\n";
+								echo 'Subject Line used in the email notification sent to Administrator.' . "\n";
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-new-user-admin-email-message">' . "\n";
+								echo 'New User Notification Message:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<textarea name="ws_plugin__s2member_new_user_admin_email_message" id="ws-plugin--s2member-new-user-admin-email-message" rows="10">' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_message"]) . '</textarea><br />' . "\n";
+								echo 'Message Body used in the email notification sent to Administrator.<br /><br />' . "\n";
+								echo '<strong>You can also use these special Replacement Codes if you need them:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%user_first_name%%</code> = The First Name of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_last_name%%</code> = The Last Name of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_full_name%%</code> = The Full Name ( First &amp; Last ) of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_email%%</code> = The Email Address of the Member who registered their Username.</li>' . "\n";
+								echo '<li><code>%%user_login%%</code> = The Username the Member selected during registration.</li>' . "\n";
+								echo '<li><code>%%user_pass%%</code> = The Password selected or generated during registration.</li>' . "\n";
+								echo '<li><code>%%user_ip%%</code> = The User\'s IP Address, detected via <code>$_SERVER["REMOTE_ADDR"]</code>.</li>' . "\n";
+								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID generated during registration.</li>' . "\n";
+								echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
+								echo '</ul>' . "\n";
+								/**/
+								echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '</ul>' . "\n";
+								/**/
+								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
+								echo '<ul>' . "\n";
+								echo '<li><code>%%cv0%%</code> = The domain of your site, which is passed through the `custom` attribute in your Shortcode.</li>' . "\n";
+								echo '<li><code>%%cv1%%</code> = If you need to track additional custom variables, you can pipe delimit them into the `custom` attribute; inside your Shortcode, like this: <code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|cv1|cv2|cv3"</code>. You can have an unlimited number of custom variables. Obviously, this is for advanced webmasters; but the functionality has been made available for those who need it.</li>' . "\n";
+								echo '</ul>' . "\n";
+								echo '<strong>This example uses cv1 to record a special marketing campaign:</strong><br />' . "\n";
+								echo '<em>( The campaign ( i.e. christmas-promo ) could be referenced using <code>%%cv1%%</code> )</em><br />' . "\n";
+								echo '<code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|christmas-promo"</code>' . "\n";
+								/**/
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '</tbody>' . "\n";
+								echo '</table>' . "\n";
+								echo '</div>' . "\n";
+								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
 								/**/

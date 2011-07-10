@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /*
 Determine the full URL to the directory this plugin resides in.
 */
@@ -156,12 +156,14 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["reg_email_from_name"] = get_bloginfo ("name");
 				$default_options["reg_email_from_email"] = get_bloginfo ("admin_email");
 				/**/
+				$default_options["new_user_emails_enabled"] = "0";
+				/**/
 				$default_options["new_user_email_subject"] = "[" . get_bloginfo ("name") . "] Username/Password";
-				$default_options["new_user_email_message"] = "[" . get_bloginfo ("name") . "] Username/Password\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%";
+				$default_options["new_user_email_message"] = "Your Username/Password for:\n" . get_bloginfo ("name") . "\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%";
 				/**/
 				$default_options["new_user_admin_email_recipients"] = get_bloginfo ("admin_email");
 				$default_options["new_user_admin_email_subject"] = "[" . get_bloginfo ("name") . "] New User Registration";
-				$default_options["new_user_admin_email_message"] = "[" . get_bloginfo ("name") . "] New User Registration\n\nUsername: %%user_login%%\nEmail: %%user_email%%";
+				$default_options["new_user_admin_email_message"] = "New User Registration on your site:\n" . get_bloginfo ("name") . "\n\nUser ID: %%user_id%%\nUsername: %%user_login%%\nEmail: %%user_email%%\nIP Address: %%user_ip%%";
 				/**/
 				$default_options["paypal_sandbox"] = "0";
 				$default_options["paypal_business"] = "";
@@ -289,7 +291,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
@@ -382,6 +384,9 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^reg_email_from_(name|email)$/", $key) && (!is_string ($value) || !strlen ($value)))
+									$value = $default_options[$key];
+								/**/
+								else if ($key === "new_user_emails_enabled" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^new_user_email_(subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))

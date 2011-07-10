@@ -129,6 +129,20 @@ jQuery(document).ready (function($)
 						return false;
 					};
 				/**/
+				$('select#ws-plugin--s2member-new-user-emails-enabled').change (function()
+					{
+						var $pluggable = $('input#ws-plugin--s2member-pluggables-wp-new-user-notification'), $this = $(this), $newUserEmails = $('div#ws-plugin--s2member-new-user-emails');
+						/**/
+						if ($pluggable.val () === '0' || $this.val () === '0')
+							{
+								($pluggable.val () === '0') ? $this.attr ('disabled', 'disabled') : $this.removeAttr ('disabled');
+								$(':input', $newUserEmails).attr ('disabled', 'disabled'), $newUserEmails.css ('opacity', '0.5');
+							}
+						else /* Else we allow the emails to be customized. */
+							$this.removeAttr ('disabled'), $(':input', $newUserEmails).removeAttr ('disabled'), $newUserEmails.css ('opacity', '');
+					/**/
+					}).trigger ('change'); /* Fire on ready too. */
+				/**/
 				if ($('input#ws-plugin--s2member-custom-reg-fields').length && $('div#ws-plugin--s2member-custom-reg-field-configuration').length)
 					{
 						(function() /* Wrap these routines inside a function to keep variables within relative scope. */

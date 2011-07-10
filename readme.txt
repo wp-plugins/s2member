@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110709
-Stable tag: 110709
+Version: 110710
+Stable tag: 110710
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -160,6 +160,11 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110710 =
+* **(s2Member/s2Member Pro) Bug fix.** Some versions of PHP were generating an error `Warning: call_user_func_array()` after registration. This error was caused by a new static class method introduced in s2Member v110708, which was NOT previously declared `static` explicity. This release of s2Member v110710 corrects this bug and eliminates the error message. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.
+* **(s2Member) New Feature.** It is now possible to enable/disable s2Member's customization of New User Email notifications. This may be desirable when/if you're using a plugin ( other than s2Member ) to handle this aspect of your installation. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.
+* **(s2Member) New Feature.** It is now possible to customize both the Username/Password email ( e.g. the email sent to new Users/Members after registration ), and now you can ALSO customize the Administrative "New User Notification" email too. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.
 
 = v110709 =
 * **(s2Member/s2Member Pro) Email Configuration ( bug fix ).** New file `/s2member/includes/functions/pluggables.inc.php` was missing in the last release, weird. This release adds the missing file that implements this new feature included in the previous Changelog. FEATURE: Some new options are now available that allow site owners to customize the email that contains the Username/Password for new Users/Members. For further details, please check your Dashboard, under: `s2Member -> General Options -> Email Configuration`.

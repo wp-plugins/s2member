@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 	{
@@ -137,7 +137,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -209,7 +209,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -278,7 +278,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -336,7 +336,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.<br />' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.<br />' . "\n";
 								echo '<strong>See Also:</strong> <a href="http://wordpress.org/extend/plugins/user-role-editor/" target="_blank" rel="external">Plugins -> User Role Editor</a> <em>( may come in handy for some )</em>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -368,7 +368,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -408,7 +408,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -709,7 +709,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+										echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -1017,7 +1017,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -1044,7 +1044,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>TIP:</strong> In addition to this documentation, you may also want to have a look at the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.<br />' . "\n";
-								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9012" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=9017" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
+								echo '<strong>See Also:</strong> <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12450" target="_blank" rel="external">s2Member Codex -> API Constants</a>, and <a href="http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455" target="_blank" rel="external">s2Member Codex -> API Functions</a>.</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

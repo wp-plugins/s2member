@@ -184,7 +184,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 				* @param array $notify An array of directives. Must be non-empty, with at least one of these values `user,admin`.
 				* @return bool True if all required parameters are supplied, else false.
 				*/
-				function new_user_notification ($user_id = FALSE, $user_pass = FALSE, $notify = array ("user", "admin"))
+				public static function new_user_notification ($user_id = FALSE, $user_pass = FALSE, $notify = array ("user", "admin"))
 					{
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_new_user_notification", get_defined_vars ());

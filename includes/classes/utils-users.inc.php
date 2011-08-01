@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 	{
@@ -44,8 +44,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 						/**/
 						$users = (int)mysql_result ($q2, 0);
 						/**/
-						mysql_free_result($q2);
-						mysql_free_result($q1);
+						mysql_free_result ($q2);
+						mysql_free_result ($q1);
 						/**/
 						return $users;
 					}
@@ -74,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 							}
 						else if ($subscr_or_txn_id) /* Otherwise, if all we have is a Subscr./Txn. ID value. */
 							{
-								if ($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1"))
+								if (($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1")))
 									if (($custom = get_user_option ("s2member_custom", $q->user_id)))
 										return $custom;
 							}
@@ -105,7 +105,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 							}
 						else if ($subscr_or_txn_id) /* Otherwise, if all we have is a Subscr./Txn. ID value. */
 							{
-								if ($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1"))
+								if (($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1")))
 									return $q->user_id;
 							}
 						/**/
@@ -136,7 +136,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 							}
 						else if ($subscr_or_txn_id) /* Otherwise, if all we have is a Subscr./Txn. ID value. */
 							{
-								if ($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1"))
+								if (($q = $wpdb->get_row ("SELECT `user_id` FROM `" . $wpdb->usermeta . "` WHERE (`meta_key` = '" . $wpdb->prefix . "s2member_subscr_id' OR `meta_key` = '" . $wpdb->prefix . "s2member_first_payment_txn_id') AND `meta_value` = '" . $wpdb->escape ($subscr_or_txn_id) . "' LIMIT 1")))
 									if (is_object ($user = new WP_User ($q->user_id)) && $user->ID && ($email = $user->user_email))
 										return $email;
 							}

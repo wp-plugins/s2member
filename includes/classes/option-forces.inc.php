@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 	{
@@ -131,7 +131,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 					{
 						global $wpdb; /* Global database object reference */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_check_register_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -167,13 +167,13 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 						global $wpdb; /* Global database object reference */
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_check_register_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$by_default = $users_can_register = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_grants"];
 						/**/
-						if (defined ("BP_VERSION") && is_multisite () && /* BP Multisite / but NOT offering Blogs? */ !c_ws_plugin__s2member_utils_conds::is_multisite_farm ())
+						if (c_ws_plugin__s2member_utils_conds::bp_is_installed () && is_multisite () && /* BP Multisite / but NOT offering Blogs? */ !c_ws_plugin__s2member_utils_conds::is_multisite_farm ())
 							return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = ((c_ws_plugin__s2member_option_forces::check_register_access ()) ? "user" : "none")), get_defined_vars ());
 						/**/
 						else if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || !is_main_site ()) /* Blog Farm? */
@@ -187,7 +187,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 											{
 												return apply_filters ("ws_plugin__s2member_check_mms_register_access", ($users_can_register = "all"), get_defined_vars ());
 											}
-										else if (!empty ($reg_cookies) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $item_number, $m) && !empty ($m[1]) && is_numeric ($level = $m[1]))
+										else if (!empty ($reg_cookies) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"], $item_number, $m) && !empty ($m[1]) && is_numeric ($level = $m[1]))
 											{
 												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $level])) /* Blog(s)? */
 													{

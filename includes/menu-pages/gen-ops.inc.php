@@ -238,6 +238,24 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<th>' . "\n";
+								echo '<label for="ws-plugin--s2member-reg-email-support-link">' . "\n";
+								echo 'Email Support/Contact Link:' . "\n";
+								echo '</label>' . "\n";
+								echo '</th>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
+								echo '<tr>' . "\n";
+								/**/
+								echo '<td>' . "\n";
+								echo '<input type="text" name="ws_plugin__s2member_reg_email_support_link" id="ws-plugin--s2member-reg-email-support-link" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_support_link"]) . '" /><br />' . "\n";
+								echo 'Ex: <code>mailto:support@your-domain.com</code> ( <em>mailto link</em> ).<br />' . "\n";
+								echo 'Or: <code>' . esc_html (site_url ("/contact-us/")) . '</code>.' . "\n";
+								echo '</td>' . "\n";
+								/**/
+								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
 								/**/
@@ -924,7 +942,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<p>Custom Fields will appear in your Standard Registration Form:<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '</a> )</p>' . "\n";
 								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<p><em>A Multisite Blog Farm uses this Form instead. It supports Custom Fields too.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '</a> )</em></p>' . "\n" : '';
 								/**/
-								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site () && !defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION"))
+								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
 									echo '<p><em>* For security purposes, Custom Passwords are NOT possible on the Main Site of a Blog Farm. A User MUST wait for the activation/confirmation email; where a randomly generated Password will be assigned. Please note... this limitation only affects your Main Site, via <code>/wp-signup.php</code>. In other words, your Customers ( i.e. other Blog Owners ) will still have the ability to allow Custom Passwords with s2Member. YOU are affected by this limitation, NOT them. * NOTE: s2Member (Pro) removes this limitation. If you install the s2Member Pro Module, you WILL be able to allow Custom Passwords through s2Member Pro Forms; even on a Multisite Blog Farm.</em></p>' . "\n";
 								/**/
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_custom_reg_fields", get_defined_vars ());
@@ -965,7 +983,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"]) ? ' selected="selected"' : '') . '>No ( do NOT collect First/Last Names during registration )</option>' . "\n";
 								echo '</select><br />' . "\n";
 								echo 'Recommended setting ( <code>Yes</code> ). It\'s usually a good idea to leave this on.' . "\n";
-								echo (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")) ? '<br /><em>* s2Member Pro (Checkout) Forms always require a First/Last Name.</em>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? '<br /><em>* s2Member Pro (Checkout) Forms always require a First/Last Name.</em>' . "\n" : '';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1003,7 +1021,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<select name="ws_plugin__s2member_custom_reg_password" id="ws-plugin--s2member-custom-reg-password"' . ((is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site () && !defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")) ? ' disabled="disabled"' : '') . '>' . "\n";
+								echo '<select name="ws_plugin__s2member_custom_reg_password" id="ws-plugin--s2member-custom-reg-password"' . ((is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site () && !c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? ' disabled="disabled"' : '') . '>' . "\n";
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) ? ' selected="selected"' : '') . '>No ( send auto-generated passwords via email; after registration )</option>' . "\n";
 								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) ? ' selected="selected"' : '') . '>Yes ( allow members to create their own password during registration )</option>' . "\n";
 								echo '</select><br />' . "\n";
@@ -1043,11 +1061,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<div class="ws-menu-page-scrollbox" style="height:65px;">' . "\n";
-								echo '<input type="hidden" name="ws_plugin__s2member_custom_reg_fields_4bp[]" value="update-signal"' . ((!defined ("BP_VERSION")) ? ' disabled="disabled"' : '') . ' />' . "\n";
+								echo '<input type="hidden" name="ws_plugin__s2member_custom_reg_fields_4bp[]" value="update-signal"' . ((!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? ' disabled="disabled"' : '') . ' />' . "\n";
 								foreach (array ("profile-view" => "Yes, integrate with BuddyPress Public Profiles.", "registration" => "Yes, integrate with BuddyPress Registration Form.", "profile" => "Yes, integrate with BuddyPress Profile Editing Panel.") as $ws_plugin__s2member_temp_s_value => $ws_plugin__s2member_temp_s_label)
-									echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_fields_4bp[]" id="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '" value="' . esc_attr ($ws_plugin__s2member_temp_s_value) . '"' . ((in_array ($ws_plugin__s2member_temp_s_value, $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields_4bp"])) ? ' checked="checked"' : '') . ((!defined ("BP_VERSION")) ? ' disabled="disabled"' : '') . ' /> <label for="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '">' . $ws_plugin__s2member_temp_s_label . '</label><br />' . "\n";
+									echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_fields_4bp[]" id="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '" value="' . esc_attr ($ws_plugin__s2member_temp_s_value) . '"' . ((in_array ($ws_plugin__s2member_temp_s_value, $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields_4bp"])) ? ' checked="checked"' : '') . ((!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? ' disabled="disabled"' : '') . ' /> <label for="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '">' . $ws_plugin__s2member_temp_s_label . '</label><br />' . "\n";
 								echo '</div>' . "\n";
-								echo (!defined ("BP_VERSION")) ? 'BuddyPress is NOT installed; which is perfectly OK. BuddyPress is NOT a requirement.<br />' . "\n" : '';
+								echo (!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? 'BuddyPress is NOT installed; which is perfectly OK. BuddyPress is NOT a requirement.<br />' . "\n" : '';
 								echo 'Also, see below: <code>Member Profile Modifications</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -1093,7 +1111,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && $ws_plugin__s2member_temp_o->ID == $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]) ? ' selected="selected"' : '') . '>' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								echo '</select><br />' . "\n";
 								echo 'Please choose a Page to be used as the first page Members will see after logging in. This Page can contain anything you like. We recommend the following title: <code>Welcome To Our Members Area</code>.<br /><br />' . "\n";
-								echo '&darr; Or, you may configure a Special Redirection URL, if you prefer. You\'ll need to type in the full URL, starting with: <code>http://</code>. <em>A few <a href="#" onclick="alert(\'Replacement Codes:\\n\\n%%current_user_login%% = The current User\\\'s login ( their Username, lowercase ).\\n%%current_user_id%% = The current User\\\'s ID.\\n%%current_user_level%% = The current User\\\'s s2Member Level.\\n%%current_user_role%% = The current User\\\'s WordPress® Role.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '\\n%%current_user_ccaps%% = The current User\\\'s Custom Capabilities.' : '') . '\\n\\nFor example, if you\\\'re using BuddyPress, and you want to redirect Members to their BuddyPress Profile page after logging in, you would setup a Special Redirection URL, like this: ' . site_url ("/members/%%current_user_login%%/profile/") . '\\n\\nOr ... using %%current_user_level%%, you could have a separate Login Welcome Page for each Membership Level that you plan to offer. BuddyPress not required.\'); return false;">Replacement Codes</a> are also supported here.</em>' . "\n";
+								echo '&darr; Or, you may configure a Special Redirection URL, if you prefer. You\'ll need to type in the full URL, starting with: <code>http://</code>. <em>A few <a href="#" onclick="alert(\'Replacement Codes:\\n\\n%%current_user_login%% = The current User\\\'s Username, lowercase.\\n%%current_user_id%% = The current User\\\'s ID.\\n%%current_user_level%% = The current User\\\'s s2Member Level.\\n%%current_user_role%% = The current User\\\'s WordPress® Role.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '\\n%%current_user_ccaps%% = The current User\\\'s Custom Capabilities.' : '') . '\\n%%current_user_logins%% = Number of times the current User has logged in.\\n\\nFor example, if you\\\'re using BuddyPress, and you want to redirect Members to their BuddyPress Profile page after logging in, you would setup a Special Redirection URL, like this: ' . site_url ("/members/%%current_user_login%%/profile/") . '\\n\\nOr ... using %%current_user_level%%, you could have a separate Login Welcome Page for each Membership Level that you plan to offer. BuddyPress not required.\'); return false;">Replacement Codes</a> are also supported here.</em>' . "\n";
 								echo '<input type="text" name="ws_plugin__s2member_login_redirection_override" id="ws-plugin--s2member-login-redirection-override" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"]) . '" /><br />' . "\n";
 								echo '</td>' . "\n";
 								/**/

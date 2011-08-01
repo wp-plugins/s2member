@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 	{
@@ -252,7 +252,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<h3>PayPal® PDT Identity Token ( required, please enable )</h3>' . "\n";
 								echo '<p>Log into your PayPal® account and navigate to this section:<br /><code>Account Profile -> Website Payment Preferences</code></p>' . "\n";
 								echo '<p>Turn the Auto-Return feature: <strong><code>On</code></strong></p>' . "\n";
-								echo '<p>You\'ll need your Auto-Return URL, which is:<br /><code>' . esc_html (site_url ("/?s2member_paypal_return=1")) . '</code></p>' . "\n";
+								echo '<p>You\'ll need your <a href="' . esc_attr (site_url ("/?s2member_paypal_return=1&s2member_paypal_proxy=paypal&s2member_paypal_proxy_use=x-preview")) . '" target="_blank" rel="external">Auto-Return URL</a>, which is:<br /><code>' . esc_html (site_url ("/?s2member_paypal_return=1")) . '</code></p>' . "\n";
 								echo '<p>You MUST also enable PDT ( Payment Data Transfer ): <strong><code>On</code></strong><br /><em>You\'ll be issued an Identity Token that you MUST enter below.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_paypal_ops_page_during_left_sections_during_paypal_pdt", get_defined_vars ());
 								/**/
@@ -285,6 +285,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<p><em><strong>*Quick Tip*</strong> In addition to the <a href="https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/howto_html_paymentdatatransfer" target="_blank" rel="external">default Auto-Return/PDT configuration inside your PayPal® account</a>, the Auto-Return URL is also set on a per-transaction basis from within the special PayPal® Button Code that s2Member provides you with. In other words, if you have multiple sites operating on one PayPal® account, that\'s OK. s2Member dynamically sets the Auto-Return URL for each transaction. The result is that the Auto-Return URL configured from within your PayPal® account, becomes the default, which is then overwritten on a per-transaction basis.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_paypal_ops_page_during_left_sections_during_paypal_pdt_after_quick_tip", get_defined_vars ());
 								echo '</div>' . "\n";
+								/**/
+								do_action ("ws_plugin__s2member_during_paypal_ops_page_during_left_sections_during_paypal_pdt_after_more_info", get_defined_vars ());
+								/**/
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

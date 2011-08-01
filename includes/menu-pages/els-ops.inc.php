@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 	{
@@ -164,7 +164,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-opt-in-section">' . "\n";
 								echo '<h3>Double Opt-In Checkbox Field ( optional )</h3>' . "\n";
-								echo '<p>A Double Opt-In Checkbox will ONLY be displayed, if you\'ve integrated one <em>or more</em> List Servers.' . ((defined ("BP_VERSION")) ? ' With BuddyPress installed, the Checkbox will only be displayed if your BuddyPress theme supports <code>do_action("bp_before_registration_submit_buttons")</code>. Almost all BuddyPress themes support this. If yours does not, you can add it in.' : '') . '</p>' . "\n";
+								echo '<p>A Double Opt-In Checkbox will ONLY be displayed, if you\'ve integrated one <em>or more</em> List Servers.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_els_ops_page_during_left_sections_during_opt_in", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";

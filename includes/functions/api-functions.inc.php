@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**
 * Conditional to determine if the current User is NOT logged in.
 *
@@ -2013,6 +2013,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_access_level = get_user_field ("s2member_access_level"); # An s2Member Membership Access Level number.
 * $s2member_access_label = get_user_field ("s2member_access_label"); # An s2Member Membership Access Label ( i.e. Bronze, Gold, Silver, Platinum, or whatever is configured ).
 * $s2member_access_ccaps = get_user_field ("s2member_access_ccaps"); # An array of Custom Capabilities the current User has ( i.e. music,videos ).
+* $s2member_login_counter = get_user_field ("s2member_login_counter"); # Number of times the User has logged into your site.
 * !>
 * ```
 * ———— Practical Shortcode Equivalents ————
@@ -2025,6 +2026,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * [s2Get user_field="s2member_access_role" /] # A WordPress® Role ID ( i.e. s2member_level[0-9]+, administrator, editor, author, contributor, subscriber ).
 * [s2Get user_field="s2member_access_level" /] # An s2Member Membership Access Level number.
 * [s2Get user_field="s2member_access_label" /] # An s2Member Membership Access Label ( i.e. Bronze, Gold, Silver, Platinum, or whatever is configured ).
+* [s2Get user_field="s2member_login_counter" /] # Number of times the User has logged into your site.
 * ```
 * ———— Pulling Data From Your Own Custom Fields ————
 * ```
@@ -2088,6 +2090,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_auto_eot_time = get_user_option ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
 * $s2member_last_payment_time = get_user_option ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
 * $s2member_paid_registration_times = get_user_option ("s2member_paid_registration_times"); # Timestamps. Associative array of all Paid Registration Times.
+* $s2member_login_counter = get_user_option ("s2member_login_counter"); # Number of times the User has logged into your site.
 * !>
 * ```
 * ———— Practical Shortcode Equivalents ————
@@ -2096,6 +2099,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * [s2Get user_option="s2member_subscr_id" /] # Paid Subscr. ID for the current User.
 * [s2Get user_option="s2member_subscr_gateway" /] # Paid Subscr. Gateway Code for the current User.
 * [s2Get user_option="s2member_registration_ip" /] # IP the current User had during registration.
+* [s2Get user_option="s2member_login_counter" /] # Number of times the User has logged in.
 * ```
 *
 * @package s2Member\API_Functions
@@ -2108,7 +2112,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * 	`s2member_subscr_gateway`, `s2member_custom_fields`, `s2member_file_download_access_log`,
 * 	`s2member_auto_eot_time`, `s2member_last_payment_time`, `s2member_paid_registration_times`,
 * 	`s2member_access_role`, `s2member_access_level`, `s2member_access_label`,
-* 	`s2member_access_ccaps`, etc, etc. ).
+* 	`s2member_access_ccaps`, `s2member_login_counter`, etc, etc. ).
 * @param int $user_id Optional. Defaults to the current User's ID.
 * @return mixed The value of the requested field, or false if the field does not exist.
 *
@@ -2124,6 +2128,38 @@ if (!function_exists ("get_user_field"))
 		function get_user_field ($field_id = FALSE, $user_id = FALSE)
 			{
 				return c_ws_plugin__s2member_utils_users::get_user_field ($field_id, $user_id);
+			}
+	}
+/**
+* Can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+*
+* ———— PHP Code Sample ————
+* ```
+* <!php echo S2MEMBER_VALUE_FOR_PP_INV(); !>
+* ```
+* ———— Shortcode & JavaScript Equivalents ————
+* ```
+* [s2Get constant="S2MEMBER_VALUE_FOR_PP_INV" /]
+* 
+* <script type="text/javascript">
+* 	document.write(S2MEMBER_VALUE_FOR_PP_INV_GEN());
+* </script>
+* ```
+*
+* @package s2Member\API_Functions
+* @since 110720
+*
+* @return str A unique Invoice.
+*
+* @see s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV
+*
+* @todo Create a true Shortcode equivalent function.
+*/
+if (!function_exists ("S2MEMBER_VALUE_FOR_PP_INV"))
+	{
+		function S2MEMBER_VALUE_FOR_PP_INV ()
+			{
+				return uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
 			}
 	}
 ?>

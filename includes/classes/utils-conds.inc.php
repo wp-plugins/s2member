@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 	{
@@ -27,6 +27,30 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 		*/
 		class c_ws_plugin__s2member_utils_conds
 			{
+				/**
+				* Determines whether or not BuddyPress is installed.
+				*
+				* @package s2Member\Utilities
+				* @since 110720
+				*
+				* @return bool True if BuddyPress is installed, else false.
+				*/
+				public static function bp_is_installed ()
+					{
+						return defined ("BP_VERSION");
+					}
+				/**
+				* Determines whether or not s2Member Pro is installed.
+				*
+				* @package s2Member\Utilities
+				* @since 110720
+				*
+				* @return bool True if s2Member Pro is installed, else false.
+				*/
+				public static function pro_is_installed ()
+					{
+						return defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION");
+					}
 				/**
 				* Determines whether or not this is a Multisite Farm;
 				* *( i.e. if ``MULTISITE_FARM == true`` inside `/wp-config.php` )*.

@@ -29,7 +29,6 @@ add_action ("init", "c_ws_plugin__s2member_user_securities::initialize", 1);
 add_action ("init", "c_ws_plugin__s2member_no_cache::no_cache", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_register::register", 1);
-add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 1);
 add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 1);
 add_action ("init", "c_ws_plugin__s2member_files::check_file_download_access", 1);
 add_action ("init", "c_ws_plugin__s2member_profile_mods::handle_profile_modifications", 1);
@@ -44,10 +43,12 @@ add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_css", 1);
 add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_js", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_css_js::css", 1);
-add_action ("init", "c_ws_plugin__s2member_constants::constants", 1);
-add_action ("init", "c_ws_plugin__s2member_css_js::js_w_globals", 1);
 /**/
+add_action ("init", "c_ws_plugin__s2member_constants::constants", 1);
+/**/
+add_action ("init", "c_ws_plugin__s2member_css_js::js_w_globals", 1);
 add_action ("init", "c_ws_plugin__s2member_profile::profile", 1);
+add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 1);
 /**/
 add_action ("init", "c_ws_plugin__s2member_labels::config_label_translations");
 add_action ("init", "c_ws_plugin__s2member_login_redirects_r::remove_login_redirect_filters", 11);
@@ -107,7 +108,10 @@ add_action ("login_footer", "c_ws_plugin__s2member_login_customizations::login_f
 /**/
 add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
+/**/
+add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_sp_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_sp_tracking_codes");
+/**/
 add_action ("wp_footer", "c_ws_plugin__s2member_wp_footer::wp_footer_code");
 /**/
 add_action ("admin_init", "c_ws_plugin__s2member_admin_lockouts::admin_lockout", 1);

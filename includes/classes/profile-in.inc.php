@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 	{
@@ -49,46 +49,26 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 								/**/
 								if (($user = (is_user_logged_in ()) ? wp_get_current_user () : false) && ($user_id = $user->ID))
 									{
-										echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n";
-										/**/
-										echo '<html xmlns="http://www.w3.org/1999/xhtml">' . "\n";
-										echo '<head>' . "\n";
-										/**/
-										echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n";
-										/**/
-										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-includes/js/jquery/jquery.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
-										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-includes/js/l10n.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
-										echo '<script type="text/javascript">var pwsL10n = {empty: "Strength indicator", short: "Very weak", bad: "Weak", good: "Medium", strong: "Strong", mismatch: "Mismatch"}; try{convertEntities(pwsL10n);}catch(e){};</script>' . "\n";
-										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/wp-admin/js/password-strength-meter.js?ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
-										echo '<script type="text/javascript" src="' . esc_attr (site_url ("/?ws_plugin__s2member_js_w_globals=" . urlencode (WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5) . "&amp;qcABC=1&amp;ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '"></script>' . "\n";
-										echo '<link href="' . esc_attr (site_url ("/?ws_plugin__s2member_css=1&amp;qcABC=1&amp;ver=" . urlencode (c_ws_plugin__s2member_utilities::ver_checksum ()))) . '" type="text/css" rel="stylesheet" media="all" />' . "\n";
-										/**/
-										echo '<title>My Profile</title>' . "\n";
-										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-										do_action ("ws_plugin__s2member_during_profile_head", get_defined_vars ());
-										unset ($__refs, $__v); /* Unset defined __refs, __v. */
-										/**/
-										echo '</head>' . "\n";
+										echo c_ws_plugin__s2member_utils_html::doctype_html_head ("My Profile", "ws_plugin__s2member_during_profile_head");
 										/**/
 										echo '<body style="' . esc_attr (apply_filters ("ws_plugin__s2member_profile_body_styles", "background:#FFFFFF; color:#333333; font-family:'Verdana', sans-serif; font-size:13px;", get_defined_vars ())) . '">' . "\n";
 										/**/
 										echo '<form method="post" name="ws_plugin__s2member_profile" id="ws-plugin--s2member-profile" action="' . esc_attr (site_url ("/")) . '">' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_profile_before_table", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										echo '<table cellpadding="0" cellspacing="0">' . "\n";
 										echo '<tbody>' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_profile_before_fields", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_username", true, get_defined_vars ()))
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_before_username", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -101,14 +81,14 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_after_username", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
 										if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_email", true, get_defined_vars ()))
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_before_email", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -121,7 +101,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_after_email", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
@@ -130,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 											{
 												if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_first_name", true, get_defined_vars ()))
 													{
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_before_first_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														/**/
@@ -143,14 +123,14 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";
 														/**/
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_after_first_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													}
 												/**/
 												if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_last_name", true, get_defined_vars ()))
 													{
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_before_last_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														/**/
@@ -163,14 +143,14 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";
 														/**/
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_after_last_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													}
 												/**/
 												if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_display_name", true, get_defined_vars ()))
 													{
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_before_display_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														/**/
@@ -183,7 +163,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";
 														/**/
-														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_profile_during_fields_after_display_name", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													}
@@ -196,13 +176,13 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														{
 															$fields = get_user_option ("s2member_custom_fields", $user_id);
 															/**/
-															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_profile_during_fields_before_custom_fields", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															/**/
 															foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 																{
-																	eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																	eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																	do_action ("ws_plugin__s2member_during_profile_during_fields_during_custom_fields_before", get_defined_vars ());
 																	unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	/**/
@@ -211,7 +191,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 																			$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 																			$field_id_class = preg_replace ("/_/", "-", $field_var);
 																			/**/
-																			eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																			eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																			if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_during_custom_fields_display", true, get_defined_vars ()))
 																				{
 																					if (!empty ($field["section"]) && $field["section"] === "yes") /* Starts a new section? */
@@ -228,12 +208,12 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 																			unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																		}
 																	/**/
-																	eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																	eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																	do_action ("ws_plugin__s2member_during_profile_during_fields_during_custom_fields_after", get_defined_vars ());
 																	unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																}
 															/**/
-															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_profile_during_fields_after_custom_fields", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														}
@@ -241,7 +221,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 										/**/
 										if (apply_filters ("ws_plugin__s2member_during_profile_during_fields_display_password", true, get_defined_vars ()))
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_before_password", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -263,12 +243,12 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_profile_during_fields_after_password", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_profile_after_fields", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -282,7 +262,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 										echo '</tbody>' . "\n";
 										echo '</table>' . "\n";
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_profile_after_table", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/

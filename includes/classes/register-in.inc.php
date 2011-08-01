@@ -56,10 +56,10 @@ if (!class_exists ("c_ws_plugin__s2member_register_in"))
 														/**/
 														if (($reg_cookies = c_ws_plugin__s2member_register_access::reg_cookies_ok ()) && extract ($reg_cookies))
 															{
-																setcookie ("s2member_subscr_gateway", c_ws_plugin__s2member_utils_encryption::encrypt ($register[1]), time () + 31556926, "/");
-																setcookie ("s2member_subscr_id", c_ws_plugin__s2member_utils_encryption::encrypt ($register[2]), time () + 31556926, "/");
-																setcookie ("s2member_custom", c_ws_plugin__s2member_utils_encryption::encrypt ($register[3]), time () + 31556926, "/");
-																setcookie ("s2member_item_number", c_ws_plugin__s2member_utils_encryption::encrypt ($register[4]), time () + 31556926, "/");
+																setcookie ("s2member_subscr_gateway", $_COOKIE["s2member_subscr_gateway"], time () + 31556926, "/");
+																setcookie ("s2member_subscr_id", $_COOKIE["s2member_subscr_id"], time () + 31556926, "/");
+																setcookie ("s2member_custom", $_COOKIE["s2member_custom"], time () + 31556926, "/");
+																setcookie ("s2member_item_number", $_COOKIE["s2member_item_number"], time () + 31556926, "/");
 																/**/
 																do_action ("ws_plugin__s2member_during_register", get_defined_vars ());
 																/**/

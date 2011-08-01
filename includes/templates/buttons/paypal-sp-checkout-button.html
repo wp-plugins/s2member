@@ -6,7 +6,7 @@
  <input type="hidden" name="cancel_return" value="%%cancel_return%%" />
  <input type="hidden" name="return" value="%%return%%" />
  <input type="hidden" name="rm" value="2" />
- <!-- Configures All Checkout Fields -->
+ <!-- Configures Basic Checkout Fields -->
  <input type="hidden" name="lc" value="" />
  <input type="hidden" name="no_shipping" value="1" />
  <input type="hidden" name="no_note" value="1" />
@@ -17,6 +17,8 @@
  <input type="hidden" name="item_name" value="Description and pricing details here." />
  <input type="hidden" name="item_number" value="sp:0:72" />
  <input type="hidden" name="amount" value="0.01" />
+ <!-- Configures s2Member's Unique Invoice ID/Code  -->
+ <input type="hidden" name="invoice" value="<?php echo S2MEMBER_VALUE_FOR_PP_INV(); ?>" />
  <!-- Associates Purchase With A User/Member ( when/if applicable ) -->
  <input type="hidden" name="on0" value="<?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0; ?>" />
  <input type="hidden" name="os0" value="<?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0; ?>" />

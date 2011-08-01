@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 	{
@@ -40,7 +40,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirect ($username = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirect", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -51,8 +51,11 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 								if (!get_user_option ("s2member_registration_ip", $user_id)) /* Have we got this yet? */
 									update_user_option ($user_id, "s2member_registration_ip", $_SERVER["REMOTE_ADDR"]);
 								/**/
+								if (($logins = (int)get_user_option ("s2member_login_counter", $user_id) + 1) >= 1 || ($logins = 1))
+									update_user_option ($user_id, "s2member_login_counter", $logins);
+								/**/
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) /* Nag em? */
-									delete_user_setting("default_password_nag") . update_user_option ($user_id, "default_password_nag", false, true);
+									delete_user_setting ("default_password_nag") . update_user_option ($user_id, "default_password_nag", false, true);
 								/**/
 								$disable_login_ip_restrictions = apply_filters ("ws_plugin__s2member_disable_login_ip_restrictions", false, get_defined_vars ());
 								/**/
@@ -65,25 +68,25 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 										/**/
 										if (!$obey_redirect_to || empty ($_REQUEST["redirect_to"]) || $_REQUEST["redirect_to"] === "wp-admin/" || $_REQUEST["redirect_to"] === admin_url ())
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_login_redirect", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
 												if ($redirect && is_string ($redirect)) /* Is this a string? */
-													wp_redirect($redirect); /* Dynamic URL introduced by a Filter. */
+													wp_redirect ($redirect); /* Dynamic URL introduced by a Filter. */
 												/**/
 												else if ($special_redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user))
-													wp_redirect($special_redirection_url); /* Special Redirection URL configured with s2Member. */
+													wp_redirect ($special_redirection_url); /* Special Redirection URL configured with s2Member. */
 												/**/
 												else /* Else we use the Login Welcome Page configured for s2Member. */
-													wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
+													wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
 												/**/
 												exit (); /* Clean exit. */
 											}
 									}
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_login_redirect", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -101,7 +104,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirection_url ($user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirection_url", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -122,7 +125,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirection_uri ($user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirection_uri", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -144,7 +147,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function fill_login_redirect_rc_vars ($url = FALSE, $user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_fill_login_redirect_rc_vars", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -158,12 +161,14 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 						$user_level = (string)c_ws_plugin__s2member_user_access::user_access_level ($user);
 						$user_role = (string)c_ws_plugin__s2member_user_access::user_access_role ($user);
 						$user_ccaps = (string)implode ("-", c_ws_plugin__s2member_user_access::user_access_ccaps ($user));
+						$user_logins = ($user) ? (string)(int)get_user_option ("s2member_login_counter", $user_id) : "-1";
 						/**/
 						$url = preg_replace ("/%%current_user_login%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_login), $url);
 						$url = preg_replace ("/%%current_user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_id), $url);
 						$url = preg_replace ("/%%current_user_level%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_level), $url);
 						$url = preg_replace ("/%%current_user_role%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_role), $url);
 						$url = preg_replace ("/%%current_user_ccaps%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_ccaps), $url);
+						$url = preg_replace ("/%%current_user_logins%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_logins), $url);
 						/**/
 						if ( /* Only if s2Member's fault » */$url !== $orig_url && (!($parse = @parse_url ($url)) || strpos ($parse["path"], "//") !== false))
 							$url = site_url ("/"); /* Defaults to home page. We don't return invalid URLs produced by empty Replacement Codes ( i.e. // ). */

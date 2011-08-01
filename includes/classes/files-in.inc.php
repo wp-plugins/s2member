@@ -45,10 +45,10 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 							{
 								$excluded = apply_filters ("ws_plugin__s2member_check_file_download_access_excluded", false, get_defined_vars ());
 								/**/
-								if (! ($using_amazon_s3_storage = 0) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"])
+								if (!($using_amazon_s3_storage = 0) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"])
 									$using_amazon_s3_storage = true; /* Amazon® S3 storage has been configured! */
 								/**/
-								if (!$excluded && (empty ($_GET["s2member_file_download_key"]) || (!empty ($_GET["s2member_file_download_key"]) && ! ($file_download_key_is_valid = ($_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"]) || $_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"], "ip-forever") || $_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"], "universal"))))))
+								if (!$excluded && (empty ($_GET["s2member_file_download_key"]) || (!empty ($_GET["s2member_file_download_key"]) && !($file_download_key_is_valid = ($_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"]) || $_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"], "ip-forever") || $_GET["s2member_file_download_key"] === c_ws_plugin__s2member_files::file_download_key ($_GET["s2member_file_download"], "universal"))))))
 									{
 										$_GET["s2member_file_download"] = trim ($_GET["s2member_file_download"], "/"); /* Trim slashes after Key comparison. */
 										/**/
@@ -76,7 +76,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 														exit ("503: Sorry, File Downloads are NOT enabled yet. Please contact Support for assistance. If you are the site owner, please configure: `s2Member -> Download Options -> Basic Download Restrictions`.");
 													}
 												/**/
-												else if (!is_object ($user = apply_filters ("ws_plugin__s2member_check_file_download_access_user", ( (is_user_logged_in ()) ? wp_get_current_user () : false), get_defined_vars ())) || ! ($user_id = $user->ID))
+												else if (!is_object ($user = apply_filters ("ws_plugin__s2member_check_file_download_access_user", ((is_user_logged_in ()) ? wp_get_current_user () : false), get_defined_vars ())) || !($user_id = $user->ID))
 													{
 														if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $_GET["s2member_file_download"], $m))
 															{
@@ -184,6 +184,9 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										$amazon_s3_signature = base64_encode (c_ws_plugin__s2member_files_in::amazon_s3_sign ("GET\n\n\n" . $amazon_s3_file_expires . "\n" . "/" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] . $amazon_s3_raw_file));
 										/**/
 										$amazon_s3_redirection_url = "http://" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] . ".s3.amazonaws.com" . $amazon_s3_file;
+										if (strtolower ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"]) !== $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"])
+											$amazon_s3_redirection_url = "http://s3.amazonaws.com/" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] . $amazon_s3_file;
+										/**/
 										$amazon_s3_redirection_url .= "&AWSAccessKeyId=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"]);
 										$amazon_s3_redirection_url .= "&Expires=" . urlencode ($amazon_s3_file_expires);
 										$amazon_s3_redirection_url .= "&Signature=" . urlencode ($amazon_s3_signature);
@@ -252,7 +255,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				public static function amazon_s3_sign ($data = FALSE)
 					{
 						$key = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"];
-						$key = str_pad (( (strlen ($key) > 64) ? pack ('H*', sha1 ($key)) : $key), 64, chr (0x00));
+						$key = str_pad (((strlen ($key) > 64) ? pack ('H*', sha1 ($key)) : $key), 64, chr (0x00));
 						return pack ('H*', sha1 (($key ^ str_repeat (chr (0x5c), 64)) . pack ('H*', sha1 (($key ^ str_repeat (chr (0x36), 64)) . $data))));
 					}
 				/**

@@ -36,9 +36,6 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 				* @attaches-to: ``add_action("init");``
 				*
 				* @return null Or exits script execution after redirection.
-				*
-				* @todo Break this routine apart into logical class methods.
-				* @todo Optimize with ``empty()`` and ``isset()``.
 				*/
 				public static function paypal_return ()
 					{
@@ -46,540 +43,117 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 						/**/
 						do_action ("ws_plugin__s2member_before_paypal_return", get_defined_vars ());
 						/**/
-						if (!empty ($_GET["s2member_paypal_return"]) && ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"] || $_GET["s2member_paypal_proxy"]))
+						if (!empty ($_GET["s2member_paypal_return"]) && ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"] || !empty ($_GET["s2member_paypal_proxy"])))
 							{
-								if (is_array ($paypal = c_ws_plugin__s2member_paypal_utilities::paypal_postvars ()) && ($_paypal = $paypal))
+								$custom_success_redirection = (!empty ($_GET["s2member_paypal_return_success"])) ? esc_html (trim (stripslashes ($_GET["s2member_paypal_return_success"]))) : false;
+								$custom_success_redirection = ($custom_success_redirection) ? str_ireplace (array ("&#038;", "&amp;"), "&", $custom_success_redirection) : $custom_success_redirection;
+								/**/
+								if (is_array ($paypal = c_ws_plugin__s2member_paypal_utilities::paypal_postvars ()) && ($_paypal = $paypal) && ($_paypal_s = serialize ($_paypal)))
 									{
 										$paypal["s2member_log"][] = "Return-Data received on: " . date ("D M j, Y g:i:s a T");
-										$paypal["s2member_log"][] = "s2Member POST vars verified " . (($paypal["proxy_verified"]) ? "with a Proxy Key" : "through a POST back to PayPal®.");
+										$paypal["s2member_log"][] = "s2Member POST vars verified " . ((!empty ($paypal["proxy_verified"])) ? "with a Proxy Key" : "through a POST back to PayPal®.");
 										/**/
-										$paypal["subscr_gateway"] = ($_GET["s2member_paypal_proxy"]) ? $_GET["s2member_paypal_proxy"] : "paypal";
+										$paypal["subscr_gateway"] = (!empty ($_GET["s2member_paypal_proxy"])) ? esc_html (trim (stripslashes ($_GET["s2member_paypal_proxy"]))) : "paypal";
 										/**/
-										if (!$_GET["s2member_paypal_proxy"] || !preg_match ("/ty-email/", $_GET["s2member_paypal_proxy_use"]))
+										if (empty ($_GET["s2member_paypal_proxy"]) || empty ($_GET["s2member_paypal_proxy_use"]) || !preg_match ("/ty-email/", $_GET["s2member_paypal_proxy_use"]))
 											{
 												$payment_status_issues = "/^(failed|denied|expired|refunded|partially_refunded|reversed|reversal|canceled_reversal|voided)$/i";
 												/**/
-												if (preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", $paypal["custom"]))
-													{ /* The business address validation was removed from this routine, because PayPal® always fills that with the primary
-															email address. In cases where an alternate PayPal® address is being paid, validation was not possible. */
-														$paypal["s2member_log"][] = "s2Member originating domain ( _SERVER[HTTP_HOST] ) validated.";
-														/*
-														Custom conditionals can be applied by Filters.
-														*/
+												if (!empty ($paypal["custom"]) && preg_match ("/^" . preg_quote (preg_replace ("/\:([0-9]+)$/", "", $_SERVER["HTTP_HOST"]), "/") . "/i", $paypal["custom"]))
+													{
+														$paypal["s2member_log"][] = "s2Member originating domain ( `\$_SERVER[\"HTTP_HOST\"]` ) validated.";
+														/**/
 														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														if (!apply_filters ("ws_plugin__s2member_during_paypal_return_conditionals", false, get_defined_vars ()))
 															{
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																/*
-																Specific Post/Page Access ~ Sales.
-																*/
-																if (/**/(preg_match ("/^web_accept$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"], $paypal["item_number"]))/**/
-																&& (!preg_match ($payment_status_issues, $paypal["payment_status"]))/**/
-																&& ($paypal["txn_id"])/**/)
+																/**/
+																if (($_paypal_cp = c_ws_plugin__s2member_paypal_return_in_web_accept_sp::cp (get_defined_vars ())))
+																	$paypal = $_paypal_cp;
+																/**/
+																else if (($_paypal_cp = c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level::cp (get_defined_vars ())))
+																	$paypal = $_paypal_cp;
+																/**/
+																else if (($_paypal_cp = c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level::cp (get_defined_vars ())))
+																	$paypal = $_paypal_cp;
+																/**/
+																else /* Else we have an unexpected scenario ( i.e. an unexpected `txn_type/status` ). */
 																	{
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_before_sp_access", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
+																		$paypal["s2member_log"][] = "Unexpected `txn_type/status`. The `txn_type/status` did not match a required action.";
 																		/**/
-																		$paypal["s2member_log"][] = "s2Member txn_type identified as (web_accept) for Specific Post/Page Access.";
+																		$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 																		/**/
-																		list (, $paypal["sp_ids"], $paypal["hours"]) = preg_split ("/\:/", $paypal["item_number"], 3);
-																		/**/
-																		$paypal["ip"] = (preg_match ("/ip address/i", $paypal["option_name2"]) && $paypal["option_selection2"]) ? $paypal["option_selection2"] : "";
-																		$paypal["ip"] = (!$paypal["ip"] && preg_match ("/^[0-9]+~[0-9\.]+$/", $paypal["invoice"])) ? preg_replace ("/^[0-9]+~/", "", $paypal["invoice"]) : $paypal["ip"];
-																		$paypal["ip"] = (!$paypal["ip"] && $_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : $paypal["ip"];
-																		/**/
-																		if (($sp_access_url = c_ws_plugin__s2member_sp_access::sp_access_link_gen ($paypal["sp_ids"], $paypal["hours"], false)))
-																			{
-																				$processing = $during = true; /* Yes, we ARE processing this. */
-																				/**/
-																				setcookie ("s2member_sp_tracking", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["txn_id"]), time () + 31556926, "/");
-																				/**/
-																				$paypal["s2member_log"][] = "Transient Tracking Cookie set on (web_accept) for Specific Post/Page Access.";
-																				/**/
-																				if ($processing && ($code = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_tracking_codes"]) && is_array ($cv = preg_split ("/\|/", $paypal["custom"])))
-																					{
-																						if (($code = preg_replace ("/%%cv([0-9]+)%%/ei", 'trim($cv[$1])', $code)) && ($code = preg_replace ("/%%amount%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["mc_gross"]), $code)) && ($code = preg_replace ("/%%txn_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["txn_id"]), $code)))
-																							if (($code = preg_replace ("/%%item_number%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["item_number"]), $code)) && ($code = preg_replace ("/%%item_name%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["item_name"]), $code)))
-																								if (($code = preg_replace ("/%%first_name%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["first_name"]), $code)) && ($code = preg_replace ("/%%last_name%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["last_name"]), $code)))
-																									if (($code = preg_replace ("/%%full_name%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (trim ($paypal["first_name"] . " " . $paypal["last_name"])), $code)))
-																										if (($code = preg_replace ("/%%payer_email%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["payer_email"]), $code)))
-																											if (($code = preg_replace ("/%%user_ip%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["ip"]), $code)))
-																												/**/
-																												if (($code = trim (preg_replace ("/%%(.+?)%%/i", "", $code)))) /* This gets stored into a Transient Queue. */
-																													{
-																														$paypal["s2member_log"][] = "Storing Specific Post/Page Tracking Codes into a Transient Queue. These will be processed on-site.";
-																														set_transient ("s2m_" . md5 ("s2member_transient_sp_tracking_codes_" . $paypal["txn_id"]), $code, 43200);
-																													}
-																					}
-																				/**/
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_during_sp_access", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																				/**/
-																				$paypal["s2member_log"][] = "Redirecting Customer to the Specific Post/Page.";
-																				/**/
-																				wp_redirect ($sp_access_url); /* Redirect Customer to the Specific Post/Page. */
-																			}
-																		else /* Otherwise, the ID must have been invalid. Or the Post/Page was deleted. */
-																			{
-																				$paypal["s2member_log"][] = "Unable to generate Specific Post/Page Access Link. Does your Leading Post/Page still exist?";
-																				/**/
-																				$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
-																				/**/
-																				echo '<script type="text/javascript">' . "\n";
-																				echo "alert('ERROR: Unable to generate Access Link. Please contact Support for assistance.');" . "\n";
-																				echo "window.location = '" . esc_js (home_url ("/")) . "';";
-																				echo '</script>' . "\n";
-																			}
-																		/**/
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_after_sp_access", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																	}
-																/*
-																New Subscriptions.
-																Possibly containing advanced update vars
-																( option_name1, option_selection1 ); which allow account modifications.
-																
-																With Auto-Return URLs via PDT, PayPal® will send subscr_payment instead of subscr_signup.
-																So we need to look for (web_accept|subscr_signup|subscr_payment), and treat the same.
-																*/
-																else if (/**/(preg_match ("/^(web_accept|subscr_signup|subscr_payment)$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $paypal["item_number"]))/**/
-																&& ($paypal["subscr_id"] || ($paypal["subscr_id"] = $paypal["txn_id"]))/**/
-																&& (!preg_match ($payment_status_issues, $paypal["payment_status"]))/**/)
-																	{
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																		/**/
-																		$paypal["s2member_log"][] = "s2Member txn_type identified as (web_accept|subscr_signup|subscr_payment).";
-																		/**/
-																		list ($paypal["level"], $paypal["ccaps"], $paypal["eotper"]) = preg_split ("/\:/", $paypal["item_number"], 3);
-																		/**/
-																		$paypal["ip"] = (preg_match ("/ip address/i", $paypal["option_name2"]) && $paypal["option_selection2"]) ? $paypal["option_selection2"] : "";
-																		$paypal["ip"] = (!$paypal["ip"] && preg_match ("/^[0-9]+~[0-9\.]+$/", $paypal["invoice"])) ? preg_replace ("/^[0-9]+~/", "", $paypal["invoice"]) : $paypal["ip"];
-																		$paypal["ip"] = (!$paypal["ip"] && $_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : $paypal["ip"];
-																		/*
-																		New Subscription with advanced update vars ( option_name1, option_selection1 ).
-																		*/
-																		if (preg_match ("/(referenc|associat|updat|upgrad)/i", $paypal["option_name1"]) && $paypal["option_selection1"]) /* Advanced Subscription update modifications. */
-																			/* This advanced method is required whenever a Subscription that is already completed, or was never setup to recur in the first place needs to be modified.
-																			PayPal® will not allow the `modify=1|2` parameter to be used in those scenarios, because technically there is no billing to update; only the account. */
-																			{
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_w_update_vars", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																				/**/
-																				$paypal["s2member_log"][] = "s2Member txn_type identified as (web_accept|subscr_signup|subscr_payment) w/ update vars.";
-																				/**/
-																				/* Check for both the old & new subscr_id's, just in case the IPN routine already changed it. */
-																				if (($user_id = c_ws_plugin__s2member_utils_users::get_user_id_with ($paypal["subscr_id"], $paypal["option_selection1"])) && is_object ($user = new WP_User ($user_id)) && $user->ID)
-																					{
-																						if (!$user->has_cap ("administrator")) /* Do NOT process this routine on Administrators. */
-																							{
-																								$processing = $during = true; /* Yes, we ARE processing this. */
-																								/**/
-																								if (is_multisite () && !is_user_member_of_blog ($user_id))
-																									{
-																										add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
-																										$user = new WP_User ($user_id);
-																									}
-																								/**/
-																								$current_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-																								/**/
-																								if ($current_role !== "s2member_level" . $paypal["level"]) /* Only if we need to. */
-																									$user->set_role ("s2member_level" . $paypal["level"]); /* (upgrade/downgrade) */
-																								/**/
-																								if (!preg_match ("/^\+/", $paypal["ccaps"]))
-																									foreach ($user->allcaps as $cap => $cap_enabled)
-																										if (preg_match ("/^access_s2member_ccap_/", $cap))
-																											$user->remove_cap ($ccap = $cap);
-																								/**/
-																								foreach (preg_split ("/[\r\n\t\s;,]+/", ltrim ($paypal["ccaps"], "+")) as $ccap)
-																									if (strlen ($ccap)) /* Don't add empty Custom Capabilities. */
-																										$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
-																								/**/
-																								update_user_option ($user_id, "s2member_subscr_gateway", $paypal["subscr_gateway"]);
-																								update_user_option ($user_id, "s2member_subscr_id", $paypal["subscr_id"]);
-																								update_user_option ($user_id, "s2member_custom", $paypal["custom"]);
-																								/**/
-																								if (!get_user_option ("s2member_registration_ip", $user_id))
-																									update_user_option ($user_id, "s2member_registration_ip", $paypal["ip"]);
-																								/**/
-																								delete_user_option ($user_id, "s2member_file_download_access_arc");
-																								delete_user_option ($user_id, "s2member_file_download_access_log");
-																								/**/
-																								if (preg_match ("/^web_accept$/i", $paypal["txn_type"]) && $paypal["eotper"])
-																									{
-																										/* Don't update this in the return routine. Leave this for the IPN routine. */
-																										/* EOT Times might be extended, and we don't want the IPN routine to extend an already-extended EOT Time. */
-																										$eot_time = c_ws_plugin__s2member_utils_time::auto_eot_time ("", "", "", $paypal["eotper"], "", get_user_option ("s2member_auto_eot_time", $user_id));
-																										$paypal["s2member_log"][] = "Automatic EOT ( End Of Term ) Time will be set to: " . date ("D M j, Y g:i:s a T", $eot_time) . ".";
-																									}
-																								else /* Otherwise, we need to clear the Auto-EOT Time. */
-																									delete_user_option ($user_id, "s2member_auto_eot_time");
-																								/**/
-																								$pr_times = get_user_option ("s2member_paid_registration_times", $user_id);
-																								$pr_times["level"] = (!$pr_times["level"]) ? time () : $pr_times["level"]; /* Preserves existing. */
-																								$pr_times["level" . $paypal["level"]] = (!$pr_times["level" . $paypal["level"]]) ? time () : $pr_times["level" . $paypal["level"]];
-																								update_user_option ($user_id, "s2member_paid_registration_times", $pr_times); /* Update now. */
-																								/**/
-																								c_ws_plugin__s2member_user_notes::clear_user_note_lines ($user_id, "/^Demoted by s2Member\:/");
-																								/**/
-																								$paypal["s2member_log"][] = "s2Member Level/Capabilities updated w/ advanced update routines.";
-																								/**/
-																								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																								do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_w_update_vars", get_defined_vars ());
-																								unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																								/**/
-																								if ($redirection_url_after_modification = apply_filters ("ws_plugin__s2member_redirection_url_after_modification", false, get_defined_vars ()))
-																									{
-																										$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after modification: " . $redirection_url_after_modification;
-																										/**/
-																										echo '<script type="text/javascript">' . "\n";
-																										echo "alert('Thank you! You\\'ve been updated to:\\n\\n" . esc_js ($paypal["item_name"]) . "');" . "\n";
-																										echo "window.location = '" . esc_js ($redirection_url_after_modification) . "';" . "\n";
-																										echo '</script>' . "\n";
-																									}
-																								else /* Else, use standard/default handling in this scenario. Have the Customer log in again. */
-																									{
-																										$paypal["s2member_log"][] = "Redirecting Customer to the Login Page. They need to log back in.";
-																										/**/
-																										echo '<script type="text/javascript">' . "\n";
-																										echo "alert('Thank you! You\\'ve been updated to:\\n\\n" . esc_js ($paypal["item_name"]) . "');" . "\n";
-																										echo "window.location = '" . esc_js (wp_login_url ()) . "';" . "\n";
-																										echo '</script>' . "\n";
-																									}
-																							}
-																						else
-																							{
-																								$paypal["s2member_log"][] = "Unable to modify Subscription. The existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access.";
-																								/**/
-																								$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
-																								/**/
-																								echo '<script type="text/javascript">' . "\n";
-																								echo "alert('ERROR: Unable to modify Subscription. Please contact Support for assistance.\\n\\nThe existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access. Please make sure that you are NOT logged in as an Administrator while testing.');" . "\n";
-																								echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																								echo '</script>' . "\n";
-																							}
-																					}
-																				else
-																					{
-																						$paypal["s2member_log"][] = "Unable to modify Subscription. Could not get the existing User ID from the DB. Please check the on0 and os0 variables in your Button Code.";
-																						/**/
-																						$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
-																						/**/
-																						echo '<script type="text/javascript">' . "\n";
-																						echo "alert('ERROR: Unable to modify Subscription. Please contact Support for assistance.\\n\\nCould not get the existing User ID from the DB.');" . "\n";
-																						echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																						echo '</script>' . "\n";
-																					}
-																				/**/
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_w_update_vars", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																			}
-																		/*
-																		New Subscription. Normal Subscription signup, we are not updating anything for a past Subscription.
-																		*/
-																		else /* Else this is a normal Subscription signup, we are not updating an existing Subscription. */
-																			{
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_wo_update_vars", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																				/**/
-																				$processing = $during = true; /* Yes, we ARE processing this new Subscription request. */
-																				/**/
-																				$paypal["s2member_log"][] = "s2Member txn_type identified as (web_accept|subscr_signup|subscr_payment) w/o update vars.";
-																				/**/
-																				setcookie ("s2member_subscr_gateway", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["subscr_gateway"]), time () + 31556926, "/");
-																				setcookie ("s2member_subscr_id", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["subscr_id"]), time () + 31556926, "/");
-																				setcookie ("s2member_custom", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["custom"]), time () + 31556926, "/");
-																				setcookie ("s2member_item_number", c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["item_number"]), time () + 31556926, "/");
-																				/**/
-																				$paypal["s2member_log"][] = "Registration Cookies set on (web_accept|subscr_signup|subscr_payment) w/o update vars.";
-																				/**/
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_wo_update_vars", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																				/**/
-																				if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
-																					{
-																						if ($redirection_url_after_mms_farm_signup = apply_filters ("ws_plugin__s2member_redirection_url_after_mms_farm_signup", false, get_defined_vars ()))
-																							{
-																								$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after signup: " . $redirection_url_after_mms_farm_signup;
-																								/**/
-																								echo '<script type="text/javascript">' . "\n";
-																								echo "alert('Thank you! Your account has been approved.\\nPlease click OK to continue.');" . "\n";
-																								echo "window.location = '" . esc_js ($redirection_url_after_mms_farm_signup) . "';" . "\n";
-																								echo '</script>' . "\n";
-																							}
-																						else /* Else, use standard/default handling in this scenario. Have the Customer register a Username. */
-																							{
-																								$paypal["s2member_log"][] = "Redirecting Customer to Signup Page. They need to Signup/Register now.";
-																								/**/
-																								echo '<script type="text/javascript">' . "\n"; /* Can be Filtered w/ `wp_signup_location`. */
-																								echo "alert('Thank you! Your account has been approved.\\nThe next step is to Register.\\n\\nPlease click OK to Register now.');" . "\n";
-																								echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . "';" . "\n";
-																								echo '</script>' . "\n";
-																							}
-																					}
-																				else /* Otherwise, this is NOT a Multisite install. Or it is, but the Super Administrator is NOT selling Blog creation. */
-																					{
-																						if ($redirection_url_after_signup = apply_filters ("ws_plugin__s2member_redirection_url_after_signup", false, get_defined_vars ()))
-																							{
-																								$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after signup: " . $redirection_url_after_signup;
-																								/**/
-																								echo '<script type="text/javascript">' . "\n";
-																								echo "alert('Thank you! Your account has been approved.\\nPlease click OK to continue.');" . "\n";
-																								echo "window.location = '" . esc_js ($redirection_url_after_signup) . "';" . "\n";
-																								echo '</script>' . "\n";
-																							}
-																						else /* Else, use standard/default handling in this scenario. Have the Customer register a Username. */
-																							{
-																								$paypal["s2member_log"][] = "Redirecting Customer to Registration Page. They need to Register now.";
-																								/**/
-																								echo '<script type="text/javascript">' . "\n"; /* This location can be Filtered with: `wp_register_location`. */
-																								echo "alert('Thank you! Your account has been approved.\\nThe next step is to Register a Username.\\n\\nPlease click OK to Register now.');" . "\n";
-																								echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . "';" . "\n";
-																								echo '</script>' . "\n";
-																							}
-																					}
-																				/**/
-																				eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																				do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_wo_update_vars", get_defined_vars ());
-																				unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																			}
-																		/**/
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																	}
-																/*
-																Subscription modifications.
-																*/
-																else if (/**/(preg_match ("/^subscr_modify$/i", $paypal["txn_type"]))/**/
-																&& (preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"], $paypal["item_number"]))/**/
-																&& ($paypal["subscr_id"])/**/)
-																	{
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_modify", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																		/**/
-																		$paypal["s2member_log"][] = "s2Member txn_type identified as subscr_modify.";
-																		/**/
-																		list ($paypal["level"], $paypal["ccaps"]) = preg_split ("/\:/", $paypal["item_number"], 2);
-																		/**/
-																		$paypal["ip"] = (preg_match ("/ip address/i", $paypal["option_name2"]) && $paypal["option_selection2"]) ? $paypal["option_selection2"] : "";
-																		$paypal["ip"] = (!$paypal["ip"] && preg_match ("/^[0-9]+~[0-9\.]+$/", $paypal["invoice"])) ? preg_replace ("/^[0-9]+~/", "", $paypal["invoice"]) : $paypal["ip"];
-																		$paypal["ip"] = (!$paypal["ip"] && $_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : $paypal["ip"];
-																		/**/
-																		if (($user_id = c_ws_plugin__s2member_utils_users::get_user_id_with ($paypal["subscr_id"])) && is_object ($user = new WP_User ($user_id)) && $user->ID)
-																			{
-																				if (!$user->has_cap ("administrator")) /* Do NOT process this routine on Administrators. */
-																					{
-																						$processing = $during = true; /* Yes, we ARE processing this. */
-																						/**/
-																						if (is_multisite () && !is_user_member_of_blog ($user_id))
-																							{
-																								add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
-																								$user = new WP_User ($user_id); /* Now update the $user object we're using. */
-																							}
-																						/**/
-																						$current_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-																						/**/
-																						if ($current_role !== "s2member_level" . $paypal["level"]) /* Only if we need to. */
-																							$user->set_role ("s2member_level" . $paypal["level"]); /* (upgrade/downgrade) */
-																						/**/
-																						if (!preg_match ("/^\+/", $paypal["ccaps"]))
-																							foreach ($user->allcaps as $cap => $cap_enabled)
-																								if (preg_match ("/^access_s2member_ccap_/", $cap))
-																									$user->remove_cap ($ccap = $cap);
-																						/**/
-																						foreach (preg_split ("/[\r\n\t\s;,]+/", ltrim ($paypal["ccaps"], "+")) as $ccap)
-																							if (strlen ($ccap)) /* Don't add empty Custom Capabilities. */
-																								$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
-																						/**/
-																						update_user_option ($user_id, "s2member_subscr_gateway", $paypal["subscr_gateway"]);
-																						update_user_option ($user_id, "s2member_subscr_id", $paypal["subscr_id"]);
-																						update_user_option ($user_id, "s2member_custom", $paypal["custom"]);
-																						/**/
-																						if (!get_user_option ("s2member_registration_ip", $user_id))
-																							update_user_option ($user_id, "s2member_registration_ip", $paypal["ip"]);
-																						/**/
-																						delete_user_option ($user_id, "s2member_file_download_access_arc");
-																						delete_user_option ($user_id, "s2member_file_download_access_log");
-																						/**/
-																						delete_user_option ($user_id, "s2member_auto_eot_time");
-																						/**/
-																						$pr_times = get_user_option ("s2member_paid_registration_times", $user_id);
-																						$pr_times["level"] = (!$pr_times["level"]) ? time () : $pr_times["level"]; /* Preserves existing. */
-																						$pr_times["level" . $paypal["level"]] = (!$pr_times["level" . $paypal["level"]]) ? time () : $pr_times["level" . $paypal["level"]];
-																						update_user_option ($user_id, "s2member_paid_registration_times", $pr_times); /* Update now. */
-																						/**/
-																						c_ws_plugin__s2member_user_notes::clear_user_note_lines ($user_id, "/^Demoted by s2Member\:/");
-																						/**/
-																						$paypal["s2member_log"][] = "s2Member Level/Capabilities updated on Subscription modification.";
-																						/**/
-																						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																						do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_modify", get_defined_vars ());
-																						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																						/**/
-																						if ($redirection_url_after_modification = apply_filters ("ws_plugin__s2member_redirection_url_after_modification", false, get_defined_vars ()))
-																							{
-																								$paypal["s2member_log"][] = "Redirecting this Member to a custom URL after modification: " . $redirection_url_after_modification;
-																								/**/
-																								echo '<script type="text/javascript">' . "\n";
-																								echo "alert('Thank you! You\\'ve been updated to:\\n\\n" . esc_js ($paypal["item_name"]) . "');" . "\n";
-																								echo "window.location = '" . esc_js ($redirection_url_after_modification) . "';";
-																								echo '</script>' . "\n";
-																							}
-																						else /* Else, use standard/default handling in this scenario. Have the Customer log in again. */
-																							{
-																								$paypal["s2member_log"][] = "Redirecting Customer to the Login Page. They need to log back in.";
-																								/**/
-																								echo '<script type="text/javascript">' . "\n";
-																								echo "alert('Thank you! You\\'ve been updated to:\\n\\n" . esc_js ($paypal["item_name"]) . "');" . "\n";
-																								echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																								echo '</script>' . "\n";
-																							}
-																					}
-																				else
-																					{
-																						$paypal["s2member_log"][] = "Unable to modify Subscription. The existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access.";
-																						/**/
-																						$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
-																						/**/
-																						echo '<script type="text/javascript">' . "\n";
-																						echo "alert('ERROR: Unable to modify Subscription. Please contact Support for assistance.\\n\\nThe existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access. Please make sure that you are NOT logged in as an Administrator while testing.');" . "\n";
-																						echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																						echo '</script>' . "\n";
-																					}
-																			}
-																		else
-																			{
-																				$paypal["s2member_log"][] = "Unable to modify Subscription. Could not get the existing User ID from the DB.";
-																				/**/
-																				$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
-																				/**/
-																				echo '<script type="text/javascript">' . "\n";
-																				echo "alert('ERROR: Unable to modify Subscription. Please contact Support for assistance.\\n\\nCould not get the existing User ID from the DB.');" . "\n";
-																				echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																				echo '</script>' . "\n";
-																			}
-																		/**/
-																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-																		do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_modify", get_defined_vars ());
-																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
-																	}
-																else
-																	{
-																		$paypal["s2member_log"][] = "Unexpected txn_type. The PayPal® txn_type/status did not match a required action.";
-																		/**/
-																		$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
-																		/**/
-																		echo '<script type="text/javascript">' . "\n";
-																		echo "alert('ERROR: Unexpected txn_type/status. Please contact Support for assistance.\\n\\nThe PayPal® txn_type/status did not meet requirements.');" . "\n";
-																		echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-																		echo '</script>' . "\n";
+																		echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
+																		'<strong>ERROR:</strong> Unexpected <code>txn_type/status</code>.<br />The <code>txn_type/status</code> did not meet requirements.<br />Please contact Support for assistance.',/**/
+																		"Back To Home Page", home_url ("/"));
 																	}
 															}
 														else /* Else a custom conditional has been applied by filters. */
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													}
-												else
+												else /* Else, use the default ``$_SERVER["HTTP_HOST"]`` error. */
 													{
-														$paypal["s2member_log"][] = "Unable to verify _SERVER[HTTP_HOST]. Please check the `custom` value in your Button Code. It MUST start with your domain name.";
+														$paypal["s2member_log"][] = "Unable to verify `\$_SERVER[\"HTTP_HOST\"]`. Please check the `custom` value in your Button Code. It MUST start with your domain name.";
 														/**/
-														$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
+														$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 														/**/
-														echo '<script type="text/javascript">' . "\n";
-														echo "alert('ERROR: Unable to verify _SERVER[HTTP_HOST]. Please contact Support for assistance.\\n\\nIf you are the site owner, please check the `custom` value in your Button Code. It MUST start with your domain name.');" . "\n";
-														echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-														echo '</script>' . "\n";
+														echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
+														'<strong>ERROR:</strong> Unable to verify <code>$_SERVER["HTTP_HOST"]</code>.<br />Please contact Support for assistance.<br /><br />If you are the site owner, please check the <code>custom</code> value in your Button Code. It MUST start with your domain name.',/**/
+														"Back To Home Page", home_url ("/"));
 													}
 											}
-										else /* In this case ... a Proxy has explicitly requested ty-email processing. */
+										else /* In this case ... a Proxy has explicitly requested `ty-email` processing. */
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-												do_action ("ws_plugin__s2member_during_paypal_return_before_explicit_ty_email", get_defined_vars ());
-												unset ($__refs, $__v); /* Unset defined __refs, __v. */
-												/**/
-												$paypal["s2member_log"][] = "Customer must wait for Email Confirmation ( proxy_use: ty-email ).";
-												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-												do_action ("ws_plugin__s2member_during_paypal_return_during_explicit_ty_email", get_defined_vars ());
-												unset ($__refs, $__v); /* Unset defined __refs, __v. */
-												/**/
-												$paypal["s2member_log"][] = "Redirecting Customer to the Home Page.";
-												/**/
-												echo '<script type="text/javascript">' . "\n";
-												echo "alert('Thank you! ( please check your email ).\\n\\n* Note: It can take ( up to 15 minutes ) for Email Confirmation. If you don\'t receive email confirmation in the next 15 minutes, please contact Support.');" . "\n";
-												echo ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "alert('** Sandbox Mode ** You may NOT receive this Email Confirmation in Sandbox Mode. Sandbox addresses are usually bogus ( for testing ).');" . "\n" : "";
-												echo "window.location = '" . esc_js (home_url ("/")) . "';";
-												echo '</script>' . "\n";
-												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-												do_action ("ws_plugin__s2member_during_paypal_return_after_explicit_ty_email", get_defined_vars ());
-												unset ($__refs, $__v); /* Unset defined __refs, __v. */
+												$paypal = $_paypal_cp = c_ws_plugin__s2member_paypal_return_in_proxy_ty_email::cp (get_defined_vars ());
 											}
 									}
-								else if (!isset ($_GET["tx"])) /* No Return-Data from PayPal® at all? */
+								else if (!empty ($_GET["s2member_paypal_proxy"]) && !empty ($_GET["s2member_paypal_proxy_use"]) && preg_match ("/x-preview/", $_GET["s2member_paypal_proxy_use"]) && ($paypal["subscr_gateway"] = esc_html (trim (stripslashes ($_GET["s2member_paypal_proxy"])))))
 									{
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-										do_action ("ws_plugin__s2member_during_paypal_return_before_no_return_data", get_defined_vars ());
-										unset ($__refs, $__v); /* Unset defined __refs, __v. */
-										/**/
-										$paypal["s2member_log"][] = "No Return-Data from PayPal®. Customer must wait for Email Confirmation.";
-										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-										do_action ("ws_plugin__s2member_during_paypal_return_during_no_return_data", get_defined_vars ());
-										unset ($__refs, $__v); /* Unset defined __refs, __v. */
-										/**/
-										$paypal["s2member_log"][] = "Redirecting Customer to the Home Page.";
-										/**/
-										echo '<script type="text/javascript">' . "\n";
-										echo "alert('Thank you! ( please check your email ).\\n\\n* Note: It can take ( up to 15 minutes ) for Email Confirmation. If you don\'t receive email confirmation in the next 15 minutes, please contact Support.');" . "\n";
-										echo ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "alert('** Sandbox Mode ** You may NOT receive this Email Confirmation in Sandbox Mode. Sandbox addresses are usually bogus ( for testing ).');" . "\n" : "";
-										echo "window.location = '" . esc_js (home_url ("/")) . "';";
-										echo '</script>' . "\n";
-										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-										do_action ("ws_plugin__s2member_during_paypal_return_after_no_return_data", get_defined_vars ());
-										unset ($__refs, $__v); /* Unset defined __refs, __v. */
+										$paypal = $_paypal_cp = c_ws_plugin__s2member_paypal_return_in_proxy_x_preview::cp (get_defined_vars ());
+									}
+								else if (empty ($_GET["tx"]) && empty ($_GET["s2member_paypal_proxy"]) && ($paypal["subscr_gateway"] = "paypal"))
+									{
+										$paypal = $_paypal_cp = c_ws_plugin__s2member_paypal_return_in_no_tx_data::cp (get_defined_vars ());
 									}
 								else /* Extensive log reporting here. This is an area where many site owners find trouble. Depending on server configuration; remote HTTPS connections may fail. */
 									{
-										$paypal["s2member_log"][] = "Unable to verify POST vars. This is most likely related to an invalid PayPal® configuration. Please check: s2Member -> PayPal® Options.";
-										$paypal["s2member_log"][] = "If you're absolutely SURE that your PayPal® configuration is valid, you may want to run some tests on your server, just to be sure \$_POST variables are populated, and that your server is able to connect to PayPal® over an HTTPS connection.";
-										$paypal["s2member_log"][] = "s2Member uses the WP_Http class for remote connections; which will try to use cURL first, and then fall back on the FOPEN method when cURL is not available. On a Windows® server, you may have to disable your cURL extension. Instead, set allow_url_fopen = yes in your php.ini file. The cURL extension (usually) does NOT support SSL connections on a Windows® server.";
+										$paypal["s2member_log"][] = "Unable to verify \$_POST vars. This is most likely related to an invalid configuration of s2Member, or a problem with server compatibility.";
+										$paypal["s2member_log"][] = "If you're absolutely SURE that your configuration is valid, you may want to run some tests on your server, just to be sure \$_POST variables are populated, and that your server is able to connect/communicate with your Payment Gateway over an HTTPS connection.";
+										$paypal["s2member_log"][] = "s2Member uses the `WP_Http` class for remote connections; which will try to use `cURL` first, and then fall back on the `FOPEN` method when `cURL` is not available. On a Windows® server, you may have to disable your `cURL` extension; and instead, set `allow_url_fopen = yes` in your php.ini file. The `cURL` extension (usually) does NOT support SSL connections on a Windows® server.";
+										$paypal["s2member_log"][] = "Please see this thread: `http://www.primothemes.com/forums/viewtopic.php?f=36&t=2636` for details regarding the ideal server configuration for s2Member.";
 										$paypal["s2member_log"][] = var_export ($_REQUEST, true); /* Recording _POST + _GET vars for analysis and debugging. */
 										/**/
-										$paypal["s2member_log"][] = "Redirecting Customer to the Login Page, due to an error that occurred.";
+										$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 										/**/
-										echo '<script type="text/javascript">' . "\n";
-										echo "alert('ERROR: Unable to verify POST vars. Please contact Support for assistance.\\n\\nThis is most likely related to an invalid PayPal® configuration. If you are the site owner, please check: s2Member -> PayPal® Options.');" . "\n";
-										echo "window.location = '" . esc_js (wp_login_url ()) . "';";
-										echo '</script>' . "\n";
+										echo c_ws_plugin__s2member_return_templates::return_template ("default",/**/
+										'<strong>ERROR:</strong> Unable to verify <code>$_POST</code> vars.<br />Please contact Support for assistance.<br /><br />This is most likely related to an invalid configuration of s2Member, or a problem with server compatibility. If you are the site owner, and you\'re absolutely SURE that your configuration is valid, you may want to run some tests on your server, just to be sure <code>$_POST</code> variables are populated, and that your server is able to connect/communicate with your Payment Gateway over an HTTPS connection.<br /><br />s2Member uses the <code>WP_Http</code> class for remote connections; which will try to use <code>cURL</code> first, and then fall back on the <code>FOPEN</code> method when <code>cURL</code> is not available. On a Windows® server, you may have to disable your <code>cURL</code> extension; and instead, set <code>allow_url_fopen = yes</code> in your php.ini file. The <code>cURL</code> extension (usually) does NOT support SSL connections on a Windows® server.<br /><br />Please see <a href="http://www.primothemes.com/forums/viewtopic.php?f=36&t=2636" target="_blank">this thread</a> for details regarding the ideal server configuration for s2Member.',/**/
+										"Back To Home Page", home_url ("/"));
 									}
 								/*
-								Add RTN proxy ( when available ) to the $paypal array.
+								Add RTN proxy ( when available ) to the ``$paypal`` array.
 								*/
-								if ($_GET["s2member_paypal_proxy"]) /* For proxy identification. */
+								if (!empty ($_GET["s2member_paypal_proxy"]))
 									$paypal["s2member_paypal_proxy"] = $_GET["s2member_paypal_proxy"];
 								/*
-								Add IPN proxy use vars ( when available ) to the $paypal array.
+								Add IPN proxy use vars ( when available ) to the ``$paypal`` array.
 								*/
-								if ($_GET["s2member_paypal_proxy_use"]) /* For proxy specifications. */
+								if (!empty ($_GET["s2member_paypal_proxy_use"]))
 									$paypal["s2member_paypal_proxy_use"] = $_GET["s2member_paypal_proxy_use"];
 								/*
-								Also add RTN proxy self-verification ( when available ) to the $paypal array.
+								Also add RTN proxy self-verification ( when available ) to the ``$paypal`` array.
 								*/
-								if ($_GET["s2member_paypal_proxy_verification"]) /* Proxy identification w/verification. */
+								if (!empty ($_GET["s2member_paypal_proxy_verification"]))
 									$paypal["s2member_paypal_proxy_verification"] = $_GET["s2member_paypal_proxy_verification"];
+								/*
+								Also add RTN success redirection URL ( when available ) to the ``$paypal`` array.
+								*/
+								if (!empty ($_GET["s2member_paypal_return_success"]))
+									$paypal["s2member_paypal_return_success"] = $_GET["s2member_paypal_return_success"];
+								/*
+								Also add RTN t and r Attributes ( when available ) to the ``$paypal`` array.
+								*/
+								if (!empty ($_GET["s2member_paypal_return_tra"]))
+									$paypal["s2member_paypal_return_tra"] = $_GET["s2member_paypal_return_tra"];
 								/*
 								If debugging/logging is enabled; we need to append $paypal to the log file.
 									Logging now supports Multisite Networking as well.

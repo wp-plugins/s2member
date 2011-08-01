@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 	{
@@ -43,16 +43,16 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_css"]))
 							{
-								header ("Content-Type: text/css; charset=utf-8");
-								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header ("Cache-Control: max-age=604800");
-								header ("Pragma: public");
+								header("Content-Type: text/css; charset=utf-8");
+								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header("Cache-Control: max-age=604800");
+								header("Pragma: public");
 								/**/
 								$u = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"];
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
-								ob_start ("c_ws_plugin__s2member_utils_css::compress_css");
+								ob_start("c_ws_plugin__s2member_utils_css::compress_css");
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/s2member.css";
 								/**/
@@ -81,13 +81,15 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_js_w_globals"]))
 							{
-								header ("Content-Type: text/javascript; charset=utf-8");
-								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header ("Cache-Control: max-age=604800");
-								header ("Pragma: public");
+								header("Content-Type: text/javascript; charset=utf-8");
+								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header("Cache-Control: max-age=604800");
+								header("Pragma: public");
 								/**/
 								$g = "var S2MEMBER_VERSION = '" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_VERSION) . "',";
+								/**/
+								$g .= "S2MEMBER_CURRENT_USER_LOGIN_COUNTER = " . S2MEMBER_CURRENT_USER_LOGIN_COUNTER . ",";
 								/**/
 								$g .= "S2MEMBER_CURRENT_USER_IS_LOGGED_IN = " . ((S2MEMBER_CURRENT_USER_IS_LOGGED_IN) ? "true" : "false") . ",";
 								$g .= "S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER = " . ((S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER) ? "true" : "false") . ",";
@@ -164,6 +166,9 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 								$g .= "S2MEMBER_PAYPAL_ENDPOINT = '" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_PAYPAL_ENDPOINT) . "',";
 								$g .= "S2MEMBER_PAYPAL_API_ENDPOINT = '" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_PAYPAL_API_ENDPOINT) . "',";
 								/**/
+								$g .= "S2MEMBER_VALUE_FOR_PP_INV = Math.round (new Date ().getTime ()) + '~" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_CURRENT_USER_IP) . "',";
+								$g .= "S2MEMBER_VALUE_FOR_PP_INV_GEN = function(){ var invoice = '', formatSeed = function(seed, reqWidth) { seed = parseInt(seed, 10).toString (16); if (reqWidth < seed.length) return seed.slice (seed.length - reqWidth); else if (reqWidth > seed.length) return Array(1 + (reqWidth - seed.length)).join ('0') + seed; return seed; }; if (typeof S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED === 'undefined') S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED = Math.floor (Math.random () * 0x75bcd15); S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED++; invoice = formatSeed(parseInt(new Date ().getTime () / 1000, 10), 8); invoice += formatSeed(S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED, 5); invoice += '~' + S2MEMBER_CURRENT_USER_IP; return invoice; },";
+								/**/
 								$g .= "S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0 = '" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0) . "',";
 								$g .= "S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0 = '" . c_ws_plugin__s2member_utils_strings::esc_sq (S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0) . "',";
 								/**/
@@ -176,7 +181,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
 								echo $g . "\n"; /* Add a line break. */
-								unset ($g); /* Now unset this variable. */
+								unset($g); /* Now unset this variable. */
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/s2member-min.js";
 								/**/

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_systematics"))
 	{
@@ -51,11 +51,11 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && (!defined ("LOCALHOST") || !LOCALHOST))
+						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") !== 0 && (!defined ("LOCALHOST") || !LOCALHOST))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if (preg_match ("/\/(wp-app|wp-signup|wp-register|wp-activate|wp-login|xmlrpc)\.php/", $_SERVER["REQUEST_URI"]) || (defined ("BP_VERSION") && (bp_is_register_page () || bp_is_activation_page ())))
+						else if (preg_match ("/\/(wp-app|wp-signup|wp-register|wp-activate|wp-login|xmlrpc)\.php/", $_SERVER["REQUEST_URI"]) || (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ())))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}

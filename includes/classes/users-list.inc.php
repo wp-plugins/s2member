@@ -92,7 +92,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 									$query->query_where .= " OR `user_login` LIKE '" . $s . "' OR `user_nicename` LIKE '" . $s . "' OR `user_email` LIKE '" . $s . "' OR `user_url` LIKE '" . $s . "' OR `display_name` LIKE '" . $s . "'";
 									$query->query_where .= apply_filters ("ws_plugin__s2member_before_users_list_search_where_or_after", "", get_defined_vars ()) . ")"; /* Leaving room for additional searches here. */
 									$query->query_where .= " AND `" . $wpdb->users . "`.`ID` IN(SELECT DISTINCT(`user_id`) FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = '" . $wpdb->prefix . "capabilities'" ./**/
-									( ($qv["role"]) ? " AND `meta_value` LIKE '%" . esc_sql (like_escape ($qv["role"])) . "%'" : "") . ")";
+									(($qv["role"]) ? " AND `meta_value` LIKE '%" . esc_sql (like_escape ($qv["role"])) . "%'" : "") . ")";
 									/**/
 									$query->query_from = apply_filters ("ws_plugin__s2member_before_users_list_search_from", $query->query_from, get_defined_vars ());
 									$query->query_where = apply_filters ("ws_plugin__s2member_before_users_list_search_where", $query->query_where, get_defined_vars ());
@@ -121,16 +121,15 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 						do_action ("ws_plugin__s2member_before_users_list_cols", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$cols["s2member_registration_time"] = "Registration Date"; /* Date they signed up. */
+						$cols["s2member_registration_time"] = "Registration Date";
 						/**/
 						if (apply_filters ("ws_plugin__s2member_users_list_cols_display_paid_registration_times", false))
-							$cols["s2member_paid_registration_times"] = "Paid Registr. Date"; /* Payment Times. */
+							$cols["s2member_paid_registration_times"] = "Paid Registr. Date";
 						/**/
-						$cols["s2member_subscr_id"] = "Paid Subscr. ID"; /* Special field that is always applied. */
+						$cols["s2member_subscr_id"] = "Paid Subscr. ID";
 						/**/
 						if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ())
-							/* ^ Will change once Custom Capabilities are compatible with a Blog Farm. */
-							$cols["s2member_ccaps"] = "Custom Capabilities"; /* Custom Capabilities. */
+							$cols["s2member_ccaps"] = "Custom Capabilities";
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 							foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
@@ -141,6 +140,8 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 									$field_title = ucwords (preg_replace ("/_/", " ", $field_var));
 									$cols["s2member_custom_field_" . $field_var] = $field_title;
 								}
+						/**/
+						$cols["s2member_login_counter"] = "# Of Logins";
 						/**/
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_users_list_cols", get_defined_vars ());
@@ -173,7 +174,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 						$user = (is_object ($user) && $user_id === $last_user_id) ? $user : new WP_User ($user_id);
 						/**/
 						if ($col === "s2member_registration_time")
-							$val = ( ($time = strtotime (get_date_from_gmt ($user->user_registered)))) ? esc_html (date ("D M jS, Y", $time)) . '<br /><small>@ precisely ' . esc_html (date ("g:i a", $time)) . '</small>' : "—";
+							$val = (($time = strtotime (get_date_from_gmt ($user->user_registered)))) ? esc_html (date ("D M jS, Y", $time)) . '<br /><small>@ precisely ' . esc_html (date ("g:i a", $time)) . '</small>' : "—";
 						/**/
 						else if ($col === "s2member_paid_registration_times")
 							{
@@ -221,9 +222,12 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 								$last_fields_id = $user_id; /* Record this. */
 							}
 						/**/
+						else if ($col === "s2member_login_counter")
+							$val = ($v = get_user_option ("s2member_login_counter", $user_id)) ? esc_html ($v) : "—";
+						/**/
 						$last_user_id = $user_id; /* Record this for internal optimizations. */
 						/**/
-						return apply_filters ("ws_plugin__s2member_users_list_display_cols", ( (strlen ($val)) ? $val : "—"), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_users_list_display_cols", ((strlen ($val)) ? $val : "—"), get_defined_vars ());
 					}
 			}
 	}

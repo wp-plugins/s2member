@@ -485,6 +485,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_LOGIN_COUNTER</strong><br />This will always be (int) <code>-1</code> or higher <em>( representing the number of times a User/Member has logged into your site )</em>. <code>-1</code> if no User is logged in. <code>0</code> if the current User has NEVER logged in.</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN</strong><br />This will always be (bool) true or false. True if a User/Member is currently logged in with an Access Level >= 0.</p>' . "\n";
 										echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
 										/**/
@@ -715,6 +719,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0. Dated versions began with s2Member v110604.</p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/version.php")) . '</p>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+										/**/
+										echo '<p><strong>S2MEMBER_CURRENT_USER_LOGIN_COUNTER</strong><br />This will always be (int) <code>-1</code> or higher <em>( representing the number of times a User/Member has logged into your site )</em>. <code>-1</code> if no User is logged in. <code>0</code> if the current User has NEVER logged in.</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-login-counter.php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/

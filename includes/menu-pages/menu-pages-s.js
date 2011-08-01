@@ -48,12 +48,17 @@ jQuery(document).ready (function($)
 					{
 						if ($(this).val () === 'wp-signup') /* Expand/collapse relevant options; based on file selection. */
 							{
+								var gv = $('select#ws-plugin--s2member-mms-registration-grants').val (), l0v = $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ();
 								$('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').show (), $('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').hide (), $('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').show ();
-								$('div.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0, table.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0')[(($('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? 'show' : 'hide')] (), $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ((($('select#ws-plugin--s2member-mms-registration-grants').val () === 'all') ? '1' : '0'));
+								$('div.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0, table.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0')[((gv === 'all') ? 'show' : 'hide')] ();
+								$('input#ws-plugin--s2member-mms-registration-blogs-level0').val (((gv === 'all') ? ((l0v > 0) ? l0v : '1') : '0'));
 							}
 						else if ($(this).val () === 'wp-login') /* Expand/collapse relevant options. */
 							{
-								$('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').hide (), $('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').show (), $('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').hide (), $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ('0');
+								var gv = $('select#ws-plugin--s2member-mms-registration-grants').val (), l0v = $('input#ws-plugin--s2member-mms-registration-blogs-level0').val ();
+								$('div#ws-plugin--s2member-mms-registration-support-package-details-wrapper').hide (), $('div.ws-plugin--s2member-mms-registration-wp-login, table.ws-plugin--s2member-mms-registration-wp-login').show (), $('div.ws-plugin--s2member-mms-registration-wp-signup, table.ws-plugin--s2member-mms-registration-wp-signup').hide ();
+								$('div.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0, table.ws-plugin--s2member-mms-registration-wp-signup-blogs-level0').hide ();
+								$('input#ws-plugin--s2member-mms-registration-blogs-level0').val ('0');
 							}
 					/**/
 					}).trigger ('change'); /* Fire on ready too. */
@@ -1065,7 +1070,7 @@ jQuery(document).ready (function($)
 						code.html (code.val ().replace (/ name\="p3" value\="(.*?)"/, ' name="p3" value="' + esc_attr(regPeriod) + '"'));
 						code.html (code.val ().replace (/ name\="t3" value\="(.*?)"/, ' name="t3" value="' + esc_attr(regTerm) + '"'));
 						/**/
-						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
 						(button === 'modification') ? alert('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.') : alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
 						/**/
@@ -1136,7 +1141,7 @@ jQuery(document).ready (function($)
 						/**/
 						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
 						/**/
-						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
 						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
 						/**/

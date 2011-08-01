@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utilities"))
 	{
@@ -40,7 +40,7 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 					{
 						ob_start (); /* Output buffer. */
 						/**/
-						eval ("?>" . trim ($code));
+						eval("?>" . trim ($code));
 						/**/
 						return ob_get_clean ();
 					}
@@ -93,7 +93,7 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 				public static function ver_checksum ()
 					{
 						$checksum = WS_PLUGIN__S2MEMBER_VERSION; /* Software version string. */
-						$checksum .= (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")) ? "-" . WS_PLUGIN__S2MEMBER_PRO_VERSION : ""; /* Pro version string? */
+						$checksum .= (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? "-" . WS_PLUGIN__S2MEMBER_PRO_VERSION : ""; /* Pro version string? */
 						$checksum .= "-" . abs (crc32 ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["checksum"] . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["options_checksum"] . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["options_version"]));
 						/**/
 						return $checksum; /* ( i.e. version-pro version-checksum ) */
@@ -109,7 +109,7 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 				public static function ver_details ()
 					{
 						$details = "WordPress® v" . get_bloginfo ("version") . " :: s2Member® v" . WS_PLUGIN__S2MEMBER_VERSION;
-						$details .= (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")) ? " :: s2Member® Pro v" . WS_PLUGIN__S2MEMBER_PRO_VERSION : "";
+						$details .= (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? " :: s2Member® Pro v" . WS_PLUGIN__S2MEMBER_PRO_VERSION : "";
 						/**/
 						return $details; /* Return all details. */
 					}

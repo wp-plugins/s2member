@@ -34,8 +34,9 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["max_levels"] = apply_filters ("ws_plug
 /*
 Configure regular expression matches for Membership Access Item Numbers ( including those with only Custom Capabilities ).
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_regex"] = "/^([1-9][0-9]*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_ccaps_only_item_number_regex"] = "/^(\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"] = "/^([1-9][0-9]*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_wo_level_regex"] = "/^(\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_or_wo_level_regex"] = "/^([1-9][0-9]*|\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
 /*
 Configure regular expression match for Specific Post/Page Access Item Numbers ( all elements required here ).
 */
@@ -155,6 +156,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				/**/
 				$default_options["reg_email_from_name"] = get_bloginfo ("name");
 				$default_options["reg_email_from_email"] = get_bloginfo ("admin_email");
+				$default_options["reg_email_support_link"] = "mailto:" . get_bloginfo ("admin_email");
 				/**/
 				$default_options["new_user_emails_enabled"] = "0";
 				/**/
@@ -383,7 +385,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^login_reg_(background|logo|font|footer)_/", $key) && !preg_match ("/background_image/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^reg_email_from_(name|email)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^reg_email_(from_name|from_email|support_link)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "new_user_emails_enabled" && (!is_string ($value) || !is_numeric ($value)))

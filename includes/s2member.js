@@ -24,8 +24,8 @@ jQuery(document).ready (function($)
 		ws_plugin__s2member_uniqueFilesDownloaded = []; /* Real-time counts. */
 		/* This is used in case a user downloads multiple files from a single page. */
 		/**/
-		var bpRegisterSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((defined ("BP_VERSION")) ? "/" . ltrim (BP_REGISTER_SLUG,"/") : ""), "/"); ?>';
-		var bpxProfileSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((defined ("BP_VERSION")) ? "/" . ltrim (BP_XPROFILE_SLUG,"/") : ""), "/"); ?>';
+		var bpRegisterSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_REGISTER_SLUG,"/") : ""), "/"); ?>';
+		var bpxProfileSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_XPROFILE_SLUG,"/") : ""), "/"); ?>';
 		/**/
 		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED)
 			{

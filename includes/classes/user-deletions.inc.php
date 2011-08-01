@@ -121,6 +121,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_deletions"))
 								delete_user_option ($user_id, "s2member_last_payment_time");
 								delete_user_option ($user_id, "s2member_last_status_scan");
 								delete_user_option ($user_id, "s2member_auto_eot_time");
+								delete_user_option ($user_id, "s2member_login_counter");
 								delete_user_option ($user_id, "s2member_notes");
 								/**/
 								delete_user_option ($user_id, "s2member_file_download_access_arc");

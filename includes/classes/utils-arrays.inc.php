@@ -124,6 +124,36 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						else /* False. */
 							return false;
 					}
+				/**
+				* Removes all null-value array keys from an array *( or even a multi-dimensional array )*.
+				*
+				* @package s2Member\Utilities
+				* @since 110720
+				*
+				* @param array $array An input array.
+				* @return array|mixed The output array, or whatever was passed in.
+				*/
+				public static function remove_null_keys ($array = FALSE)
+					{
+						if (is_array ($array) && !empty ($array))
+							{
+								foreach ($array as $key => $value)
+									{
+										if (is_array ($value)) /* Recursive function call. */
+											{
+												$array[$key] = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
+											}
+										else if (is_null ($value)) /* Is it null? */
+											{
+												unset($array[$key]);
+											}
+									}
+								/**/
+								return $array;
+							}
+						else /* Return same. */
+							return $array;
+					}
 			}
 	}
 ?>

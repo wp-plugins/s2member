@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_constants"))
 	{
@@ -61,8 +61,9 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						$registration_ip = ($user) ? get_user_option ("s2member_registration_ip", $user->ID) : "";
 						$custom_fields = ($user) ? get_user_option ("s2member_custom_fields", $user->ID) : array ();
 						$paid_registration_times = ($user) ? get_user_option ("s2member_paid_registration_times", $user->ID) : array ();
+						$login_counter = ($user) ? (int)get_user_option ("s2member_login_counter") : -1;
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_constants", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**
@@ -90,6 +91,37 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*/
 						if (!defined ("S2MEMBER_VERSION"))
 							define ("S2MEMBER_VERSION", ($c[] = (string)WS_PLUGIN__S2MEMBER_VERSION));
+						/**
+						* The number of times the current User has logged into your site.
+						*
+						* Negative `-1` through number of times logged-in.
+						* Negative `-1` indicates they are NOT logged-in.
+						*
+						* ———— Quick PHP Code Sample ————
+						* ```
+						* <!php echo S2MEMBER_CURRENT_USER_LOGIN_COUNTER; !>
+						* ```
+						* ———— Shortcode & JavaScript Equivalents ————
+						* ```
+						* [s2Get constant="S2MEMBER_CURRENT_USER_LOGIN_COUNTER" /]
+						* 
+						* <script type="text/javascript">
+						* 	document.write(S2MEMBER_CURRENT_USER_LOGIN_COUNTER);
+						* </script>
+						* ```
+						*
+						* @package s2Member\API_Constants
+						* @since 110720
+						*
+						* @var int
+						*
+						* @see s2Member\API_Functions\get_user_field()
+						* @see `get_user_field("s2member_login_counter")`
+						*
+						* @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
+						*/
+						if (!defined ("S2MEMBER_CURRENT_USER_LOGIN_COUNTER"))
+							define ("S2MEMBER_CURRENT_USER_LOGIN_COUNTER", ($c[] = (int)$login_counter));
 						/**
 						* Is the current User logged-in at all.
 						*
@@ -2021,21 +2053,27 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						if (!defined ("S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN"))
 							define ("S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_identity_token"]));
 						/**
-						* PayPal® value for Payment Buttons with input name: `on0`.
+						* PayPal® value for Payment Buttons with input name: `invoice`.
 						*
-						* Used in PayPal® Modification Buttons *( i.e. upgrades/downgrades )*.
+						* This can be used to auto-fill the `invoice` value in PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
 						*
-						* This auto-fills the `on0` value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member,
-						* this will auto-fill the value for the `on0` input variable, with the string: "Referencing Customer ID".
-						* Otherwise, it will be set to a default value of: "Originating Domain".
+						* Note. This API Constant is excluded from the ``$c[]`` hash calculation used in the generation of {@link s2Member\API_Constants\WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5}.
+						* It MUST be excluded, because the value of this particular API Constant will change too often *( i.e. it changes, depending on microtime )*.
+						* So, when including this API Constant in the JavaScript API as a Global, care must be taken to build an Invoice, using JavaScript
+						* to calculate the unique time-based code, with something like: `Math.round (new Date ().getTime ())`.
 						*
-						* These four API Constants are special.
+						* These five API Constants are special.
+						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1}
 						*
 						* They are used by the PayPal® Button Generator for s2Member.
+						*
+						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2047,7 +2085,65 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
 						*
-						* Anyway, these four API Constants are just documented here for clarity;
+						* Anyway, these five API Constants are just documented here for clarity;
+						* you probably won't use any of these directly; the Button Generator pops them in.
+						*
+						* ———— Quick PHP Code Sample ————
+						* ```
+						* <!php echo S2MEMBER_VALUE_FOR_PP_INV; !>
+						* ```
+						* ———— Shortcode & JavaScript Equivalents ————
+						* ```
+						* [s2Get constant="S2MEMBER_VALUE_FOR_PP_INV" /]
+						* 
+						* <script type="text/javascript">
+						* 	document.write(S2MEMBER_VALUE_FOR_PP_INV);
+						* </script>
+						* ```
+						*
+						* @package s2Member\API_Constants
+						* @since 110720
+						*
+						* @var str
+						*
+						* @see s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()
+						*
+						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						*/
+						if (!defined ("S2MEMBER_VALUE_FOR_PP_INV"))
+							define ("S2MEMBER_VALUE_FOR_PP_INV", uniqid () . "~" . S2MEMBER_CURRENT_USER_IP);
+						/**
+						* PayPal® value for Payment Buttons with input name: `on0`.
+						*
+						* Used in PayPal® Modification Buttons *( i.e. upgrades/downgrades )*.
+						*
+						* This auto-fills the `on0` value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member,
+						* this will auto-fill the value for the `on0` input variable, with the string: "Referencing Customer ID".
+						* Otherwise, it will be set to a default value of: "Originating Domain".
+						*
+						* These five API Constants are special.
+						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
+						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0}
+						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0}
+						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1}
+						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1}
+						*
+						* They are used by the PayPal® Button Generator for s2Member.
+						*
+						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						*
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
+						*
+						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
+						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
+						* you won't even see these, because they're added internally by the Shortcode processor.
+						*
+						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
+						*
+						* Anyway, these five API Constants are just documented here for clarity;
 						* you probably won't use any of these directly; the Button Generator pops them in.
 						*
 						* ———— Quick PHP Code Sample ————
@@ -2083,13 +2179,17 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* this will auto-fill the value for the `os0` input variable, with the value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID}.
 						* Otherwise, it will be set to a default value of ``$_SERVER["HTTP_HOST"]`` *( the originating domain name )*.
 						*
-						* These four API Constants are special.
+						* These five API Constants are special.
+						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1}
 						*
 						* They are used by the PayPal® Button Generator for s2Member.
+						*
+						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2101,7 +2201,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
 						*
-						* Anyway, these four API Constants are just documented here for clarity;
+						* Anyway, these five API Constants are just documented here for clarity;
 						* you probably won't use any of these directly; the Button Generator pops them in.
 						*
 						* ———— Quick PHP Code Sample ————
@@ -2134,7 +2234,8 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* This auto-fills the `on1` value in PayPal® Button Codes.
 						* This always contains the string: "Customer IP Address".
 						*
-						* These four API Constants are special.
+						* These five API Constants are special.
+						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1}
@@ -2142,7 +2243,8 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
-						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
+						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2152,7 +2254,9 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
 						*
-						* Anyway, these four API Constants are just documented here for clarity;
+						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
+						*
+						* Anyway, these five API Constants are just documented here for clarity;
 						* you probably won't use any of these directly; the Button Generator pops them in.
 						*
 						* ———— Quick PHP Code Sample ————
@@ -2185,7 +2289,8 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* This auto-fills the `os1` value in PayPal® Button Codes,
 						* with the Customer's IP Address, via ``$_SERVER["REMOTE_ADDR"]``.
 						*
-						* These four API Constants are special.
+						* These five API Constants are special.
+						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0}
 						* o {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1}
@@ -2193,7 +2298,8 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
-						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
+						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2203,7 +2309,9 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
 						*
-						* Anyway, these four API Constants are just documented here for clarity;
+						* The `ON1/OS1` values, are used by s2Member to identify a Customer's IP Address through IPN communications with PayPal®.
+						*
+						* Anyway, these five API Constants are just documented here for clarity;
 						* you probably won't use any of these directly; the Button Generator pops them in.
 						*
 						* ———— Quick PHP Code Sample ————

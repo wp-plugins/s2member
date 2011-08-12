@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_files_in"))
 	{
@@ -41,7 +41,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 					{
 						do_action ("ws_plugin__s2member_before_file_download_access", get_defined_vars ());
 						/**/
-						if (!empty ($_GET["s2member_file_download"])) /* Is this a File Download request? */
+						if (!empty ($_GET["s2member_file_download"]) && strpos ($_GET["s2member_file_download"], "..") === false)
 							{
 								$excluded = apply_filters ("ws_plugin__s2member_check_file_download_access_excluded", false, get_defined_vars ());
 								/**/
@@ -54,14 +54,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										/**/
 										if (!$using_amazon_s3_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $_GET["s2member_file_download"]))
 											{
-												header ("HTTP/1.0 404 Not Found"); /* The file does NOT even exist. */
-												exit ("404: Sorry, file not found. Please contact Support for assistance.");
+												header("HTTP/1.0 404 Not Found"); /* The file does NOT even exist. */
+												exit("404: Sorry, file not found. Please contact Support for assistance.");
 											}
 										/**/
 										else if (!empty ($_GET["s2member_file_download_key"]) && !$file_download_key_is_valid) /* Invalid Key? */
 											{
-												header ("HTTP/1.0 503 Service Temporarily Unavailable"); /* Invalid Download Keys are handled separately. */
-												exit ("503 ( Invalid Key ): Sorry, your access to this file has expired. Please contact Support for assistance.");
+												header("HTTP/1.0 503 Service Temporarily Unavailable"); /* Invalid Download Keys are handled separately. */
+												exit("503 ( Invalid Key ): Sorry, your access to this file has expired. Please contact Support for assistance.");
 											}
 										/**/
 										else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"]) /* Is a Membership Options Page configured? */
@@ -72,8 +72,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 												/**/
 												if (($file_download_access_is_allowed = $min_level_4_downloads = c_ws_plugin__s2member_files::min_level_4_downloads ()) === false)
 													{
-														header ("HTTP/1.0 503 Service Temporarily Unavailable"); /* File downloads are NOT yet configured? */
-														exit ("503: Sorry, File Downloads are NOT enabled yet. Please contact Support for assistance. If you are the site owner, please configure: `s2Member -> Download Options -> Basic Download Restrictions`.");
+														header("HTTP/1.0 503 Service Temporarily Unavailable"); /* File downloads are NOT yet configured? */
+														exit("503: Sorry, File Downloads are NOT enabled yet. Please contact Support for assistance. If you are the site owner, please configure: `s2Member -> Download Options -> Basic Download Restrictions`.");
 													}
 												/**/
 												else if (!is_object ($user = apply_filters ("ws_plugin__s2member_check_file_download_access_user", ((is_user_logged_in ()) ? wp_get_current_user () : false), get_defined_vars ())) || !($user_id = $user->ID))
@@ -124,7 +124,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													{
 														if (strtotime ($file_download_access_log_entry["date"]) < strtotime ("-" . $max_days_logged . " days"))
 															{
-																unset ($file_download_access_log[$file_download_access_log_entry_key]);
+																unset($file_download_access_log[$file_download_access_log_entry_key]);
 																$file_download_access_arc[] = $file_download_access_log_entry;
 															}
 														else if (strtotime ($file_download_access_log_entry["date"]) >= strtotime ("-" . $file_downloads["allowed_days"] . " days"))
@@ -152,8 +152,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										/**/
 										if (!$using_amazon_s3_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $_GET["s2member_file_download"]))
 											{
-												header ("HTTP/1.0 404 Not Found"); /* The file does NOT even exist. */
-												exit ("404: Sorry, file not found. Please contact Support for assistance.");
+												header("HTTP/1.0 404 Not Found"); /* The file does NOT even exist. */
+												exit("404: Sorry, file not found. Please contact Support for assistance.");
 											}
 									}
 								/*
@@ -171,7 +171,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								$pathinfo = (!$using_amazon_s3_storage) ? pathinfo (($file = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $_GET["s2member_file_download"])) : array ();
 								$length = (!$using_amazon_s3_storage && $file) ? filesize ($file) : -1; /* The overall file size, in bytes. */
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_file_download_access", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -191,50 +191,50 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										$amazon_s3_redirection_url .= "&Expires=" . urlencode ($amazon_s3_file_expires);
 										$amazon_s3_redirection_url .= "&Signature=" . urlencode ($amazon_s3_signature);
 										/**/
-										wp_redirect ($amazon_s3_redirection_url); /* 302 redirection. */
+										wp_redirect($amazon_s3_redirection_url); /* 302 redirection. */
 										/**/
 										exit (); /* Clean exit. */
 									}
 								/**/
 								else /* Else, using localized storage ( default ). */
 									{
-										@set_time_limit (0); /* Unlimited. */
+										@set_time_limit(0); /* Unlimited. */
 										@ini_set ("zlib.output_compression", 0);
 										/**/
-										header ("Accept-Ranges: none");
-										header ("Content-Encoding: none");
-										header ("Content-Type: " . $mimetype);
-										header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
-										header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-										header ("Cache-Control: no-cache, must-revalidate, max-age=0");
+										header("Accept-Ranges: none");
+										header("Content-Encoding: none");
+										header("Content-Type: " . $mimetype);
+										header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
+										header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+										header("Cache-Control: no-cache, must-revalidate, max-age=0");
 										header ("Cache-Control: post-check=0, pre-check=0", false);
-										header ("Pragma: no-cache");
+										header("Pragma: no-cache");
 										/**/
-										header ('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
+										header('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
 										/**/
 										if ($length && apply_filters ("ws_plugin__s2member_stream_file_downloads", true, get_defined_vars ()) && ($stream = fopen ($file, "rb")))
 											{
 												$_stream_w_content_length = (preg_match ("/^win/i", PHP_OS)) ? false : true; /* Windows® IIS does not jive here. */
 												/* Windows® IIS doesn't seem to like it when both `Content-Length` and `Transfer-Encoding: chunked` are sent together. */
 												if (apply_filters ("ws_plugin__s2member_stream_file_downloads_w_content_length", $_stream_w_content_length, get_defined_vars ()))
-													header ("Content-Length: " . $length);
+													header("Content-Length: " . $length);
 												/**/
-												header ("Transfer-Encoding: chunked"); /* Uses `Transfer-Encoding: chunked` for simulated streaming. */
+												header("Transfer-Encoding: chunked"); /* Uses `Transfer-Encoding: chunked` for simulated streaming. */
 												/**/
-												eval ('while (@ob_end_clean ());'); /* End/clean all output buffers that may or may not exist. */
+												eval('while (@ob_end_clean ());'); /* End/clean all output buffers that may or may not exist. */
 												/**/
 												while (!feof ($stream) && ($chunk_size = strlen ($data = fread ($stream, 2097152))))
-													eval ('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
+													eval('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
 												/**/
-												fclose ($stream);
+												fclose($stream);
 												/**/
-												exit ("0\r\n\r\n");
+												exit("0\r\n\r\n");
 											}
 										else if ($length) /* Else `file_get_contents()`. */
 											{
-												header ("Content-Length: " . $length);
+												header("Content-Length: " . $length);
 												/**/
-												exit (file_get_contents ($file));
+												exit(file_get_contents ($file));
 											}
 										else
 											exit (); /* Empty file. */
@@ -271,7 +271,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function _file_remote_authorization ($user = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_file_remote_authorization", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -281,9 +281,9 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								/**/
 								if (empty ($_SERVER["PHP_AUTH_USER"]) || empty ($_SERVER["PHP_AUTH_PW"]) || !user_pass_ok ($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]))
 									{
-										header ('WWW-Authenticate: Basic realm="Members Only"');
-										header ("HTTP/1.0 401 Unauthorized");
-										exit ("Access Denied");
+										header('WWW-Authenticate: Basic realm="Members Only"');
+										header("HTTP/1.0 401 Unauthorized");
+										exit("Access Denied");
 									}
 								else if (is_object ($_user = new WP_User ($_SERVER["PHP_AUTH_USER"])) && $_user->ID)
 									{

@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110731
-Stable tag: 110731
+Version: 110812
+Stable tag: 110812
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -160,6 +160,9 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110812 =
+* **(s2Member) Security fix.** This release addresses an important security vulnerability in previous releases of the s2Member Framework *( i.e. the free version of s2Member )*. Sites with Download Options configured for s2Member should be advised to update to s2Member v110812+ as soon as possible to avoid possible exploits.
 
 = v110731 =
 * **(s2Member) Bug fix / Multisite.** In the Multisite (Config) panel, s2Member was not properly displaying the number of Blogs allowed at Level #0, in some cases.

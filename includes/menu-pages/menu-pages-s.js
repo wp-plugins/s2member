@@ -945,12 +945,12 @@ jQuery(document).ready (function($)
 				/**/
 				$('div.ws-menu-page input[id]').filter (function() /* Filter all input elements with an id. */
 					{
-						return this.id.match (/^ws-plugin--s2member-(level[1-9][0-9]*|modification)-ccaps$/);
+						return this.id.match (/^ws-plugin--s2member-(level[1-9][0-9]*|modification|ccap)-ccaps$/);
 					}).keyup (function()
 					{
-						var value = this.value.replace (/^\+/, ''), plus = (this.value.match (/^\+/)) ? '+' : '';
-						if (value.match (/[^a-z_0-9,]/)) /* Only if there is a problem; because this causes interruptions. */
-							this.value = plus + $.trim ($.trim (value).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
+						var value = this.value.replace (/^(-all|-al|-a|-)[;,]*/gi, ''), _all = (this.value.match (/^(-all|-al|-a|-)[;,]*/i)) ? '-all,' : '';
+						if (value.match (/[^a-z_0-9,]/)) /* Only if there is a problem with the actual values; because this causes interruptions. */
+							this.value = _all + $.trim ($.trim (value).replace (/[ \-]/g, '_').replace (/[^a-z_0-9,]/gi, '').toLowerCase ());
 					});
 				/**/
 				ws_plugin__s2member_paypalButtonGenerate = function(button) /* Handles PayPal® Button Generation. */
@@ -980,8 +980,9 @@ jQuery(document).ready (function($)
 						var localeCode = '', digital = '0', noShipping = '1'; /* NOT yet configurable. */
 						var pageStyle = $.trim ($('input#ws-plugin--s2member-' + button + '-page-style').val ().replace (/"/g, ''));
 						var currencyCode = $('select#ws-plugin--s2member-' + button + '-currency').val ().replace (/[^A-Z]/g, '');
-						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
-						cCaps = ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).match (/^\+/)) ? '+' + cCaps.toLowerCase () : cCaps.toLowerCase ();
+						/**/
+						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).replace (/^(-all|-al|-a|-)[;,]*/gi, '').replace (/[ \-]/g, '_').replace (/[^a-z_0-9,]/gi, '').toLowerCase ());
+						cCaps = ($.trim ($('input#ws-plugin--s2member-' + button + '-ccaps').val ()).match (/^(-all|-al|-a|-)[;,]*/i)) ? ((cCaps) ? '-all,' : '-all') + cCaps.toLowerCase () : cCaps.toLowerCase ();
 						/**/
 						trialPeriod = (regRecur === 'BN') ? '0' : trialPeriod; /* Lifetime ( 1-L-BN ) and Buy Now ( BN ) access is absolutely NOT compatible w/ Trial Periods. */
 						trialAmount = (!trialAmount || isNaN(trialAmount) || trialAmount < 0.01 || trialPeriod <= 0) ? '0' : trialAmount; /* Validate Trial Amount. */
@@ -1072,7 +1073,78 @@ jQuery(document).ready (function($)
 						/**/
 						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
-						(button === 'modification') ? alert('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.') : alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
+						(button === 'modification') ? alert('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.\n\n* Remember, Modification Buttons should be displayed to existing Users/Members, and they should be logged-in, BEFORE clicking this Button.') : alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
+						/**/
+						shortCode.each (function() /* Focus and select the recommended Shortcode. */
+							{
+								this.focus (), this.select ();
+							});
+						/**/
+						return false;
+					};
+				/**/
+				ws_plugin__s2member_paypalCcapButtonGenerate = function() /* Handles PayPal® Button Generation for Independent Capabilities. */
+					{
+						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '';
+						/**/
+						var shortCode = $('input#ws-plugin--s2member-ccap-shortcode');
+						var code = $('textarea#ws-plugin--s2member-ccap-button');
+						/**/
+						var desc = $.trim ($('input#ws-plugin--s2member-ccap-desc').val ().replace (/"/g, ''));
+						/**/
+						var regAmount = $('input#ws-plugin--s2member-ccap-amount').val ().replace (/[^0-9\.]/g, '');
+						var regPeriod = $('select#ws-plugin--s2member-ccap-term').val ().split ('-')[0].replace (/[^0-9]/g, '');
+						var regTerm = $('select#ws-plugin--s2member-ccap-term').val ().split ('-')[1].replace (/[^A-Z]/g, '');
+						var regRecur = $('select#ws-plugin--s2member-ccap-term').val ().split ('-')[2].replace (/[^0-1BN]/g, '');
+						/**/
+						var localeCode = '', digital = '0', noShipping = '1'; /* NOT yet configurable. */
+						var pageStyle = $.trim ($('input#ws-plugin--s2member-ccap-page-style').val ().replace (/"/g, ''));
+						var currencyCode = $('select#ws-plugin--s2member-ccap-currency').val ().replace (/[^A-Z]/g, '');
+						/**/
+						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-ccap-ccaps').val ()).replace (/^(-all|-al|-a|-)[;,]*/gi, '').replace (/[ \-]/g, '_').replace (/[^a-z_0-9,]/gi, '').toLowerCase ());
+						cCaps = ($.trim ($('input#ws-plugin--s2member-ccap-ccaps').val ()).match (/^(-all|-al|-a|-)[;,]*/i)) ? ((cCaps) ? '-all,' : '-all') + cCaps.toLowerCase () : cCaps.toLowerCase ();
+						/**/
+						var levelCcapsPer = (regRecur === 'BN' && regTerm !== 'L') ? '*:' + cCaps + ':' + regPeriod + ' ' + regTerm : '*:' + cCaps;
+						levelCcapsPer = levelCcapsPer.replace (/\:+$/g, ''); /* Clean any trailing separators from this string. */
+						/**/
+						if (!cCaps || cCaps === '-all') /* Must have some Independent Custom Capabilities. */
+							{
+								alert('— Oops, a slight problem: —\n\nPlease provide at least one Custom Capability.');
+								return false;
+							}
+						else if (!regAmount || isNaN(regAmount) || regAmount < 0.01)
+							{
+								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
+								return false;
+							}
+						else if (regAmount > 10000.00) /* $10,000.00 maximum. */
+							{
+								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
+								return false;
+							}
+						else if (!desc) /* Each Button should have a Description. */
+							{
+								alert('— Oops, a slight problem: —\n\nPlease type a Description for this Button.');
+								return false;
+							}
+						/**/
+						shortCodeTemplateAttrs += 'level="*" ccaps="' + esc_attr(cCaps) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '"';
+						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '" rp="' + esc_attr(regPeriod) + '" rt="' + esc_attr(regTerm) + '" rr="' + esc_attr(regRecur) + '"';
+						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
+						/**/
+						code.html (code.val ().replace (/ name\="lc" value\="(.*?)"/, ' name="lc" value="' + esc_attr(localeCode) + '"'));
+						code.html (code.val ().replace (/ name\="no_shipping" value\="(.*?)"/, ' name="no_shipping" value="' + esc_attr(noShipping) + '"'));
+						code.html (code.val ().replace (/ name\="item_name" value\="(.*?)"/, ' name="item_name" value="' + esc_attr(desc) + '"'));
+						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(levelCcapsPer) + '"'));
+						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
+						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
+						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
+						/**/
+						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
+						/**/
+						$('div#ws-plugin--s2member-ccap-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						/**/
+						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.\n\n* Remember, Independent Custom Capability Buttons should ONLY be displayed to existing Users/Members, and they MUST be logged-in, BEFORE clicking this Button.');
 						/**/
 						shortCode.each (function() /* Focus and select the recommended Shortcode. */
 							{
@@ -1143,7 +1215,7 @@ jQuery(document).ready (function($)
 						/**/
 						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
-						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
+						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your WordPress® Editor.');
 						/**/
 						shortCode.each (function() /* Focus and select the recommended Shortcode. */
 							{
@@ -1158,7 +1230,7 @@ jQuery(document).ready (function($)
 						var level = $('select#ws-plugin--s2member-reg-link-level').val ().replace (/[^0-9]/g, '');
 						var subscrID = $.trim ($('input#ws-plugin--s2member-reg-link-subscr-id').val ());
 						var custom = $.trim ($('input#ws-plugin--s2member-reg-link-custom').val ());
-						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-reg-link-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^A-Z_0-9,]/gi, '').toLowerCase ());
+						var cCaps = $.trim ($.trim ($('input#ws-plugin--s2member-reg-link-ccaps').val ()).replace (/[ \-]/g, '_').replace (/[^a-z_0-9,]/gi, '').toLowerCase ());
 						var fixedTerm = $.trim ($('input#ws-plugin--s2member-reg-link-fixed-term').val ().replace (/[^A-Z 0-9]/gi, '').toUpperCase ());
 						var $link = $('p#ws-plugin--s2member-reg-link'), $loading = $('img#ws-plugin--s2member-reg-link-loading');
 						/**/

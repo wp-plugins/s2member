@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 	{
@@ -52,8 +52,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-group" title="Deactivation Safeguards"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"]) ? ' default-state="open"' : '') . '>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-deactivation-section">' . "\n";
-								echo '<h3>Deactivation Safeguards ( optional, recommended )</h3>' . "\n";
-								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site () && is_super_admin ()) ? '<p><em class="ws-menu-page-hilite">On a Multisite Blog Farm, this panel is ONLY visible to YOU, as a Super Administrator. s2Member automatically Safeguards everything on a Multisite Blog Farm. However, as the Super Administrator, you may turn this off; on a per-Blog basis. For example, if you\'re going to de-activate s2Member on this particular Blog, you can turn OFF the Safeguards below, so that s2Member will completely erase itself.</em></p>' . "\n" : '<p>By default, s2Member will cleanup ( erase ) all of it\'s Roles, Capabilities, and your Configuration Options when/if you deactivate it from the Plugins Menu in WordPress®. If you would like to Safeguard all of this information, in case s2Member is deactivated inadvertently, please choose Yes ( safeguard all s2Member data/options ).</p>' . "\n";
+								echo '<h3>Deactivation Safeguards ( highly recommended )</h3>' . "\n";
+								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site () && is_super_admin ()) ? '<p><em class="ws-menu-page-hilite">On a Multisite Blog Farm, this panel is ONLY visible to YOU, as a Super Administrator. s2Member automatically Safeguards everything on a Multisite Blog Farm. However, as the Super Administrator, you may turn this off; on a per-Blog basis. For example, if you\'re going to de-activate s2Member on this particular Blog, you can turn OFF the Safeguards below, so that s2Member will completely erase itself.</em></p>' . "\n" : '<p>By default, s2Member will retain all of it\'s Roles, Capabilities, and your Configuration Options when/if you deactivate s2Member from the Plugins Menu in WordPress®. However, if you would like for s2Member to erase itself completely, please choose: <code>No ( upon deactivation, erase all data/options )</code>.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_deactivation", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -71,8 +71,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<select name="ws_plugin__s2member_run_deactivation_routines" id="ws-plugin--s2member-run-deactivation-routines">' . "\n";
-								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"]) ? ' selected="selected"' : '') . '></option>' . "\n";
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"]) ? ' selected="selected"' : '') . '>Yes ( safeguard all data/options )</option>' . "\n";
+								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"]) ? ' selected="selected"' : '') . '>No ( upon deactivation, erase all data/options )</option>' . "\n";
 								echo '</select><br />' . "\n";
 								echo 'Recommended setting: ( <code>Yes, safeguard all data/options</code> )' . "\n";
 								echo '</td>' . "\n";

@@ -28,7 +28,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 		class c_ws_plugin__s2member_user_securities
 			{
 				/**
-				* Initializes a Multisite Filter for `user_has_cap`.
+				* Initializes Filter for `user_has_cap`.
 				*
 				* It's very important that this is NOT attached before WordPress® creates `$current_user` via `$wp->init()`.
 				* This prevents crashes when other plugins attempt to call upon `current_user_can()` before WordPress is initialized.
@@ -43,13 +43,13 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				*/
 				public static function initialize () /* Initializes the Filter for `user_has_cap`. */
 					{
-						add_filter ("user_has_cap", "c_ws_plugin__s2member_user_securities::ms_user_capabilities", 10, 3);
+						add_filter ("user_has_cap", "c_ws_plugin__s2member_user_securities::user_capabilities", 10, 3);
 					}
 				/**
-				* Alters `WP_User->has_cap()` on a Multisite Blog Farm.
+				* Alters `WP_User->has_cap()` in special cases for Administrators.
 				*
 				* @package s2Member\User_Securities
-				* @since 3.5
+				* @since 110815
 				*
 				* @attaches-to: ``add_filter("user_has_cap");``
 				*
@@ -63,17 +63,20 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				* 	Other arguments starting from array index `[2]` are normal.
 				* @return array An array of Capabilities.
 				*/
-				public static function ms_user_capabilities ($capabilities = FALSE, $caps_map = FALSE, $args = FALSE)
+				public static function user_capabilities ($capabilities = FALSE, $caps_map = FALSE, $args = FALSE)
 					{
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_before_ms_user_capabilities", get_defined_vars ());
+						do_action ("ws_plugin__s2member_before_user_capabilities", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && (is_super_admin () || !empty ($capabilities["administrator"])) && !empty ($args[0]) && ($args[0] === "edit_user" || $args[0] === "edit_users"))
-							if ($args[0] === "edit_users" || ($args[0] === "edit_user" && !empty ($args[2]) && ((!empty ($args[1]) && (int)$args[1] === (int)$args[2]) || is_user_member_of_blog ($args[2]))))
-								$capabilities = array_merge ((array)$capabilities, array ("edit_users" => 1, "do_not_allow" => 1));
+						if (!is_multisite () && !empty ($capabilities["administrator"]) && !empty ($args[0]) && preg_match ("/^access_s2member_ccap_/i", $args[0]) && apply_filters ("ws_plugin__s2member_admins_have_all_ccaps", true, get_defined_vars ()))
+							$capabilities = array_merge ((array)$capabilities, array ($args[0] => 1));
 						/**/
-						return apply_filters ("ws_plugin__s2member_ms_user_capabilities", $capabilities, get_defined_vars ());
+						else if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && (is_super_admin () || !empty ($capabilities["administrator"])) && !empty ($args[0]) && ($args[0] === "edit_user" || $args[0] === "edit_users"))
+							if ($args[0] === "edit_users" || ($args[0] === "edit_user" && !empty ($args[2]) && ((!empty ($args[1]) && (int)$args[1] === (int)$args[2]) || is_user_member_of_blog ($args[2]))))
+								$capabilities = array_merge ((array)$capabilities, array ("edit_users" => 1));
+						/**/
+						return apply_filters ("ws_plugin__s2member_user_capabilities", $capabilities, get_defined_vars ());
 					}
 				/**
 				* Alters this Filter inside `/wp-admin/user-edit.php`.
@@ -123,11 +126,11 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						if ($show && is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm ())
-							if (!is_super_admin () && is_object ($user) && $user->ID && is_object ($current_user = wp_get_current_user ()) && $current_user->ID)
+							if (!is_super_admin () && is_object ($user) && !empty ($user->ID) && is_object ($current_user = wp_get_current_user ()) && !empty ($current_user->ID))
 								if ($user->ID !== $current_user->ID)
 									$show = false;
 						/**/
-						if ($show && is_object ($user) && $user->ID && $user->user_login === "demo")
+						if ($show && is_object ($user) && !empty ($user->ID) && $user->user_login === "demo")
 							$show = false; /* Lock Password on Demos. */
 						/**/
 						return apply_filters ("ws_plugin__s2member_hide_password_fields", $show, get_defined_vars ());

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 	{
@@ -31,26 +31,29 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 				* Deletes s2Member's temporary tracking cookie.
 				*
 				* @package s2Member\Tracking
-				* @since 3.5
+				* @since 110815
 				*
 				* @attaches-to: ``add_action("init");``
 				*
 				* @return null Or exits script execution after deleting Cookie.
 				*/
-				public static function delete_signup_tracking_cookie ()
+				public static function delete_tracking_cookie ()
 					{
-						do_action ("ws_plugin__s2member_before_delete_signup_tracking_cookie", get_defined_vars ());
+						do_action ("ws_plugin__s2member_before_delete_tracking_cookie", get_defined_vars ());
 						/**/
-						if (!empty ($_GET["s2member_delete_signup_tracking_cookie"])) /* Deletes cookie. */
+						if (!empty ($_GET["s2member_delete_tracking_cookie"])) /* Deletes cookie. */
 							{
-								setcookie ("s2member_signup_tracking", "", time () + 31556926, "/");
+								setcookie ("s2member_tracking", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN);
+								setcookie ("s2member_tracking", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
 								/**/
-								do_action ("ws_plugin__s2member_during_delete_signup_tracking_cookie", get_defined_vars ());
+								do_action ("ws_plugin__s2member_during_delete_tracking_cookie", get_defined_vars ());
 								/**/
-								exit (); /* Clean exit. */
+								header("Content-Type: image/png"); /* Send a 1px transparent PNG image to browser. */
+								/**/
+								exit(file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
 							}
 						/**/
-						do_action ("ws_plugin__s2member_after_delete_signup_tracking_cookie", get_defined_vars ());
+						do_action ("ws_plugin__s2member_after_delete_tracking_cookie", get_defined_vars ());
 					}
 				/**
 				* Deletes s2Member's temporary tracking cookie.
@@ -68,11 +71,14 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 						/**/
 						if (!empty ($_GET["s2member_delete_sp_tracking_cookie"])) /* Deletes cookie. */
 							{
-								setcookie ("s2member_sp_tracking", "", time () + 31556926, "/");
+								setcookie ("s2member_sp_tracking", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN);
+								setcookie ("s2member_sp_tracking", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
 								/**/
 								do_action ("ws_plugin__s2member_during_delete_sp_tracking_cookie", get_defined_vars ());
 								/**/
-								exit (); /* Clean exit. */
+								header("Content-Type: image/png"); /* Send a 1px transparent PNG image to browser. */
+								/**/
+								exit(file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
 							}
 						/**/
 						do_action ("ws_plugin__s2member_after_delete_sp_tracking_cookie", get_defined_vars ());

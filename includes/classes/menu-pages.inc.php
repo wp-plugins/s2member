@@ -50,8 +50,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						if ($verified || (!empty ($_POST["ws_plugin__s2member_options_save"]) && ($nonce = $_POST["ws_plugin__s2member_options_save"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-options-save")))
 							{
 								$options = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]; /* Here we get all of the existing options. */
-								$new_options = (is_array ($new_options)) ? $new_options : ((!empty ($_POST)) ? $_POST : array ());
-								$new_options = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($new_options));
+								$new_options = (is_array ($new_options)) ? $new_options : ((!empty ($_POST)) ? stripslashes_deep ($_POST) : array ());
+								$new_options = c_ws_plugin__s2member_utils_strings::trim_deep ($new_options);
 								/**/
 								foreach ((array)$new_options as $key => $value) /* Looking for relevant keys. */
 									if (preg_match ("/^" . preg_quote ("ws_plugin__s2member_", "/") . "/", $key))

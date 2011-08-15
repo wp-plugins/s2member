@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sp_access"))
 	{
@@ -40,7 +40,7 @@ if (!class_exists ("c_ws_plugin__s2member_sp_access"))
 				*/
 				public static function sp_access_link_gen ($sp_ids = FALSE, $hours = 72, $shrink = TRUE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sp_access_link_gen", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -152,7 +152,7 @@ if (!class_exists ("c_ws_plugin__s2member_sp_access"))
 				*/
 				public static function sp_access_session ($add_sp_access_value = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sp_access_session", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -166,9 +166,9 @@ if (!class_exists ("c_ws_plugin__s2member_sp_access"))
 								$cookie = implode (":.:|:.:", $sp_access_values); /* Implode the access values into a delimited string. */
 								$cookie = (strlen ($cookie) >= 4096) ? $add_sp_access_value : $cookie; /* Max cookie size is 4kbs. */
 								/**/
-								setcookie ("s2member_sp_access", $cookie, time () + 31556926, "/") . ($_COOKIE["s2member_sp_access"] = $cookie);
+								setcookie ("s2member_sp_access", $cookie, time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . setcookie ("s2member_sp_access", $cookie, time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN) . ($_COOKIE["s2member_sp_access"] = $cookie);
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sp_access_session", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}

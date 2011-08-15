@@ -126,6 +126,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														$mailchimp["api_properties"] = $mcapi; /* Include API instance too; as it contains some additional information after each method is processed ( need this in the logs ). */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
+														$logm = c_ws_plugin__s2member_utilities::mem_details ();
 														$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
 														$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 														$log2 = (is_multisite () && !is_main_site ()) ? "mailchimp-api-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "mailchimp-api.log";
@@ -133,7 +134,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
 													}
 											}
 									}
@@ -156,6 +157,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 															$aweber["wp_mail_success"] = $success = true; /* Flag indicating that we DO have a successful processing of a new List; affects the function's overall return value. */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
+														$logm = c_ws_plugin__s2member_utilities::mem_details ();
 														$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
 														$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 														$log2 = (is_multisite () && !is_main_site ()) ? "aweber-api-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "aweber-api.log";
@@ -163,7 +165,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
 													}
 											}
 									}
@@ -238,6 +240,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														$mailchimp["api_removal_properties"] = $mcapi; /* Include API instance too; as it contains some additional information after each method is processed ( need this in the logs ). */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
+														$logm = c_ws_plugin__s2member_utilities::mem_details ();
 														$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
 														$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 														$log2 = (is_multisite () && !is_main_site ()) ? "mailchimp-api-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "mailchimp-api.log";
@@ -245,7 +248,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
 													}
 											}
 									}
@@ -266,6 +269,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 															$aweber["wp_mail_removal_success"] = $removal_success = true; /* Flag indicating that we DO have a successful removal; affects the function's overall return value. */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
+														$logm = c_ws_plugin__s2member_utilities::mem_details ();
 														$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
 														$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 														$log2 = (is_multisite () && !is_main_site ()) ? "aweber-api-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "aweber-api.log";
@@ -273,7 +277,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
 													}
 											}
 									}

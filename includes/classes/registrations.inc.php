@@ -495,7 +495,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 											if ($_pmr["field_1"] && preg_match ("/^(.+?) (.+)$/", $_pmr["field_1"]))
 												$lname = trim (preg_replace ("/^(.+?) (.+)$/", "$2", $_pmr["field_1"]));
 										/**/
-										if (!$fname) /* Default to Username? */
+										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"] && !$fname)
 											if ($login) /* Username and empty Last Name. */
 												eval ('$fname = trim ($login); $lname = "";');
 										/**/
@@ -553,15 +553,15 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if ($current_role !== $role) /* Only if NOT the current Role. */
 											$user->set_role ($role); /* s2Member. */
 										/**/
-										if (!preg_match ("/^\+/", $ccaps))
+										if ($ccaps && preg_match ("/^-all/", str_replace ("+", "", $ccaps)))
 											foreach ($user->allcaps as $cap => $cap_enabled)
 												if (preg_match ("/^access_s2member_ccap_/", $cap))
 													$user->remove_cap ($ccap = $cap);
 										/**/
-										if ($ccaps) /* Add Custom Capabilities. */
-											foreach (preg_split ("/[\r\n\t\s;,]+/", ltrim ($ccaps, "+")) as $ccap)
-												if (strlen ($ccap)) /* Don't add empty Custom Capabilities. */
-													$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
+										if ($ccaps && preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps)))
+											foreach (preg_split ("/[\r\n\t\s;,]+/", preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps))) as $ccap)
+												if (strlen ($ccap = trim (strtolower (preg_replace ("/[^a-z_0-9]/i", "", $ccap)))))
+													$user->add_cap ("access_s2member_ccap_" . $ccap);
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 											foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
@@ -601,8 +601,8 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 												delete_transient ($transient); /* This can be deleted now. */
 											}
 										/**/
-										if (!headers_sent ()) /* Only if headers are NOT yet sent. */
-											@setcookie ("s2member_signup_tracking", ($s2member_signup_tracking = c_ws_plugin__s2member_utils_encryption::encrypt ($subscr_id)), time () + 31556926, "/") . ($_COOKIE["s2member_signup_tracking"] = $s2member_signup_tracking);
+										if (!headers_sent ()) /* Only if headers are NOT yet sent. Here we establish both Signup and Payment Tracking Cookies. */
+											@setcookie ("s2member_tracking", ($s2member_tracking = c_ws_plugin__s2member_utils_encryption::encrypt ($subscr_id)), time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . @setcookie ("s2member_tracking", $s2member_tracking, time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN) . ($_COOKIE["s2member_tracking"] = $s2member_tracking);
 										/**/
 										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_configure_user_registration_front_side_paid", get_defined_vars ());
@@ -662,7 +662,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 											if ($_pmr["field_1"] && preg_match ("/^(.+?) (.+)$/", $_pmr["field_1"]))
 												$lname = trim (preg_replace ("/^(.+?) (.+)$/", "$2", $_pmr["field_1"]));
 										/**/
-										if (!$fname) /* Default to Username? */
+										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"] && !$fname)
 											if ($login) /* Username and empty Last Name. */
 												eval ('$fname = trim ($login); $lname = "";');
 										/**/
@@ -720,15 +720,15 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if ($current_role !== $role) /* Only if NOT the current Role. */
 											$user->set_role ($role); /* s2Member. */
 										/**/
-										if (!preg_match ("/^\+/", $ccaps))
+										if ($ccaps && preg_match ("/^-all/", str_replace ("+", "", $ccaps)))
 											foreach ($user->allcaps as $cap => $cap_enabled)
 												if (preg_match ("/^access_s2member_ccap_/", $cap))
 													$user->remove_cap ($ccap = $cap);
 										/**/
-										if ($ccaps) /* Add Custom Capabilities. */
-											foreach (preg_split ("/[\r\n\t\s;,]+/", ltrim ($ccaps, "+")) as $ccap)
-												if (strlen ($ccap)) /* Don't add empty Custom Capabilities. */
-													$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
+										if ($ccaps && preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps)))
+											foreach (preg_split ("/[\r\n\t\s;,]+/", preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps))) as $ccap)
+												if (strlen ($ccap = trim (strtolower (preg_replace ("/[^a-z_0-9]/i", "", $ccap)))))
+													$user->add_cap ("access_s2member_ccap_" . $ccap);
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 											foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
@@ -796,7 +796,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 											if ($_pmr["ws_plugin__s2member_custom_reg_field_last_name"])
 												$lname = $_pmr["ws_plugin__s2member_custom_reg_field_last_name"];
 										/**/
-										if (!$fname) /* Default to Username? */
+										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"] && !$fname)
 											if ($login) /* Username and empty Last Name. */
 												eval ('$fname = trim ($login); $lname = "";');
 										/**/
@@ -854,15 +854,15 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										if ($current_role !== $role) /* Only if NOT the current Role. */
 											$user->set_role ($role); /* s2Member. */
 										/**/
-										if (!preg_match ("/^\+/", $ccaps))
+										if ($ccaps && preg_match ("/^-all/", str_replace ("+", "", $ccaps)))
 											foreach ($user->allcaps as $cap => $cap_enabled)
 												if (preg_match ("/^access_s2member_ccap_/", $cap))
 													$user->remove_cap ($ccap = $cap);
 										/**/
-										if ($ccaps) /* Add Custom Capabilities. */
-											foreach (preg_split ("/[\r\n\t\s;,]+/", ltrim ($ccaps, "+")) as $ccap)
-												if (strlen ($ccap)) /* Don't add empty Custom Capabilities. */
-													$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
+										if ($ccaps && preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps)))
+											foreach (preg_split ("/[\r\n\t\s;,]+/", preg_replace ("/^-all[\r\n\t\s;,]*/", "", str_replace ("+", "", $ccaps))) as $ccap)
+												if (strlen ($ccap = trim (strtolower (preg_replace ("/[^a-z_0-9]/i", "", $ccap)))))
+													$user->add_cap ("access_s2member_ccap_" . $ccap);
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 											foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
@@ -1009,10 +1009,10 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 										*/
 										if (!headers_sent ()) /* Only if headers are NOT yet sent. */
 											{
-												@setcookie ("s2member_subscr_gateway", "", time () + 31556926, "/");
-												@setcookie ("s2member_subscr_id", "", time () + 31556926, "/");
-												@setcookie ("s2member_custom", "", time () + 31556926, "/");
-												@setcookie ("s2member_item_number", "", time () + 31556926, "/");
+												@setcookie ("s2member_subscr_gateway", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . @setcookie ("s2member_subscr_gateway", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
+												@setcookie ("s2member_subscr_id", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . @setcookie ("s2member_subscr_id", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
+												@setcookie ("s2member_custom", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . @setcookie ("s2member_custom", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
+												@setcookie ("s2member_item_number", "", time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . @setcookie ("s2member_item_number", "", time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN);
 											}
 										/**/
 										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');

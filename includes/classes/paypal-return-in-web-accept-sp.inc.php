@@ -65,7 +65,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 											{
 												$processing = $during = true; /* Yes, we ARE processing this. */
 												/**/
-												setcookie ("s2member_sp_tracking", ($s2member_sp_tracking = c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["txn_id"])), time () + 31556926, "/") . ($_COOKIE["s2member_sp_tracking"] = $s2member_sp_tracking);
+												setcookie ("s2member_sp_tracking", ($s2member_sp_tracking = c_ws_plugin__s2member_utils_encryption::encrypt ($paypal["txn_id"])), time () + 31556926, COOKIEPATH, COOKIE_DOMAIN) . setcookie ("s2member_sp_tracking", $s2member_sp_tracking, time () + 31556926, SITECOOKIEPATH, COOKIE_DOMAIN) . ($_COOKIE["s2member_sp_tracking"] = $s2member_sp_tracking);
 												/**/
 												$paypal["s2member_log"][] = "Transient Tracking Cookie set on ( `web_accept` ) for Specific Post/Page Access.";
 												/**/

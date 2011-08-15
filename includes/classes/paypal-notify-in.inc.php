@@ -97,6 +97,9 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 														else if (($_paypal_cp = c_ws_plugin__s2member_paypal_notify_in_web_accept_sp::cp (get_defined_vars ())))
 															$paypal = $_paypal_cp;
 														/**/
+														else if (($_paypal_cp = c_ws_plugin__s2member_paypal_notify_in_wa_ccaps_wo_level::cp (get_defined_vars ())))
+															$paypal = $_paypal_cp;
+														/**/
 														else if (($_paypal_cp = c_ws_plugin__s2member_paypal_notify_in_subscr_or_wa_w_level::cp (get_defined_vars ())))
 															$paypal = $_paypal_cp;
 														/**/
@@ -169,6 +172,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 									Logging now supports Multisite Networking as well.
 								*/
 								$logv = c_ws_plugin__s2member_utilities::ver_details ();
+								$logm = c_ws_plugin__s2member_utilities::mem_details ();
 								$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
 								$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 								$log2 = (is_multisite () && !is_main_site ()) ? "paypal-ipn-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "paypal-ipn.log";
@@ -176,7 +180,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 									if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 										if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-											file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $log4 . "\n" . var_export ($paypal, true) . "\n\n", FILE_APPEND);
+											file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($paypal, true) . "\n\n", FILE_APPEND);
 								/**/
 								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_notify", get_defined_vars ());

@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /*
 Determine the full URL to the directory this plugin resides in.
 */
@@ -34,9 +34,9 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["max_levels"] = apply_filters ("ws_plug
 /*
 Configure regular expression matches for Membership Access Item Numbers ( including those with only Custom Capabilities ).
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"] = "/^([1-9][0-9]*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_wo_level_regex"] = "/^(\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_or_wo_level_regex"] = "/^([1-9][0-9]*|\*)(?:(?:\:(\+?[a-z_0-9,]+|\+)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"] = "/^([1-9][0-9]*)(?:(?:\:((?:-all\+|\+-all|-all|\+)?[a-z_0-9,\+]*)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_wo_level_regex"] = "/^(\*)(?:(?:\:((?:-all\+|\+-all|-all|\+)?[a-z_0-9,\+]*)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_or_wo_level_regex"] = "/^([1-9][0-9]*|\*)(?:(?:\:((?:-all\+|\+-all|-all|\+)?[a-z_0-9,\+]*)?)?(?:\:([0-9]+ [A-Z])?)?)?$/";
 /*
 Configure regular expression match for Specific Post/Page Access Item Numbers ( all elements required here ).
 */
@@ -107,7 +107,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["max_ip_restriction_time"] = "3600";
 				$default_options["max_failed_login_attempts"] = "5";
 				/**/
-				$default_options["run_deactivation_routines"] = "1";
+				$default_options["run_deactivation_routines"] = "0";
 				/**/
 				$default_options["custom_reg_fields"] = "";
 				$default_options["custom_reg_names"] = "1";
@@ -176,11 +176,14 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["paypal_btn_encryption"] = "0";
 				/**/
 				$default_options["signup_tracking_codes"] = "";
+				$default_options["modification_tracking_codes"] = "";
+				$default_options["ccap_tracking_codes"] = "";
+				$default_options["sp_tracking_codes"] = "";
+				/**/
 				$default_options["signup_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
 				$default_options["signup_email_subject"] = "Congratulations! ( your membership has been approved )";
 				$default_options["signup_email_message"] = "Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
 				/**/
-				$default_options["sp_tracking_codes"] = "";
 				$default_options["sp_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
 				$default_options["sp_email_subject"] = "Thank You! ( instructions for access )";
 				$default_options["sp_email_message"] = "Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
@@ -259,11 +262,6 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				/**/
 				unset ($n, $v, $l); /* Unset/cleanup these working variables from the routines above. */
 				/*
-				Disable de-activation routines ( by default ) on a Multisite Blog Farm installation; excluding the Main Site.
-				*/
-				if (is_multisite () && !is_main_site () && defined ("MULTISITE_FARM") && MULTISITE_FARM) /* Auto-protects Blog Owners. */
-					$default_options["run_deactivation_routines"] = "0"; /* By default, disable all de-activation routines in this case. */
-				/*
 				Here they are merged. User options will overwrite some or all default values. 
 				*/
 				$GLOBALS["WS_PLUGIN__"]["s2member"]["o"] = array_merge ($default_options, (($options !== false) ? (array)$options : (array)get_option ("ws_plugin__s2member_options")));
@@ -293,7 +291,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
@@ -406,7 +404,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "paypal_btn_encryption" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|sp)_tracking_codes$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^(signup|modification|ccap|sp)_tracking_codes$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^(signup|sp)_email_recipients$/", $key) && !is_string ($value)) /* Can be empty. */

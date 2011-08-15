@@ -118,7 +118,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '<td>' . "\n";
 														echo '<label for="ws-plugin--s2member-profile-first-name">' . "\n";
 														echo '<strong>First Name *</strong><br />' . "\n";
-														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_first_name" id="ws-plugin--s2member-profile-first-name" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->first_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_first_name" id="ws-plugin--s2member-profile-first-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->first_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 														echo '</label>' . "\n";
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";
@@ -138,7 +138,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '<td>' . "\n";
 														echo '<label for="ws-plugin--s2member-profile-last-name">' . "\n";
 														echo '<strong>Last Name *</strong><br />' . "\n";
-														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_last_name" id="ws-plugin--s2member-profile-last-name" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->last_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_last_name" id="ws-plugin--s2member-profile-last-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->last_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 														echo '</label>' . "\n";
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";
@@ -158,7 +158,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 														echo '<td>' . "\n";
 														echo '<label for="ws-plugin--s2member-profile-display-name">' . "\n";
 														echo '<strong>Display Name *</strong><br />' . "\n";
-														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_display_name" id="ws-plugin--s2member-profile-display-name" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->display_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+														echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_display_name" id="ws-plugin--s2member-profile-display-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->display_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 														echo '</label>' . "\n";
 														echo '</td>' . "\n";
 														echo '</tr>' . "\n";

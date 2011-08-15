@@ -135,6 +135,25 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 						/**/
 						return (!empty ($badge)) ? $badge : ""; /* Return Security Badge. */
 					}
+				/**
+				* Acquires information about memory usage.
+				*
+				* @package s2Member\Utilities
+				* @since 110815
+				*
+				* @return str String with `Memory x MB :: Real Memory x MB :: Peak Memory x MB :: Real Peak Memory x MB`.
+				*/
+				public static function mem_details ()
+					{
+						$memory = number_format (memory_get_usage () / 1048576, 2, ".", "");
+						$real_memory = number_format (memory_get_usage (true) / 1048576, 2, ".", "");
+						$peak_memory = number_format (memory_get_peak_usage () / 1048576, 2, ".", "");
+						$real_peak_memory = number_format (memory_get_peak_usage (true) / 1048576, 2, ".", "");
+						/**/
+						$details = "Memory " . $memory . " MB :: Real Memory " . $real_memory . " MB :: Peak Memory " . $peak_memory . " MB :: Real Peak Memory " . $real_peak_memory . " MB";
+						/**/
+						return $details; /* Return all details. */
+					}
 			}
 	}
 ?>

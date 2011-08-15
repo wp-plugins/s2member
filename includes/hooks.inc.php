@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /*
 Add the plugin Actions/Filters here.
 */
@@ -33,8 +33,8 @@ add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 1);
 add_action ("init", "c_ws_plugin__s2member_files::check_file_download_access", 1);
 add_action ("init", "c_ws_plugin__s2member_profile_mods::handle_profile_modifications", 1);
 add_action ("init", "c_ws_plugin__s2member_profile_mods_4bp::handle_profile_modifications_4bp", 1);
-add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_signup_tracking_cookie", 1);
 add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_sp_tracking_cookie", 1);
+add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_tracking_cookie", 1);
 add_action ("init", "c_ws_plugin__s2member_cron_jobs::auto_eot_system_via_cron", 1);
 add_action ("init", "c_ws_plugin__s2member_mo_page::membership_options_page", 1);
 add_action ("init", "c_ws_plugin__s2member_s_badge_status::s_badge_status", 1);
@@ -108,6 +108,12 @@ add_action ("login_footer", "c_ws_plugin__s2member_login_customizations::login_f
 /**/
 add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_signup_tracking_codes");
+/**/
+add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_modification_tracking_codes");
+add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_modification_tracking_codes");
+/**/
+add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_ccap_tracking_codes");
+add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_ccap_tracking_codes");
 /**/
 add_action ("login_footer", "c_ws_plugin__s2member_tracking_codes::display_sp_tracking_codes");
 add_action ("wp_footer", "c_ws_plugin__s2member_tracking_codes::display_sp_tracking_codes");

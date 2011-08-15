@@ -15,7 +15,7 @@
 * @since 110524RC
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_pages_ws_mlist"))
 	{
@@ -35,25 +35,29 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages_ws_mlist"))
 								/**/
 								if (!is_ssl ()) /* Feed panel. */
 									{
-										echo '<div id="ws-mlist-div-feed-animator">' . "\n";
-										echo '<a href="http://feeds.feedburner.com/~r/s2member-updates/~6/1" target="_blank"><img src="http://feeds.feedburner.com/s2member-updates.1.gif" alt="s2Member® ( Updates )" style="border:0" /></a>' . "\n";
+										echo '<div class="ws-menu-page-r-group-header">' . "\n";
+										echo '<ins class="open">-</ins>Latest News<em>!</em>' . "\n";
+										echo '</div>' . "\n";
+										/**/
+										echo '<div class="ws-menu-page-r-group" style="display:block;">' . "\n";
+										echo '<script type="text/javascript" src="http://feeds.feedburner.com/s2member-updates?format=sigpro&amp;nItems=3&amp;openLinks=new&amp;displayTitle=false&amp;displayFeedIcon=false&amp;displayExcerpts=false&amp;displayAuthor=false&amp;displayDate=false&amp;displayEnclosures=false&amp;displayLinkToFeed=false"></script>' . "\n";
 										echo '</div>' . "\n";
 									}
 								/**/
-								echo '<div id="ws-mlist-div-header">' . "\n";
+								echo '<div class="ws-menu-page-r-group-header">' . "\n";
 								echo '<ins>+</ins>Email Updates<em>!</em>' . "\n";
 								echo '</div>' . "\n";
 								/**/
-								echo '<div id="ws-mlist-div-container">' . "\n";
+								echo '<div class="ws-menu-page-r-group">' . "\n";
 								/**/
 								echo '<div id="ws-mlist-div-fname">' . "\n";
 								echo '<label for="ws-mlist-fname">First Name:</label><br />' . "\n";
-								echo '<input type="text" name="FNAME" id="ws-mlist-fname" value="' . format_to_edit ($user->first_name) . '" />' . "\n";
+								echo '<input type="text" name="FNAME" id="ws-mlist-fname" value="' . esc_attr ($user->first_name) . '" />' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '<div id="ws-mlist-div-lname">' . "\n";
 								echo '<label for="ws-mlist-lname">Last Name:</label><br />' . "\n";
-								echo '<input type="text" name="LNAME" id="ws-mlist-lname" value="' . format_to_edit ($user->last_name) . '" />' . "\n";
+								echo '<input type="text" name="LNAME" id="ws-mlist-lname" value="' . esc_attr ($user->last_name) . '" />' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '<div id="ws-mlist-div-email">' . "\n";

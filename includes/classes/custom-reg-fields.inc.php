@@ -335,7 +335,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										echo '<label for="ws-plugin--s2member-custom-reg-field-first-name">First Name *</label>' . "\n";
-										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" />' . "\n";
+										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . esc_attr ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" />' . "\n";
 										echo '<br />' . "\n";
 										/**/
 										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
@@ -347,7 +347,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										echo '<label for="ws-plugin--s2member-custom-reg-field-last-name">Last Name *</label>' . "\n";
-										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" />' . "\n";
+										echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . esc_attr ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" />' . "\n";
 										echo '<br />' . "\n";
 										/**/
 										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
@@ -477,7 +477,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 								echo '<p>' . "\n";
 								echo '<label for="ws-plugin--s2member-custom-reg-field-first-name">' . "\n";
 								echo '<span>First Name *</span><br />' . "\n";
-								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_first_name" id="ws-plugin--s2member-custom-reg-field-first-name" class="ws-plugin--s2member-custom-reg-field" value="' . esc_attr ($_p["ws_plugin__s2member_custom_reg_field_first_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 								echo '</label>' . "\n";
 								echo '</p>' . "\n";
 								/**/
@@ -492,7 +492,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields"))
 								echo '<p>' . "\n";
 								echo '<label for="ws-plugin--s2member-custom-reg-field-last-name">' . "\n";
 								echo '<span>Last Name *</span><br />' . "\n";
-								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . format_to_edit ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_custom_reg_field_last_name" id="ws-plugin--s2member-custom-reg-field-last-name" class="ws-plugin--s2member-custom-reg-field" value="' . esc_attr ($_p["ws_plugin__s2member_custom_reg_field_last_name"]) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 								echo '</label>' . "\n";
 								echo '</p>' . "\n";
 								/**/

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 	{
@@ -31,17 +31,17 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 				* Deletes s2Member's temporary tracking cookie.
 				*
 				* @package s2Member\Tracking
-				* @since 3.5
+				* @since 110815
 				*
 				* @attaches-to: ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/
-				public static function delete_signup_tracking_cookie ()
+				public static function delete_tracking_cookie ()
 					{
-						if (!empty ($_GET["s2member_delete_signup_tracking_cookie"])) /* Call inner routine? */
+						if (!empty ($_GET["s2member_delete_tracking_cookie"])) /* Call inner routine? */
 							{
-								return c_ws_plugin__s2member_tracking_cookies_in::delete_signup_tracking_cookie ();
+								return c_ws_plugin__s2member_tracking_cookies_in::delete_tracking_cookie ();
 							}
 					}
 				/**

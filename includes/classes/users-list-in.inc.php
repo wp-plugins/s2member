@@ -152,7 +152,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												/**/
 												echo '<tr>' . "\n";
 												echo '<th><label for="ws-plugin--s2member-profile-s2member-ccaps">Custom Capabilities:</label> <a href="#" onclick="alert(\'Optional. This is VERY advanced.\\nSee: s2Member -> API Scripting -> Custom Capabilities.' . ((is_multisite ()) ? '\\n\\nCustom Capabilities are assigned on a per-Blog basis. So having a set of Custom Capabilities for one Blog, and having NO Custom Capabilities on another Blog - is very common. This is how permissions are designed to work.' : '') . '\'); return false;" tabindex="-1">[?]</a>' . ((is_multisite ()) ? '<br /><small>( for this Blog )</small>' : '') . '</th>' . "\n";
-												echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_ccaps" id="ws-plugin--s2member-profile-s2member-ccaps" value="' . format_to_edit (((!empty ($ccaps)) ? implode (",", $ccaps) : "")) . '" class="regular-text" onkeyup="if(this.value.match(/[^a-z_0-9,]/)) this.value = jQuery.trim (jQuery.trim (this.value).replace (/[ \-]/g, \'_\').replace (/[^A-Z_0-9,]/gi, \'\').toLowerCase ());" /></td>' . "\n";
+												echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_ccaps" id="ws-plugin--s2member-profile-s2member-ccaps" value="' . format_to_edit (((!empty ($ccaps)) ? implode (",", $ccaps) : "")) . '" class="regular-text" onkeyup="if(this.value.match(/[^a-z_0-9,]/)) this.value = jQuery.trim (jQuery.trim (this.value).replace (/[ \-]/g, \'_\').replace (/[^a-z_0-9,]/gi, \'\').toLowerCase ());" /></td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
 												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
@@ -444,9 +444,10 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 															if (preg_match ("/^access_s2member_ccap_/", $cap))
 																$user->remove_cap ($ccap = $cap);
 														/**/
-														foreach (preg_split ("/[\r\n\t\s;,]+/", $_p["ws_plugin__s2member_profile_s2member_ccaps"]) as $ccap)
-															if (strlen ($ccap)) /* Don't add empty Capabilities. */
-																$user->add_cap ("access_s2member_ccap_" . trim (strtolower ($ccap)));
+														if (!empty ($_p["ws_plugin__s2member_profile_s2member_ccaps"]))
+															foreach (preg_split ("/[\r\n\t\s;,]+/", $_p["ws_plugin__s2member_profile_s2member_ccaps"]) as $ccap)
+																if (strlen ($ccap = trim (strtolower (preg_replace ("/[^a-z_0-9]/i", "", $ccap)))))
+																	$user->add_cap ("access_s2member_ccap_" . $ccap);
 													}
 												/**/
 												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])

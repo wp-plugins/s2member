@@ -116,7 +116,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_web_accept_sp"))
 																																			$paypal["s2member_log"][] = "Specific Post/Page Confirmation Email sent to: " . implode ("; ", $recipients) . ".";
 																																		}
 												/**/
-												if ($processing && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_urls"])
+												if ($processing && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_urls"] && is_array ($cv = preg_split ("/\|/", $paypal["custom"])))
 													{
 														foreach (preg_split ("/[\r\n\t]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_urls"]) as $url)
 															/**/
@@ -135,7 +135,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_web_accept_sp"))
 														$paypal["s2member_log"][] = "Specific Post/Page ~ Sale Notification URLs have been processed.";
 													}
 												/**/
-												if ($processing && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_recipients"])
+												if ($processing && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_recipients"] && is_array ($cv = preg_split ("/\|/", $paypal["custom"])))
 													{
 														$msg = $sbj = "( s2Member / API Notification Email ) - Specific Post/Page ~ Sale";
 														$msg .= "\n\n"; /* Spacing in the message body. */
@@ -179,7 +179,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_web_accept_sp"))
 														$paypal["s2member_log"][] = "Specific Post/Page ~ Sale Notification Emails have been processed.";
 													}
 												/**/
-												if ($processing && $_GET["s2member_paypal_proxy"] && ($url = $_GET["s2member_paypal_proxy_return_url"])) /* A Proxy is requesting a Return URL for this transaction? */
+												if ($processing && $_GET["s2member_paypal_proxy"] && ($url = $_GET["s2member_paypal_proxy_return_url"]) && is_array ($cv = preg_split ("/\|/", $paypal["custom"]))) /* A Proxy is requesting a Return URL? */
 													{
 														if (($url = preg_replace ("/%%cv([0-9]+)%%/ei", 'urlencode(trim($cv[$1]))', $url)) && ($url = preg_replace ("/%%sp_access_url%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (rawurlencode ($sp_access_url)), $url)))
 															if (($url = preg_replace ("/%%sp_access_exp%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode (c_ws_plugin__s2member_utils_time::approx_time_difference (time (), strtotime ("+" . $paypal["hours"] . " hours")))), $url)))
@@ -197,7 +197,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_web_accept_sp"))
 														$paypal["s2member_log"][] = "Specific Post/Page Return, a Proxy Return URL is ready.";
 													}
 												/**/
-												if ($processing && ($code = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_tracking_codes"]))
+												if ($processing && ($code = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_tracking_codes"]) && is_array ($cv = preg_split ("/\|/", $paypal["custom"])))
 													{
 														if (($code = preg_replace ("/%%cv([0-9]+)%%/ei", 'trim($cv[$1])', $code)) && ($code = preg_replace ("/%%amount%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["mc_gross"]), $code)) && ($code = preg_replace ("/%%txn_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["txn_id"]), $code)))
 															if (($code = preg_replace ("/%%item_number%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["item_number"]), $code)) && ($code = preg_replace ("/%%item_name%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($paypal["item_name"]), $code)))

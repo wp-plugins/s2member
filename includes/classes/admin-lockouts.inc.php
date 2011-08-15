@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 	{
@@ -47,10 +47,10 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 							if (apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ())) /* Give Filters a chance too. */
 								{
 									if ($special_redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
-										wp_redirect ($special_redirection_url); /* Special Redirection. */
+										wp_redirect($special_redirection_url); /* Special Redirection. */
 									/**/
 									else /* Else we use the Login Welcome Page configured for s2Member. */
-										wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
+										wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
 									/**/
 									exit (); /* Clean exit. */
 								}
@@ -80,28 +80,42 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 							if (apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ())) /* Give Filters a chance too. */
 								{
 									if ($special_redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
-										$lwp = $special_redirection_url; /* Use Special Redirection URL. */
+										$lwp = $special_redirection_url;
 									/**/
 									else /* Else we use the Login Welcome Page configured for s2Member. */
 										$lwp = get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]);
 									/**/
-									if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]) && isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-my-profile"}["href"]))
+									if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"})) /* Profile. */
 										{
-											$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = $lwp;
-											$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-my-profile"}["href"] = $lwp;
-											unset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"dashboard"});
+											if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]))
+												$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = $lwp;
+											/**/
+											if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"]))
+												$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"] = $lwp;
+											/*
+											Backward compatibility ( {"edit-my-profile"} ), prior to WordPress® 3.2. */
+											if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-my-profile"}["href"]))
+												$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-my-profile"}["href"] = $lwp;
+											/*
+											Backward compatibility ( ["children"]->{"dashboard"} ), prior to WordPress® 3.2. */
+											if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"dashboard"}))
+												unset($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"dashboard"});
 										}
 									/**/
-									if (isset ($wp_admin_bar->menu->{"my-blogs"}["href"]) && isset ($wp_admin_bar->menu->{"my-blogs"}["children"]) && is_object ($wp_admin_bar->menu->{"my-blogs"}["children"]))
+									if (isset ($wp_admin_bar->menu->{"dashboard"})) /* Dashboard menu, we don't need this. */
+										unset($wp_admin_bar->menu->{"dashboard"}); /* Removes this entire menu from the bar. */
+									/**/
+									if (isset ($wp_admin_bar->menu->{"my-blogs"}["href"])) /* Deals with multiple Blog drop-down. */
 										{
-											$wp_admin_bar->menu->{"my-blogs"}["href"] = "#"; /* Void this link by converting to #. */
+											$wp_admin_bar->menu->{"my-blogs"}["href"] = "#"; /* Void this link out by converting to `#`. */
 											/**/
-											foreach ($wp_admin_bar->menu->{"my-blogs"}["children"] as &$blog)
-												if (is_array ($blog) && isset ($blog["href"]) && isset ($blog["children"]) && is_object ($blog["children"]))
-													{
-														$blog["href"] = preg_replace ("/\/wp-admin/", "", $blog["href"]);
-														unset ($blog["children"]); /* Cause all we need is the link. */
-													}
+											if (isset ($wp_admin_bar->menu->{"my-blogs"}["children"]) && is_object ($wp_admin_bar->menu->{"my-blogs"}["children"]))
+												foreach ($wp_admin_bar->menu->{"my-blogs"}["children"] as &$blog) /* Modify other Blog links in drop-down. */
+													if (is_array ($blog) && isset ($blog["href"], $blog["children"]) && is_object ($blog["children"]))
+														{
+															$blog["href"] = preg_replace ("/\/wp-admin/", "", $blog["href"]);
+															unset($blog["children"]); /* Cause all we need is the link. */
+														}
 										}
 								}
 						/**/

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -38,7 +38,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function esc_dq ($string = FALSE)
 					{
-						return preg_replace ('/"/', '\"', (string)$string);
+						return str_replace ('"', '\"', (string)$string);
 					}
 				/**
 				* Escapes single quotes.
@@ -51,7 +51,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function esc_sq ($string = FALSE)
 					{
-						return preg_replace ("/'/", "\'", (string)$string);
+						return str_replace ("'", "\'", (string)$string);
 					}
 				/**
 				* Escapes dollars signs ( for regex patterns ).
@@ -64,7 +64,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function esc_ds ($string = FALSE)
 					{
-						return preg_replace ('/\$/', '\\\$', (string)$string);
+						return str_replace ('$', '\\$', (string)$string);
 					}
 				/**
 				* Sanitizes a string; by removing non-standard characters.

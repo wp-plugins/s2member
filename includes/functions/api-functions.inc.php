@@ -131,8 +131,15 @@ if (!function_exists ("user_is"))
 	{
 		function user_is ($id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return user_can ($id, preg_replace ("/^access_/i", "", $role));
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				/**/
+				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ($id))
+					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
+				/**/
+				else if (is_multisite () && is_super_admin ($id)) /* Else return false for Super Admins here. */
+					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
+				/**/
+				return user_can ($id, $role);
 			}
 	}
 /**
@@ -209,8 +216,7 @@ if (!function_exists ("user_is_not"))
 	{
 		function user_is_not ($id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return (!user_can ($id, preg_replace ("/^access_/i", "", $role)));
+				return (!user_is ($id, $role));
 			}
 	}
 /**
@@ -287,8 +293,15 @@ if (!function_exists ("current_user_is"))
 	{
 		function current_user_is ($role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return current_user_can (preg_replace ("/^access_/i", "", $role));
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				/**/
+				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ())
+					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
+				/**/
+				else if (is_multisite () && is_super_admin ()) /* Else return false for Super Admins here. */
+					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
+				/**/
+				return current_user_can ($role);
 			}
 	}
 /**
@@ -364,8 +377,7 @@ if (!function_exists ("current_user_is_not"))
 	{
 		function current_user_is_not ($role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return (!current_user_can (preg_replace ("/^access_/i", "", $role)));
+				return (!current_user_is ($role));
 			}
 	}
 /**
@@ -448,8 +460,15 @@ if (!function_exists ("current_user_is_for_blog"))
 	{
 		function current_user_is_for_blog ($blog_id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return current_user_can_for_blog ($blog_id, preg_replace ("/^access_/i", "", $role));
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				/**/
+				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ())
+					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
+				/**/
+				else if (is_multisite () && is_super_admin ()) /* Else return false for Super Admins here. */
+					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
+				/**/
+				return current_user_can_for_blog ($blog_id, $role);
 			}
 	}
 /**
@@ -520,8 +539,7 @@ if (!function_exists ("current_user_is_not_for_blog"))
 	{
 		function current_user_is_not_for_blog ($blog_id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : $role;
-				return (!current_user_can_for_blog ($blog_id, preg_replace ("/^access_/i", "", $role)));
+				return (!current_user_is_for_blog ($blog_id, $role));
 			}
 	}
 /**

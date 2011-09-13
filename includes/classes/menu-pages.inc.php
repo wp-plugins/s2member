@@ -75,7 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								do_action ("ws_plugin__s2member_during_update_all_options", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
-								update_option ("ws_plugin__s2member_options", $options) . update_option ("ws_plugin__s2member_cache", array ());
+								update_option ("ws_plugin__s2member_options", $options) . ((is_multisite () && is_main_site ()) ? update_site_option ("ws_plugin__s2member_options", $options) : null) . update_option ("ws_plugin__s2member_cache", array ());
 								/**/
 								if ($update_other === true || in_array ("auto_eot_system", (array)$update_other)) /* Handle the Auto-EOT System now ( enable/disable ). */
 									($options["auto_eot_system_enabled"] == 1) ? c_ws_plugin__s2member_auto_eots::add_auto_eot_system () : c_ws_plugin__s2member_auto_eots::delete_auto_eot_system ();
@@ -263,7 +263,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if (preg_match ("/" . preg_quote ($file, "/") . "$/", $GLOBALS["WS_PLUGIN__"]["s2member"]["l"]) && is_array ($links))
+						if ($file === plugin_basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]) && is_array ($links))
 							{
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
 								array_unshift ($links, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
@@ -295,9 +295,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								wp_enqueue_script ("thickbox");
 								wp_enqueue_script ("media-upload");
 								wp_enqueue_script ("jquery-ui-core");
-								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/menu-pages/jquery-json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
-								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/menu-pages/jquery-ui-effects.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
-								wp_enqueue_script ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_js=" . urlencode (mt_rand ())), array ("jquery", "thickbox", "media-upload", "jquery-json-ps", "jquery-ui-core", "jquery-ui-effects", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
+								wp_enqueue_script ("jquery-sprintf", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.sprintf/jquery.sprintf-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
+								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.json-ps/jquery.json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
+								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.ui-effects/jquery.ui-effects-min.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
+								wp_enqueue_script ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_js=" . urlencode (mt_rand ())), array ("jquery", "thickbox", "media-upload", "jquery-sprintf", "jquery-json-ps", "jquery-ui-core", "jquery-ui-effects", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								/**/
 								do_action ("ws_plugin__s2member_during_add_admin_scripts", get_defined_vars ());
 							}
@@ -431,23 +432,24 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 							mkdir ($logs_dir, 0777, true) . clearstatcache ();
 						/**/
 						$htaccess = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] . "/.htaccess";
+						$htaccess_contents = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"])));
 						/**/
 						if (is_dir ($logs_dir) && is_writable ($logs_dir) && !file_exists ($htaccess))
-							file_put_contents ($htaccess, "deny from all") . clearstatcache ();
+							file_put_contents ($htaccess, $htaccess_contents) . clearstatcache ();
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"]) /* Logging enabled? */
 							{
 								if (!is_dir ($logs_dir)) /* If the security-enabled logs directory does not exist yet. */
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ("The security-enabled logs directory ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $logs_dir)) . "</code> ) does not exist. Please create this directory manually &amp; make it writable ( chmod 777 ).", true);
+									c_ws_plugin__s2member_admin_notices::display_admin_notice ('The security-enabled logs directory ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($logs_dir)) . '</code> ) does not exist. Please create this directory manually &amp; make it writable ( chmod 777 ).', true);
 								/**/
 								else if (!is_writable ($logs_dir)) /* If the logs directory is not writable yet. */
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ("Permissions error. The security-enabled logs directory ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $logs_dir)) . "</code> ) is not writable. Please make this directory writable ( chmod 777 ).", true);
+									c_ws_plugin__s2member_admin_notices::display_admin_notice ('Permissions error. The security-enabled logs directory ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($logs_dir)) . '</code> ) is not writable. Please make this directory writable ( chmod 777 ).', true);
 								/**/
 								if (!file_exists ($htaccess)) /* If the .htaccess file has not been created yet. */
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ("The .htaccess protection file ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $htaccess)) . "</code> ) does not exist. Please create this file manually. Inside your .htaccess file, add this one line: <code>deny from all</code>.", true);
+									c_ws_plugin__s2member_admin_notices::display_admin_notice ('The .htaccess protection file ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($htaccess)) . '</code> ) does not exist. Please create this file manually. Inside your .htaccess file, add this:<br /><pre>' . esc_html ($htaccess_contents) . '</pre>', true);
 								/**/
 								else if (!preg_match ("/deny from all/i", file_get_contents ($htaccess))) /* Else if the .htaccess file does not offer the required protection. */
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ("Unprotected. The .htaccess protection file ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $htaccess)) . "</code> ) does not contain <code>deny from all</code>. Inside your .htaccess file, add this one line: <code>deny from all</code>.", true);
+									c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unprotected. The .htaccess protection file ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($htaccess)) . '</code> ) does not contain <code>deny from all</code>. Inside your .htaccess file, add this:<br /><pre>' . esc_html ($htaccess_contents) . '</pre>', true);
 							}
 						/**/
 						include_once dirname (dirname (__FILE__)) . "/menu-pages/paypal-ops.inc.php";
@@ -470,27 +472,25 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						c_ws_plugin__s2member_menu_pages::update_all_options ();
 						/**/
-						if (!($using_amazon_s3_storage = 0) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"])
-							$using_amazon_s3_storage = true; /* Amazon® S3 storage has been configured! */
-						/**/
 						$files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"];
 						/**/
 						if (!is_dir ($files_dir) && is_writable (dirname (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir))))
 							mkdir ($files_dir, 0777, true) . clearstatcache ();
 						/**/
 						$htaccess = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/.htaccess";
+						$htaccess_contents = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"])));
 						/**/
 						if (is_dir ($files_dir) && is_writable ($files_dir) && !file_exists ($htaccess))
-							file_put_contents ($htaccess, "deny from all") . clearstatcache ();
+							file_put_contents ($htaccess, $htaccess_contents) . clearstatcache ();
 						/**/
-						if (!$using_amazon_s3_storage && !is_dir ($files_dir)) /* If the security-enabled files directory does not exist yet. */
-							c_ws_plugin__s2member_admin_notices::display_admin_notice ("The security-enabled files directory ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $files_dir)) . "</code> ) does not exist. Please create this directory manually.", true);
+						if (!is_dir ($files_dir)) /* If the security-enabled files directory does not exist yet. */
+							c_ws_plugin__s2member_admin_notices::display_admin_notice ('The security-enabled files directory ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($files_dir)) . '</code> ) does not exist. Please create this directory manually.', true);
 						/**/
-						if (!$using_amazon_s3_storage && !file_exists ($htaccess)) /* If the .htaccess file has not been created yet. */
-							c_ws_plugin__s2member_admin_notices::display_admin_notice ("The .htaccess protection file ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $htaccess)) . "</code> ) does not exist. Please create this file manually. Inside your .htaccess file, add this one line: <code>deny from all</code>.", true);
+						if (!file_exists ($htaccess)) /* If the .htaccess file has not been created yet. */
+							c_ws_plugin__s2member_admin_notices::display_admin_notice ('The .htaccess protection file ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($htaccess)) . '</code> ) does not exist. Please create this file manually. Inside your .htaccess file, add this:<br /><pre>' . esc_html ($htaccess_contents) . '</pre>', true);
 						/**/
-						else if (!$using_amazon_s3_storage && !preg_match ("/deny from all/i", file_get_contents ($htaccess))) /* Else if the .htaccess file does not offer the required protection. */
-							c_ws_plugin__s2member_admin_notices::display_admin_notice ("Unprotected. The .htaccess protection file ( <code>" . esc_html (preg_replace ("/^" . preg_quote ($_SERVER["DOCUMENT_ROOT"], "/") . "/", "", $htaccess)) . "</code> ) does not contain <code>deny from all</code>. Inside your .htaccess file, add this one line: <code>deny from all</code>.", true);
+						else if (!preg_match ("/deny from all/i", file_get_contents ($htaccess))) /* Else if the .htaccess file does not offer the required protection. */
+							c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unprotected. The .htaccess protection file ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($htaccess)) . '</code> ) does not contain <code>deny from all</code>. Inside your .htaccess file, add this:<br /><pre>' . esc_html ($htaccess_contents) . '</pre>', true);
 						/**/
 						include_once dirname (dirname (__FILE__)) . "/menu-pages/down-ops.inc.php";
 						/**/
@@ -621,10 +621,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 														$ovg = (string)$_p["ws_plugin__s2member_bridge_bbpress_ovg"];
 														/**/
 														if (($file = file_get_contents (dirname (dirname (__FILE__)) . "/dropins/bridges/_s2member-bbpress-bridge.php")) && ($file = preg_replace ("/%%min%%/i", c_ws_plugin__s2member_utils_strings::esc_dq ($min), preg_replace ("/%%ovg%%/i", c_ws_plugin__s2member_utils_strings::esc_dq ($ovg), $file))) && file_put_contents ($plugins_dir . "/_s2member-bbpress-bridge.php", $file))
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ("The bbPress® Bridge/plugin has been <strong>installed successfully</strong>.");
+															c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin has been <strong>installed successfully</strong>.');
 														/**/
 														else /* Otherwise, something unexpected. The site owner will need to install the bbPress® plugin manually. */
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ("Unknown error. Please try again, or install manually.", true);
+															c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unknown error. Please try again, or install manually.', true);
 													}
 												/**/
 												else if (preg_match ("/^Un-Install/i", $_p["ws_plugin__s2member_bridge_bbpress_action"]))
@@ -632,20 +632,20 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 														if (file_exists ($plugins_dir . "/_s2member-bbpress-bridge.php"))
 															{
 																if (!unlink ($plugins_dir . "/_s2member-bbpress-bridge.php")) /* Test return value of unlink. */
-																	c_ws_plugin__s2member_admin_notices::display_admin_notice ("Unknown error. Please try again, or un-install manually.", true);
+																	c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unknown error. Please try again, or un-install manually.', true);
 																/**/
 																else /* Otherwise, everything looks good. The plugin file has been removed successfully. */
-																	c_ws_plugin__s2member_admin_notices::display_admin_notice ("The bbPress® Bridge/plugin has been successfully <strong>uninstalled</strong>.");
+																	c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin has been successfully <strong>uninstalled</strong>.');
 															}
 														else
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ("The bbPress® Bridge/plugin is already un-installed.", true);
+															c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin is already un-installed.', true);
 													}
 											}
 										else
-											c_ws_plugin__s2member_admin_notices::display_admin_notice ("The directory you specified is NOT writable. Please try again, or install manually.", true);
+											c_ws_plugin__s2member_admin_notices::display_admin_notice ('The directory you specified is NOT writable. Please try again, or install manually.', true);
 									}
 								else
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ("The directory you specified does NOT exist. Please try again, or install manually.", true);
+									c_ws_plugin__s2member_admin_notices::display_admin_notice ('The directory you specified does NOT exist. Please try again, or install manually.', true);
 							}
 						/**/
 						include_once dirname (dirname (__FILE__)) . "/menu-pages/integrations.inc.php";

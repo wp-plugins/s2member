@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 	{
@@ -42,7 +42,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 				*/
 				public static function sc_paypal_button ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_paypal_button", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -64,15 +64,15 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 						$attr["rr"] = ($attr["level"] === "*") ? "BN" : $attr["rr"]; /* Independent Ccaps require Buy Now. Only after running shortcode_atts(). */
 						$attr["ns"] = ($attr["dg"] === "1") ? "1" : $attr["ns"]; /* No shipping directive must be 1 for digital items. After shortcode_atts(). */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_paypal_button_after_shortcode_atts", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						if ($attr["cancel"]) /* This is a special routine for Cancellation Buttons. */
 							{
-								$default_image = "https://www.paypal.com/en_US/i/btn/btn_unsubscribe_LG.gif"; /* Default Image. */
+								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_unsubscribe_LG.gif";
 								/**/
-								$code = trim (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-cancellation-button.html"));
+								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-cancellation-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 								/**/
@@ -84,14 +84,14 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? $code : $code; /* Cancellation Buttons are already in anchor format; Button format is not used in Cancellations. */
 								$code = ($attr["output"] === "url") ? "https://" . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com") . "/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"]) : $code;
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_cancellation_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
 						else if ($attr["sp"]) /* This is a special routine for Specific Post/Page Buttons. */
 							{
-								$default_image = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"; /* Default Image. */
+								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
 								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
@@ -106,7 +106,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$success_return_url = site_url ("/?s2member_paypal_return=1"); /* s2Member handles this all by itself. However, it can be Filtered. */
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
-								$code = trim (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-sp-checkout-button.html"));
+								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-sp-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 								/**/
@@ -139,13 +139,13 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_sp_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						else if ($attr["level"] === "*") /* This is a special routine for Independent Custom Capabilities. */
 							{
-								$default_image = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"; /* Default Image. */
+								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
 								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
@@ -161,7 +161,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$success_return_url = site_url ("/?s2member_paypal_return=1"); /* s2Member handles this all by itself. However, it can be Filtered. */
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
-								$code = trim (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-ccaps-checkout-button.html"));
+								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-ccaps-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 								/**/
@@ -194,13 +194,13 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_ccaps_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						else /* Otherwise, we'll process this Button normally, using the Membership routines. */
 							{
-								$default_image = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"; /* Default PayPal® Image. */
+								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
 								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
@@ -221,7 +221,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$success_return_url = add_query_arg ("s2member_paypal_return_tra", urlencode (c_ws_plugin__s2member_utils_encryption::encrypt (serialize ($success_return_tra))), $success_return_url);
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
-								$code = trim (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-checkout-button.html"));
+								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 								/**/
@@ -276,7 +276,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								($attr["modify"]) ? do_action ("ws_plugin__s2member_during_sc_paypal_modification_button", get_defined_vars ())/**/
 								: do_action ("ws_plugin__s2member_during_sc_paypal_button", get_defined_vars ()); /* Else, we process normally. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */

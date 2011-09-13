@@ -15,7 +15,7 @@
 * @since 110720
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 	{
@@ -40,14 +40,14 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 				*/
 				public static function cp ($vars = array ()) /* Conditional phase for ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 					{
-						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
+						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
 						if (/**/(!empty ($paypal["txn_type"]) && preg_match ("/^web_accept$/i", $paypal["txn_type"]))/**/
 						&& (!empty ($paypal["item_number"]) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"], $paypal["item_number"]))/**/
 						&& (empty ($paypal["payment_status"]) || empty ($payment_status_issues) || !preg_match ($payment_status_issues, $paypal["payment_status"]))/**/
 						&& (!empty ($paypal["txn_id"]))/**/)
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_before_sp_access", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -85,7 +85,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 																					}
 													}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_during_sp_access", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -93,21 +93,21 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 													{
 														$paypal["s2member_log"][] = "Redirecting Customer immediately to the Specific Post/Page.";
 														/**/
-														wp_redirect ($sp_access_url); /* Immediate redirection to Specific Post/Page. */
+														wp_redirect($sp_access_url); /* Immediate redirection to Specific Post/Page. */
 													}
 												else if ($custom_success_redirection) /* Using a custom success redirection URL? */
 													{
 														$paypal["s2member_log"][] = "Redirecting Customer to a custom URL on success: " . $custom_success_redirection;
 														/**/
-														wp_redirect ($custom_success_redirection);
+														wp_redirect($custom_success_redirection);
 													}
 												else /* Else use the default return URL in this scenario, which is the Specific Post/Page. */
 													{
 														$paypal["s2member_log"][] = "Redirecting Customer to the Specific Post/Page.";
 														/**/
 														echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-														'<strong>Thank You! Your transaction has been approved.</strong>',/**/
-														"Continue ( Click Here )", $sp_access_url);
+														_x ('<strong>Thank You! Your transaction has been approved.</strong>', "s2member-front", "s2member"),/**/
+														_x ("Continue ( Click Here )", "s2member-front", "s2member"), $sp_access_url);
 													}
 											}
 										else /* Otherwise, the ID must have been invalid. Or the Post/Page was deleted. */
@@ -117,8 +117,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 												$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 												/**/
 												echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-												'<strong>ERROR:</strong> Unable to generate Access Link.<br />Please contact Support for assistance.',/**/
-												"Back To Home Page", home_url ("/"));
+												_x ('<strong>ERROR:</strong> Unable to generate Access Link.<br />Please contact Support for assistance.', "s2member-front", "s2member"),/**/
+												_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 											}
 									}
 								else /* Page Expired. Duplicate Return-Data. */
@@ -128,11 +128,11 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_web_accept_sp"))
 										$paypal["s2member_log"][] = "Page Expired. Redirecting Customer to the Home Page.";
 										/**/
 										echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-										'<strong>Page Expired:</strong> Duplicate Return-Data.<br />Please contact Support if you need any assistance.',/**/
-										"Back To Home Page", home_url ("/"));
+										_x ('<strong>Page Expired:</strong> Duplicate Return-Data.<br />Please contact Support if you need any assistance.', "s2member-front", "s2member"),/**/
+										_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_after_sp_access", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/

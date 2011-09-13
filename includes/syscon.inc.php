@@ -18,13 +18,25 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
+/*
+Determine the directory.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir"] = dirname (dirname (__FILE__));
+/*
+Determine the base directory name.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_base"] = basename (dirname (dirname (__FILE__)));
 /*
 Determine the full URL to the directory this plugin resides in.
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] = (stripos (__FILE__, WP_CONTENT_DIR) !== 0) ? /* Have to assume plugins dir? */
 plugins_url ("/" . basename (dirname (dirname (__FILE__)))) : /* Otherwise, this gives it a chance to live anywhere in the content dir. */
 content_url (preg_replace ("/^(.*?)\/" . preg_quote (basename (WP_CONTENT_DIR), "/") . "/", "", str_replace (DIRECTORY_SEPARATOR, "/", dirname (dirname (__FILE__)))));
+/*
+Determine full URL to the s2Member-only file that loads WordPress® with only s2Member active.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/" . preg_replace ("/\.php$/", "-o.php", basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]));
 /*
 Configure the number of Membership Levels being used with s2Member. This is NOT ready ( yet ). Some areas of s2Member are still hard-coded at 4 Levels + Subscribers.
 */
@@ -42,17 +54,23 @@ Configure regular expression match for Specific Post/Page Access Item Numbers ( 
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"] = "/^(sp)(?:(?:\:([1-9][0-9,]*))(?:\:([1-9][0-9]*)))$/";
 /*
-Configure the directory for files protected by s2Member.
+Configure multibyte detection order when charset is unknown ( used by calls to `mb_convert_encoding()` ).
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters ("ws_plugin__s2member_files_dir", dirname (dirname (__FILE__)) . "-files" . ((preg_match ("/^win/i", PHP_OS)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["mb_detection_order"] = "UTF-8, ISO-8859-1, WINDOWS-1252, ASCII, JIS, EUC-JP, SJIS";
+/*
+Configure directory and .htaccess for files protected by s2Member.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters ("ws_plugin__s2member_files_dir", dirname (dirname (__FILE__)) . "-files" . ((stripos (PHP_OS, "win") === 0 && (!function_exists ("apache_get_version") || apache_get_version () === false)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"] = dirname (__FILE__) . "/templates/cfg-files/s2member-files.php";
 /*
 Configure the directory for logs protected by s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters ("ws_plugin__s2member_logs_dir", dirname (dirname (__FILE__)) . "-logs" . ((preg_match ("/^win/i", PHP_OS)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters ("ws_plugin__s2member_logs_dir", dirname (dirname (__FILE__)) . "-logs" . ((stripos (PHP_OS, "win") === 0 && (!function_exists ("apache_get_version") || apache_get_version () === false)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"] = dirname (__FILE__) . "/templates/cfg-files/s2member-logs.php";
 /*
 Configure the global reCaptcha for ( www.s2-all-domains.com ). These public/private keys work on any installation.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"] = array ("public_key" => "6LdxxcESAAAAANL7vrhz2glFIhmLGY58hXOhGkE0", "private_key" => "6LdxxcESAAAAAOlXATQTR75735n0eSIcOnp4GeNd", "lang" => "en");
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"] = array ("public_key" => "6LdxxcESAAAAANL7vrhz2glFIhmLGY58hXOhGkE0", "private_key" => "6LdxxcESAAAAAOlXATQTR75735n0eSIcOnp4GeNd", "lang" => _x ("en", "s2member-front recaptcha-lang-code", "s2member"));
 /*
 Configure the right menu options panel for s2Member.
 */
@@ -113,16 +131,19 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["custom_reg_names"] = "1";
 				$default_options["custom_reg_display_name"] = "full";
 				$default_options["custom_reg_password"] = "0";
+				/**/
 				$default_options["custom_reg_opt_in"] = "1";
-				$default_options["custom_reg_opt_in_label"] = "Yes, I want to receive updates via email.";
+				$default_options["custom_reg_opt_in_label"] = _x ("Yes, I want to receive updates via email.", "s2member-front", "s2member");
+				/**/
 				$default_options["custom_reg_auto_opt_outs"] = array ();
 				$default_options["custom_reg_auto_opt_out_transitions"] = "0";
+				/**/
 				$default_options["custom_reg_fields_4bp"] = array ();
 				$default_options["custom_reg_force_personal_emails"] = "";
 				/**/
 				$default_options["allow_subscribers_in"] = "0";
 				$default_options["force_admin_lockouts"] = "0";
-				$default_options["filter_wp_query"] = "none";
+				$default_options["filter_wp_query"] = array ();
 				/**/
 				$default_options["mms_auto_patch"] = "1";
 				$default_options["mms_registration_file"] = "wp-login";
@@ -160,12 +181,12 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				/**/
 				$default_options["new_user_emails_enabled"] = "0";
 				/**/
-				$default_options["new_user_email_subject"] = "[" . get_bloginfo ("name") . "] Username/Password";
-				$default_options["new_user_email_message"] = "Your Username/Password for:\n" . get_bloginfo ("name") . "\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%";
+				$default_options["new_user_email_subject"] = sprintf (_x ("[%s] Username/Password", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["new_user_email_message"] = sprintf (_x ("Your Username/Password for:\n%s\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["new_user_admin_email_recipients"] = get_bloginfo ("admin_email");
-				$default_options["new_user_admin_email_subject"] = "[" . get_bloginfo ("name") . "] New User Registration";
-				$default_options["new_user_admin_email_message"] = "New User Registration on your site:\n" . get_bloginfo ("name") . "\n\nUser ID: %%user_id%%\nUsername: %%user_login%%\nEmail: %%user_email%%\nIP Address: %%user_ip%%";
+				$default_options["new_user_admin_email_subject"] = sprintf (_x ("[%s] New User Registration", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["new_user_admin_email_message"] = sprintf (_x ("New User Registration on your site:\n%s\n\nUser ID: %%user_id%%\nUsername: %%user_login%%\nEmail: %%user_email%%\nIP Address: %%user_ip%%", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["paypal_sandbox"] = "0";
 				$default_options["paypal_business"] = "";
@@ -181,12 +202,12 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["sp_tracking_codes"] = "";
 				/**/
 				$default_options["signup_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
-				$default_options["signup_email_subject"] = "Congratulations! ( your membership has been approved )";
-				$default_options["signup_email_message"] = "Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
+				$default_options["signup_email_subject"] = _x ("Congratulations! ( your membership has been approved )", "s2member-front", "s2member");
+				$default_options["signup_email_message"] = sprintf (_x ("Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["sp_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
-				$default_options["sp_email_subject"] = "Thank You! ( instructions for access )";
-				$default_options["sp_email_message"] = "Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n" . get_bloginfo ("name");
+				$default_options["sp_email_subject"] = _x ("Thank You! ( instructions for access )", "s2member-front", "s2member");
+				$default_options["sp_email_message"] = sprintf (_x ("Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["mailchimp_api_key"] = "";
 				/**/
@@ -216,8 +237,8 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["sp_sale_notification_recipients"] = "";
 				$default_options["sp_ref_rev_notification_recipients"] = "";
 				/**/
-				for ($n = 0, $l = array ("Free Subscriber", "Bronze Member", "Silver Member", "Gold Member", "Platinum Member"); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level" . $n . "_label"] = (!empty ($l[$n])) ? $l[$n] : "Level " . $n . " Member";
+				for ($n = 0, $l = array (_x ("Free Subscriber", "s2member-front", "s2member"), _x ("Bronze Member", "s2member-front", "s2member"), _x ("Silver Member", "s2member-front", "s2member"), _x ("Gold Member", "s2member-front", "s2member"), _x ("Platinum Member", "s2member-front", "s2member")); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+					$default_options["level" . $n . "_label"] = (!empty ($l[$n])) ? $l[$n] : sprintf (_x ("Level %s Member", "s2member-front", "s2member"), $n);
 				/**/
 				$default_options["apply_label_translations"] = "0";
 				/**/
@@ -266,32 +287,36 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				*/
 				$GLOBALS["WS_PLUGIN__"]["s2member"]["o"] = array_merge ($default_options, (($options !== false) ? (array)$options : (array)get_option ("ws_plugin__s2member_options")));
 				/**/
-				/* Backward compatibility for PayPal® API Credentials. Starting with v3.5+, this info is stored by the free version of s2Member. */
-				if (!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_username"])
-					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_username"];
-				/**/
-				if (!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_password"])
-					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_password"];
-				/**/
-				if (!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_signature"])
-					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_signature"];
+				/* Back compatibility for `filter_wp_query`. Changed in v110912 to array. */
+				if (is_string ($_ov = &$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["filter_wp_query"]))
+					$_ov = (!$_ov || $_ov === "none") ? $default_options["filter_wp_query"] : array_unique (preg_split ("/[;,\r\n\t\s ]+/", $_ov));
 				/**/
 				/* Backward compatibility for old logo image width of 500 pixels. Changed in v110604. */
 				if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"] === $default_options["login_reg_logo_src"])
 					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_width"] = $default_options["login_reg_logo_src_width"];
+				/**/
+				/* Backward compatibility for PayPal® API Credentials. Starting with v3.5+, this info is stored by the free version of s2Member. */
+				if (empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_username"]))
+					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_username"];
+				/**/
+				if (empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_password"]))
+					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_password"];
+				/**/
+				if (empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_signature"]))
+					$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_paypal_api_signature"];
 				/*
 				This builds an MD5 checksum for the full array of options. This also includes the config checksum and the current set of default options. 
 				*/
 				$checksum = md5 (($checksum_prefix = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["checksum"] . serialize ($default_options)) . serialize (array_merge ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"], array ("options_checksum" => 0))));
 				/*
-				Validate each option, possibly reverting back to the default value in some cases.
+				Validate each option, possibly reverting back to the default value in some cases. This is only processed when/if the checksum is not up-to-date.
 				*/
 				if ($options !== false || ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["options_checksum"] !== $checksum && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"] !== $default_options))
 					{
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
@@ -362,7 +387,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "force_admin_lockouts" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "filter_wp_query" && (!is_string ($value) || !preg_match ("/^(none|searches|feeds|searches,feeds|all)$/", $value)))
+								else if ($key === "filter_wp_query" && !is_array ($value)) /* Array CAN be empty. */
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "login_welcome_page" && (!is_string ($value) || !is_numeric ($value)))

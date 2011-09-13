@@ -63,32 +63,32 @@ if (!class_exists ("c_ws_plugin__s2member_register_in"))
 																/**/
 																do_action ("ws_plugin__s2member_during_register", get_defined_vars ());
 																/**/
-																if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
+																if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site () && ($location = c_ws_plugin__s2member_utils_urls::wp_signup_url ()))
 																	{
 																		echo '<script type="text/javascript">' . "\n";
-																		echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . "';";
+																		echo "window.location = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($location) . "';";
 																		echo '</script>' . "\n";
 																	}
-																else /* Otherwise, this is NOT a Multisite install. Or it is, but the Super Admin is NOT selling Blogs. */
+																else if (($location = c_ws_plugin__s2member_utils_urls::wp_register_url ()))
 																	{
 																		echo '<script type="text/javascript">' . "\n";
-																		echo "window.location = '" . esc_js (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . "';";
+																		echo "window.location = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($location) . "';";
 																		echo '</script>' . "\n";
 																	}
 															}
 														else
-															echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
+															echo _x ('<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 													}
 												else
-													echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
+													echo _x ('<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 											}
 										else
-											echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
+											echo _x ('<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 									}
 								else
-									echo '<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.';
+									echo _x ('<strong>Your Link Expired:</strong><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 								/**/
-								exit (); /* Clean exit. This is always the case with `$_GET["s2member_register"]`. */
+								exit (); /* Clean exit. This is always the case with ``$_GET["s2member_register"]``. */
 							}
 						/**/
 						do_action ("ws_plugin__s2member_after_register", get_defined_vars ());

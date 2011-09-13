@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 	{
@@ -48,9 +48,13 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 								/**/
 								do_action ("ws_plugin__s2member_during_delete_tracking_cookie", get_defined_vars ());
 								/**/
-								header("Content-Type: image/png"); /* Send a 1px transparent PNG image to browser. */
+								@ini_set ("zlib.output_compression", 0); /* Turn off. */
 								/**/
-								exit(file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
+								status_header (200); /* Send a 200 OK status header. */
+								header ("Content-Type: image/png"); /* Send 1px trans PNG. */
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
+								/**/
+								exit (file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
 							}
 						/**/
 						do_action ("ws_plugin__s2member_after_delete_tracking_cookie", get_defined_vars ());
@@ -76,9 +80,13 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 								/**/
 								do_action ("ws_plugin__s2member_during_delete_sp_tracking_cookie", get_defined_vars ());
 								/**/
-								header("Content-Type: image/png"); /* Send a 1px transparent PNG image to browser. */
+								@ini_set ("zlib.output_compression", 0);
 								/**/
-								exit(file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
+								status_header (200); /* Send a 200 OK status header. */
+								header ("Content-Type: image/png"); /* Send 1px trans PNG. */
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
+								/**/
+								exit (file_get_contents (dirname (dirname (dirname (__FILE__))) . "/images/trans-1px.png"));
 							}
 						/**/
 						do_action ("ws_plugin__s2member_after_delete_sp_tracking_cookie", get_defined_vars ());

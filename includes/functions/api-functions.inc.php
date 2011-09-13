@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**
 * Conditional to determine if the current User is NOT logged in.
 *
@@ -1866,7 +1866,7 @@ if (!function_exists ("detach_s2member_query_filters"))
 * ```
 * ———— Shortcode Equivalent ————
 * ```
-* There is NO Shortcode equivalent for this ( yet ).
+* [s2Key file_download="file.zip" directive="" /]
 * ```
 *
 * This API Funtion produces a time-sensitive File Download Key that is unique to each and every visitor.
@@ -1889,7 +1889,6 @@ if (!function_exists ("detach_s2member_query_filters"))
 * 	It is also possible to pass in the $directive string `ip-forever`, making the Key last forever, but only for a specific IP address.
 * @return str The File Download Key. Which is an MD5 hash *( always 32 characters )*, URL-safe.
 *
-* @todo Create a Shortcode equivalent.
 * @todo Allow custom expiration times.
 */
 if (!function_exists ("s2member_file_download_key"))
@@ -2134,6 +2133,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * @param int $user_id Optional. Defaults to the current User's ID.
 * @return mixed The value of the requested field, or false if the field does not exist.
 *
+* @see s2Member\API_Functions\get_s2member_custom_fields()
 * @see s2Member\API_Functions\s2member_registration_time()
 * @see s2Member\API_Functions\s2member_paid_registration_time()
 *
@@ -2146,6 +2146,62 @@ if (!function_exists ("get_user_field"))
 		function get_user_field ($field_id = FALSE, $user_id = FALSE)
 			{
 				return c_ws_plugin__s2member_utils_users::get_user_field ($field_id, $user_id);
+			}
+	}
+/**
+* Custom Registration Field configuration.
+*
+* Provides information about the configuration of each Custom Registration/Profile Field.
+* Returns an associative array with all Custom Field configurations *( and User values too, if ``$user_id`` is passed in )*.
+*
+* ———— PHP Code Sample ————
+* ```
+* <!php
+* $fields = get_s2member_custom_fields();
+* print_r($fields["my_field_id"]["config"]); # The Unique Field ID you configured with s2Member.
+* !>
+* ```
+* ———— PHP Code Sample ( Specific User ) ————
+* ```
+* <!php
+* $fields = get_s2member_custom_fields(123);
+* echo $fields["my_field_id"]["user_value"]; # The Unique Field ID you configured with s2Member.
+* print_r($fields["my_field_id"]["config"]); # The Unique Field ID you configured with s2Member.
+* !>
+* ```
+* ———— Shortcode Alternative ( Specific User ) ————
+* ```
+* [s2Get user_field="my_field_id" /] # The Unique Field ID you configured with s2Member.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 110912
+*
+* @param int|str $user_id Optional. If supplied, the `user_value` for each Custom Field will be included too.
+* @return array An associative array with all Custom Field configurations *( and User values too, if ``$user_id`` is supplied )*.
+*
+* @see s2Member\API_Functions\get_user_field()
+* @see s2Member\API_Functions\s2member_registration_time()
+* @see s2Member\API_Functions\s2member_paid_registration_time()
+*
+* @see http://codex.wordpress.org/Function_Reference/get_user_option get_user_option()
+* @see http://codex.wordpress.org/Function_Reference/update_user_option update_user_option()
+* @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
+*/
+if (!function_exists ("get_s2member_custom_fields"))
+	{
+		function get_s2member_custom_fields ($user_id = FALSE)
+			{
+				$fields = ($user_id) ? get_user_option ("s2member_custom_fields", $user_id) : false;
+				/**//**/
+				foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
+					{
+						if ($user_id) /* Should we try to fill the User's value for this Custom Field? */
+							$s2member_custom_fields[$field["id"]]["user_value"] = (isset ($fields[$field["id"]])) ? $fields[$field["id"]] : false;
+						$s2member_custom_fields[$field["id"]]["config"] = $field; /* Copy configuration into config element. */
+					}
+				/**/
+				return (isset ($s2member_custom_fields)) ? (array)$s2member_custom_fields : array ();
 			}
 	}
 /**

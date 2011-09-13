@@ -59,8 +59,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 						$theme = ($theme) ? $theme : "clean"; /* Defaults to the `clean` theme style. */
 						$tabindex = (strlen ($tabindex)) ? (int)$tabindex : -1; /* -1 default. */
 						/**/
-						$options = '<script type="text/javascript">' . "if(typeof RecaptchaOptions !== 'object'){ var RecaptchaOptions = {theme: '" . c_ws_plugin__s2member_utils_strings::esc_sq ($theme) . "', lang: '" . c_ws_plugin__s2member_utils_strings::esc_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["lang"]) . "', tabindex: " . $tabindex . " }; }" . '</script>' . "\n";
-						$adjustments = '<script type="text/javascript">' . "if(typeof jQuery === 'function'){ jQuery('td a[id^=\"recaptcha\"]').removeAttr('tabindex'); }" . '</script>';
+						$options = '<script type="text/javascript">' . "if(typeof RecaptchaOptions !== 'object'){ var RecaptchaOptions = {theme: '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($theme) . "', lang: '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["lang"]) . "', tabindex: " . $tabindex . " }; }" . '</script>' . "\n";
+						$no_tabindex_icons = '<script type="text/javascript">' . "if(typeof jQuery === 'function'){ jQuery('td a[id^=\"recaptcha\"]').removeAttr('tabindex'); }" . '</script>';
+						$adjustments = (!apply_filters ("c_ws_plugin__s2member_utils_tabindex_recaptcha_icons", false, get_defined_vars ())) ? $no_tabindex_icons : "";
 						/**/
 						return $options . '<script type="text/javascript" src="' . esc_attr ('https://www.google.com/recaptcha/api/challenge?k=' . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["public_key"])) . '' . (($error) ? '&amp;error=' . urlencode ($error) : '') . '"></script>' . $adjustments;
 					}

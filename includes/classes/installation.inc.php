@@ -43,7 +43,6 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 						do_action ("ws_plugin__s2member_before_activation", get_defined_vars ());
 						/**/
 						c_ws_plugin__s2member_roles_caps::config_roles (); /* Config Roles/Caps. */
-						/**/
 						update_option ("ws_plugin__s2member_activated_levels", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]);
 						/**/
 						if (!is_dir ($files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]))
@@ -51,25 +50,25 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								mkdir ($files_dir, 0777, true);
 						/**/
 						if (is_dir ($files_dir) && is_writable ($files_dir))
-							if (!file_exists ($htaccess = $files_dir . "/.htaccess"))
-								file_put_contents ($htaccess, "deny from all");
+							if (!file_exists ($htaccess = $files_dir . "/.htaccess") || !apply_filters ("ws_plugin__s2member_preserve_files_dir_htaccess", false, get_defined_vars ()))
+								file_put_contents ($htaccess, trim (c_ws_plugin__s2member_utilities::evl (file_get_contents ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"]))));
 						/**/
 						if (!is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 							if (is_writable (dirname (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($logs_dir))))
 								mkdir ($logs_dir, 0777, true);
 						/**/
 						if (is_dir ($logs_dir) && is_writable ($logs_dir))
-							if (!file_exists ($htaccess = $logs_dir . "/.htaccess"))
-								file_put_contents ($htaccess, "deny from all");
+							if (!file_exists ($htaccess = $logs_dir . "/.htaccess") || !apply_filters ("ws_plugin__s2member_preserve_logs_dir_htaccess", false, get_defined_vars ()))
+								file_put_contents ($htaccess, trim (c_ws_plugin__s2member_utilities::evl (file_get_contents ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"]))));
 						/**/
 						(!is_array (get_option ("ws_plugin__s2member_cache"))) ? update_option ("ws_plugin__s2member_cache", array ()) : null;
 						(!is_array (get_option ("ws_plugin__s2member_notices"))) ? update_option ("ws_plugin__s2member_notices", array ()) : null;
 						(!is_array (get_option ("ws_plugin__s2member_options"))) ? update_option ("ws_plugin__s2member_options", array ()) : null;
 						(!is_numeric (get_option ("ws_plugin__s2member_configured"))) ? update_option ("ws_plugin__s2member_configured", "0") : null;
 						/**/
-						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["configured"]) /* If already configured, we are re-activating. */
+						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["configured"]) /* If we are re-activating. */
 							{
-								$v = get_option ("ws_plugin__s2member_activated_version");
+								$v = get_option ("ws_plugin__s2member_activated_version"); /* Currently. */
 								/**/
 								if (!$v || !version_compare ($v, "3.2", ">=")) /* Needs to be upgraded? */
 									/* Version 3.2 is where `meta_key` names were changed. They're prefixed now. */
@@ -90,28 +89,22 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 										$wpdb->query ("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 's2member_ccaps_req' AND `meta_value` IN('','a:0:{}','a:1:{i:0;s:0:\"\";}')");
 									}
 								/**/
-								if (!$v || !version_compare ($v, "3.5", ">=")) /* Needs to be notified about Screen Options? */
-									/* Version 3.5 introduced a dismissal message regarding Screen Options in the list of Users/Members. */
+								if (!$v || !version_compare ($v, "110912", ">=") && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["filter_wp_query"] === array ("all"))
+									/* s2Member v110912 changed the way the "all" option for Alternative Views was handled. */
 									{
-										$notice = '<strong>Note:</strong> s2Member adds some new data columns to your list of Users/Members. If your list gets overcrowded, please use the <strong>Screen Options</strong> tab <em>( upper right-hand corner )</em>. With WordPress® Screen Options, you can add/remove specific data columns; thereby making the most important data easier to read. For example, if you create Custom Registration Fields with s2Member, those Custom Fields will result in new data columns; which can cause your list of Users/Members to become nearly unreadable. So just use the Screen Options tab to clean things up.';
-										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, "blog:users.php", false, false, true);
+										$notice = '<strong>IMPORTANT:</strong> This version of s2Member® changes the way your <code>Alternative View Protections</code> work. Please review your options under: <code>s2Member -> Restriction Options -> Alternative View Protections</code>.<br />';
+										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 									}
 								/**/
 								$notice = '<strong>s2Member</strong> has been <strong>reactivated</strong>, with ' . (($reactivation_reason === "levels") ? '<code>' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) . '</code> Membership Levels' : 'the latest version') . '.<br />';
 								$notice .= 'You now have version ' . esc_html (WS_PLUGIN__S2MEMBER_VERSION) . '. Your existing configuration remains.';
 								/**/
-								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) /* No Changelog on a Multisite Farm. */
+								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) /* No Changelog on a Multisite Blog Farm. */
 									$notice .= '<br />Have fun, <a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-info#rm-changelog")) . '">read the Changelog</a>, and make some money! :-)';
 								/**/
 								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
-								/**/
-								if (preg_match ("/^win/i", PHP_OS) && is_dir (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir)) && count (scandir (c_ws_plugin__s2member_utils_dirs::strip_dir_app_data ($files_dir))) > 4)
-									{
-										$notice = '<strong>Windows® Server ( NOTICE ):</strong> Your protected files MUST be moved to the <code>/app_data</code> sub-directory. For further details, see: <code>s2Member -> Download Options -> Basic</code>.';
-										c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"), true);
-									}
 							}
-						else /* Otherwise, (initial activation); we'll help the Site Owner out by giving them a link to the Quick Start Guide. */
+						else /* Otherwise (initial activation); we'll help the Site Owner out by giving them a link to the Quick Start Guide. */
 							{
 								$notice = '<strong>Note:</strong> s2Member adds some new data columns to your list of Users/Members. If your list gets overcrowded, please use the <strong>Screen Options</strong> tab <em>( upper right-hand corner )</em>. With WordPress® Screen Options, you can add/remove specific data columns; thereby making the most important data easier to read. For example, if you create Custom Registration Fields with s2Member, those Custom Fields will result in new data columns; which can cause your list of Users/Members to become nearly unreadable. So just use the Screen Options tab to clean things up.';
 								/**/
@@ -123,17 +116,11 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 							}
 						/**/
-						update_option ("ws_plugin__s2member_activated_version", WS_PLUGIN__S2MEMBER_VERSION); /* Mark version. */
-						/**/
-						if (is_multisite () && is_main_site ()) /* Network activation routines. A few quick adjustments. */
+						if (is_multisite () && is_main_site ()) /* Network activation routines. */
 							{
 								foreach ((array)($users = $wpdb->get_results ("SELECT `ID` FROM `" . $wpdb->users . "`")) as $user)
-									{
-										/* Here we convert everyone already in the system; without a point of origin.
-											This will set their point of origin to the Main Site. */
-										if (!($originating_blog = get_user_meta ($user->ID, "s2member_originating_blog", true)))
-											update_user_meta ($user->ID, "s2member_originating_blog", $current_site->blog_id);
-									}
+									if (!($originating_blog = get_user_meta ($user->ID, "s2member_originating_blog", true)))
+										update_user_meta ($user->ID, "s2member_originating_blog", $current_site->blog_id);
 								/**/
 								$notice = '<strong>Multisite Network</strong> updated automatically by <strong>s2Member</strong> v' . esc_html (WS_PLUGIN__S2MEMBER_VERSION) . '.<br />';
 								$notice .= 'You\'ll want to configure s2Member\'s Multisite options now.<br />';
@@ -142,8 +129,12 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								/**/
 								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, array ("blog|network:plugins.php", "blog|network:ws-plugin--s2member-start", "blog|network:ws-plugin--s2member-mms-ops", "blog|network:ws-plugin--s2member-gen-ops", "blog|network:ws-plugin--s2member-res-ops"));
 								/**/
+								update_site_option ("ws_plugin__s2member_options", (array)get_option ("ws_plugin__s2member_options"));
+								/**/
 								update_option ("ws_plugin__s2member_activated_mms_version", WS_PLUGIN__S2MEMBER_VERSION);
 							}
+						/**/
+						update_option ("ws_plugin__s2member_activated_version", WS_PLUGIN__S2MEMBER_VERSION);
 						/**/
 						do_action ("ws_plugin__s2member_after_activation", get_defined_vars ());
 						/**/
@@ -194,6 +185,9 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 								delete_option("ws_plugin__s2member_activated_levels");
 								delete_option("ws_plugin__s2member_activated_version");
 								delete_option("ws_plugin__s2member_activated_mms_version");
+								/**/
+								if (is_multisite () && is_main_site ()) /* Site options? */
+									delete_site_option("ws_plugin__s2member_options");
 								/**/
 								$wpdb->query ("DELETE FROM `" . $wpdb->options . "` WHERE `option_name` LIKE '%" . esc_sql (like_escape ("s2member_")) . "%'");
 								$wpdb->query ("DELETE FROM `" . $wpdb->options . "` WHERE `option_name` LIKE '" . esc_sql (like_escape ("_transient_s2m_")) . "%'");

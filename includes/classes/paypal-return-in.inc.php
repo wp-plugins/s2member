@@ -87,8 +87,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																		$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 																		/**/
 																		echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-																		'<strong>ERROR:</strong> Unexpected <code>txn_type/status</code>.<br />The <code>txn_type/status</code> did not meet requirements.<br />Please contact Support for assistance.',/**/
-																		"Back To Home Page", home_url ("/"));
+																		_x ('<strong>ERROR:</strong> Unexpected <code>txn_type/status</code>.<br />The <code>txn_type/status</code> did not meet requirements.<br />Please contact Support for assistance.', "s2member-front", "s2member"),/**/
+																		_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 																	}
 															}
 														else /* Else a custom conditional has been applied by filters. */
@@ -101,8 +101,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 														$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 														/**/
 														echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-														'<strong>ERROR:</strong> Unable to verify <code>$_SERVER["HTTP_HOST"]</code>.<br />Please contact Support for assistance.<br /><br />If you are the site owner, please check the <code>custom</code> value in your Button Code. It MUST start with your domain name.',/**/
-														"Back To Home Page", home_url ("/"));
+														_x ('<strong>ERROR:</strong> Unable to verify <code>$_SERVER["HTTP_HOST"]</code>.<br />Please contact Support for assistance.<br /><br />If you are the site owner, please check the <code>custom</code> value in your Button Code. It MUST start with your domain name.', "s2member-front", "s2member"),/**/
+														_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 													}
 											}
 										else /* In this case ... a Proxy has explicitly requested `ty-email` processing. */
@@ -129,8 +129,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 										$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 										/**/
 										echo c_ws_plugin__s2member_return_templates::return_template ("default",/**/
-										'<strong>ERROR:</strong> Unable to verify <code>$_POST</code> vars.<br />Please contact Support for assistance.<br /><br />This is most likely related to an invalid configuration of s2Member, or a problem with server compatibility. If you are the site owner, and you\'re absolutely SURE that your configuration is valid, you may want to run some tests on your server, just to be sure <code>$_POST</code> variables are populated, and that your server is able to connect/communicate with your Payment Gateway over an HTTPS connection.<br /><br />s2Member uses the <code>WP_Http</code> class for remote connections; which will try to use <code>cURL</code> first, and then fall back on the <code>FOPEN</code> method when <code>cURL</code> is not available. On a Windows® server, you may have to disable your <code>cURL</code> extension; and instead, set <code>allow_url_fopen = yes</code> in your php.ini file. The <code>cURL</code> extension (usually) does NOT support SSL connections on a Windows® server.<br /><br />Please see <a href="http://www.primothemes.com/forums/viewtopic.php?f=36&t=2636" target="_blank">this thread</a> for details regarding the ideal server configuration for s2Member.',/**/
-										"Back To Home Page", home_url ("/"));
+										_x ('<strong>ERROR:</strong> Unable to verify <code>$_POST</code> vars.<br />Please contact Support for assistance.<br /><br />This is most likely related to an invalid configuration of s2Member, or a problem with server compatibility. If you are the site owner, and you\'re absolutely SURE that your configuration is valid, you may want to run some tests on your server, just to be sure <code>$_POST</code> variables are populated, and that your server is able to connect/communicate with your Payment Gateway over an HTTPS connection.<br /><br />s2Member uses the <code>WP_Http</code> class for remote connections; which will try to use <code>cURL</code> first, and then fall back on the <code>FOPEN</code> method when <code>cURL</code> is not available. On a Windows® server, you may have to disable your <code>cURL</code> extension; and instead, set <code>allow_url_fopen = yes</code> in your php.ini file. The <code>cURL</code> extension (usually) does NOT support SSL connections on a Windows® server.<br /><br />Please see <a href="http://www.primothemes.com/forums/viewtopic.php?f=36&t=2636" target="_blank">this thread</a> for details regarding the ideal server configuration for s2Member.', "s2member-front", "s2member"),/**/
+										_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 									}
 								/*
 								Add RTN proxy ( when available ) to the ``$paypal`` array.

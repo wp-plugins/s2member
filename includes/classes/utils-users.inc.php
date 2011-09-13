@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 	{
@@ -44,8 +44,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 						/**/
 						$users = (int)mysql_result ($q2, 0);
 						/**/
-						mysql_free_result ($q2);
-						mysql_free_result ($q1);
+						mysql_free_result($q2);
+						mysql_free_result($q1);
 						/**/
 						return $users;
 					}
@@ -144,7 +144,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 						return false; /* Otherwise, return false. */
 					}
 				/**
-				* Retrieves IPN signup vars & validates their Subscription ID.
+				* Retrieves IPN Signup Vars & validates their Subscription ID.
 				*
 				* The ``$user_id`` can be passed in directly; or a lookup can be performed with ``$subscr_id``.
 				*
@@ -165,6 +165,31 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 									if (is_array ($ipn_signup_vars = get_user_option ("s2member_ipn_signup_vars", $user_id)))
 										if ($ipn_signup_vars["subscr_id"] === $subscr_id)
 											return $ipn_signup_vars;
+							}
+						/**/
+						return false; /* Otherwise, return false. */
+					}
+				/**
+				* Retrieves IPN Signup Var & validates their Subscription ID.
+				*
+				* The ``$user_id`` can be passed in directly; or a lookup can be performed with ``$subscr_id``.
+				*
+				* @package s2Member\Utilities
+				* @since 110912
+				*
+				* @param str $var Required. The requested Signup Var.
+				* @param int|str $user_id Optional. A numeric WordPress® User ID.
+				* @param str $subscr_id Optional. Can be used instead of passing in a ``$user_id``.
+				* 	If ``$subscr_id`` is passed in, it has to match the one found inside the resulting IPN Signup Vars collected by this routine.
+				* 	If neither of these parameters are passed in, the current User is assumed instead, obtained through ``wp_get_current_user()``.
+				* @return mixed|bool A User's IPN Signup Var on success, else false on failure.
+				*/
+				public static function get_user_ipn_signup_var ($var = FALSE, $user_id = FALSE, $subscr_id = FALSE)
+					{
+						if (!empty ($var) && is_array ($user_ipn_signup_vars = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_vars ($user_id, $subscr_id)))
+							{
+								if (isset ($user_ipn_signup_vars[$var])) /* Available? */
+									return $user_ipn_signup_vars[$var];
 							}
 						/**/
 						return false; /* Otherwise, return false. */

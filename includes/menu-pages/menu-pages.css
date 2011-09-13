@@ -59,7 +59,7 @@ div.ws-menu-page div.ws-menu-page-hr
 div.ws-menu-page .ws-menu-page-hilite
 	{
 		font-size: 102%;
-		background: #FFFEEB;
+		background: #FAF9BB;
 	}
 div.ws-menu-page .ws-menu-page-error
 	{
@@ -392,6 +392,7 @@ div.ws-menu-page-readme > div.readme > div.section > div.content ol
 Specifically for the right sidebar panel.
 These CSS selectors address common layout styles.
 */
+td.ws-menu-page-table-r div.ws-menu-page-js-c-w,
 td.ws-menu-page-table-r div.ws-menu-page-mlist,
 td.ws-menu-page-table-r div.ws-menu-page-installation,
 td.ws-menu-page-table-r div.ws-menu-page-tools,
@@ -413,6 +414,17 @@ td.ws-menu-page-table-r div.ws-menu-page-others img
 		border: 0;
 		width: 200px;
 		height: auto;
+	}
+td.ws-menu-page-table-r div.ws-menu-page-js-c-w
+	{
+		width: 178px;
+		padding: 10px;
+		background: #FFF5F7;
+		text-align: justify;
+		border: 1px solid #FA4D4D;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
 	}
 /*
 Specifically for the right sidebar panel.

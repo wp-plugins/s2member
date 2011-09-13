@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -34,11 +34,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @since 3.5
 				*
 				* @param str $string Input string.
+				* @param int $times Mumber of escapes. Defaults to 1.
 				* @return str Output string after double quotes are escaped.
 				*/
-				public static function esc_dq ($string = FALSE)
+				public static function esc_dq ($string = FALSE, $times = FALSE)
 					{
-						return str_replace ('"', '\"', (string)$string);
+						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						return str_replace ('"', str_repeat ("\\", $times) . '"', (string)$string);
 					}
 				/**
 				* Escapes single quotes.
@@ -47,11 +49,28 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @since 3.5
 				*
 				* @param str $string Input string.
+				* @param int $times Mumber of escapes. Defaults to 1.
 				* @return str Output string after single quotes are escaped.
 				*/
-				public static function esc_sq ($string = FALSE)
+				public static function esc_sq ($string = FALSE, $times = FALSE)
 					{
-						return str_replace ("'", "\'", (string)$string);
+						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						return str_replace ("'", str_repeat ("\\", $times) . "'", (string)$string);
+					}
+				/**
+				* Escapes JavaScript and single quotes.
+				*
+				* @package s2Member\Utilities
+				* @since 110901
+				*
+				* @param str $string Input string.
+				* @param int $times Mumber of escapes. Defaults to 1.
+				* @return str Output string after JavaScript and single quotes are escaped.
+				*/
+				public static function esc_js_sq ($string = FALSE, $times = FALSE)
+					{
+						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						return str_replace ("'", str_repeat ("\\", $times) . "'", str_replace (array ("\r", "\n"), array ("", '\\n'), str_replace ("\'", "'", (string)$string)));
 					}
 				/**
 				* Escapes dollars signs ( for regex patterns ).
@@ -60,11 +79,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @since 3.5
 				*
 				* @param str $string Input string.
+				* @param int $times Mumber of escapes. Defaults to 1.
 				* @return str Output string after dollar signs are escaped.
 				*/
-				public static function esc_ds ($string = FALSE)
+				public static function esc_ds ($string = FALSE, $times = FALSE)
 					{
-						return str_replace ('$', '\\$', (string)$string);
+						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						return str_replace ('$', str_repeat ("\\", $times) . '$', (string)$string);
 					}
 				/**
 				* Sanitizes a string; by removing non-standard characters.
@@ -172,11 +193,11 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @param str $str Input string to be highlighted.
 				* @return str The highlighted string.
 				*/
-				public static function highlight_php ($str = FALSE)
+				public static function highlight_php ($string = FALSE)
 					{
-						$str = highlight_string ($str, true); /* Start with PHP syntax highlighting first. */
+						$string = highlight_string ((string)$string, true); /* Start with PHP syntax highlighting first. */
 						/**/
-						return preg_replace_callback ("/(\[)(\/?)(_*s2If|s2Get|s2Member-[A-z_0-9\-]+)(.*?)(\])/i", "c_ws_plugin__s2member_utils_strings::_highlight_php", $str);
+						return preg_replace_callback ("/(\[)(\/?)(_*s2If|s2Get|s2Member-[A-z_0-9\-]+)(.*?)(\])/i", "c_ws_plugin__s2member_utils_strings::_highlight_php", $string);
 					}
 				/**
 				* Highlights Shortcodes.

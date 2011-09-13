@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 	{
@@ -44,7 +44,7 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 				*/
 				public static function force_ssl ($vars = array ()) /* Phase 2 of ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 					{
-						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
+						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 						/**/
 						$force_ssl = (!is_string ($force_ssl)) ? (string)(int)$force_ssl : $force_ssl; /* Force string. */
 						$force_ssl = (is_numeric ($force_ssl) && $force_ssl > 1) ? $force_ssl : "yes"; /* Use `yes`. */
@@ -58,8 +58,7 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 								$https = "https://" . $ssl_host_port . $_SERVER["REQUEST_URI"];
 								$https_with_s2_ssl_gv = add_query_arg ($s2_ssl_gv, urlencode ($force_ssl), $https);
 								/**/
-								wp_redirect($https_with_s2_ssl_gv); /* Redirect to https. */
-								exit (); /* Clean exit. */
+								wp_redirect ($https_with_s2_ssl_gv) . exit ();
 							}
 						else /* Otherwise, we buffer all output, and switch all content over to https. */
 							/* Also, we assume here that other links on the site should NOT be converted to https. */
@@ -169,7 +168,7 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 											}
 									}
 								/**/
-								ob_start("_ws_plugin__s2member_force_ssl_buffer");
+								ob_start ("_ws_plugin__s2member_force_ssl_buffer");
 							}
 						/**/
 						return; /* Return for uniformity. */

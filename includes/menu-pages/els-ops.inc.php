@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 	{
@@ -71,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_mailchimp_api_key" id="ws-plugin--s2member-mailchimp-api-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) . '" /><br />' . "\n";
+								echo '<input type="password" name="ws_plugin__s2member_mailchimp_api_key" id="ws-plugin--s2member-mailchimp-api-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) . '" /><br />' . "\n";
 								echo 'Once you have a MailChimp® account, you\'ll need to <a href="https://admin.mailchimp.com/account/api/" target="_blank" rel="external">add an API Key</a>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -244,16 +244,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '<td>' . "\n";
 								echo '<div class="ws-menu-page-scrollbox" style="height:150px;">' . "\n";
 								echo '<input type="hidden" name="ws_plugin__s2member_custom_reg_auto_opt_outs[]" value="update-signal" />' . "\n";
-								foreach (array (/**/
-								"removal-deletion" => "<strong>Anytime a User is deleted ( including manual deletions )</strong>",/**/
-								"ipn-refund-reversal-deletion" => "&#9492;&#9472; Anytime s2Member deletes an account because of a Refund/Reversal.",/**/
-								"(ipn|auto-eot)-cancellation-expiration-deletion" => "&#9492;&#9472; Anytime s2Member deletes an account because of a Cancellation/Expiration.",/**/
-								/**/
-								"modification" => "<strong>Anytime a User's Role changes ( including manual changes )</strong>",/**/
-								"ipn-refund-reversal-demotion" => "&#9492;&#9472; Anytime s2Member demotes an account because of a Refund/Reversal.",/**/
-								"(ipn|auto-eot)-cancellation-expiration-demotion" => "&#9492;&#9472; Anytime s2Member demotes an account because of a Cancellation/Expiration.",/**/
-								"ipn-upgrade-downgrade" => "&#9492;&#9472; Anytime s2Member changes a User's Role after a paid Subscr. Modification.",/**/
-								) as $ws_plugin__s2member_temp_s_value => $ws_plugin__s2member_temp_s_label)
+								foreach (array ("removal-deletion" => "<strong>Anytime a User is deleted ( including manual deletions )</strong>", "ipn-refund-reversal-deletion" => "&#9492;&#9472; Anytime s2Member deletes an account because of a Refund/Reversal.", "(ipn|auto-eot)-cancellation-expiration-deletion" => "&#9492;&#9472; Anytime s2Member deletes an account because of a Cancellation/Expiration.", "modification" => "<strong>Anytime a User's Role changes ( including manual changes )</strong>", "ipn-refund-reversal-demotion" => "&#9492;&#9472; Anytime s2Member demotes an account because of a Refund/Reversal.", "(ipn|auto-eot)-cancellation-expiration-demotion" => "&#9492;&#9472; Anytime s2Member demotes an account because of a Cancellation/Expiration.", "ipn-upgrade-downgrade" => "&#9492;&#9472; Anytime s2Member changes a User's Role after a paid Subscr. Modification.") as $ws_plugin__s2member_temp_s_value => $ws_plugin__s2member_temp_s_label)
 									echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_auto_opt_outs[]" id="ws-plugin--s2member-custom-reg-auto-opt-outs-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '" value="' . esc_attr ($ws_plugin__s2member_temp_s_value) . '"' . ((in_array ($ws_plugin__s2member_temp_s_value, $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_outs"])) ? ' checked="checked"' : '') . ' /> <label for="ws-plugin--s2member-custom-reg-auto-opt-outs-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '">' . $ws_plugin__s2member_temp_s_label . '</label><br />' . "\n";
 								echo '</div>' . "\n";
 								echo '</td>' . "\n";

@@ -37,9 +37,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 				*/
 				public static function get_all_category_ids ()
 					{
-						$ids = get_all_category_ids ();
+						$category_ids = get_all_category_ids ();
 						/**/
-						return (array)$ids;
+						return (array)$category_ids;
 					}
 				/**
 				* Retrieves a list of all child Category IDs from the database.
@@ -56,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 							foreach ($categories as $child_category)
 								$child_ids[] = $child_category->term_id;
 						/**/
-						return (array)$child_ids;
+						return (isset ($child_ids)) ? (array)$child_ids : array ();
 					}
 				/**
 				* Retrieves a list of all Tag IDs in the database.
@@ -71,9 +71,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						global $wpdb; /* Need global DB obj. */
 						/**/
 						foreach ((array)get_tags () as $tag)
-							$ids[] = $tag->term_id;
+							$tag_ids[] = $tag->term_id;
 						/**/
-						return (array)$ids;
+						return (isset ($tag_ids)) ? (array)$tag_ids : array ();
 					}
 				/**
 				* Retrieves a list of all Post IDs in the database.
@@ -88,9 +88,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 					{
 						global $wpdb; /* Need global DB obj. */
 						/**/
-						$ids = $wpdb->get_col ("SELECT `ID` FROM `" . $wpdb->posts . "` WHERE `post_status` = 'publish' AND `post_type` NOT IN('page','attachment','revision')");
+						$post_ids = $wpdb->get_col ("SELECT `ID` FROM `" . $wpdb->posts . "` WHERE `post_status` = 'publish' AND `post_type` NOT IN('page','attachment','revision')");
 						/**/
-						return (array)$ids;
+						return (array)$post_ids;
 					}
 				/**
 				* Retrieves a list of all Page IDs from the database.
@@ -104,9 +104,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 					{
 						global $wpdb; /* Need global DB obj. */
 						/**/
-						$ids = $wpdb->get_col ("SELECT `ID` FROM `" . $wpdb->posts . "` WHERE `post_status` = 'publish' AND `post_type` = 'page'");
+						$page_ids = $wpdb->get_col ("SELECT `ID` FROM `" . $wpdb->posts . "` WHERE `post_status` = 'publish' AND `post_type` = 'page'");
 						/**/
-						return (array)$ids;
+						return (array)$page_ids;
 					}
 				/**
 				* Converts a comma-delimited list of: Tag slugs/names/ids - into all IDs.
@@ -122,28 +122,24 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						foreach (preg_split ("/[\r\n\t;,]+/", $tags) as $tag)
 							{
 								if (($tag = trim ($tag)) && is_numeric ($tag))
-									{
-										$ids[] = $tag;
-									}
+									$tag_ids[] = $tag;
+								/**/
 								else if ($tag && is_string ($tag))
 									{
 										if (is_object ($term = get_term_by ("name", $tag, "post_tag")))
-											{
-												$ids[] = $term->term_id;
-											}
+											$tag_ids[] = $term->term_id;
+										/**/
 										else if (is_object ($term = get_term_by ("slug", $tag, "post_tag")))
-											{
-												$ids[] = $term->term_id;
-											}
+											$tag_ids[] = $term->term_id;
 									}
 							}
 						/**/
-						return (array)$ids;
+						return (isset ($tag_ids)) ? (array)$tag_ids : array ();
 					}
 				/**
 				* Retrieves a list of singular IDs from the database.
 				*
-				* Only returns Posts that require Custom Capabilities;
+				* Only returns singular IDs that require Custom Capabilities;
 				* 	and ONLY those which are NOT satisfied by ``$user``.
 				*
 				* @package s2Member\Utilities
@@ -160,27 +156,28 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 							{
 								foreach ($results as $result) /* Now we need to check Custom Capabilities against $user. */
 									{
-										if (!is_object ($user) || !$user->ID) /* No ``$user``? / not logged-in?. */
-											$ids[] = $result->post_id; /* There's no way to satisfy anything here. */
+										if (!is_object ($user) || !$user->ID) /* No ``$user``, not logged-in?. */
+											$singular_ids[] = $result->post_id; /* No way to satisfy. */
 										/**/
 										else if (is_array ($ccaps = @unserialize ($result->meta_value)))
 											/**/
-											foreach ($ccaps as $ccap) /* Test all Custom Capability requirements. */
+											foreach ($ccaps as $ccap) /* Test Capability requirements. */
+												/**/
 												if (strlen ($ccap)) /* Quick (empty) check here. */
 													if (!$user->has_cap ("access_s2member_ccap_" . $ccap))
 														{
-															$ids[] = $result->post_id;
+															$singular_ids[] = $result->post_id;
 															break;
 														}
 									}
 							}
 						/**/
-						return (array)$ids;
+						return (isset ($singular_ids)) ? (array)$singular_ids : array ();
 					}
 				/**
 				* Retrieves a list of singular IDs from the database.
 				*
-				* Only returns Posts that require Specific Post/Page Access;
+				* Only returns singular IDs that require Specific Post/Page Access;
 				* 	and ONLY those which are NOT satisfied by the current Visitor.
 				*
 				* @package s2Member\Utilities
@@ -194,14 +191,33 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"] && is_array ($sps = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"])))
 							{
-								foreach ($sps as $sp) /* Now we need to check access against the current Visitor. */
-									{
-										if ($sp && !c_ws_plugin__s2member_sp_access::sp_access ($sp, "read-only"))
-											$ids[] = $sp;
-									}
+								foreach ($sps as $sp) /* Now check access against the current Visitor. */
+									if ($sp && !c_ws_plugin__s2member_sp_access::sp_access ($sp, "read-only"))
+										$singular_ids[] = $sp;
 							}
 						/**/
-						return (array)$ids;
+						return (isset ($singular_ids)) ? (array)$singular_ids : array ();
+					}
+				/**
+				* Retrieves a list of singular IDs from the database.
+				*
+				* Only returns singular IDs that are within the ``$terms``;
+				* 	passed through the argument to this function.
+				*
+				* @package s2Member\Utilities
+				* @since 110912
+				*
+				* @param array $terms Required. An array of term IDs.
+				* @return array Array of all singular IDs not available to ``$user`` because of Specific Post/Page restrictions.
+				*/
+				public static function get_singular_ids_in_terms ($terms = FALSE)
+					{
+						global $wpdb; /* Need global DB obj. */
+						/**/
+						if (is_array ($terms) && !empty ($terms))
+							$singular_ids = $wpdb->get_col ("SELECT `object_id` FROM `" . $wpdb->term_relationships . "` WHERE `term_taxonomy_id` IN (SELECT `term_taxonomy_id` FROM `" . $wpdb->term_taxonomy . "` WHERE `term_id` IN('" . implode ("','", $terms) . "'))");
+						/**/
+						return (isset ($singular_ids)) ? (array)$singular_ids : array ();
 					}
 			}
 	}

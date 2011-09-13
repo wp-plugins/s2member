@@ -90,7 +90,7 @@ if (!class_exists ("c_ws_plugin__s2member_brute_force"))
 								/**/
 								if ((int)get_transient ("s2m_ipr_" . md5 ("s2member_transient_failed_login_attempts_" . $_SERVER["REMOTE_ADDR"])) > $max)
 									{
-										$errors = new WP_Error ("incorrect_password", "Max failed logins. Please wait " . $about . " and try again.");
+										$errors = new WP_Error ("incorrect_password", sprintf (_x ("Max failed logins. Please wait %s and try again.", "s2member-front", "s2member"), $about));
 										/**/
 										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_stop_brute_force_logins", get_defined_vars ());

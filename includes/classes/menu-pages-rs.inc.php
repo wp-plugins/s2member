@@ -39,6 +39,14 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages_rs"))
 					{
 						do_action ("ws_plugin__s2member_during_menu_pages_before_right_sections", get_defined_vars ());
 						/**/
+						echo '<div id="ws-menu-page-js-c-w" class="ws-menu-page-js-c-w">' . "\n";
+						include_once dirname (dirname (__FILE__)) . "/menu-pages/js-c-warning.inc.php";
+						echo '</div>' . "\n";
+						/**/
+						echo '<script type="text/javascript">' . "\n";
+						echo "jQuery('div#ws-menu-page-js-c-w').hide();" . "\n"; /* Hide! */
+						echo '</script>' . "\n";
+						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"]["mlist"])
 							{
 								echo '<div class="ws-menu-page-mlist">' . "\n";

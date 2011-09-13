@@ -126,9 +126,10 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 				*/
 				public static function s_badge_gen ($v = "1", $no_cache = FALSE, $display_on_failure = FALSE)
 					{
-						if ($v && file_exists (($template = dirname (dirname (__FILE__)) . "/templates/badges/s-badge.html")))
+						if ($v && file_exists (($template = dirname (dirname (__FILE__)) . "/templates/badges/s-badge.php")))
 							{
-								$badge = preg_replace ("/%%site_url%%/i", urlencode (site_url ()), preg_replace ("/%%v%%/i", (string)$v, file_get_contents ($template)));
+								$badge = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents ($template)));
+								$badge = preg_replace ("/%%site_url%%/i", urlencode (site_url ()), preg_replace ("/%%v%%/i", (string)$v, $badge));
 								$badge = preg_replace ("/%%no_cache%%/i", (($no_cache) ? "&amp;no_cache=" . urlencode (mt_rand (0, PHP_INT_MAX)) : ""), $badge);
 								$badge = preg_replace ("/%%display_on_failure%%/i", (($display_on_failure) ? "&amp;display_on_failure=1" : ""), $badge);
 							}
@@ -153,6 +154,36 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 						$details = "Memory " . $memory . " MB :: Real Memory " . $real_memory . " MB :: Peak Memory " . $peak_memory . " MB :: Real Peak Memory " . $real_peak_memory . " MB";
 						/**/
 						return $details; /* Return all details. */
+					}
+				/**
+				* Acquires s2Member options for the Main Site of a Multisite Network.
+				*
+				* @package s2Member\Utilities
+				* @since 110912
+				*
+				* @return array Array of s2Member options for the Main Site.
+				*/
+				public static function mms_options ()
+					{
+						return (is_multisite ()) ? (array)get_site_option ("ws_plugin__s2member_options") : array ();
+					}
+				/**
+				* Builds an array of backtrace callers.
+				*
+				* @package s2Member\Utilities
+				* @since 110912
+				*
+				* @param array $debug_backtrace Optional. Defaults to ``debug_backtrace()``.
+				* @return array Array of backtrace callers (lowercase).
+				*/
+				public static function callers ($debug_backtrace = FALSE)
+					{
+						$callers = array (); /* Initialize array. */
+						foreach (($debug_backtrace = (is_array ($debug_backtrace)) ? $debug_backtrace : debug_backtrace ()) as $caller)
+							if (isset ($caller["class"], $caller["function"]) || (!isset ($caller["class"]) && isset ($caller["function"])))
+								$callers[] = (isset ($caller["class"])) ? $caller["class"] . "::" . $caller["function"] : $caller["function"];
+						/**/
+						return array_map ("strtolower", array_unique ($callers));
 					}
 			}
 	}

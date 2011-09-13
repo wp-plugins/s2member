@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 	{
@@ -74,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 										if (!empty ($_p["ws_plugin__s2member_profile_last_name"]))
 											$userdata["last_name"] = $_p["ws_plugin__s2member_profile_last_name"];
 										/**/
-										wp_update_user($userdata); /* OK. Now send this array for an update. */
+										wp_update_user ($userdata); /* OK. Now send this array for an update. */
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
 											if ($fields_applicable = c_ws_plugin__s2member_custom_reg_fields::custom_fields_configured_at_level ("auto-detection", "profile"))
@@ -91,24 +91,24 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 																	if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
 																		$fields[$field_var] = $_existing_fields[$field_var];
 																	else /* Else unset. */
-																		unset($fields[$field_var]);
+																		unset ($fields[$field_var]);
 																}
 															else if ($field["required"] === "yes" && (!isset ($_p["ws_plugin__s2member_profile_" . $field_var]) || (is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || !strlen ($_p["ws_plugin__s2member_profile_" . $field_var])))
 																{
 																	if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
 																		$fields[$field_var] = $_existing_fields[$field_var];
 																	else /* Else unset. */
-																		unset($fields[$field_var]);
+																		unset ($fields[$field_var]);
 																}
 															else if (isset ($_p["ws_plugin__s2member_profile_" . $field_var]))
 																{
 																	if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || strlen ($_p["ws_plugin__s2member_profile_" . $field_var]))
 																		$fields[$field_var] = $_p["ws_plugin__s2member_profile_" . $field_var];
 																	else /* Else unset. */
-																		unset($fields[$field_var]);
+																		unset ($fields[$field_var]);
 																}
 															else /* Else ``unset()``. */
-																unset($fields[$field_var]);
+																unset ($fields[$field_var]);
 														}
 													/**/
 													if (!empty ($fields))
@@ -117,19 +117,22 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 														delete_user_option ($user_id, "s2member_custom_fields");
 												}
 										/**/
-										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_handle_profile_modifications", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										$user = new WP_User ($user_id); /* Update the WP_User object for the current User/Member. */
 										(function_exists ("setup_userdata")) ? setup_userdata () : null; /* Update global vars. */
 										/**/
+										$lwp = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user);
+										$lwp = (!$lwp) ? get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]) : $lwp;
+										/**/
 										if (empty ($_p["ws_plugin__s2member_sc_profile_save"]))
 											{
 												echo '<script type="text/javascript">' . "\n";
-												echo "if(window.parent && window.parent != window) { window.parent.alert('Profile updated successfully.'); window.parent.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
-												echo "else if(window.opener) { window.alert('Profile updated successfully.'); window.opener.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; window.close(); }";
-												echo "else { alert('Profile updated successfully.'); window.location = '" . esc_js (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . "'; }";
+												echo "if(window.parent && window.parent != window) { window.parent.alert('" . c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Profile updated successfully.", "s2member-front", "s2member")) . "'); window.parent.location = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($lwp) . "'; }";
+												echo "else if(window.opener) { window.alert('" . c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Profile updated successfully.", "s2member-front", "s2member")) . "'); window.opener.location = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($lwp) . "'; window.close(); }";
+												echo "else { alert('" . c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Profile updated successfully.", "s2member-front", "s2member")) . "'); window.location = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($lwp) . "'; }";
 												echo '</script>' . "\n";
 												/**/
 												exit (); /* Clean exit. */

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 	{
@@ -41,7 +41,7 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 				*/
 				public static function ip_restrictions_ok ($ip = FALSE, $restriction = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_ip_restrictions_ok", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -59,7 +59,7 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 									/**/
 									foreach ($entries as $_entry => $_time) /* Auto-expire entries. */
 										if ($_time < strtotime ("-" . $concurrency))
-											unset($entries[$_entry]);
+											unset ($entries[$_entry]);
 									/**/
 									$ip = ($ip) ? $ip : "empty"; /* Allow empty IPs. */
 									$entries[$ip] = strtotime ("now"); /* Log this entry. */
@@ -71,11 +71,9 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 											/**/
 											do_action ("ws_plugin__s2member_during_ip_restrictions_ok_no", get_defined_vars ());
 											/**/
-											header("HTTP/1.0 503 Service Temporarily Unavailable"); /* Sends a status header. */
+											status_header (503); /* Sends a status header; temporarily unavailable. */
 											/**/
-											echo '<strong>503: Service Temporarily Unavailable</strong><br />' . "\n";
-											echo 'Too many IP addresses accessing one secure area<em>!</em><br />' . "\n";
-											echo 'Please contact Support if you require assistance.';
+											echo _x ('<strong>503: Service Temporarily Unavailable</strong><br />Too many IP addresses accessing one secure area<em>!</em><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 											/**/
 											exit (); /* Clean exit. */
 										}
@@ -87,17 +85,15 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 											/**/
 											do_action ("ws_plugin__s2member_during_ip_restrictions_ok_no", get_defined_vars ());
 											/**/
-											header("HTTP/1.0 503 Service Temporarily Unavailable"); /* Sends a status header. */
+											status_header (503); /* Sends a status header; temporarily unavailable. */
 											/**/
-											echo '<strong>503: Service Temporarily Unavailable</strong><br />' . "\n";
-											echo 'Too many IP addresses accessing one secure area<em>!</em><br />' . "\n";
-											echo 'Please contact Support if you require assistance.';
+											echo _x ('<strong>503: Service Temporarily Unavailable</strong><br />Too many IP addresses accessing one secure area<em>!</em><br />Please contact Support if you need assistance.', "s2member-front", "s2member");
 											/**/
 											exit (); /* Clean exit. */
 										}
 									else /* OK, this looks legitimate. Apply Filters here and return true. */
 										{
-											eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+											eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 											do_action ("ws_plugin__s2member_during_ip_restrictions_ok_yes", get_defined_vars ());
 											unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											/**/

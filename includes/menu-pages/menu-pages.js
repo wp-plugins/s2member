@@ -23,6 +23,8 @@ These routines address common layout styles for menu pages.
 */
 jQuery(document).ready (function($)
 	{
+		$('div#ws-menu-page-js-c-w').hide (); /* Hide warning. */
+		/**/
 		var $groups = $('div.ws-menu-page-group'); /* Query groups. */
 		$groups.each (function(index) /* Go through each group, one at a time. */
 			{
@@ -110,7 +112,7 @@ jQuery(document).ready (function($)
 		/**/
 		$('input.ws-menu-page-media-btn').filter (function() /* Only those that have a rel attribute. */
 			{
-				return ($(this).attr ('rel')) ? true : false; /* Must have rel targeting an input id. */
+				return($(this).attr ('rel')) ? true : false; /* Must have rel targeting an input id. */
 			})/**/
 		.click (function() /* Attach click events to media buttons with send_to_editor(). */
 			{

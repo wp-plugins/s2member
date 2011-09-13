@@ -15,7 +15,7 @@
 * @since 110720
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_no_tx_data"))
 	{
@@ -38,15 +38,15 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_no_tx_data"))
 				*/
 				public static function cp ($vars = array ()) /* Conditional phase for ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 					{
-						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
+						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_paypal_return_before_no_return_data", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$paypal["s2member_log"][] = "No Return-Data. Customer must wait for Email Confirmation.";
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_paypal_return_during_no_return_data", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -58,10 +58,10 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_no_tx_data"))
 						$paypal["s2member_log"][] = "Note. This can sometimes happen when/if you are offering a free Trial Period. There are times when a Payment Gateway will NOT supply s2Member with any data immediately after checkout. When/if this happens, s2Member must process the transaction via IPN only ( i.e. behind-the-scene ), and the Customer must wait for Email Confirmation in these cases.";
 						/**/
 						echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-						'<strong>Thank you! ( you MUST check your email before proceeding ).</strong><br /><br />* Note: It can take <em>( up to 15 minutes )</em> for Email Confirmation with important details. If you don\'t receive email confirmation in the next 15 minutes, please contact Support.' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"] || (c_ws_plugin__s2member_utils_conds::pro_is_installed () && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_" . $paypal["subscr_gateway"] . "_sandbox"]))) ? '<br /><br /><strong>** Sandbox Mode **</strong> You may NOT receive this Email in Sandbox Mode. Sandbox addresses are usually bogus (for testing).' : ''),/**/
-						(($custom_success_redirection) ? "Check Your Email ( Then Click Here )" : "Back To Home Page"), (($custom_success_redirection) ? $custom_success_redirection : home_url ("/")));
+						_x ('<strong>Thank you! ( you MUST check your email before proceeding ).</strong><br /><br />* Note: It can take <em>( up to 15 minutes )</em> for Email Confirmation with important details. If you don\'t receive email confirmation in the next 15 minutes, please contact Support.', "s2member-front", "s2member") . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"] || (c_ws_plugin__s2member_utils_conds::pro_is_installed () && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_" . $paypal["subscr_gateway"] . "_sandbox"]))) ? '<br /><br />' . _x ('<strong>** Sandbox Mode **</strong> You may NOT receive this Email in Sandbox Mode. Sandbox addresses are usually bogus (for testing).', "s2member-front", "s2member") : ''),/**/
+						(($custom_success_redirection) ? _x ("Check Your Email ( Then Click Here )", "s2member-front", "s2member") : _x ("Back To Home Page", "s2member-front", "s2member")), (($custom_success_redirection) ? $custom_success_redirection : home_url ("/")));
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_paypal_return_after_no_return_data", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

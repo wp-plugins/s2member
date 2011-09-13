@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 110815
-Stable tag: 110815
+Version: 110912
+Stable tag: 110912
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -39,8 +39,8 @@ AliPay® Compatible: w/ s2Member Pro
 ccBill® Compatible: w/ s2Member Pro
 
 Tested up to: 3.2.1
-Requires at least: 3.1
-Requires: WordPress® 3.1+, PHP 5.2.3+
+Requires at least: 3.2
+Requires: WordPress® 3.2+, PHP 5.2.3+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -48,6 +48,9 @@ Contributors: WebSharks, PriMoThemes
 Author URI: http://www.primothemes.com/
 Author: PriMoThemes.com / WebSharks, Inc.
 Donate link: http://www.primothemes.com/donate/
+
+Text Domain: s2member
+Domain Path: /includes/translations
 
 Plugin Name: s2Member
 Video Tutorials: http://www.s2member.com/videos/
@@ -72,7 +75,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "110815");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "110912");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -92,7 +95,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.1");
+	define ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.2");
 /**
 * Minimum Pro version required by the Framework.
 *
@@ -102,7 +105,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110815");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "110912");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

@@ -129,6 +129,25 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_after_security", get_defined_vars ());
 							}
 						/**/
+						if (apply_filters ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_display_localhost_info", (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site () || is_super_admin ()), get_defined_vars ()))
+							{
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_before_localhost_info", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-group" title="Localhost WAMP/MAMP Developers">' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-section ws-plugin--s2member-localhost-info-section">' . "\n";
+								echo '<h3>Localhost WAMP/MAMP Installs ( are you a developer? )</h3>' . "\n";
+								echo '<p>If you\'re developing your site in a <code>localhost</code> environment, running something like WAMP/MAMP, or <a href="http://www.easyphp.org/" target="_blank" rel="external">EasyPHP</a>, please add this line to your <code>/wp-config.php</code> file: <code><span style="color:#0000BB;">define</span><span style="color:#007700;">(</span><span style="color:#DD0000;">"LOCALHOST"</span>, <span style="color:#0000BB;">true</span><span style="color:#007700;">);</span></code>.</p>' . "\n";
+								echo '<p>This lets s2Member know definitively that your site is in a <code>localhost</code> environment. s2Member will adjust itself accordingly, maximizing functionality during your developement. s2Member can usually auto-detect this, but in cases where your <code>localhost</code> installation runs on something other than <code>127.0.0.1/localhost</code>, you need to tell s2Member definitively, by adding that line to your <code>/wp-config.php</code> file. For instance, s2Member needs to know when your server IP is the same as all User IPs.</p>' . "\n";
+								echo '<p><em>Once your site goes live, please remove the line. If you\'re already on a live server connected to the web, please ignore this section.</em></p>' . "\n";
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_localhost_info", get_defined_vars ());
+								echo '</div>' . "\n";
+								/**/
+								echo '</div>' . "\n";
+								/**/
+								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_after_localhost_info", get_defined_vars ());
+							}
+						/**/
 						if (apply_filters ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_display_s_badge_wp_footer_code", true, get_defined_vars ()))
 							{
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_before_s_badge_wp_footer_code", get_defined_vars ());
@@ -1200,7 +1219,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"]) ? ' selected="selected"' : '') . '>No ( I want to use the WordPress® default methodologies )</option>' . "\n";
 								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"]) ? ' selected="selected"' : '') . '>Yes ( redirect to Login Welcome Page; locking all /wp-admin/ areas )</option>' . "\n";
 								echo '</select><br />' . "\n";
-								echo 'Recommended setting ( <code>Yes</code> ). <em><strong>*Note*</strong> When this is set to ( <code>Yes</code> ), s2Member will take an initiative to further safeguard ALL <code>/wp-admin/</code> areas of your installation; not just the Default Profile Panel. Also, starting with WordPress® 3.1+, setting this to ( <code>Yes</code> ) tells s2Member to dynamically modify links/titles in the new Admin Bar that can be enabled on WordPress® 3.1+. s2Member will force links to your Login Welcome Page instead of the Default Profile Panel; and Dashboard links are removed for non-Admin accounts ( as they should be ).</em>' . "\n";
+								echo 'Recommended setting ( <code>Yes</code> ). <em><strong>*Note*</strong> When this is set to ( <code>Yes</code> ), s2Member will take an initiative to further safeguard ALL <code>/wp-admin/</code> areas of your installation; not just the Default Profile Panel.</em>' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";

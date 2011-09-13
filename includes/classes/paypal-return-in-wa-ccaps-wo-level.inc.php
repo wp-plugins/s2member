@@ -15,7 +15,7 @@
 * @since 110720
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 	{
@@ -40,14 +40,14 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 				*/
 				public static function cp ($vars = array ()) /* Conditional phase for ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 					{
-						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
+						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
 						if (/**/(!empty ($paypal["txn_type"]) && preg_match ("/^web_accept$/i", $paypal["txn_type"]))/**/
 						&& (!empty ($paypal["item_number"]) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_wo_level_regex"], $paypal["item_number"]))/**/
 						&& (empty ($paypal["payment_status"]) || empty ($payment_status_issues) || !preg_match ($payment_status_issues, $paypal["payment_status"]))/**/
 						&& (!empty ($paypal["txn_id"]) && ($paypal["subscr_id"] = $paypal["txn_id"])) && (!empty ($paypal["payer_email"]))/**/)
 							{
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_before_new_ccaps", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -75,7 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 																/**/
 																if (is_multisite () && !is_user_member_of_blog ($user_id)) /* Must have a Role on this Blog. */
 																	{
-																		add_existing_user_to_blog(array ("user_id" => $user_id, "role" => get_option ("default_role")));
+																		add_existing_user_to_blog (array ("user_id" => $user_id, "role" => get_option ("default_role")));
 																		$user = new WP_User ($user_id);
 																	}
 																/**/
@@ -128,7 +128,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 																								}
 																	}
 																/**/
-																eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																do_action ("ws_plugin__s2member_during_paypal_return_during_new_ccaps", get_defined_vars ());
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																/**/
@@ -136,15 +136,15 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 																	{
 																		$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after Capabilities: " . $redirection_url_after_capabilities;
 																		/**/
-																		wp_redirect($redirection_url_after_capabilities);
+																		wp_redirect ($redirection_url_after_capabilities);
 																	}
 																else /* Else, use standard/default handling in this scenario. Have the Customer log in again. */
 																	{
 																		$paypal["s2member_log"][] = "Redirecting Customer to the Login Page. They need to log back in.";
 																		/**/
 																		echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-																		'<strong>Thank you! You now have access to:<br /><em>' . esc_html ($paypal["item_name"]) . '</em></strong>',/**/
-																		"Please Log Back In ( Click Here )", wp_login_url ());
+																		'<strong>' . _x ("Thank you! You now have access to:", "s2member-front", "s2member") . '<br /><em>' . esc_html ($paypal["item_name"]) . '</em></strong>',/**/
+																		_x ("Please Log Back In ( Click Here )", "s2member-front", "s2member"), wp_login_url ());
 																	}
 															}
 														else /* Unable to add new Capabilities. The existing User ID is associated with an Administrator. Stopping here. */
@@ -154,8 +154,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 																$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 																/**/
 																echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-																'<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />The existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access. Please make sure that you are NOT logged in as an Administrator while testing.',/**/
-																"Back To Home Page", home_url ("/"));
+																_x ('<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />The existing User ID is associated with an Administrator. Stopping here. Otherwise, an Administrator could lose access. Please make sure that you are NOT logged in as an Administrator while testing.', "s2member-front", "s2member"),/**/
+																_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 															}
 													}
 												else /* Unable to add new Capabilities. Could not get the existing User ID from the DB. */
@@ -165,8 +165,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 														$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 														/**/
 														echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-														'<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />Could not get the existing User ID from the DB.',/**/
-														"Back To Home Page", home_url ("/"));
+														_x ('<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />Could not get the existing User ID from the DB.', "s2member-front", "s2member"),/**/
+														_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 													}
 											}
 										else /* Unable to add new Capabilities. Missing User/Member details. */
@@ -176,8 +176,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 												$paypal["s2member_log"][] = "Redirecting Customer to the Home Page, due to an error that occurred.";
 												/**/
 												echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-												'<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />Missing User/Member details.',/**/
-												"Back To Home Page", home_url ("/"));
+												_x ('<strong>ERROR:</strong> Unable to add new Capabilities.<br />Please contact Support for assistance.<br /><br />Missing User/Member details.', "s2member-front", "s2member"),/**/
+												_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 											}
 									}
 								else /* Page Expired. Duplicate Return-Data. */
@@ -187,11 +187,11 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_wa_ccaps_wo_level"))
 										$paypal["s2member_log"][] = "Page Expired. Redirecting Customer to the Home Page.";
 										/**/
 										echo c_ws_plugin__s2member_return_templates::return_template ($paypal["subscr_gateway"],/**/
-										'<strong>Page Expired:</strong> Duplicate Return-Data.<br />Please contact Support if you need any assistance.',/**/
-										"Back To Home Page", home_url ("/"));
+										_x ('<strong>Page Expired:</strong> Duplicate Return-Data.<br />Please contact Support if you need any assistance.', "s2member-front", "s2member"),/**/
+										_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 									}
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_after_new_ccaps", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/

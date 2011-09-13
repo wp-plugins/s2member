@@ -50,49 +50,49 @@ if (!class_exists ("c_ws_plugin__s2member_utils_time"))
 							{
 								$m = (int)round ($difference / 60);
 								/**/
-								$since = ($m < 1) ? "less than a minute" : $since;
-								$since = ($m === 1) ? "1 minute" : $since;
-								$since = ($m > 1) ? $m . " minutes" : $since;
-								$since = ($m >= 60) ? "about 1 hour" : $since;
+								$since = ($m < 1) ? _x ("less than a minute", "s2member-front", "s2member") : $since;
+								$since = ($m === 1) ? _x ("1 minute", "s2member-front", "s2member") : $since;
+								$since = ($m > 1) ? sprintf (_nx ("%s minute", "%s minutes", $m, "s2member-front", "s2member"), $m) : $since;
+								$since = ($m >= 60) ? _x ("about 1 hour", "s2member-front", "s2member") : $since;
 							}
 						else if ($difference >= 3600 && $difference < 86400)
 							{
 								$h = (int)round ($difference / 3600);
 								/**/
-								$since = ($h === 1) ? "1 hour" : $since;
-								$since = ($h > 1) ? $h . " hours" : $since;
-								$since = ($h >= 24) ? "about 1 day" : $since;
+								$since = ($h === 1) ? _x ("1 hour", "s2member-front", "s2member") : $since;
+								$since = ($h > 1) ? sprintf (_nx ("%s hour", "%s hours", $h, "s2member-front", "s2member"), $h) : $since;
+								$since = ($h >= 24) ? _x ("about 1 day", "s2member-front", "s2member") : $since;
 							}
 						else if ($difference >= 86400 && $difference < 604800)
 							{
 								$d = (int)round ($difference / 86400);
 								/**/
-								$since = ($d === 1) ? "1 day" : $since;
-								$since = ($d > 1) ? $d . " days" : $since;
-								$since = ($d >= 7) ? "about 1 week" : $since;
+								$since = ($d === 1) ? _x ("1 day", "s2member-front", "s2member") : $since;
+								$since = ($d > 1) ? sprintf (_nx ("%s day", "%s days", $d, "s2member-front", "s2member"), $d) : $since;
+								$since = ($d >= 7) ? _x ("about 1 week", "s2member-front", "s2member") : $since;
 							}
 						else if ($difference >= 604800 && $difference < 2592000)
 							{
 								$w = (int)round ($difference / 604800);
 								/**/
-								$since = ($w === 1) ? "1 week" : $since;
-								$since = ($w > 1) ? $w . " weeks" : $since;
-								$since = ($w >= 4) ? "about 1 month" : $since;
+								$since = ($w === 1) ? _x ("1 week", "s2member-front", "s2member") : $since;
+								$since = ($w > 1) ? sprintf (_nx ("%s week", "%s weeks", $w, "s2member-front", "s2member"), $w) : $since;
+								$since = ($w >= 4) ? _x ("about 1 month", "s2member-front", "s2member") : $since;
 							}
 						else if ($difference >= 2592000 && $difference < 31556926)
 							{
 								$m = (int)round ($difference / 2592000);
 								/**/
-								$since = ($m === 1) ? "1 month" : $since;
-								$since = ($m > 1) ? $m . " months" : $since;
-								$since = ($m >= 12) ? "about 1 year" : $since;
+								$since = ($m === 1) ? _x ("1 month", "s2member-front", "s2member") : $since;
+								$since = ($m > 1) ? sprintf (_nx ("%s month", "%s months", $m, "s2member-front", "s2member"), $m) : $since;
+								$since = ($m >= 12) ? _x ("about 1 year", "s2member-front", "s2member") : $since;
 							}
 						else if ($difference >= 31556926) /* Years. */
 							{
 								$y = (int)round ($difference / 31556926);
 								/**/
-								$since = ($y === 1) ? "1 year" : $since;
-								$since = ($y > 1) ? $y . " years" : $since;
+								$since = ($y === 1) ? _x ("1 year", "s2member-front", "s2member") : $since;
+								$since = ($y > 1) ? sprintf (_nx ("%s year", "%s years", $y, "s2member-front", "s2member"), $y) : $since;
 							}
 						/**/
 						return $since;
@@ -232,23 +232,23 @@ if (!class_exists ("c_ws_plugin__s2member_utils_time"))
 						/**/
 						if ($term_cycle_key && $directive === "recurring") /* recurring = Daily, Weekly, Bi-Weekly, Monthly, Bi-Monthly, Quarterly, Yearly, Lifetime. */
 							{
-								$paypal_term_cycles = array ("D" => "Daily", "W" => "Weekly", "M" => "Monthly", "Y" => "Yearly", "L" => "Lifetime", "DAY" => "Daily", "WEEK" => "Weekly", "MONTH" => "Monthly", "YEAR" => "Yearly", "Lifetime" => "Lifetime");
+								$paypal_term_cycles = array ("D" => _x ("Daily", "s2member-front", "s2member"), "W" => _x ("Weekly", "s2member-front", "s2member"), "M" => _x ("Monthly", "s2member-front", "s2member"), "Y" => _x ("Yearly", "s2member-front", "s2member"), "L" => _x ("Lifetime", "s2member-front", "s2member"), "DAY" => _x ("Daily", "s2member-front", "s2member"), "WEEK" => _x ("Weekly", "s2member-front", "s2member"), "MONTH" => _x ("Monthly", "s2member-front", "s2member"), "YEAR" => _x ("Yearly", "s2member-front", "s2member"), "Lifetime" => _x ("Lifetime", "s2member-front", "s2member"));
 								/**/
 								$term_cycle = isset ($paypal_term_cycles[$term_cycle_key]) ? $paypal_term_cycles[$term_cycle_key] : false;
 								/**/
-								$term_cycle = (strtoupper ($term_or_period_term) === "2 W") ? "Bi-Weekly" : $term_cycle;
-								$term_cycle = (strtoupper ($term_or_period_term) === "2 M") ? "Bi-Monthly" : $term_cycle;
-								$term_cycle = (strtoupper ($term_or_period_term) === "3 M") ? "Quarterly" : $term_cycle;
+								$term_cycle = (strtoupper ($term_or_period_term) === "2 W") ? _x ("Bi-Weekly", "s2member-front", "s2member") : $term_cycle;
+								$term_cycle = (strtoupper ($term_or_period_term) === "2 M") ? _x ("Bi-Monthly", "s2member-front", "s2member") : $term_cycle;
+								$term_cycle = (strtoupper ($term_or_period_term) === "3 M") ? _x ("Quarterly", "s2member-front", "s2member") : $term_cycle;
 							}
 						else if ($term_cycle_key && $directive === "singular") /* singular = Day, Week, Month, Year, Lifetime. */
 							{
-								$paypal_term_cycles = array ("D" => "Day", "W" => "Week", "M" => "Month", "Y" => "Year", "L" => "Lifetime", "DAY" => "Day", "WEEK" => "Week", "MONTH" => "Month", "YEAR" => "Year", "Lifetime" => "Lifetime");
+								$paypal_term_cycles = array ("D" => _x ("Day", "s2member-front", "s2member"), "W" => _x ("Week", "s2member-front", "s2member"), "M" => _x ("Month", "s2member-front", "s2member"), "Y" => _x ("Year", "s2member-front", "s2member"), "L" => _x ("Lifetime", "s2member-front", "s2member"), "DAY" => _x ("Day", "s2member-front", "s2member"), "WEEK" => _x ("Week", "s2member-front", "s2member"), "MONTH" => _x ("Month", "s2member-front", "s2member"), "YEAR" => _x ("Year", "s2member-front", "s2member"), "Lifetime" => _x ("Lifetime", "s2member-front", "s2member"));
 								/**/
 								$term_cycle = isset ($paypal_term_cycles[$term_cycle_key]) ? $paypal_term_cycles[$term_cycle_key] : false;
 							}
 						else if ($term_cycle_key && $directive === "plural") /* plural = Days, Weeks, Months, Years, Lifetimes. */
 							{
-								$paypal_term_cycles = array ("D" => "Days", "W" => "Weeks", "M" => "Months", "Y" => "Years", "L" => "Lifetimes", "DAY" => "Days", "WEEK" => "Weeks", "MONTH" => "Months", "YEAR" => "Years", "Lifetime" => "Lifetimes");
+								$paypal_term_cycles = array ("D" => _x ("Days", "s2member-front", "s2member"), "W" => _x ("Weeks", "s2member-front", "s2member"), "M" => _x ("Months", "s2member-front", "s2member"), "Y" => _x ("Years", "s2member-front", "s2member"), "L" => _x ("Lifetimes", "s2member-front", "s2member"), "DAY" => _x ("Days", "s2member-front", "s2member"), "WEEK" => _x ("Weeks", "s2member-front", "s2member"), "MONTH" => _x ("Months", "s2member-front", "s2member"), "YEAR" => _x ("Years", "s2member-front", "s2member"), "Lifetime" => _x ("Lifetimes", "s2member-front", "s2member"));
 								/**/
 								$term_cycle = isset ($paypal_term_cycles[$term_cycle_key]) ? $paypal_term_cycles[$term_cycle_key] : false;
 							}
@@ -283,13 +283,15 @@ if (!class_exists ("c_ws_plugin__s2member_utils_time"))
 							$period_term = strtolower ($cycle_recurring); /* Results in an "ly" ending. */
 						/**/
 						else if ($recurring) /* Otherwise, it's recurring; but NOT an "ly" ending. */
-							$period_term = strtolower ("every " . $period . " " . $cycle_plural);
+							/* translators: Each cycle ( i.e. `each day/week/month` or `every 2 days/weeks/months`, etc. ). Cycles are translated elsewhere. */
+							$period_term = strtolower (sprintf (_nx ('each %2$s', 'every %1$s %3$s', $period, "s2member-front", "s2member"), $period, $cycle_singular, $cycle_plural));
 						/**/
 						else if (strtoupper ($term) === "L") /* One-payment for lifetime access. */
-							$period_term = "lifetime"; /* Lifetime only. */
+							$period_term = strtolower (_x ("lifetime", "s2member-front", "s2member")); /* Life. */
 						/**/
 						else /* Otherwise, this is NOT recurring. Results in X days/weeks/months/years/lifetime. */
-							$period_term = strtolower ($period . " " . (($period <> 1) ? $cycle_plural : $cycle_singular));
+							/* translators: Membership cycle ( i.e. `1 day/week/month` or `2 days/weeks/months`, etc. ). Most of this is translated elsewhere. */
+							$period_term = strtolower (sprintf (_nx ('%1$s %2$s', '%1$s %3$s', $period, "s2member-front", "s2member"), $period, $cycle_singular, $cycle_plural));
 						/**/
 						return $period_term; /* Return converted value. */
 					}
@@ -322,13 +324,15 @@ if (!class_exists ("c_ws_plugin__s2member_utils_time"))
 							$amount_period_term = number_format ($amount, 2, ".", "") . " / " . strtolower ($cycle_recurring);
 						/**/
 						else if ($recurring) /* Otherwise, it's recurring; but NOT an "ly" ending. */
-							$amount_period_term = number_format ($amount, 2, ".", "") . " " . strtolower ("every " . $period . " " . $cycle_plural);
+							/* translators: Each cycle ( i.e. `each day/week/month` or `every 2 days/weeks/months`, etc. ). Cycles are translated elsewhere. */
+							$amount_period_term = number_format ($amount, 2, ".", "") . " " . strtolower (sprintf (_nx ('each %2$s', 'every %1$s %3$s', $period, "s2member-front", "s2member"), $period, $cycle_singular, $cycle_plural));
 						/**/
 						else if (strtoupper ($term) === "L") /* One-payment for lifetime access. */
-							$amount_period_term = number_format ($amount, 2, ".", ""); /* Price only. */
+							$amount_period_term = number_format ($amount, 2, ".", ""); /* Price. */
 						/**/
 						else /* Otherwise, this is NOT recurring. Results in 0.00 for X days/weeks/months/years/lifetime. */
-							$amount_period_term = number_format ($amount, 2, ".", "") . " for " . strtolower ($period . " " . (($period <> 1) ? $cycle_plural : $cycle_singular));
+							/* translators: Cycle ( i.e. `for 1 day/week/month` or `for 2 days/weeks/months`, etc. ). Most of this is translated elsewhere. */
+							$amount_period_term = number_format ($amount, 2, ".", "") . " " . strtolower (sprintf (_nx ('for %1$s %2$s', 'for %1$s %3$s', $period, "s2member-front", "s2member"), $period, $cycle_singular, $cycle_plural));
 						/**/
 						return $amount_period_term; /* Return converted value. */
 					}

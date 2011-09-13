@@ -74,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 										if (($paypal = c_ws_plugin__s2member_paypal_utilities::paypal_api_response ($paypal)) && empty ($paypal["__error"]) && !empty ($paypal["WEBSITECODE"]) && ($code = $paypal["WEBSITECODE"]))
 											/* Only proceed if we DID get a valid response from the PayPal® API. This works as a nice fallback; just in case the API connection fails. */
 											{
-												$default_image = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"; /* Default PayPal® image. */
+												$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 												/**/
 												$code = preg_replace ("/\<img[^\>]+\>/i", "", $code); /* Remove the 1x1 pixel tracking image that PayPal® sticks in there. */
 												$code = preg_replace ("/(\<input)([^\>]+)(\>)/ie", "'\\1'.rtrim(stripslashes('\\2'),'/').' /\\3'", $code); /* Use XHTML! */

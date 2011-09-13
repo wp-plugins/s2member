@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_admin_css_js_in"))
 	{
@@ -43,16 +43,21 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_menu_pages_css"]) && is_user_logged_in () && current_user_can ("create_users"))
 							{
-								header("Content-Type: text/css; charset=utf-8");
-								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
-								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header("Cache-Control: no-cache, must-revalidate, max-age=0");
-								header("Pragma: no-cache");
+								@ini_set ("zlib.output_compression", 0);
+								/**/
+								status_header (200); /* 200 OK status header. */
+								header ("Content-Type: text/css; charset=utf-8");
+								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
+								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header ("Cache-Control: no-cache, must-revalidate, max-age=0");
+								header ("Pragma: no-cache");
+								/**/
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
 								/**/
 								$u = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"];
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
-								ob_start("c_ws_plugin__s2member_utils_css::compress_css"); /* Compress. */
+								ob_start ("c_ws_plugin__s2member_utils_css::compress_css");
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/menu-pages/menu-pages.css";
 								/**/
@@ -83,18 +88,23 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_menu_pages_js"]) && is_user_logged_in () && current_user_can ("create_users"))
 							{
-								header("Content-Type: text/javascript; charset=utf-8");
-								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
-								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header("Cache-Control: no-cache, must-revalidate, max-age=0");
-								header("Pragma: no-cache");
+								@ini_set ("zlib.output_compression", 0);
+								/**/
+								status_header (200); /* 200 OK status header. */
+								header ("Content-Type: text/javascript; charset=utf-8");
+								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
+								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header ("Cache-Control: no-cache, must-revalidate, max-age=0");
+								header ("Pragma: no-cache");
+								/**/
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
 								/**/
 								$u = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"];
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
 								for ($n = 0, $labels = ""; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									$labels .= "labels['level" . $n . "'] = '" . ((!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"])) ? c_ws_plugin__s2member_utils_strings::esc_sq (preg_replace ('/"/', "", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"])) : "") . "';";
-								unset($n);
+									$labels .= "labels['level" . $n . "'] = '" . ((!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"])) ? str_replace ('"', "", c_ws_plugin__s2member_utils_strings::esc_js_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"], 3)) : "") . "';";
+								unset ($n);
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/menu-pages/menu-pages-min.js";
 								/**/

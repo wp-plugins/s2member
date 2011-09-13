@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110815
-Stable tag: 110815
+Version: 110912
+Stable tag: 110912
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -20,8 +20,8 @@ AliPay® Compatible: w/ s2Member Pro
 ccBill® Compatible: w/ s2Member Pro
 
 Tested up to: 3.2.1
-Requires at least: 3.1
-Requires: WordPress® 3.1+, PHP 5.2.3+
+Requires at least: 3.2
+Requires: WordPress® 3.2+, PHP 5.2.3+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -29,6 +29,9 @@ Contributors: WebSharks, PriMoThemes
 Author URI: http://www.primothemes.com/
 Author: PriMoThemes.com / WebSharks, Inc.
 Donate link: http://www.primothemes.com/donate/
+
+Text Domain: s2member
+Domain Path: /includes/translations
 
 Plugin Name: s2Member
 Video Tutorials: http://www.s2member.com/videos/
@@ -84,6 +87,20 @@ New! - [s2Member Pro](http://www.s2member.com/) is an add-on for the free versio
 8. s2Member / Screenshot #8
 9. s2Member / Screenshot #9
 10. s2Member / Screenshot #10
+
+== Translations ==
+
+s2Member and s2Member Pro are now equipped with support for front-end translation, using standardized WordPress® methodologies; i.e. we've implemented the use of `_x()`, and various other translation routines for many aspects of s2Member's front-end interfaces. For instance, things like Profile panels, Login/Registration Fields, and Pro Form integrations; as well as error messages displayed to Users/Members. Translation support for back-end admin panels provided by s2Member will come in a future release, along with more extensive translation support for front-end aspects.
+
+Please note, this is but our first step toward internationalizing s2Member and s2Member Pro. Look for further updates/improvements to come in the future.
+
+Like WordPress® itself, we chose to use the GNU `gettext` localization framework to provide localization infrastructure for s2Member®. GNU `gettext` is a mature, widely used framework for modular translation of software, and is the *de facto* standard for localization in the open source/free software realm. If you'd like to translate s2Member and/or s2Member Pro, please use the POT file found inside `/s2member/includes/translations/s2member.pot`, which contains all translation entries for both the s2Member Framework *( i.e. the free version )*, and also for s2Member Pro.
+
+The file: `/s2member/includes/translations/s2member.pot` will be updated with each new release of s2Member.
+
+If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/s2member/includes/translations/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
+
+Quick Tip: If you only need to translate the front-end of s2Member, please ignore entries in the `s2member.pot` file with a context matching `s2member-admin`. Those sections of s2Member are only seen by site Administrators; they are NOT used in s2Member's front-end integration with WordPress®. Skipping over translation entries with a context matching `s2member-admin` can save you time.
 
 == Frequently Asked Questions ==
 
@@ -160,6 +177,44 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110912 =
+* (s2Member) **Compatibility**. This version of s2Member requires WordPress® v3.2+.
+* (s2Member) **Alternative View Protections**. s2Member's Alternative View Protections are now more flexible, allowing specific types of Protections to be applied individually now, instead of in groups. In addition, there are two new types of Alternative View Protection available: Comment Feeds (new), and WordPress® Navigation Menus (new). For further details, please check your Dashboard, under: `s2Member -> Restriction Options -> Alternative View Protections`.
+* (s2Member Pro) **Independent Custom Capabilities**. The integration of Independent Custom Capabilities from the last release, has now been completed for all of s2Member's Payment Gateways. In this release, we completed Independent Custom Capability integration for ClickBank®, Google® Checkout, ccBill®, and AliPay®. Independent Custom Capabilities are already possible with PayPal®, PayPal® Pro, and Authorize.Net®, from the last release. Further improvements to this aspect of s2Member Pro will come in a future release.
+* (s2Member/s2Member Pro) **Security**. Back-end panels for both s2Member and s2Member Pro have been updated to use `password` input fields, anywhere/everywhere sensitive data is being configured. This helps to further safeguard various API and Payment Gateway credentials on your installation of WordPress®. In other words, some sensitive data that you configure for s2Member, will now appear with just x's `xxxxxxxxxxxxxxx`, instead of the actual data that you entered; *( e.g. `password` input fields secure this information from prying eyes )*.
+* (s2Member/s2Member Pro) **Translation Support**. s2Member and s2Member Pro are now equipped with support for front-end translation, using standardized WordPress® methodologies; i.e. we've implemented the use of `_x()`, and various other translation routines for many aspects of s2Member's front-end interfaces. For instance, things like Profile panels, Login/Registration Fields, and Pro Form integrations; as well as error messages displayed to Users/Members. Translation support for back-end admin panels provided by s2Member will come in a future release, along with more extensive translation support for front-end aspects.
+ 
+ Please note, this is but our first step toward internationalizing s2Member and s2Member Pro. Look for further updates/improvements to come in the future.
+ 
+ Like WordPress® itself, we chose to use the GNU `gettext` localization framework to provide localization infrastructure for s2Member®. GNU `gettext` is a mature, widely used framework for modular translation of software, and is the *de facto* standard for localization in the open source/free software realm. If you'd like to translate s2Member and/or s2Member Pro, please use the POT file found inside `/s2member/includes/translations/s2member.pot`, which contains all translation entries for both the s2Member Framework *( i.e. the free version )*, and also for s2Member Pro.
+ 
+ The file: `/s2member/includes/translations/s2member.pot` will be updated with each new release of s2Member.
+ If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/s2member/includes/translations/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
+ 
+ Quick Tip: If you only need to translate the front-end of s2Member, please ignore entries in the `s2member.pot` file with a context matching `s2member-admin`. Those sections of s2Member are only seen by site Administrators; they are NOT used in s2Member's front-end integration with WordPress®. Skipping over translation entries with a context matching `s2member-admin` can save you time.
+* (s2Member) **Bug fix / Multisite**. A bug fix related to site creation within the Dashboard on a Multisite Blog Farm, has been corrected in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=10307#p32628).
+* (s2Member/s2Member Pro) **Bug fix**. New Filter added to s2Member's source code, allowing s2Member Pro site owners to enable/disable tab indexing of reCAPTCHA box controllers *( e.g. the three mundane buttons )* that are skipped over 99.9% of the time anyway. If you'd like to enable tab indexing on these buttons, use: `add_filter("c_ws_plugin__s2member_utils_tabindex_recaptcha_icons", "__return_true");` inside a `/wp-content/mu-plugins/s2-hacks.php` file.
+* (s2Member Pro) **Bug fix**. Some site owners running s2Member Pro, on server configurations with PHP-based output compression enabled, experienced problems with the `success=""` Shortcode Attribute for s2Member Pro Forms. s2Member Pro has been improved in this regard *( i.e. s2Member Pro now makes better attempts to clear output buffers before returning plain text data with it's handlers )*. In addition, calls to `trim()` have also been implemented as an additional line of defense against errors reported in the previous release; which were related to URLs with leading white space, returned by s2Member's core PayPal® IPN processor.
+* (s2Member/s2Member Pro) **Conformity**. s2Member and s2Member Pro now make use of a core WordPress® function for all HTTP status headers ( i.e. `status_header(xxx)` ).
+* (s2Member Pro) **Pro Forms / Tabindex ( Bug fix )**. s2Member Pro Forms suffered from a bug related to `tabindex` conflicts whenever MANY Custom Registration Fields were configured together. Corrected in this release.
+* (s2Member Pro) **Google® Checkout ( Bug fix )**. s2Member Pro's integration with Google Checkout has been updated in this release to use `display-disposition: PESSIMISTIC` instead of `OPTIMISTIC`. This change prevents possible card declines from slipping through, and thereby granting a Customer access inadvertently. With the former `OPTIMISTIC` behavior, in rare cases when payment authorizaton at Google® Checkout took longer than 20 seconds, s2Member was giving a Customer access to the site, instead of waiting pessimistically for Google® Checkout to complete processing. The updated behavior, now set to `PESSIMISTIC`, prevents this from occurring. For technical details, see [this article](http://code.google.com/apis/checkout/developer/Google_Checkout_Digital_Delivery.html).
+* (s2Member Pro) **ClickBank® ( Bug fix )**. s2Member Pro's integration with ClickBank® has been updated in this release. A bug was found by WebSharks, Inc. Support Rep: Cristián Lávaque, related to the verification of POST vars. Whenever UTF-8 characters appeared in any part of a ClickBank® IPN response received by s2Member, s2Member was failing to verify the checksum, and thus, returning the error: `POST vars could not be verified`. This issue has been corrected in the latest release of s2Member Pro. In addition, a known bug with ClickBank® cutting off first/last names whenever special characters were part of either name, has now been side-stepped by s2Member Pro's integration with ClickBank®.
+* (s2Member Pro) **PayPal® ( Bug fix )**. s2Member Pro's integration with the PayPal® Pro API has been updated in this release. A bug was found by the s2Member community which affected a rare scenario during heavy testing. When/if a site owner was heavily testing s2Member Pro Forms repeatedly, whereby PayPal® Pro Recurring Profiles were created over and over again; one of these Recurring Profiles could still be in a `Pending` state during a Subscription Modification soon thereafter. This is rare, because Recurring Profiles are usually in a `Pending` state on the PayPal® side of things, for just a few seconds. However, in this test case, it was possible for s2Member to create a second Recurring Profile through the PayPal® Pro API, and the old one would NOT be terminated properly, because it was still in a `Pending` state, and unable to be terminated. This release of s2Member Pro resolves this issue and prevents this from occuring under any scenario. Customers and/or site owners testing s2Member Pro Forms will now see an error message related to pending changes, and the Customer would be asked to wait 15 minutes in this rare scenario.
+* (s2Member) **Protected Files**. This version of s2Member updates the `.htaccess` file in your `/s2member-files/` directory with `mod_rewrite` rules which provide additional flexibility in the way protected files are served to your Customers. With the new `mod_rewrite` rules, it is now possible to link directly to a protected file, avoiding the use of query string variables *( it's completely optional though )*.
+
+ In other words, this update adds new functionality, it does NOT change anything that already existed. This new flexibility may come in handy for site owners serving files through media playback devices that have issues with query string variables. For further details, please check your Dashboard, under: `s2Member -> Download Options -> Advanced Mod Rewrite Linkage`.
+ 
+ Dev note. Any existing `.htaccess` file inside your `/s2member-files/` directory will be overwritten by this release, as it should be. However, if you'd like s2Member to preserve a custom `.htaccess` file that you've written, please create this directory and file: `/wp-content/mu-plugins/s2-hacks.php`, and put this inside it: `<?php add_filter("ws_plugin__s2member_preserve_files_dir_htaccess", "__return_true"); ?>`. Please do this before you upgrade, if this is your intention.
+* (s2Member) **Download Keys**. There is now a Shortcode equivalent to s2Member's API function `s2member_file_download_key($file, $directive)`. You can now do this in this WordPress® Visual Editor if you prefer: `[s2Key file_download="example-file.zip" /]` without needing a PHP Execution plugin.
+
+ For those of you that use the optional `$directive` parameter, you can do something like this: `[s2Key file_download="example-file.zip" directive="ip-forever|universal" /]`. For further details, please check your Dashboard, under: `s2Member -> Download Options -> Advanced Download Restrictions`. Or see [this article](http://www.primothemes.com/forums/viewtopic.php?f=40&t=12453#src_doc_s2member_file_download_key%28%29) in the s2Member Codex.
+* (s2Member) **Localhost Installs**. s2Member now includes information for site owners developing in a `localhost` environment, with WAMP/MAMP or something like EasyPHP. Instructions are now easier to find. For further details, please check your Dashboard, under: `s2Member -> General Options -> Localhost WAMP/MAMP Developers`.
+* (s2Member) **PayPal® ( Bug fix )**. s2Member was incorrectly handling delayed EOT Times under a specific scenario, as [reported here](http://www.primothemes.com/forums/viewtopic.php?f=4&t=14876&p=34414#p34414). Corrected in this release.
+* (s2Member) **JavaScript/CSS Optimization**. s2Member now loads its dynamic JavaScript/CSS libraries through a new optimized file called `/s2member-o.php`, designed to increase the speed at which your installation of WordPress® can load these resources. The new optimized `/s2member-o.php` file loads only the core WordPress® framework and the s2Member JavaScript and/or CSS file, depending on which is being requested. This new file will eliminate a potential bottleneck on some WordPress® installations, which may have MANY other plugins running in concert with s2Member. It also works to further reduce CPU and memory consumption for all site owners. For further details about why this optimization is beneficial, please see [this article](http://www.primothemes.com/forums/viewtopic.php?f=4&t=14359&p=33441#p33441).
+* (s2Member Pro) **PayPal® Express Checkout / Pre-Population**. s2Member now pre-populates everything it can through PayPal® Express Checkout integration. If a Customer does NOT already have a PayPal® account when they arrive at Express Checkout, the Account Creation Form at PayPal® will be pre-populated with a minimum of their Name and Email Address. Street address information will ONLY be pre-populated, when/if s2Member collects it for tax purposes. Otherwise, the address information will NOT be pre-populated, because only PayPal® will ask for those details anyway *( i.e. s2Member doesn't ask for address details when Express Checkout is used; not unless you're collecting taxes: `s2Member -> PayPal® Options -> Tax Calculations` ).
+* (s2Member) **New API Function**. This version of s2Member includes a new API Function `get_s2member_custom_fields()`, designed to provide more information about Custom Registration Field configuration and values for a specific User. The API function `get_user_field()` remains available as well. For further details, please see [this article](http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455) in the s2Member Codex.
+* (s2Member Pro) **Pro Login Widget**. This version of s2Member improves the `%%automatic%%` setting for the Signup URL in Pro Login Widgets. When/if a Customer has already paid for their Membership, the Signup URL presented in the Pro Login Widget will change dynamically, pointing a Customer to the Registration Form, instead of to your Membership Options Page. Of course, this behavior could be overridden by changing the Signup URL to something other than `%%automatic%%`, if you prefer.
 
 = v110815 =
 * (s2Member/s2Member Pro) **Independent Custom Capabilities.** You can now sell one or more Custom Capabilities using Buy Now functionality, to "existing" Users/Members, regardless of which Membership Level they have on your site *( i.e. you could even sell Independent Custom Capabilities to Users at Membership Level #0, normally referred to as Free Subscribers, if you like )*. So this is quite flexible. Independent Custom Capabilities do NOT rely on any specific Membership Level. That's why s2Member refers to these as *Independent* Custom Capabilities, because you can sell Capabilities this way, through Buy Now functionality, and the Customer's Membership Level Access, along with any existing paid Subscription they may already have with you, will remain completely unaffected. For further details, please check your Dashboard, under: `s2Member -> PayPal® Buttons -> Capability (Buy Now) Buttons`. Independent Custom Capabilities are currently integrated with PayPal® Standard Buttons, PayPal® Pro Forms, and Authorize.Net® Pro Forms only. Integration with other Payment Gateways supported by s2Member Pro will come in a future release.

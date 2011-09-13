@@ -96,9 +96,6 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 						$a[] = 'body, body * { font-size:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_size"] . $i . '; }';
 						$a[] = 'body, body * { font-family:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_family"] . $i . '; }';
 						/**/
-						if (!version_compare (get_bloginfo ("version"), "3.2-RC4", ">=")) /* Backward compatibility. */
-							$a[] = 'p#backtoblog a, p#backtoblog a:hover, p#backtoblog a:active, p#backtoblog a:focus { color:#' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_color"] . $i . '; text-shadow:1px 1px 3px #' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_shadow_color"] . $i . '; top:15px' . $i . '; left:15px' . $i . '; padding:10px' . $i . '; border:1px solid #' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"] . $i . '; background-color:#' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_color"] . $i . '; -moz-border-radius:3px' . $i . '; -webkit-border-radius:3px' . $i . '; border-radius:3px' . $i . '; }';
-						/**/
 						$a[] = 'div#login { width:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_width"] . 'px' . $i . '; }';
 						$a[] = 'div#login h1 a { background:url(' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"] . ') no-repeat top center' . $i . '; }';
 						$a[] = 'div#login h1 a { display:block' . $i . '; width:100%' . $i . '; height:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_height"] . 'px' . $i . '; }';

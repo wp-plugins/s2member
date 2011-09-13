@@ -30,7 +30,7 @@ jQuery(document).ready (function($)
 						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
-						$.post (ajaxurl, {action: 'ws_plugin__s2member_update_roles_via_ajax', ws_plugin__s2member_update_roles_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-update-roles-via-ajax")); ?>'}, function(response)
+						$.post (ajaxurl, {action: 'ws_plugin__s2member_update_roles_via_ajax', ws_plugin__s2member_update_roles_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-update-roles-via-ajax")); ?>'}, function(response)
 							{
 								if (response === '0')
 									alert('Sorry, your request failed.\ns2Member\'s Roles/Capabilities are locked by Filter:\nws_plugin__s2member_lock_roles_caps'), $this.val ('Update Roles/Capabilities');
@@ -121,7 +121,7 @@ jQuery(document).ready (function($)
 				/**/
 				ws_plugin__s2member_enableSecurityKey = function() /* Allow Security Key editing?? */
 					{
-						if (confirm('Edit Key? Are you sure?\nThis could break your installation!\n\n*Note* If you\'ve been testing s2Member, feel free to change this Key before you go live. Just don\'t go live, and then change it. You\'ll have some very unhappy Customers. Data corruption WILL occur!\n\nFor your safety, s2Member keeps a history of the last 10 Keys that you\'ve used. If you get yourself into a real situation, s2Member will let you revert back to a previous Key.'))
+						if (confirm('Edit Key? Are you sure?\nThis could break your installation!\n\n*Note* If you\'ve been testing s2Member, feel free to change this Key before you go live. Just don\'t go live, and then change it. You\'ll have unhappy Customers. Data corruption WILL occur! For your safety, s2Member keeps a history of the last 10 Keys that you\'ve used. If you get yourself into a real situation, s2Member will let you revert back to a previous Key.'))
 							$('input#ws-plugin--s2member-sec-encryption-key').removeAttr ('disabled');
 						/**/
 						return false;
@@ -826,13 +826,12 @@ jQuery(document).ready (function($)
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-res-ops/))
 			{
-				/**/
 				$('input#ws-plugin--s2member-brute-force-restrictions-reset-button').click (function()
 					{
 						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
-						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
+						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
 							{
 								alert('s2Member\'s Brute Force Restriction Logs have all been reset.'), $this.val ('Reset Brute Force Logs');
 							});
@@ -845,13 +844,33 @@ jQuery(document).ready (function($)
 						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
-						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
+						$.post (ajaxurl, {action: 'ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax', ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-delete-reset-all-ip-restrictions-via-ajax")); ?>'}, function(response)
 							{
 								alert('s2Member\'s IP Restriction Logs have all been reset.'), $this.val ('Reset IP Restriction Logs');
 							});
 						/**/
 						return false;
 					});
+				/**/
+				$('div.ws-plugin--s2member-query-level-access-section input[type="checkbox"][name="ws_plugin__s2member_filter_wp_query\[\]"]').change (function()
+					{
+						var thisChange = $(this).val (); /* Record value associated with change event. Allows for intutitive unchecking. */
+						/**/
+						$('div.ws-plugin--s2member-query-level-access-section input[type="checkbox"][name="ws_plugin__s2member_filter_wp_query\[\]"]').each (function()
+							{
+								var $this = $(this), val = $this.val (), checkboxes = 'input[type="checkbox"]';
+								/**/
+								if (val === 'all' && this.checked) /* All sub-items get checked/disabled. */
+									$this.nextAll (checkboxes).attr ({'checked': 'checked', 'disabled': 'disabled'});
+								/**/
+								else if (val === 'all' && !this.checked)
+									{
+										$this.nextAll (checkboxes).removeAttr ('disabled');
+										(thisChange === 'all') ? $this.nextAll (checkboxes).removeAttr ('checked') : null;
+									}
+							});
+					/**/
+					}).last ().trigger ('change');
 			}
 		/**/
 		else if (location.href.match (/page\=ws-plugin--s2member-paypal-ops/))
@@ -1044,7 +1063,7 @@ jQuery(document).ready (function($)
 						(regRecur !== 'BN') ? code.html (code.val ().replace (/ (\<input type\="hidden" name\="amount" value\="(.*?)" \/\>)/g, " <!--$1-->")) : null;
 						/**/
 						shortCodeTemplateAttrs += (button === 'modification') ? 'modify="1" ' : ''; /* For Modification Buttons. */
-						shortCodeTemplateAttrs += 'level="' + esc_attr(level) + '" ccaps="' + esc_attr(cCaps) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '" custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"';
+						shortCodeTemplateAttrs += 'level="' + esc_attr(level) + '" ccaps="' + esc_attr(cCaps) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '" custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"';
 						shortCodeTemplateAttrs += ' ta="' + esc_attr(trialAmount) + '" tp="' + esc_attr(trialPeriod) + '" tt="' + esc_attr(trialTerm) + '" ra="' + esc_attr(regAmount) + '" rp="' + esc_attr(regPeriod) + '" rt="' + esc_attr(regTerm) + '" rr="' + esc_attr(regRecur) + '" rrt="' + esc_attr(regRecurTimes) + '" rra="' + esc_attr(regRecurRetry) + '"';
 						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
 						/**/
@@ -1054,7 +1073,7 @@ jQuery(document).ready (function($)
 						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(levelCcapsPer) + '"'));
 						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
 						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
-						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
+						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
 						/**/
 						code.html (code.val ().replace (/ name\="modify" value\="(.*?)"/, ' name="modify" value="' + ((button === 'modification') ? '1' : '0') + '"'));
 						/**/
@@ -1071,7 +1090,7 @@ jQuery(document).ready (function($)
 						code.html (code.val ().replace (/ name\="p3" value\="(.*?)"/, ' name="p3" value="' + esc_attr(regPeriod) + '"'));
 						code.html (code.val ().replace (/ name\="t3" value\="(.*?)"/, ' name="t3" value="' + esc_attr(regTerm) + '"'));
 						/**/
-						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						$('div#ws-plugin--s2member-' + button + '-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
 						(button === 'modification') ? alert('Your Modification Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.\n\n* Remember, Modification Buttons should be displayed to existing Users/Members, and they should be logged-in, BEFORE clicking this Button.') : alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Membership Options Page.');
 						/**/
@@ -1129,7 +1148,7 @@ jQuery(document).ready (function($)
 							}
 						/**/
 						shortCodeTemplateAttrs += 'level="*" ccaps="' + esc_attr(cCaps) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '"';
-						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '" rp="' + esc_attr(regPeriod) + '" rt="' + esc_attr(regTerm) + '" rr="' + esc_attr(regRecur) + '"';
+						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '" rp="' + esc_attr(regPeriod) + '" rt="' + esc_attr(regTerm) + '" rr="' + esc_attr(regRecur) + '"';
 						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
 						/**/
 						code.html (code.val ().replace (/ name\="lc" value\="(.*?)"/, ' name="lc" value="' + esc_attr(localeCode) + '"'));
@@ -1138,11 +1157,11 @@ jQuery(document).ready (function($)
 						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(levelCcapsPer) + '"'));
 						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
 						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
-						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
+						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
 						/**/
 						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
 						/**/
-						$('div#ws-plugin--s2member-ccap-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						$('div#ws-plugin--s2member-ccap-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
 						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your Login Welcome Page, or wherever you feel it would be most appropriate.\n\n* Remember, Independent Custom Capability Buttons should ONLY be displayed to existing Users/Members, and they MUST be logged-in, BEFORE clicking this Button.');
 						/**/
@@ -1200,7 +1219,7 @@ jQuery(document).ready (function($)
 						var spIdsHours = 'sp:' + ids + ':' + hours; /* Combined sp:ids:expiration hours. */
 						/**/
 						shortCodeTemplateAttrs += 'sp="1" ids="' + esc_attr(ids) + '" exp="' + esc_attr(hours) + '" desc="' + esc_attr(desc) + '" ps="' + esc_attr(pageStyle) + '" lc="' + esc_attr(localeCode) + '" cc="' + esc_attr(currencyCode) + '" dg="' + esc_attr(digital) + '" ns="' + esc_attr(noShipping) + '"';
-						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '"';
+						shortCodeTemplateAttrs += ' custom="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>" ra="' + esc_attr(regAmount) + '"';
 						shortCode.val (shortCodeTemplate.replace (/%%attrs%%/, shortCodeTemplateAttrs));
 						/**/
 						code.html (code.val ().replace (/ name\="lc" value\="(.*?)"/, ' name="lc" value="' + esc_attr(localeCode) + '"'));
@@ -1209,11 +1228,11 @@ jQuery(document).ready (function($)
 						code.html (code.val ().replace (/ name\="item_number" value\="(.*?)"/, ' name="item_number" value="' + esc_attr(spIdsHours) + '"'));
 						code.html (code.val ().replace (/ name\="page_style" value\="(.*?)"/, ' name="page_style" value="' + esc_attr(pageStyle) + '"'));
 						code.html (code.val ().replace (/ name\="currency_code" value\="(.*?)"/, ' name="currency_code" value="' + esc_attr(currencyCode) + '"'));
-						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
+						code.html (code.val ().replace (/ name\="custom" value\="(.*?)"/, ' name="custom" value="<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["HTTP_HOST"])); ?>"'));
 						/**/
 						code.html (code.val ().replace (/ name\="amount" value\="(.*?)"/, ' name="amount" value="' + esc_attr(regAmount) + '"'));
 						/**/
-						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
+						$('div#ws-plugin--s2member-sp-button-prev').html (code.val ().replace (/\<form/, '<form target="_blank"').replace (/\<\?php echo S2MEMBER_VALUE_FOR_PP_INV\(\); \?\>/g, Math.round (new Date ().getTime ()) + '~<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (esc_attr ($_SERVER["REMOTE_ADDR"])); ?>').replace (/\<\?php echo S2MEMBER_CURRENT_USER_VALUE_FOR_PP_(ON0|OS0|ON1|OS1); \?\>/g, ''));
 						/**/
 						alert('Your Button has been generated.\nPlease copy/paste the Shortcode Format into your WordPress® Editor.');
 						/**/
@@ -1242,7 +1261,7 @@ jQuery(document).ready (function($)
 								alert('— Oops, a slight problem: —\n\nPaid Subscr. ID is a required value.');
 								return false;
 							}
-						else if (!custom || custom.indexOf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_sq ($_SERVER["HTTP_HOST"]); ?>') !== 0)
+						else if (!custom || custom.indexOf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq ($_SERVER["HTTP_HOST"]); ?>') !== 0)
 							{
 								alert('— Oops, a slight problem: —\n\nThe Custom Value MUST start with your domain name.');
 								return false;
@@ -1253,7 +1272,7 @@ jQuery(document).ready (function($)
 								return false;
 							}
 						/**/
-						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_reg_access_link_via_ajax', ws_plugin__s2member_reg_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-reg-access-link-via-ajax")); ?>', s2member_reg_access_link_subscr_gateway: 'paypal', s2member_reg_access_link_subscr_id: subscrID, s2member_reg_access_link_custom: custom, s2member_reg_access_link_item_number: levelCcapsPer}, function(response)
+						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_reg_access_link_via_ajax', ws_plugin__s2member_reg_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-reg-access-link-via-ajax")); ?>', s2member_reg_access_link_subscr_gateway: 'paypal', s2member_reg_access_link_subscr_id: subscrID, s2member_reg_access_link_custom: custom, s2member_reg_access_link_item_number: levelCcapsPer}, function(response)
 							{
 								$link.show ().html ('<a href="' + esc_attr(response) + '" target="_blank" rel="external">' + esc_html(response) + '</a>'), $loading.hide ();
 							});
@@ -1278,7 +1297,7 @@ jQuery(document).ready (function($)
 							if (additionals[i] && additionals[i] !== leading)
 								ids += ',' + additionals[i];
 						/**/
-						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_sp_access_link_via_ajax', ws_plugin__s2member_sp_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (wp_create_nonce ("ws-plugin--s2member-sp-access-link-via-ajax")); ?>', s2member_sp_access_link_ids: ids, s2member_sp_access_link_hours: hours}, function(response)
+						$link.hide (), $loading.show (), $.post (ajaxurl, {action: 'ws_plugin__s2member_sp_access_link_via_ajax', ws_plugin__s2member_sp_access_link_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-sp-access-link-via-ajax")); ?>', s2member_sp_access_link_ids: ids, s2member_sp_access_link_hours: hours}, function(response)
 							{
 								$link.show ().html ('<a href="' + esc_attr(response) + '" target="_blank" rel="external">' + esc_html(response) + '</a>'), $loading.hide ();
 							});

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 	{
@@ -55,7 +55,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 						/**/
 						if (!empty ($_GET["s2member_paypal_notify"]) && ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"] || !empty ($_GET["s2member_paypal_proxy"])))
 							{
-								@ignore_user_abort (true); /* Important. Continue processing even if/when the connection is broken by the sending party. */
+								@ignore_user_abort(true); /* Important. Continue processing even if/when the connection is broken by the sending party. */
 								/**/
 								include_once ABSPATH . "wp-admin/includes/admin.php"; /* Get administrative functions. Needed for `wp_delete_user()`. */
 								/**/
@@ -77,7 +77,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 											{
 												$paypal["s2member_log"][] = "s2Member originating domain ( `\$_SERVER[\"HTTP_HOST\"]` ) validated.";
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												if (!apply_filters ("ws_plugin__s2member_during_paypal_notify_conditionals", false, get_defined_vars ()))
 													{
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
@@ -182,16 +182,20 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 										if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
 											file_put_contents ($logs_dir . "/" . $log2, $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($paypal, true) . "\n\n", FILE_APPEND);
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_notify", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
-								header ("HTTP/1.0 200 OK"); /* Send a 200 OK status header. */
-								header ("Content-Type: text/plain; charset=utf-8"); /* With text/plain ( supporting a possible return URL ). */
-								exit (((!empty ($paypal["s2member_paypal_proxy_return_url"])) ? $paypal["s2member_paypal_proxy_return_url"] : ""));
+								@ini_set ("zlib.output_compression", 0); /* Turn off. */
+								/**/
+								status_header(200); /* Send a 200 OK status header. */
+								header("Content-Type: text/plain; charset=utf-8"); /* With text/plain. */
+								eval('while (@ob_end_clean ());'); /* End/clean all output buffers that may or may not exist. */
+								/**/
+								exit(((!empty ($paypal["s2member_paypal_proxy_return_url"])) ? $paypal["s2member_paypal_proxy_return_url"] : ""));
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_paypal_notify", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 					}

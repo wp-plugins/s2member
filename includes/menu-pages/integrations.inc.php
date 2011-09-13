@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_integrations"))
 	{
@@ -96,7 +96,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_integrations"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="text" name="ws_plugin__s2member_bridge_bbpress_plugins_dir" id="ws_plugin--s2member-bridge-bbpress-plugins-dir" value="' . format_to_edit ($_POST["ws_plugin__s2member_bridge_bbpress_plugins_dir"]) . '" /><br />' . "\n";
-								echo 'Something like: <code>' . esc_html (untrailingslashit ($_SERVER["DOCUMENT_ROOT"]) . "/bbpress/my-plugins") . '</code>' . "\n";
+								echo 'Something like: <code>' . esc_html (rtrim ($_SERVER["DOCUMENT_ROOT"], DIRECTORY_SEPARATOR . "/") . "/bbpress/my-plugins") . '</code>' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";

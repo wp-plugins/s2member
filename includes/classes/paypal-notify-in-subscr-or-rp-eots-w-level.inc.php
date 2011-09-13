@@ -42,14 +42,14 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 					{
 						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
-						if (/**/(/**/(!empty ($paypal["txn_type"]) && preg_match ("/^(subscr_eot|recurring_payment_expired|recurring_payment_suspended_due_to_max_failed_payment)$/i", $paypal["txn_type"]) && ($recurring = 1))/**/
-						|| (!empty ($paypal["txn_type"]) && preg_match ("/^recurring_payment_profile_cancel$/i", $paypal["txn_type"]) && !empty ($paypal["initial_payment_status"]) && preg_match ("/^failed$/i", $paypal["initial_payment_status"]) && ($recurring = 1))/**/
-						|| (!empty ($paypal["txn_type"]) && preg_match ("/^new_case$/i", $paypal["txn_type"]) && !empty ($paypal["case_type"]) && preg_match ("/^chargeback$/i", $paypal["case_type"]) && !($recurring = 0)) /* ONLY for future compatibility. */
-						|| (!empty ($paypal["payment_status"]) && preg_match ("/^(refunded|reversed|reversal)$/i", $paypal["payment_status"]) && !($recurring = 0)) /* The "txn_type" is irrelevant in all of these cases: refunded|reversed|reversal. */)/**/
-						&& (!empty ($paypal["period1"]) || ($paypal["period1"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period1 ($paypal)) || empty ($recurring) || ($paypal["period1"] = "0 D"))/**/
-						&& (!empty ($paypal["period3"]) || ($paypal["period3"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period3 ($paypal)) || empty ($recurring)) /* Was it even recurring? */
+						if (/**/(/**/(!empty ($paypal["txn_type"]) && preg_match ("/^(subscr_eot|recurring_payment_expired|recurring_payment_suspended_due_to_max_failed_payment)$/i", $paypal["txn_type"]) && ($recurring = true))/**/
+						|| (!empty ($paypal["txn_type"]) && preg_match ("/^recurring_payment_profile_cancel$/i", $paypal["txn_type"]) && !empty ($paypal["initial_payment_status"]) && preg_match ("/^failed$/i", $paypal["initial_payment_status"]) && ($recurring = true))/**/
+						|| (!empty ($paypal["txn_type"]) && preg_match ("/^new_case$/i", $paypal["txn_type"]) && !empty ($paypal["case_type"]) && preg_match ("/^chargeback$/i", $paypal["case_type"]) && !($recurring = false)) /* Seek this for future compatibility. */
+						|| (!empty ($paypal["payment_status"]) && preg_match ("/^(refunded|reversed|reversal)$/i", $paypal["payment_status"]) && !($recurring = false))/**/) /* The "txn_type" is irrelevant in all of these payment statuses: refunded|reversed|reversal. */
+						&& (!empty ($paypal["subscr_id"]) || ($paypal["subscr_id"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_subscr_id ($paypal)) || (!empty ($paypal["parent_txn_id"]) && ($paypal["subscr_id"] = $paypal["parent_txn_id"]))) /* Or `parent_txn_id`? */
+						&& (!empty ($paypal["period1"]) || ($paypal["period1"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period1 ($paypal, false)) || empty ($recurring) || ($paypal["period1"] = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_var ("period1", false, $paypal["subscr_id"])) || ($paypal["period1"] = "0 D"))/**/
+						&& (!empty ($paypal["period3"]) || ($paypal["period3"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period3 ($paypal, false)) || empty ($recurring) || ($paypal["period3"] = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_var ("period3", false, $paypal["subscr_id"])) || ($paypal["period3"] = "1 D"))/**/
 						&& ((!empty ($paypal["item_number"]) || ($paypal["item_number"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_item_number ($paypal))) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"], $paypal["item_number"]))/**/
-						&& (!empty ($paypal["subscr_id"]) || ($paypal["subscr_id"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_subscr_id ($paypal)) || (!empty ($paypal["parent_txn_id"]) && ($paypal["subscr_id"] = $paypal["parent_txn_id"])))/**/
 						&& (!empty ($paypal["item_name"]) || ($paypal["item_name"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_item_name ($paypal)) || ($paypal["item_name"] = $_SERVER["HTTP_HOST"]))/**/
 						&& (!empty ($paypal["payer_email"]) || ($paypal["payer_email"] = c_ws_plugin__s2member_utils_users::get_user_email_with ($paypal["subscr_id"])))/**/)
 							{

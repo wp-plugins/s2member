@@ -57,13 +57,13 @@ if (!class_exists ("c_ws_plugin__s2member_labels"))
 				* @attaches-to: ``add_filter("gettext_with_context");``
 				*
 				* @param str $translation Expects a string; already translated.
-				* @param str $text The original text, passed in by the calling Filter.
+				* @param str $original The original text, passed in by the Filter.
 				* @param str $context Contextual specification for this translation.
 				* @return str The ``$translation``, after translations applied by this routine.
 				*/
-				public static function _label_translations ($translation = FALSE, $text = FALSE, $context = FALSE)
+				public static function _label_translations ($translation = FALSE, $original = FALSE, $context = FALSE)
 					{
-						if ($text && $context && stripos ($context, "User role") === 0 && ($role = $text))
+						if ($original && $context && stripos ($context, "User role") === 0 && ($role = $original))
 							{
 								if (preg_match ("/^(Free )?Subscriber$/i", $role) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"]))
 									$translation = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level0_label"];

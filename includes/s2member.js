@@ -24,22 +24,22 @@ jQuery(document).ready (function($)
 		ws_plugin__s2member_uniqueFilesDownloaded = []; /* Real-time counts. */
 		/* This is used in case a user downloads multiple files from a single page. */
 		/**/
-		var bpRegisterSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_REGISTER_SLUG,"/") : ""), "/"); ?>';
-		var bpxProfileSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_XPROFILE_SLUG,"/") : ""), "/"); ?>';
+		var bpRegisterSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_REGISTER_SLUG,"/") : "register"), "/"); ?>';
+		var bpxProfileSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_XPROFILE_SLUG,"/") : "profile"), "/"); ?>';
 		/**/
 		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED)
 			{
-				$('a[href*="s2member_file_download"]').click (function()
+				$('a[href*="s2member_file_download"], a[href*="s2member-file"').click (function()
 					{
 						if (!this.href.match (/s2member_file_download_key\=(.+)/i))
 							{
-								var c = '** Please Confirm This File Download **\n\n';
-								c += 'You\'ve downloaded ' + S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY + ' protected file' + ((S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY !== 1) ? 's' : '') + ' in the last ' + S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS + ' days.\n\n';
-								c += 'You\'re entitled to ' + ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED) ? 'UNLIMITED downloads though ( so, no worries ).' : S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED + ' unique downloads every ' + S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS + ' day period.');
+								var c = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Confirm File Download —", "s2member-front", "s2member")); ?>' + '\n\n';
+								c += $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`ve downloaded %s protected %s in the last %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY, ((S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("file", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("files", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("24 hours", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("%s days", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS))) + '\n\n';
+								c += (S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to UNLIMITED downloads though ( so, no worries ).", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to %s unique %s %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED, ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("download", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("downloads", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("each day", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("every %s-day period", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS)));
 								/**/
 								if (this.href.match (/s2member_skip_confirmation/i) || confirm(c))
 									{
-										if ($.inArray (this.href, ws_plugin__s2member_uniqueFilesDownloaded) === -1) /* Real-time counting. */
+										if ($.inArray (this.href, ws_plugin__s2member_uniqueFilesDownloaded) === -1)
 											ws_plugin__s2member_uniqueFilesDownloaded.push (this.href), S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY++;
 										return true; /* Allow. */
 									}
@@ -83,14 +83,14 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
 						/**/
 						else if ($.trim ($password1.val ()) && $.trim ($password1.val ()) !== $.trim ($password2.val ()))
 							{
-								alert('— Oops, you missed something: —\n\nPasswords do not match up. Please try again.');
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Passwords do not match up. Please try again.", "s2member-front", "s2member")); ?>');
 								/**/
 								return false;
 							}
@@ -128,7 +128,7 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
@@ -184,14 +184,14 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
 						/**/
 						else if ($pass1.length && $.trim ($pass1.val ()) !== $.trim ($pass2.val ()))
 							{
-								alert('— Oops, you missed something: —\n\nPasswords do not match up. Please try again.');
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Passwords do not match up. Please try again.", "s2member-front", "s2member")); ?>');
 								/**/
 								return false;
 							}
@@ -225,7 +225,7 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
@@ -259,7 +259,7 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
@@ -291,7 +291,7 @@ jQuery(document).ready (function($)
 						/**/
 						if (errors = $.trim (errors))
 							{
-								alert('— Oops, you missed something: —\n\n' + errors);
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + errors);
 								/**/
 								return false;
 							}
@@ -344,129 +344,129 @@ jQuery(document).ready (function($)
 							var required = ( typeof required === 'boolean') ? required : ($field.attr ('aria-required') === 'true'), expected = ( typeof expected === 'string') ? expected : $.trim ($field.attr ('data-expected'));
 							/**/
 							var forcePersonalEmails = ('<?php echo strlen($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_force_personal_emails"]); ?>' > 0) ? true : false;
-							var nonPersonalEmailUsers = new RegExp('^(<?php echo c_ws_plugin__s2member_utils_strings::esc_sq(implode("|", preg_split("/[\r\n\t ;,]+/", preg_quote($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_force_personal_emails"], "/")))); ?>)@', 'i');
+							var nonPersonalEmailUsers = new RegExp('^(<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (implode ("|", preg_split ("/[\r\n\t ;,]+/", preg_quote ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_force_personal_emails"], "/")))); ?>)@', 'i');
 							/**/
 							if (tag === 'input' && type === 'checkbox' && name.match (/\[\]$/))
 								{
 									if (typeof field.id === 'string' && field.id.match (/-0$/))
 										if (required && !$('input[name="' + name.replace (/([\[\]])/g, '\$1') + '"]:checked', context).length)
-											return label + '\nPlease check at least one of the boxes.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please check at least one of the boxes.", "s2member-front", "s2member")); ?>';
 								}
 							else if (tag === 'input' && type === 'checkbox')
 								{
 									if (required && !field.checked)
-										return label + '\nRequired. This box must be checked.';
+										return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Required. This box must be checked.", "s2member-front", "s2member")); ?>';
 								}
 							else if (tag === 'input' && type === 'radio')
 								{
 									if (typeof field.id === 'string' && field.id.match (/-0$/))
 										if (required && !$('input[name="' + name.replace (/([\[\]])/g, '\$1') + '"]:checked', context).length)
-											return label + '\nPlease select one of the options.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please select one of the options.", "s2member-front", "s2member")); ?>';
 								}
 							else if (tag === 'select' && $field.attr ('multiple'))
 								{
 									if (required && (!(value instanceof Array) || !value.length))
-										return label + '\nPlease select at least one of the options.';
+										return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please select at least one of the options.", "s2member-front", "s2member")); ?>';
 								}
 							else if (typeof value !== 'string' || (required && !(value = $.trim (value)).length))
 								{
-									return label + '\nThis is a required field, please try again.';
+									return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("This is a required field, please try again.", "s2member-front", "s2member")); ?>';
 								}
 							else if ((value = $.trim (value)).length && ((tag === 'input' && type.match (/^(text|password)$/i)) || tag === 'textarea') && typeof expected === 'string' && expected.length)
 								{
 									if (expected === 'numeric-wp-commas' && (!value.match (/^[0-9\.,]+$/) || isNaN(value.replace (/,/g, ''))))
 										{
-											return label + '\nMust be numeric ( with or without decimals, commas allowed ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be numeric ( with or without decimals, commas allowed ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'numeric' && (!value.match (/^[0-9\.]+$/) || isNaN(value)))
 										{
-											return label + '\nMust be numeric ( with or without decimals, no commas ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be numeric ( with or without decimals, no commas ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'integer' && (!value.match (/^[0-9]+$/) || isNaN(value)))
 										{
-											return label + '\nMust be an integer ( a whole number, without any decimals ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be an integer ( a whole number, without any decimals ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'integer-gt-0' && (!value.match (/^[0-9]+$/) || isNaN(value) || value <= 0))
 										{
-											return label + '\nMust be an integer > 0 ( whole number, no decimals, greater than 0 ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be an integer > 0 ( whole number, no decimals, greater than 0 ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'float' && (!value.match (/^[0-9\.]+$/) || !value.match (/[0-9]/) || !value.match (/\./) || isNaN(value)))
 										{
-											return label + '\nMust be a float ( floating point number, decimals required ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a float ( floating point number, decimals required ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'float-gt-0' && (!value.match (/^[0-9\.]+$/) || !value.match (/[0-9]/) || !value.match (/\./) || isNaN(value) || value <= 0))
 										{
-											return label + '\nMust be a float > 0 ( floating point number, decimals required, greater than 0 ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a float > 0 ( floating point number, decimals required, greater than 0 ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'date' && !value.match (/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/))
 										{
-											return label + '\nMust be a date ( required date format: dd/mm/yyyy ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a date ( required date format: dd/mm/yyyy ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'email' && !value.match (/^([a-z_~0-9\+\-]+)(((\.?)([a-z_~0-9\+\-]+))*)(@)([a-z0-9]+)(((-*)([a-z0-9]+))*)(((\.)([a-z0-9]+)(((-*)([a-z0-9]+))*))*)(\.)([a-z]{2,6})$/i))
 										{
-											return label + '\nMust be a valid email address.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a valid email address.", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'email' && forcePersonalEmails && value.match (nonPersonalEmailUsers))
 										{
-											return label + '\nPlease use a personal email address.\nAddresses like <' + value.split ('@')[0] + '@> are problematic.';
+											return label + '\n' + $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use a personal email address.\nAddresses like <%s@> are problematic.", "s2member-front", "s2member")); ?>', value.split ('@')[0]);
 										}
 									else if (expected === 'url' && !value.match (/^http(s?)\:\/\/(.{5,})$/i))
 										{
-											return label + '\nMust be a full URL ( starting with http or https ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a full URL ( starting with http or https ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'domain' && !value.match (/^([a-z0-9]+)(((-*)([a-z0-9]+))*)(((\.)([a-z0-9]+)(((-*)([a-z0-9]+))*))*)(\.)([a-z]{2,6})$/i))
 										{
-											return label + '\nMust be a domain name ( domain name only, without http ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a domain name ( domain name only, without http ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'phone' && (!value.match (/^[0-9 \(\)\-]+$/) || value.replace (/[^0-9]/g, '').length !== 10))
 										{
-											return label + '\nMust be a phone # ( 10 digits w/possible hyphens,spaces,brackets ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a phone # ( 10 digits w/possible hyphens,spaces,brackets ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'uszip' && !value.match (/^[0-9]{5}(-[0-9]{4})?$/))
 										{
-											return label + '\nMust be a US zipcode ( 5-9 digits w/possible hyphen ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a US zipcode ( 5-9 digits w/possible hyphen ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'cazip' && !value.match (/^[0-9A-Z]{3}( ?)[0-9A-Z]{3}$/i))
 										{
-											return label + '\nMust be a Canadian zipcode ( 6 alpha-numerics w/possible space ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a Canadian zipcode ( 6 alpha-numerics w/possible space ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected === 'uczip' && !value.match (/^[0-9]{5}(-[0-9]{4})?$/) && !value.match (/^[0-9A-Z]{3}( ?)[0-9A-Z]{3}$/i))
 										{
-											return label + '\nMust be a zipcode ( either a US or Canadian zipcode ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be a zipcode ( either a US or Canadian zipcode ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^alphanumerics-spaces-punctuation-([0-9]+)(-e)?$/) && !value.match (/^[a-z 0-9,\.\/\?\:;"'\{\}\[\]\|\\\+\=_\-\(\)\*&\^%\$#@\!`~]+$/i))
 										{
-											return label + '\nPlease use alphanumerics, spaces & punctuation only.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use alphanumerics, spaces & punctuation only.", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^alphanumerics-spaces-([0-9]+)(-e)?$/) && !value.match (/^[a-z 0-9]+$/i))
 										{
-											return label + '\nPlease use alphanumerics & spaces only.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use alphanumerics & spaces only.", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^alphanumerics-punctuation-([0-9]+)(-e)?$/) && !value.match (/^[a-z0-9,\.\/\?\:;"'\{\}\[\]\|\\\+\=_\-\(\)\*&\^%\$#@\!`~]+$/i))
 										{
-											return label + '\nPlease use alphanumerics & punctuation only ( no spaces ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use alphanumerics & punctuation only ( no spaces ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^alphanumerics-([0-9]+)(-e)?$/) && !value.match (/^[a-z0-9]+$/i))
 										{
-											return label + '\nPlease use alphanumerics only ( no spaces/punctuation ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use alphanumerics only ( no spaces/punctuation ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^alphabetics-([0-9]+)(-e)?$/) && !value.match (/^[a-z]+$/i))
 										{
-											return label + '\nPlease use alphabetics only ( no digits/spaces/punctuation ).';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use alphabetics only ( no digits/spaces/punctuation ).", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^numerics-([0-9]+)(-e)?$/) && !value.match (/^[0-9]+$/i))
 										{
-											return label + '\nPlease use numeric digits only.';
+											return label + '\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Please use numeric digits only.", "s2member-front", "s2member")); ?>';
 										}
 									else if (expected.match (/^(any|alphanumerics-spaces-punctuation|alphanumerics-spaces|alphanumerics-punctuation|alphanumerics|alphabetics|numerics)-([0-9]+)(-e)?$/))
 										{
 											var split = expected.split ('-'), length = Number(split[1]), exactLength = (split.length > 2) ? Number(split[2]) : '';
 											/**/
 											if (exactLength && value.length !== length) /* An exact length is required? */
-												return label + '\nMust be exactly ' + length + ' ' + ((split[0] === 'numerics') ? 'digit' : 'character') + ((length > 1) ? 's' : '') + '.';
+												return label + '\n' + $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be exactly %s %s.", "s2member-front", "s2member")); ?>', length, ((split[0] === 'numerics') ? ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digit", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digits", "s2member-front", "s2member")); ?>') : ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("character", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("characters", "s2member-front", "s2member")); ?>')));
 											/**/
 											else if (value.length < length) /* Otherwise, we interpret as the minimum length. */
-												return label + '\nMust be at least ' + length + ' ' + ((split[0] === 'numerics') ? 'digit' : 'character') + ((length > 1) ? 's' : '') + '.';
+												return label + '\n' + $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be at least %s %s.", "s2member-front", "s2member")); ?>', length, ((split[0] === 'numerics') ? ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digit", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digits", "s2member-front", "s2member")); ?>') : ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("character", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("characters", "s2member-front", "s2member")); ?>')));
 										}
 								}
 						}
@@ -519,7 +519,7 @@ jQuery(document).ready (function($)
 												_dots += ' '; /* Prevents jumping. */
 											}
 										/**/
-										$this.val ('Processing' + _dots);
+										$this.val ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Processing", "s2member-front", "s2member")); ?>' + _dots);
 									}, ws_plugin__s2member_animateProcessingConfig.speed);
 							});
 					}

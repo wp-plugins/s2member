@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 	{
@@ -37,13 +37,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_postvars ()
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_postvars", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/*
 						Custom conditionals can be applied by filters.
 						*/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						if (!($postvars = apply_filters ("ws_plugin__s2member_during_paypal_postvars_conditionals", array (), get_defined_vars ())))
 							{
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
@@ -74,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 									{
 										foreach ($postvars as $key => $value)
 											if (preg_match ("/^s2member_/", $key))
-												unset ($postvars[$key]);
+												unset($postvars[$key]);
 										/**/
 										$postback = $postvars; /* Copy. */
 										$postback["cmd"] = "_notify-validate";
@@ -114,7 +114,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 					{
 						global $current_site, $current_blog; /* Multisite Networking. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_proxy_key_gen", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -136,12 +136,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				* @return array An array of variables returned by the PayPal® API.
 				*
 				* @todo Optimize this routine with ``empty()`` and ``isset()``.
+				* @todo Possibly integrate this API: {@link http://msdn.microsoft.com/en-us/library/ff512417.aspx}.
 				*/
 				public static function paypal_api_response ($post_vars = FALSE)
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_api_response", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -166,11 +167,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 						/**/
 						if (!$response["ACK"] || !preg_match ("/^(Success|SuccessWithWarning)$/i", $response["ACK"]))
 							{
-								if (strlen ($response["L_ERRORCODE0"]) || $response["L_SHORTMESSAGE0"] || $response["L_LONGMESSAGE0"]) /* Did we at least get an error msg? */
-									$response["__error"] = "Error# " . $response["L_ERRORCODE0"] . ". " . rtrim ($response["L_SHORTMESSAGE0"], ".") . ". " . rtrim ($response["L_LONGMESSAGE0"], ".") . ".";
+								if (strlen ($response["L_ERRORCODE0"]) || $response["L_SHORTMESSAGE0"] || $response["L_LONGMESSAGE0"])
+									/* translators: Exclude `%2$s` and `%3$s`. These are English details returned by PayPal®. Replace `%2$s` and `%3$s` with: `Unable to process, please try again`, or something to that affect. Or, if you prefer, you could Filter ``$response["__error"]`` with `ws_plugin__s2member_paypal_api_response`. */
+									$response["__error"] = sprintf (_x ('Error #%1$s. %2$s. %3$s.', "s2member-front", "s2member"), $response["L_ERRORCODE0"], rtrim ($response["L_SHORTMESSAGE0"], "."), rtrim ($response["L_LONGMESSAGE0"], "."));
 								/**/
 								else /* Else, generate an error messsage - so something is reported back to the Customer. */
-									$response["__error"] = "Error. Please contact Support for assistance.";
+									$response["__error"] = _x ("Error. Please contact Support for assistance.", "s2member-front", "s2member");
 							}
 						/*
 						If debugging is enabled; we need to maintain a comprehensive log file.
@@ -207,20 +209,20 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function _paypal_api_response_filters ($response = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_paypal_api_response_filters", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						if (!empty ($response["__error"]) && !empty ($response["L_ERRORCODE0"]))
 							{
-								if ($response["L_ERRORCODE0"] == 10422)
-									$response["__error"] = "Error# " . $response["L_ERRORCODE0"] . ". Transaction declined. Please use an alternate funding source.";
+								if ((int)$response["L_ERRORCODE0"] === 10422)
+									$response["__error"] = sprintf (_x ("Error #%s. Transaction declined. Please use an alternate funding source.", "s2member-front", "s2member"), $response["L_ERRORCODE0"]);
 								/**/
-								else if ($response["L_ERRORCODE0"] == 10435)
-									$response["__error"] = "Error# " . $response["L_ERRORCODE0"] . ". Transaction declined. Express Checkout was NOT confirmed.";
+								else if ((int)$response["L_ERRORCODE0"] === 10435)
+									$response["__error"] = sprintf (_x ("Error #%s. Transaction declined. Express Checkout was NOT confirmed.", "s2member-front", "s2member"), $response["L_ERRORCODE0"]);
 								/**/
-								else if ($response["L_ERRORCODE0"] == 10417)
-									$response["__error"] = "Error# " . $response["L_ERRORCODE0"] . ". Transaction declined. Please use an alternate funding source.";
+								else if ((int)$response["L_ERRORCODE0"] === 10417)
+									$response["__error"] = sprintf (_x ("Error #%s. Transaction declined. Please use an alternate funding source.", "s2member-front", "s2member"), $response["L_ERRORCODE0"]);
 							}
 						/**/
 						return $response; /* Filters already applied with: ``ws_plugin__s2member_paypal_api_response``. */
@@ -236,7 +238,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_pro_term ($term = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_term", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -257,7 +259,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_std_term ($term = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_std_term", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -278,7 +280,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_pro_subscr_id ($array_or_string = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_subscr_id", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -305,7 +307,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_pro_item_number ($array_or_string = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_item_number", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -340,7 +342,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*/
 				public static function paypal_pro_item_name ($array_or_string = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_item_name", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -369,11 +371,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*
 				* @param str|array $array_or_string Either an array of PayPal® post vars, or a string.
 				* 	If it's a string, we make sure it is a valid `period term` combination.
+				* @param str $default Optional. Value if unavailable. Defaults to `0 D`.
 				* @return str A `period1` string if possible, or defaults to `0 D`.
 				*/
-				public static function paypal_pro_period1 ($array_or_string = FALSE)
+				public static function paypal_pro_period1 ($array_or_string = FALSE, $default = "0 D")
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_period1", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -394,7 +397,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 								/**/
 								if (strtoupper ($span) === "SEMIMONTH")
 									if (is_numeric ($num) && $num >= 1)
-										eval ('$num = "2"; $span = "W";');
+										eval('$num = "2"; $span = "W";');
 								/**/
 								if (strlen ($span) !== 1) /* To Standard format. */
 									$span = c_ws_plugin__s2member_paypal_utilities::paypal_std_term ($span);
@@ -402,12 +405,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 								$span = (preg_match ("/^[DWMY]$/i", $span)) ? $span : "";
 								$num = ($span && is_numeric ($num) && $num >= 0) ? $num : "";
 								/**/
-								$period1 = ($num && $span) ? $num . " " . strtoupper ($span) : "0 D";
+								$period1 = ($num && $span) ? $num . " " . strtoupper ($span) : $default;
 								/**/
 								return apply_filters ("ws_plugin__s2member_paypal_pro_period1", $period1, get_defined_vars ());
 							}
 						else /* Default. */
-							return apply_filters ("ws_plugin__s2member_paypal_pro_period1", "0 D", get_defined_vars ());
+							return apply_filters ("ws_plugin__s2member_paypal_pro_period1", $default, get_defined_vars ());
 					}
 				/**
 				* Get `period3` from either an array with `PROFILEREFERENCE|rp_invoice_id|period3`, or use an existing string.
@@ -421,11 +424,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 				*
 				* @param str|array $array_or_string Either an array of PayPal® post vars, or a string.
 				* 	If it's a string, we make sure it is a valid `period term` combination.
+				* @param str $default Optional. Value if unavailable. Defaults to `1 D`.
 				* @return str A `period3` string if possible, or defaults to `1 D`.
 				*/
-				public static function paypal_pro_period3 ($array_or_string = FALSE)
+				public static function paypal_pro_period3 ($array_or_string = FALSE, $default = "1 D")
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_paypal_pro_period3", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -446,7 +450,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 								/**/
 								if (strtoupper ($span) === "SEMIMONTH")
 									if (is_numeric ($num) && $num >= 1)
-										eval ('$num = "2"; $span = "W";');
+										eval('$num = "2"; $span = "W";');
 								/**/
 								if (strlen ($span) !== 1) /* To Standard format. */
 									$span = c_ws_plugin__s2member_paypal_utilities::paypal_std_term ($span);
@@ -454,12 +458,12 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_utilities"))
 								$span = (preg_match ("/^[DWMY]$/i", $span)) ? $span : "";
 								$num = ($span && is_numeric ($num) && $num >= 0) ? $num : "";
 								/**/
-								$period3 = ($num && $span) ? $num . " " . strtoupper ($span) : "1 D";
+								$period3 = ($num && $span) ? $num . " " . strtoupper ($span) : $default;
 								/**/
 								return apply_filters ("ws_plugin__s2member_paypal_pro_period3", $period3, get_defined_vars ());
 							}
 						else /* Default. */
-							return apply_filters ("ws_plugin__s2member_paypal_pro_period3", "1 D", get_defined_vars ());
+							return apply_filters ("ws_plugin__s2member_paypal_pro_period3", $default, get_defined_vars ());
 					}
 			}
 	}

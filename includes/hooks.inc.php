@@ -23,34 +23,35 @@ add_action ("pre_get_posts", /* WP Query. */
 "c_ws_plugin__s2member_security::security_gate_query", 20);
 /* Priority matches `/api-functions.inc.php`. */
 /**/
-add_action ("init", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
-add_action ("init", "c_ws_plugin__s2member_user_securities::initialize", 1);
+add_action ("init", "c_ws_plugin__s2member_translations::load", 2);
 /**/
-add_action ("init", "c_ws_plugin__s2member_no_cache::no_cache", 1);
+add_action ("init", "c_ws_plugin__s2member_ssl::check_force_ssl", 3);
+add_action ("init", "c_ws_plugin__s2member_user_securities::initialize", 3);
+add_action ("init", "c_ws_plugin__s2member_no_cache::no_cache", 3);
 /**/
-add_action ("init", "c_ws_plugin__s2member_register::register", 1);
-add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 1);
-add_action ("init", "c_ws_plugin__s2member_files::check_file_download_access", 1);
-add_action ("init", "c_ws_plugin__s2member_profile_mods::handle_profile_modifications", 1);
-add_action ("init", "c_ws_plugin__s2member_profile_mods_4bp::handle_profile_modifications_4bp", 1);
-add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_sp_tracking_cookie", 1);
-add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_tracking_cookie", 1);
-add_action ("init", "c_ws_plugin__s2member_cron_jobs::auto_eot_system_via_cron", 1);
-add_action ("init", "c_ws_plugin__s2member_mo_page::membership_options_page", 1);
-add_action ("init", "c_ws_plugin__s2member_s_badge_status::s_badge_status", 1);
+add_action ("init", "c_ws_plugin__s2member_register::register", 4);
+add_action ("init", "c_ws_plugin__s2member_paypal_notify::paypal_notify", 4);
+add_action ("init", "c_ws_plugin__s2member_files::check_file_download_access", 4);
+add_action ("init", "c_ws_plugin__s2member_profile_mods::handle_profile_modifications", 4);
+add_action ("init", "c_ws_plugin__s2member_profile_mods_4bp::handle_profile_modifications_4bp", 4);
+add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_sp_tracking_cookie", 4);
+add_action ("init", "c_ws_plugin__s2member_tracking_cookies::delete_tracking_cookie", 4);
+add_action ("init", "c_ws_plugin__s2member_cron_jobs::auto_eot_system_via_cron", 4);
+add_action ("init", "c_ws_plugin__s2member_mo_page::membership_options_page", 4);
+add_action ("init", "c_ws_plugin__s2member_s_badge_status::s_badge_status", 4);
 /**/
-add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_css", 1);
-add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_js", 1);
+add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_css", 5);
+add_action ("init", "c_ws_plugin__s2member_admin_css_js::menu_pages_js", 5);
+add_action ("init", "c_ws_plugin__s2member_css_js::css", 5);
 /**/
-add_action ("init", "c_ws_plugin__s2member_css_js::css", 1);
+add_action ("init", "c_ws_plugin__s2member_constants::constants", 6);
 /**/
-add_action ("init", "c_ws_plugin__s2member_constants::constants", 1);
+add_action ("init", "c_ws_plugin__s2member_css_js::js_w_globals", 7);
+add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 7);
+add_action ("init", "c_ws_plugin__s2member_profile::profile", 7);
 /**/
-add_action ("init", "c_ws_plugin__s2member_css_js::js_w_globals", 1);
-add_action ("init", "c_ws_plugin__s2member_profile::profile", 1);
-add_action ("init", "c_ws_plugin__s2member_paypal_return::paypal_return", 1);
+add_action ("init", "c_ws_plugin__s2member_labels::config_label_translations", 10);
 /**/
-add_action ("init", "c_ws_plugin__s2member_labels::config_label_translations");
 add_action ("init", "c_ws_plugin__s2member_login_redirects_r::remove_login_redirect_filters", 11);
 /**/
 add_action ("template_redirect", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
@@ -62,10 +63,9 @@ add_filter ("widget_text", "do_shortcode"); /* Shortcodes in widgets. */
 /**/
 add_action ("wp_print_styles", "c_ws_plugin__s2member_css_js_themes::add_css");
 add_action ("wp_print_scripts", "c_ws_plugin__s2member_css_js_themes::add_js_w_globals");
-add_filter ("gettext", "c_ws_plugin__s2member_translations::translation_mangler", 10, 3);
 /**/
 add_action ("wp_login_failed", "c_ws_plugin__s2member_brute_force::track_failed_logins");
-add_filter ("authenticate", "c_ws_plugin__s2member_brute_force::stop_brute_force_logins", 1000);
+add_filter ("authenticate", "c_ws_plugin__s2member_brute_force::stop_brute_force_logins", 100);
 /**/
 add_action ("delete_user", "c_ws_plugin__s2member_user_deletions::handle_user_deletions");
 add_action ("wpmu_delete_user", "c_ws_plugin__s2member_user_deletions::handle_ms_user_deletions");
@@ -132,7 +132,7 @@ add_action ("add_meta_boxes", "c_ws_plugin__s2member_meta_boxes::add_meta_boxes"
 add_action ("save_post", "c_ws_plugin__s2member_meta_box_saves::save_meta_boxes");
 add_action ("admin_menu", "c_ws_plugin__s2member_menu_pages::add_admin_options");
 add_action ("network_admin_menu", "c_ws_plugin__s2member_menu_pages::add_network_admin_options");
-add_action ("admin_bar_menu", "c_ws_plugin__s2member_admin_lockouts::filter_admin_menu_bar", 1000);
+add_action ("admin_bar_menu", "c_ws_plugin__s2member_admin_lockouts::filter_admin_menu_bar", 100);
 add_action ("admin_print_scripts", "c_ws_plugin__s2member_menu_pages::add_admin_scripts");
 add_action ("admin_print_styles", "c_ws_plugin__s2member_menu_pages::add_admin_styles");
 add_filter ("update_feedback", "c_ws_plugin__s2member_mms_patches::sync_mms_patches");

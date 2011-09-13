@@ -30,12 +30,24 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 				* @package s2Member\Utilities
 				* @since 110912
 				*
+				* @param str $starting_dir A directory to start searching from.
+				* @param str $alt_starting_dir An alternate directory to search from.
 				* @return str|null WordPress® directory, else exits script execution on failure.
 				*/
-				public static function wp_dir ($starting_dir = FALSE)
+				public static function wp_dir ($starting_dir = FALSE, $alt_starting_dir = FALSE)
 					{
 						if ($starting_dir && is_dir ($starting_dir))
 							for ($i = 0, $dir = $starting_dir; $i <= 20; $i++)
+								{
+									for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
+										$dir = dirname ($dir);
+									/**/
+									if (file_exists ($dir . "/wp-settings.php"))
+										return ($wp_dir = $dir);
+								}
+						/**/
+						if ($alt_starting_dir && is_dir ($alt_starting_dir))
+							for ($i = 0, $dir = $alt_starting_dir; $i <= 20; $i++)
 								{
 									for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
 										$dir = dirname ($dir);

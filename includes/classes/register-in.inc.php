@@ -43,6 +43,9 @@ if (!class_exists ("c_ws_plugin__s2member_register_in"))
 						/**/
 						if (!empty ($_GET["s2member_register"])) /* If they're attempting to access the registration system. */
 							{
+								status_header (200); /* Send a 200 OK status header. This request IS being processed, one way or the other. */
+								eval ('while (@ob_end_clean ());'); /* End/clean all output buffers that may or may not exist. */
+								/**/
 								if (is_array ($register = preg_split ("/\:\.\:\|\:\.\:/", c_ws_plugin__s2member_utils_encryption::decrypt (trim (stripslashes ($_GET["s2member_register"]))))))
 									{
 										if (count ($register) === 6 && !empty ($register[0]) && $register[0] === "subscr_gateway_subscr_id_custom_item_number_time" && !empty ($register[1]) && !empty ($register[2]) && !empty ($register[3]) && !empty ($register[4]) && !empty ($register[5]))

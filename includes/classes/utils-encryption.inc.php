@@ -56,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 								$encrypted = mcrypt_encrypt (MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_CBC, $iv);
 								$encrypted = (strlen ($encrypted)) ? "~r2:" . $iv . "|" . $encrypted : "";
 								/**/
-								return ($base64 = str_replace (array ("+", "/", "="), array ("-", "_", "~"), base64_encode ($encrypted)));
+								return ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($encrypted));
 							}
 						else /* Fallback on XOR encryption. */
 							return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key);
@@ -82,7 +82,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
 						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
 						/**/
-						$encrypted = base64_decode (str_replace (array ("-", "_", "~", "."), array ("+", "/", "=", "="), $base64));
+						$encrypted = c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64);
 						/**/
 						if (function_exists ("mcrypt_decrypt") && in_array ("rijndael-256", mcrypt_list_algorithms ()) && in_array ("cbc", mcrypt_list_modes ()) && preg_match ("/^~r2\:(.+?)\|/", $encrypted, $v1))
 							{
@@ -128,7 +128,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						/**/
 						$encrypted = (strlen ($encrypted)) ? "~xe|" . $encrypted : "";
 						/**/
-						return ($base64 = str_replace (array ("+", "/", "="), array ("-", "_", "~"), base64_encode ($encrypted)));
+						return ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($encrypted));
 					}
 				/**
 				* XOR two-way encryption/decryption, with a base64 wrapper.
@@ -149,7 +149,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
 						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
 						/**/
-						$encrypted = base64_decode (str_replace (array ("-", "_", "~", "."), array ("+", "/", "=", "="), $base64));
+						$encrypted = c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64);
 						/**/
 						$encrypted = preg_replace ("/^~xe\|/", "", $encrypted, 1, $v1);
 						$encrypted = ($v1) ? $encrypted : ""; /* Check validity. */

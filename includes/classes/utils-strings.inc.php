@@ -212,6 +212,37 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 					{
 						return '<span style="color:#164A61;">' . $m[0] . '</span>';
 					}
+				/**
+				* Base64 URL-safe encoding.
+				*
+				* @package s2Member\Utilities
+				* @since 110913
+				*
+				* @param str $string Input string to be base64 encoded.
+				* @return str The base64 URL-safe encoded string.
+				*/
+				public static function base64_url_safe_encode ($string = FALSE)
+					{
+						$string = (string)$string; /* Force to a string value. */
+						return rtrim (str_replace (array ("+", "/"), array ("-", "_"), base64_encode ($string)), "=");
+					}
+				/**
+				* Base64 URL-safe decoding.
+				*
+				* Note, this function is backward compatible with routines supplied by s2Member in the past;
+				* where padding characters were replaced with `~` or `.`, instead of being stripped completely.
+				*
+				* @package s2Member\Utilities
+				* @since 110913
+				*
+				* @param str $string Input string to be base64 decoded.
+				* @return str The decoded string.
+				*/
+				public static function base64_url_safe_decode ($string = FALSE)
+					{
+						$string = rtrim ((string)$string, "=~."); /* Remove padding chars `=~.`; we'll add `=` padding below. */
+						return base64_decode (str_pad (str_replace (array ("-", "_"), array ("+", "/"), $string), strlen ($string) % 4, "=", STR_PAD_RIGHT));
+					}
 			}
 	}
 ?>

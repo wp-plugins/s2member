@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 	{
@@ -45,7 +45,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 							{
 								$s2o = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"]; /* Loads s2Member only. */
 								/**/
-								wp_enqueue_style ("ws-plugin--s2member", $s2o . "/?ws_plugin__s2member_css=1&qcABC=1", array (), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
+								wp_enqueue_style ("ws-plugin--s2member", $s2o . "?ws_plugin__s2member_css=1&qcABC=1", array (), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
 								do_action ("ws_plugin__s2member_during_add_css", get_defined_vars ());
 							}
@@ -81,11 +81,11 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 										$md5 = WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5; /* An MD5 hash based on global key => values. */
 										/* The MD5 hash allows the script to be cached in the browser until the globals happen to change. */
 										/* For instance, the global variables may change when a User who is logged-in changes their Profile. */
-										wp_enqueue_script ("ws-plugin--s2member", $s2o . "/?ws_plugin__s2member_js_w_globals=" . urlencode ($md5) . "&qcABC=1", array ("jquery", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
+										wp_enqueue_script ("ws-plugin--s2member", $s2o . "?ws_plugin__s2member_js_w_globals=" . urlencode ($md5) . "&qcABC=1", array ("jquery", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
 									}
 								else /* Else if they are not logged in, we distinguish the JavaScript file by NOT including $md5. */
 									{ /* This essentially creates 2 versions of the script. One while logged in & another when not. */
-										wp_enqueue_script ("ws-plugin--s2member", $s2o . "/?ws_plugin__s2member_js_w_globals=1&qcABC=1", array ("jquery", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
+										wp_enqueue_script ("ws-plugin--s2member", $s2o . "?ws_plugin__s2member_js_w_globals=1&qcABC=1", array ("jquery", "password-strength-meter"), c_ws_plugin__s2member_utilities::ver_checksum ());
 									}
 								/**/
 								do_action ("ws_plugin__s2member_during_add_js_w_globals", get_defined_vars ());

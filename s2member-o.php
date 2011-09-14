@@ -42,10 +42,10 @@ if (($ws_plugin__s2member_o_temp_a["wp_dir"] = c_ws_plugin__s2member_utils_s2o::
 				Load WordPress®.
 				*/
 				require($ws_plugin__s2member_o_temp_a["wp_dir"] . "/wp-load.php");
-				eval("?>" . /* Settings after ``SHORTINIT``. */ $ws_plugin__s2member_o_temp_a["wp_settings_as"]);
+				eval ("?>" . /* Settings after ``SHORTINIT``. */ $ws_plugin__s2member_o_temp_a["wp_settings_as"]);
 			}
 		else /* Else fallback on full WordPress®. */
 			require($ws_plugin__s2member_o_temp_a["wp_dir"] . "/wp-load.php");
 	}
-unset($ws_plugin__s2member_o_temp_a);
+unset ($ws_plugin__s2member_o_temp_a);
 ?>

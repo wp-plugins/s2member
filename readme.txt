@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110912
-Stable tag: 110912
+Version: 110913
+Stable tag: 110913
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -177,6 +177,11 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110913 =
+* (s2Member) **Compatibility**. s2Member v110912+ requires WordPress® v3.2+.
+* (s2Member) **Bug fix**. A bug first introduced in s2Member v110912 related to JavaScript/CSS files not loading properly on some installations has been corrected in this release. One symptom of this bug was s2Member's failure to display Pro Form integrations properly in some cases. Another symptom may have been improper handling of Registration Form validations.
+* (s2Member) **HostGator**. Tildas ( `~` ) found in some encrypted data strings were triggering `mod_security` conflicts on sites powered by HostGator. This release corrects the problem on HostGator by stripping tildas from query strings processed by s2Member. In addition, HostGator has been very helpful in white-listing the s2Member application across its entire network to prevent interruption of service. For further details, please check [this thread](http://www.primothemes.com/forums/viewtopic.php?f=36&t=14787#p35909).
 
 = v110912 =
 * (s2Member) **Compatibility**. This version of s2Member requires WordPress® v3.2+.

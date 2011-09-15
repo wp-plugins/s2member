@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110913
-Stable tag: 110913
+Version: 110915
+Stable tag: 110915
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -177,6 +177,9 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110915 =
+* (s2Member Pro) **Bug fix**. A bug first introduced in s2Member/s2Member Pro v110912+ was causing parse errors on Authorize.Net Free Regisration Forms. Fixed in this release.
 
 = v110913 =
 * (s2Member) **Compatibility**. s2Member v110912+ requires WordPress® v3.2+.

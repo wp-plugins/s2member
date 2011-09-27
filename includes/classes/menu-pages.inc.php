@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 	{
@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 					{
 						$updated_all_options = false; /* Initialize this to a value of false. Initializing this variable here makes it an available reference-variable to Hooks/Filters. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -70,7 +70,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								/**/
 								unset ($key, $value); /* Unset these utility variables now. This prevents bleeding vars into Hooks/Filters that are of no use. */
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -110,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$updated_all_options = true; /* Flag indicating this routine was processed successfully; and that all s2Member options have been updated successfully.*/
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -255,27 +255,27 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* 
 				* @attaches-to: ``add_filter("plugin_action_links");``
 				*
-				* @param array $links Expects an existing array of links, passed in by the Filter.
-				* @param str $file Expects path to a plugin file. We need to test against this for s2Member.
+				* @param array $actions Expects an existing array of actions links, passed in by the Filter.
+				* @param str $plugin_file Expects path to a plugin file. We need to test against this for s2Member.
 				* @return array An array of links, Filtered by this routine.
 				*/
-				public static function _add_settings_link ($links = FALSE, $file = FALSE)
+				public static function _add_settings_link ($actions = FALSE, $plugin_file = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($file === plugin_basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]) && is_array ($links))
+						if ($plugin_file === plugin_basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]) && is_array ($actions))
 							{
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
-								array_unshift ($links, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
+								array_unshift ($actions, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("_ws_plugin__s2member_during_add_settings_link", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/
-						return apply_filters ("_ws_plugin__s2member_add_settings_link", $links, get_defined_vars ());
+						return apply_filters ("_ws_plugin__s2member_add_settings_link", $actions, get_defined_vars ());
 					}
 				/**
 				* Enqueue scripts for administrative menu pages.
@@ -293,10 +293,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_script("jquery");
-								wp_enqueue_script("thickbox");
-								wp_enqueue_script("media-upload");
-								wp_enqueue_script("jquery-ui-core");
+								wp_enqueue_script ("jquery");
+								wp_enqueue_script ("thickbox");
+								wp_enqueue_script ("media-upload");
+								wp_enqueue_script ("jquery-ui-core");
 								wp_enqueue_script ("jquery-sprintf", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.sprintf/jquery.sprintf-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.json-ps/jquery.json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.ui-effects/jquery.ui-effects-min.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
@@ -325,7 +325,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_style("thickbox");
+								wp_enqueue_style ("thickbox");
 								wp_enqueue_style ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_css=" . urlencode (mt_rand ())), array ("thickbox"), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
 								do_action ("ws_plugin__s2member_during_add_admin_styles", get_defined_vars ());

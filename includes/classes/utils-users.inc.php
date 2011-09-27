@@ -294,9 +294,6 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 				* 	`s2member_access_ccaps`, etc, etc. ).
 				* @param int|str $user_id Optional. Defaults to the current User's ID.
 				* @return mixed The value of the requested field, or false if the field does not exist.
-				*
-				* @todo Create a function that returns extensive details regarding Custom Registration Fields configured with s2Member.
-				* 	Until then, you can inspect this array: ``json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true)``.
 				*/
 				public static function get_user_field ($field_id = FALSE, $user_id = FALSE) /* Very powerful function here. */
 					{

@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /*
 Determine the directory.
 */
@@ -60,7 +60,7 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["mb_detection_order"] = "UTF-8, ISO-885
 /*
 Configure an array of file extensions associated with streaming media file types. See: <http://www.spartanicus.utvinternet.ie/streaming.htm> Also see: <http://www.longtailvideo.com/support/jw-player/jw-player-for-flash-v5/12539/supported-video-and-audio-formats>
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"] = array_unique (array ("wav", "mpa", "mpeg", "mpv", "mps", "m1v", "m2v", "mp4"/**/, "mp3", "m3u"/**/, "mp4", "flv", "f4v", "3gp", "3g2", "aac", "m4a"/**/, "webm"/**/, "ogg", "ogv", "pls", "m3u", "ogm", "m4u"/**/, "mov", "qtl", "mp4"/**/, "asf", "wmv", "wvx", "wma", "wax"/**/, "ra", "rm", "ram"));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"] = array_unique (array ("avi", "wav", "mpa", "mpeg", "mpv", "mps", "m1v", "m2v", "mp4"/**/, "mp3", "m3u"/**/, "mp4", "flv", "f4v", "3gp", "3g2", "aac", "m4a"/**/, "webm"/**/, "ogg", "ogv", "pls", "m3u", "ogm", "m4u"/**/, "mov", "qtl", "mp4"/**/, "asf", "wmv", "wvx", "wma", "wax"/**/, "ra", "rm", "ram"));
 /*
 Configure directory and .htaccess for files protected by s2Member.
 */
@@ -333,7 +333,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];

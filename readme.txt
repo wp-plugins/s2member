@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110926
-Stable tag: 110926
+Version: 110927
+Stable tag: 110927
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -177,6 +177,10 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110927 =
+* (s2Member) **BuddyPress v1.5 compatibility**. Misc tweaks.
+* (s2Member) **Documentation improvements**. New documentation covering Shortcode Attributes and API Function parameters for the new `[s2File /]` Shortcode, and for the new API Function `s2member_file_download_url()`. Please check your Dashboard, under: `s2Member -> Download Options -> Shortcode Attributes / API Functions ( Explained )`.
 
 = v110926 =
 * (s2Member/s2Member Pro) **BuddyPress v1.5**. Updated for compatibility with BuddyPress v1.5.

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 	{
@@ -53,14 +53,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 						if (defined ("BP_VERSION")) /* Installed and active? */
 							return true;
 						/**/
-						if ($query_active_plugins) /* Else, query active plugins? */
+						if ($query_active_plugins && ($buddypress = "buddypress/bp-loader.php"))
 							{
 								$active_plugins = (is_multisite ()) ? wp_get_active_network_plugins () : array ();
 								$active_plugins = array_unique (array_merge ($active_plugins, wp_get_active_and_valid_plugins ()));
 								/**/
 								foreach ($active_plugins as $active_plugin) /* BuddyPress active? */
-									if (plugin_basename ($active_plugin) === "buddypress/bp-loader.php")
-										return true;
+									if (plugin_basename ($active_plugin) === $buddypress) /* BuddyPress? */
+										return true; /* Yes, BuddyPress is one of the active plugins. */
 							}
 						/**/
 						return false; /* Default return false. */

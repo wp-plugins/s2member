@@ -24,8 +24,7 @@ jQuery(document).ready (function($)
 		ws_plugin__s2member_uniqueFilesDownloaded = []; /* Real-time counts. */
 		/* This is used in case a user downloads multiple files from a single page. */
 		/**/
-		var bpRegisterSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_REGISTER_SLUG,"/") : "register"), "/"); ?>';
-		var bpxProfileSlug = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (preg_quote ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? "/" . ltrim (BP_XPROFILE_SLUG,"/") : "profile"), "/"); ?>';
+		var runningBuddyPress = '<?php echo c_ws_plugin__s2member_utils_conds::bp_is_installed ("query-active-plugins") ? "1" : ""; ?>';
 		/**/
 		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED)
 			{
@@ -37,7 +36,7 @@ jQuery(document).ready (function($)
 								c += $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`ve downloaded %s protected %s in the last %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY, ((S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("file", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("files", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("24 hours", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("%s days", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS))) + '\n\n';
 								c += (S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to UNLIMITED downloads though ( so, no worries ).", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to %s unique %s %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED, ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("download", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("downloads", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("each day", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("every %s-day period", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS)));
 								/**/
-								if (this.href.match (/s2member_skip_confirmation/i) || confirm(c))
+								if (this.href.match (/s2member[_\-]skip[_\-]confirmation/i) && !this.href.match (/s2member[_\-]skip[_\-]confirmation[\=\-](0|no|false)/i) || confirm(c))
 									{
 										if ($.inArray (this.href, ws_plugin__s2member_uniqueFilesDownloaded) === -1)
 											ws_plugin__s2member_uniqueFilesDownloaded.push (this.href), S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY++;
@@ -54,7 +53,7 @@ jQuery(document).ready (function($)
 		Deals with form field validation on Profile editing panels.
 		`[s2Member-Profile /]` could appear on any Post/Page/Widget.
 		*/
-		if (!location.href.match (/\/wp-admin\//))
+		if (!location.href.match (/\/wp-admin(\/|$)/))
 			{
 				$('input#ws-plugin--s2member-profile-password1, input#ws-plugin--s2member-profile-password2').keyup (function()
 					{
@@ -91,6 +90,13 @@ jQuery(document).ready (function($)
 						else if ($.trim ($password1.val ()) && $.trim ($password1.val ()) !== $.trim ($password2.val ()))
 							{
 								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Passwords do not match up. Please try again.", "s2member-front", "s2member")); ?>');
+								/**/
+								return false;
+							}
+						/**/
+						else if ($.trim ($password1.val ()) && $.trim ($password1.val ()).length < 6) /* Enforce minimum length requirement here. */
+							{
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Password MUST be at least 6 characters. Please try again.", "s2member-front", "s2member")); ?>');
 								/**/
 								return false;
 							}
@@ -141,7 +147,7 @@ jQuery(document).ready (function($)
 		/*
 		Attach form submission handler to `/wp-login.php?action=register`.
 		*/
-		else if (location.href.match (/\/wp-login\.php/))
+		if (location.href.match (/\/wp-login\.php/))
 			{
 				$('input#ws-plugin--s2member-custom-reg-field-user-pass1, input#ws-plugin--s2member-custom-reg-field-user-pass2').keyup (function()
 					{
@@ -196,6 +202,13 @@ jQuery(document).ready (function($)
 								return false;
 							}
 						/**/
+						else if ($pass1.length && $.trim ($pass1.val ()).length < 6) /* Enforce minimum length requirement here. */
+							{
+								alert('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Oops, you missed something: —", "s2member-front", "s2member")); ?>' + '\n\n' + '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Password MUST be at least 6 characters. Please try again.", "s2member-front", "s2member")); ?>');
+								/**/
+								return false;
+							}
+						/**/
 						ws_plugin__s2member_animateProcessing($submissionButton);
 						/**/
 						return true;
@@ -204,7 +217,7 @@ jQuery(document).ready (function($)
 		/*
 		Attach form submission handler to `/wp-admin/(user/)?profile.php`.
 		*/
-		else if (location.href.match (/\/wp-admin\/(user\/)?profile\.php/))
+		if (location.href.match (/\/wp-admin\/(user\/)?profile\.php/))
 			{
 				$('form#your-profile').submit (function() /* Validation. */
 					{
@@ -234,9 +247,9 @@ jQuery(document).ready (function($)
 					});
 			}
 		/*
-		Attach form submission handler to `/register` for BuddyPress.
+		We can ONLY check if BuddyPress is installed. We can't test BP slugs inside: `/s2member-o.php`.
 		*/
-		else if (bpRegisterSlug && location.href.match (bpRegisterSlug))
+		if (runningBuddyPress) /* Attach form submission handler to `/register` for BuddyPress. */
 			{
 				$('body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section').closest ('form').submit (function()
 					{
@@ -266,12 +279,9 @@ jQuery(document).ready (function($)
 						/**/
 						return true;
 					});
-			}
-		/*
-		Attach form submission handler to `/profile/edit/` for BuddyPress.
-		*/
-		else if (bpxProfileSlug && location.href.match (bpxProfileSlug) && location.href.match (/\/edit\//))
-			{
+				/*
+				Attach form submission handler to `/profile/edit/` for BuddyPress.
+				*/
 				$('body.logged-in.profile.profile-edit input.ws-plugin--s2member-profile-field-4bp[type = "text"]').closest ('form').submit (function()
 					{
 						var context = this, label = '', error = '', errors = '';
@@ -460,7 +470,7 @@ jQuery(document).ready (function($)
 										}
 									else if (expected.match (/^(any|alphanumerics-spaces-punctuation|alphanumerics-spaces|alphanumerics-punctuation|alphanumerics|alphabetics|numerics)-([0-9]+)(-e)?$/))
 										{
-											var split = expected.split ('-'), length = Number(split[1]), exactLength = (split.length > 2) ? Number(split[2]) : '';
+											var split = expected.split ('-'), length = Number(split[1]), exactLength = (split.length > 2 && split[2] === 'e') ? true : false;
 											/**/
 											if (exactLength && value.length !== length) /* An exact length is required? */
 												return label + '\n' + $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("Must be exactly %s %s.", "s2member-front", "s2member")); ?>', length, ((split[0] === 'numerics') ? ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digit", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("digits", "s2member-front", "s2member")); ?>') : ((length === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("character", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("characters", "s2member-front", "s2member")); ?>')));

@@ -28,7 +28,26 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects_r"))
 		class c_ws_plugin__s2member_login_redirects_r
 			{
 				/**
-				* Removes ``login_redirect`` Filters to prevent conflicts with s2Member.
+				* Handles completely empty ``login_redirect`` values.
+				*
+				* Some plugins ( most notably BuddyPress v1.5 ) have a nasty habit of sending an empty ``$_REQUEST["redirect_to"]`` input field with login widgets.
+				* In the case of BuddyPress, it's own Filter against `login_redirect` will deal with empty values. However, since s2Member removes all Filters
+				* against `login_redirect` ( for compatibility ), we NEED this simple routine to check empty values, and default them to ``admin_url()``.
+				*
+				* @attaches-to: ``add_filter("login_redirect");``
+				*
+				* @package s2Member\Login_Redirects
+				* @since 110926
+				*
+				* @param str $redirect_to Expects the current ``$redirect_to`` value, passed in by the Filter.
+				* @return str A non-empty string value. s2Member will NEVER allow this to be completely empty.
+				*/
+				public static function _empty_login_redirect_filter ($redirect_to = FALSE)
+					{
+						return (empty ($redirect_to)) ? admin_url () : $redirect_to;
+					}
+				/**
+				* Removes all other ``login_redirect`` Filters to prevent conflicts with s2Member.
 				*
 				* @attaches-to: ``add_action("init");``
 				*
@@ -37,12 +56,17 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects_r"))
 				*
 				* @return null
 				*/
-				public static function remove_login_redirect_filters () /* For compatibility. */
+				public static function remove_login_redirect_filters () /* Prevents conflicts. */
 					{
 						do_action ("ws_plugin__s2member_before_remove_login_redirect_filters", get_defined_vars ());
 						/**/
 						if (!apply_filters ("ws_plugin__s2member_allow_other_login_redirect_filters", false, get_defined_vars ()))
-							remove_all_filters("login_redirect"); /* Removes all `login_redirect` Filters. */
+							{
+								remove_all_filters("login_redirect"); /* Removes all `login_redirect` Filters. */
+								add_filter ("login_redirect", "c_ws_plugin__s2member_login_redirects_r::_empty_login_redirect_filter");
+								/**/
+								do_action ("ws_plugin__s2member_during_remove_login_redirect_filters", get_defined_vars ());
+							}
 						/**/
 						do_action ("ws_plugin__s2member_after_remove_login_redirect_filters", get_defined_vars ());
 						/**/

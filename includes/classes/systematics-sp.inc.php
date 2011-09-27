@@ -42,19 +42,32 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 				*/
 				public static function is_systematic_use_specific_page ($page_id = FALSE, $uri = FALSE)
 					{
-						if ($uri && strpos ($uri, "/wp-admin/") !== false) /* In the admin area? - All admin pages are considered Systematic. */
+						global $bp; /* If BuddyPress is installed, we'll need this global reference. */
+						/**/
+						$page_id = ($page_id && is_numeric ($page_id)) ? (int)$page_id : false; /* Force types. */
+						$uri = ($uri && is_string ($uri) && ($uri = c_ws_plugin__s2member_utils_urls::parse_uri ($uri))) ? $uri : false;
+						/**/
+						if ($uri && preg_match ("/\/wp-admin(\/|$)/", $uri)) /* Inside a WordPress® administrative area? */
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($uri && (preg_match ("/\/(wp-app|wp-signup|wp-register|wp-activate|wp-login|xmlrpc)\.php/", $uri) || (c_ws_plugin__s2member_utils_conds::bp_is_installed () && preg_match ("/\/(" . preg_quote (BP_REGISTER_SLUG, "/") . "|" . preg_quote (BP_ACTIVATION_SLUG, "/") . ")/", $uri))))
+						else if ($uri && preg_match ("/\/(wp-app|wp-signup|wp-register|wp-activate|wp-login|xmlrpc)\.php/", $uri))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"] && $page_id == $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
+						else if ($uri && c_ws_plugin__s2member_utils_conds::bp_is_installed () && preg_match ("/\/(" . preg_quote (trim (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () : BP_REGISTER_SLUG), "/"), "/") . "|" . preg_quote (trim (((function_exists ("bp_get_activate_slug")) ? bp_get_activate_slug () : BP_ACTIVATION_SLUG), "/"), "/") . ")(\/|$)/", $uri))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"] && $page_id == $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])
+						else if ($page_id && c_ws_plugin__s2member_utils_conds::bp_is_installed () && ((!empty ($bp->pages->register->id) && $page_id === (int)$bp->pages->register->id) || (!empty ($bp->pages->activate->id) && $page_id === (int)$bp->pages->activate->id)))
+							{
+								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
+							}
+						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"] && $page_id === (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
+							{
+								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
+							}
+						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"] && $page_id === (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
@@ -62,7 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"] && $page_id == $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"])
+						else if ($page_id && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"] && $page_id === (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"])
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
@@ -70,7 +83,7 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else /* Otherwise, we return false ( it's NOT a Systematic ). */
+						else /* Otherwise, we return false ( i.e. it's NOT a Systematic area ). */
 							return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", false, get_defined_vars ()));
 					}
 			}

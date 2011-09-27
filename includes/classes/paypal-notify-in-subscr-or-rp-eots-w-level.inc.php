@@ -122,7 +122,6 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 																				delete_user_option ($user_id, "s2member_subscr_gateway");
 																				/**/
 																				delete_user_option ($user_id, "s2member_ipn_signup_vars");
-																				/**/
 																				if (!apply_filters ("ws_plugin__s2member_preserve_paid_registration_times", true, get_defined_vars ()))
 																					delete_user_option ($user_id, "s2member_paid_registration_times");
 																				/**/

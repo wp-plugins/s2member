@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -154,13 +154,43 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @since 3.5
 				*
 				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
-				* @param str $beg A string value to wrap at the beginning of each value.
-				* @param str $end A string value to wrap at the ending of each value.
+				* @param str $beg Optional. A string value to wrap at the beginning of each value.
+				* @param str $end Optional. A string value to wrap at the ending of each value.
 				* @return str|array Either the input string, or the input array; after all data is wrapped up.
 				*/
 				public static function wrap_deep ($value = FALSE, $beg = FALSE, $end = FALSE)
 					{
-						return (is_array ($value) && !empty ($value)) ? array_map ("c_ws_plugin__s2member_utils_strings::wrap_deep", $value, array_fill (0, count ($value), $beg), array_fill (0, count ($value), $end)) : ((is_string ($value) && strlen ($value)) ? (string)$beg . (string)$value . (string)$end : ((is_array ($value)) ? $value : (string)$value));
+						if (is_array ($value)) /* Handles all types of arrays.
+						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
+						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
+							{
+								foreach ($value as &$r) /* Reference. */
+									$r = c_ws_plugin__s2member_utils_strings::wrap_deep ($r, $beg, $end);
+								return $value; /* Return modified array. */
+							}
+						return (is_string ($value) && strlen ($value)) ? (string)$beg . $value . (string)$end : (string)$value;
+					}
+				/**
+				* Escapes meta characters with ``preg_quote()`` deeply.
+				*
+				* @package s2Member\Utilities
+				* @since 110926
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @param str $delimiter Optional. If a delimiting character is specified, it will also be escaped via ``preg_quote()``.
+				* @return str|array Either the input string, or the input array; after all data is escaped with ``preg_quote()``.
+				*/
+				public static function preg_quote_deep ($value = FALSE, $delimiter = FALSE)
+					{
+						if (is_array ($value)) /* Handles all types of arrays.
+						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
+						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
+							{
+								foreach ($value as &$r) /* Reference. */
+									$r = c_ws_plugin__s2member_utils_strings::preg_quote_deep ($r, $delimiter);
+								return $value; /* Return modified array. */
+							}
+						return preg_quote ((string)$value, (string)$delimiter);
 					}
 				/**
 				* Generates a random string with letters/numbers/symbols.
@@ -219,12 +249,19 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @since 110913
 				*
 				* @param str $string Input string to be base64 encoded.
+				* @param array $url_unsafe_chars Optional. An array of un-safe characters. Defaults to: ``array("+", "/")``.
+				* @param array $url_safe_chars Optional. An array of safe character replacements. Defaults to: ``array("-", "_")``.
+				* @param str $trim_padding_chars Optional. A string of padding chars to rtrim. Defaults to: `=~.`.
 				* @return str The base64 URL-safe encoded string.
 				*/
-				public static function base64_url_safe_encode ($string = FALSE)
+				public static function base64_url_safe_encode ($string = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						$string = (string)$string; /* Force to a string value. */
-						return rtrim (str_replace (array ("+", "/"), array ("-", "_"), base64_encode ($string)), "=");
+						eval ('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
+						/**/
+						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, base64_encode ($string));
+						$base64_url_safe = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
+						/**/
+						return $base64_url_safe; /* Base64 encoded, with URL-safe replacements. */
 					}
 				/**
 				* Base64 URL-safe decoding.
@@ -235,13 +272,21 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @package s2Member\Utilities
 				* @since 110913
 				*
-				* @param str $string Input string to be base64 decoded.
+				* @param str $base64_url_safe Input string to be base64 decoded.
+				* @param array $url_unsafe_chars Optional. An array of un-safe character replacements. Defaults to: ``array("+", "/")``.
+				* @param array $url_safe_chars Optional. An array of safe characters. Defaults to: ``array("-", "_")``.
+				* @param str $trim_padding_chars Optional. A string of padding chars to rtrim. Defaults to: `=~.`.
 				* @return str The decoded string.
 				*/
-				public static function base64_url_safe_decode ($string = FALSE)
+				public static function base64_url_safe_decode ($base64_url_safe = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						$string = rtrim ((string)$string, "=~."); /* Remove padding chars `=~.`; we'll add `=` padding below. */
-						return base64_decode (str_pad (str_replace (array ("-", "_"), array ("+", "/"), $string), strlen ($string) % 4, "=", STR_PAD_RIGHT));
+						eval ('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
+						/**/
+						$string = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
+						$string = (strlen ($trim_padding_chars)) ? str_pad ($string, strlen ($string) % 4, "=", STR_PAD_RIGHT) : $string;
+						$string = base64_decode (str_replace ((array)$url_safe_chars, (array)$url_unsafe_chars, $string));
+						/**/
+						return $string; /* Base64 decoded, with URL-safe replacements. */
 					}
 			}
 	}

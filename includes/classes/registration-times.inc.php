@@ -45,14 +45,13 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						do_action ("ws_plugin__s2member_before_synchronize_paid_reg_times", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($user_id && is_object ($user = new WP_User ($user_id)) && $user->ID)
-							if (($level = c_ws_plugin__s2member_user_access::user_access_level ($user)) > 0)
-								{
-									$pr_times = get_user_option ("s2member_paid_registration_times", $user_id);
-									$pr_times["level"] = (!$pr_times["level"]) ? time () : $pr_times["level"]; /* Preserve. */
-									$pr_times["level" . $level] = (!$pr_times["level" . $level]) ? time () : $pr_times["level" . $level];
-									update_user_option ($user_id, "s2member_paid_registration_times", $pr_times); /* Update now. */
-								}
+						if ($user_id && is_object ($user = new WP_User ($user_id)) && !empty ($user->ID) && ($level = c_ws_plugin__s2member_user_access::user_access_level ($user)) > 0)
+							{
+								$pr_times = get_user_option ("s2member_paid_registration_times", $user_id);
+								$pr_times["level"] = (empty ($pr_times["level"])) ? time () : $pr_times["level"];
+								$pr_times["level" . $level] = (empty ($pr_times["level" . $level])) ? time () : $pr_times["level" . $level];
+								update_user_option ($user_id, "s2member_paid_registration_times", $pr_times); /* Update now. */
+							}
 						/**/
 						return; /* Return for uniformity. */
 					}
@@ -73,7 +72,7 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						/**/
 						$user = ($user_id) ? new WP_User ($user_id) : ((is_user_logged_in ()) ? wp_get_current_user () : false);
 						/**/
-						if (is_object ($user) && ($user_id = $user->ID) && $user->user_registered)
+						if (is_object ($user) && !empty ($user->ID) && ($user_id = $user->ID) && $user->user_registered)
 							{
 								return apply_filters ("ws_plugin__s2member_registration_time", strtotime ($user->user_registered), get_defined_vars ());
 							}
@@ -96,14 +95,14 @@ if (!class_exists ("c_ws_plugin__s2member_registration_times"))
 						do_action ("ws_plugin__s2member_before_paid_registration_time", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$level = (!strlen ($level)) ? "level" : "level" . preg_replace ("/[^0-9]/", "", $level);
+						$level = (!is_numeric ($level)) ? "level" : "level" . preg_replace ("/[^0-9]/", "", (string)$level);
 						$user = ($user_id) ? new WP_User ($user_id) : ((is_user_logged_in ()) ? wp_get_current_user () : false);
 						/**/
-						if ($level && is_object ($user) && ($user_id = $user->ID) && is_array ($pr_times = get_user_option ("s2member_paid_registration_times", $user_id)))
+						if ($level && is_object ($user) && !empty ($user->ID) && ($user_id = $user->ID) && is_array ($pr_times = get_user_option ("s2member_paid_registration_times", $user_id)))
 							{
-								return apply_filters ("ws_plugin__s2member_paid_registration_time", (int)$pr_times[$level], get_defined_vars ());
+								return apply_filters ("ws_plugin__s2member_paid_registration_time", ((isset ($pr_times[$level])) ? (int)$pr_times[$level] : 0), get_defined_vars ());
 							}
-						else /* Else we return a default value of 0, because there is insufficient data. */
+						else /* Else we return a default value of `0`, because there is insufficient data. */
 							return apply_filters ("ws_plugin__s2member_paid_registration_time", 0, get_defined_vars ());
 					}
 			}

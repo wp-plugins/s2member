@@ -49,7 +49,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 						return apply_filters ("ws_plugin__s2member_after_email_filter", $array, get_defined_vars ());
 					}
 				/**
-				* Modifies email From: "Name" <address>.
+				* Modifies email From: `"Name" <address>`.
 				*
 				* These Filters are only needed during registration.
 				*
@@ -62,8 +62,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 					{
 						do_action ("ws_plugin__s2member_before_email_config", get_defined_vars ());
 						/**/
-						c_ws_plugin__s2member_email_configs::email_config_release (); /* Release all. */
-						/**/
+						c_ws_plugin__s2member_email_configs::email_config_release ();
 						add_filter ("wp_mail_from", "c_ws_plugin__s2member_email_configs::_email_config_email");
 						add_filter ("wp_mail_from_name", "c_ws_plugin__s2member_email_configs::_email_config_name");
 						/**/
@@ -111,10 +110,10 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 				* @package s2Member\Email_Configs
 				* @since 3.5
 				*
-				* @param bool $any Optional. Defaults to true. If true, return true if ANY Filters are being applied, not just those applied by s2Member.
+				* @param bool $any Optional. Defaults to false. If true, return true if ANY Filters are being applied, not just those applied by s2Member.
 				* @return bool True if Filters are being applied, else false.
 				*/
-				public static function email_config_status ($any = TRUE)
+				public static function email_config_status ($any = FALSE)
 					{
 						do_action ("ws_plugin__s2member_before_email_config_status", get_defined_vars ());
 						/**/
@@ -132,17 +131,17 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 				* @package s2Member\Email_Configs
 				* @since 3.5
 				*
-				* @param bool $all Optional. Defaults to true. If true, remove ALL Filters, not just those applied by s2Member.
+				* @param bool $all Optional. Defaults to false. If true, remove ALL Filters, not just those applied by s2Member.
 				* @return null
 				*/
-				public static function email_config_release ($all = TRUE)
+				public static function email_config_release ($all = FALSE)
 					{
 						do_action ("ws_plugin__s2member_before_email_config_release", get_defined_vars ());
 						/**/
 						remove_filter ("wp_mail_from", "c_ws_plugin__s2member_email_configs::_email_config_email");
 						remove_filter ("wp_mail_from_name", "c_ws_plugin__s2member_email_configs::_email_config_name");
 						/**/
-						if ($all) /* If $all is true, then we remove all attached WordPress® Filters. */
+						if ($all) /* If ``$all`` is true, remove ALL attached WordPress® Filters. */
 							remove_all_filters("wp_mail_from") . remove_all_filters ("wp_mail_from_name");
 						/**/
 						do_action ("ws_plugin__s2member_after_email_config_release", get_defined_vars ());
@@ -190,9 +189,12 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 						do_action ("ws_plugin__s2member_before_new_user_notification", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($user_id && ($user = new WP_User ($user_id)) && ($user_id = $user->ID) && is_array ($notify) && !empty ($notify))
+						if ($user_id && ($user = new WP_User ($user_id)) && !empty ($user->ID) && ($user_id = $user->ID) && is_array ($notify) && !empty ($notify))
 							{
-								if (in_array ("user", $notify) && !empty ($user_pass)) /* Send User a notification? */
+								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status ();
+								c_ws_plugin__s2member_email_configs::email_config_release ();
+								/**/
+								if (in_array ("user", $notify) && $user_pass) /* Send User a notification? */
 									{
 										$fields = get_user_option ("s2member_custom_fields", $user_id);
 										$cv = preg_split ("/\|/", get_user_option ("s2member_custom", $user_id));
@@ -234,9 +236,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 																																					break;
 																																		/**/
 																																		if (($sbj = trim (preg_replace ("/%%(.+?)%%/i", "", $sbj))) && ($msg = trim (preg_replace ("/%%(.+?)%%/i", "", $msg))))
-																																			{
-																																				wp_mail ('"' . c_ws_plugin__s2member_utils_strings::esc_dq ($user_full_name) . '" <' . $user->user_email . '>', $sbj, $msg, "From: \"" . preg_replace ('/"/', "'", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . "\" <" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"] . ">\r\nContent-Type: text/plain; charset=utf-8");
-																																			}
+																																			c_ws_plugin__s2member_email_configs::email_config () . wp_mail ('"' . c_ws_plugin__s2member_utils_strings::esc_dq ($user_full_name) . '" <' . $user->user_email . '>', $sbj, $msg, "From: \"" . preg_replace ('/"/', "'", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . "\" <" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"] . ">\r\nContent-Type: text/plain; charset=utf-8") . c_ws_plugin__s2member_email_configs::email_config_release ();
 																																	}
 																					}
 									}
@@ -308,6 +308,9 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 																																	}
 																					}
 									}
+								/**/
+								if ($email_configs_were_on) /* Back on? */
+									c_ws_plugin__s2member_email_configs::email_config ();
 								/**/
 								return apply_filters ("ws_plugin__s2member_new_user_notification", true, get_defined_vars ());
 							}

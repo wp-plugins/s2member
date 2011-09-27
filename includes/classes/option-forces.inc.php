@@ -236,12 +236,13 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				/**
 				* Register access in BuddyPress, for Multisite compatibility.
 				*
-				* BuddyPress bypasses the default Filter `pre_site_option_registration`, and instead uses: ``bp_core_get_site_options()``.
+				* BuddyPress bypasses the default Filter `pre_site_option_registration`, and instead uses: ``bp_core_get_root_options()``.
 				*
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("bp_core_get_site_options");``
+				* @attaches-to: ``add_filter("bp_core_get_root_options");``
+				* @attaches-to: ``add_filter("bp_core_get_site_options");`` **( before BuddyPress v1.5 )**.
 				*
 				* @param array $site_options Expects array of BuddyPress site options.
 				* @return array Site options array, after having been Filtered by this routine.

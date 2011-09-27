@@ -69,37 +69,7 @@ jQuery(document).ready (function($)
 					});
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-integrations/))
-			{
-				$('select#ws-plugin--s2member-bbpress-ovg').change (function()
-					{
-						if ($(this).val () === '0') /* Expand/collapse notation; based on selection. */
-							{
-								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'inline');
-								/**/
-								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
-								/**/
-								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to read/participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
-									{
-										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to read and participate )'));
-									});
-							}
-						else if ($(this).val () === '1') /* Expand/collapse notation. */
-							{
-								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'none');
-								/**/
-								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
-								/**/
-								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
-									{
-										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to participate )'));
-									});
-							}
-					/**/
-					}).trigger ('change'); /* Fire on ready too. */
-			}
-		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-gen-ops/))
+		if (location.href.match (/page\=ws-plugin--s2member-gen-ops/))
 			{
 				ws_plugin__s2member_generateSecurityKey = function() /* Generates a unique Security Key. */
 					{
@@ -824,7 +794,7 @@ jQuery(document).ready (function($)
 					}
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-res-ops/))
+		if (location.href.match (/page\=ws-plugin--s2member-res-ops/))
 			{
 				$('input#ws-plugin--s2member-brute-force-restrictions-reset-button').click (function()
 					{
@@ -873,7 +843,61 @@ jQuery(document).ready (function($)
 					}).last ().trigger ('change');
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-paypal-ops/))
+		if (location.href.match (/page\=ws-plugin--s2member-down-ops/))
+			{
+				var updateCloudFrontPrivateKey = function() /* Attaches to events below. */
+					{
+						var $hiddenPrivateKey = $('input#ws-plugin--s2member-amazon-cf-files-private-key');
+						var $visiblePrivateKeyEntry = $('textarea#ws-plugin--s2member-amazon-cf-files-private-key-entry');
+						var hiddenPrivateKeyValue = $.trim ($hiddenPrivateKey.val ()), visiblePrivateKeyEntryValue = $.trim ($visiblePrivateKeyEntry.val ());
+						/**/
+						if ((hiddenPrivateKeyValue && !visiblePrivateKeyEntryValue) || visiblePrivateKeyEntryValue.match (/[^\r\n\u25CF]/)) /* 9679.toString(16).toUpperCase() = 25CF ( i.e the hex value ). */
+							$hiddenPrivateKey.val (visiblePrivateKeyEntryValue), $visiblePrivateKeyEntry.val (visiblePrivateKeyEntryValue.replace (/[^\r\n]/g, String.fromCharCode (9679)));
+					};
+				/**/
+				$('form#ws-plugin--s2member-options-form').submit (updateCloudFrontPrivateKey);
+				$('textarea#ws-plugin--s2member-amazon-cf-files-private-key-entry').change (updateCloudFrontPrivateKey).trigger ('change');
+				/**/
+				var updateCloudFrontDistroCfgs = function() /* Attaches to events below. */
+					{
+						var $hiddenPrivateKey = $('input#ws-plugin--s2member-amazon-cf-files-private-key');
+						var $visiblePrivateKeyId = $('input#ws-plugin--s2member-amazon-cf-files-private-key-id');
+						/**/
+						var $autoConfigDistros = $('input#ws-plugin--s2member-amazon-cf-files-auto-configure-distros');
+						var $autoConfigDistrosStatus = $('input#ws-plugin--s2member-amazon-cf-files-distros-auto-config-status');
+						/**/
+						var autoConfigDistrosStatusValue = $.trim ($autoConfigDistrosStatus.val ());
+						var hiddenPrivateKeyValue = $.trim ($hiddenPrivateKey.val ()), visiblePrivateKeyIdValue = $.trim ($visiblePrivateKeyId.val ());
+						var hiddenPrivateKeyPrevConfigValue = $.trim ($hiddenPrivateKey.attr ('data-s-prev-config-value')), visiblePrivateKeyIdPrevConfigValue = $.trim ($visiblePrivateKeyId.attr ('data-s-prev-config-value'));
+						/**/
+						if (autoConfigDistrosStatusValue === 'configured' && ((visiblePrivateKeyIdPrevConfigValue && visiblePrivateKeyIdValue !== visiblePrivateKeyIdPrevConfigValue) || (hiddenPrivateKeyPrevConfigValue && hiddenPrivateKeyValue !== hiddenPrivateKeyPrevConfigValue)))
+							{
+								alert('s2Member will need to delete and re-configure your Amazon® CloudFront distributions if you change this. When you\'re done editing, click (Save All Changes) below.');
+								$autoConfigDistros.attr ('checked', 'checked'); /* Forcibly check. */
+							}
+						else if (autoConfigDistrosStatusValue !== 'configured' && visiblePrivateKeyIdValue && hiddenPrivateKeyValue)
+							{
+								alert('s2Member will need to auto-configure your Amazon® CloudFront distributions for you. When you\'re done editing, click (Save All Changes) below.');
+								$autoConfigDistros.attr ('checked', 'checked'); /* Forcibly check. */
+							}
+					};
+				/**/
+				$('input#ws-plugin--s2member-amazon-cf-files-private-key-id').change (updateCloudFrontDistroCfgs);
+				$('textarea#ws-plugin--s2member-amazon-cf-files-private-key-entry').change (updateCloudFrontDistroCfgs);
+				/**/
+				$('input#ws-plugin--s2member-amazon-cf-files-auto-configure-distros-w-cnames').change (function()
+					{
+						var $this = $(this), thisChecked = (this.checked) ? true : false;
+						var $autoConfigDistros = $('input#ws-plugin--s2member-amazon-cf-files-auto-configure-distros');
+						var $autoConfigDistroCnames = $('div#ws-plugin--s2member-amazon-cf-files-auto-configure-distro-cnames');
+						/**/
+						(thisChecked) ? $autoConfigDistroCnames.show () : $autoConfigDistroCnames.hide ();
+						(thisChecked) ? $autoConfigDistros.attr ('checked', 'checked') : null;
+					/**/
+					}).trigger ('change');
+			}
+		/**/
+		if (location.href.match (/page\=ws-plugin--s2member-paypal-ops/))
 			{
 				$('select#ws-plugin--s2member-auto-eot-system-enabled').change (function()
 					{
@@ -887,64 +911,7 @@ jQuery(document).ready (function($)
 					});
 			}
 		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-els-ops/))
-			{
-				$('select#ws-plugin--s2member-custom-reg-opt-in').change (function()
-					{
-						var $this = $(this), val = $this.val ();
-						var $rows = $('tr.ws-plugin--s2member-custom-reg-opt-in-label-row');
-						var $prevImg = $('img.ws-plugin--s2member-custom-reg-opt-in-label-prev-img');
-						/**/
-						if (val <= 0) /* Checkbox disabled. */
-							$rows.css ('display', 'none'), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
-						/**/
-						else if (val == 1) /* Enabled, checked by default. */
-							$rows.css ('display', ''), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/unchecked\.png$/, '/checked.png'));
-						/**/
-						else if (val == 2) /* Enabled, unchecked by default. */
-							$rows.css ('display', ''), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
-					});
-				/**/
-				$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').change (function()
-					{
-						var thisChange = $(this).val (), checkedIndexes = []; /* Record value associated with change event. Also initialize checkedIndexes array. */
-						/**/
-						$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').each (function()
-							{
-								var $this = $(this), val = $this.val (), checkboxes = 'input[type="checkbox"]';
-								/**/
-								if (val === 'removal-deletion' && this.checked) /* All sub-items get checked/disabled too. */
-									$this.nextAll (checkboxes).slice (0, 2).attr ({'checked': 'checked', 'disabled': 'disabled'});
-								/**/
-								else if (val === 'removal-deletion' && !this.checked)
-									{
-										$this.nextAll (checkboxes).slice (0, 2).removeAttr ('disabled');
-										(thisChange === 'removal-deletion') ? $this.nextAll (checkboxes).slice (0, 2).removeAttr ('checked') : null;
-									}
-								/**/
-								else if (val === 'modification' && this.checked) /* All sub-items get checked/disabled too. */
-									$this.nextAll (checkboxes).slice (0, 3).attr ({'checked': 'checked', 'disabled': 'disabled'});
-								/**/
-								else if (val === 'modification' && !this.checked)
-									{
-										(thisChange === 'modification') ? $this.nextAll (checkboxes).slice (0, 3).removeAttr ('checked') : null;
-										$this.nextAll (checkboxes).slice (0, 3).removeAttr ('disabled');
-									}
-							})
-						/**/
-						.each (function(index) /* Now, which ones are checked? */
-							{
-								(this.checked) ? checkedIndexes.push (index) : null;
-							});
-						/**/
-						$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').removeAttr ('disabled');
-						if ($.inArray (3, checkedIndexes) === -1 && $.inArray (4, checkedIndexes) === -1 && $.inArray (5, checkedIndexes) === -1 && $.inArray (6, checkedIndexes) === -1)
-							$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').attr ('disabled', 'disabled');
-					/**/
-					}).last ().trigger ('change');
-			}
-		/**/
-		else if (location.href.match (/page\=ws-plugin--s2member-paypal-buttons/))
+		if (location.href.match (/page\=ws-plugin--s2member-paypal-buttons/))
 			{
 				$('div.ws-menu-page select[id]').filter (function() /* Filter all select elements with an id. */
 					{
@@ -1304,5 +1271,92 @@ jQuery(document).ready (function($)
 						/**/
 						return false;
 					};
+			}
+		/**/
+		if (location.href.match (/page\=ws-plugin--s2member-els-ops/))
+			{
+				$('select#ws-plugin--s2member-custom-reg-opt-in').change (function()
+					{
+						var $this = $(this), val = $this.val ();
+						var $rows = $('tr.ws-plugin--s2member-custom-reg-opt-in-label-row');
+						var $prevImg = $('img.ws-plugin--s2member-custom-reg-opt-in-label-prev-img');
+						/**/
+						if (val <= 0) /* Checkbox disabled. */
+							$rows.css ('display', 'none'), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
+						/**/
+						else if (val == 1) /* Enabled, checked by default. */
+							$rows.css ('display', ''), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/unchecked\.png$/, '/checked.png'));
+						/**/
+						else if (val == 2) /* Enabled, unchecked by default. */
+							$rows.css ('display', ''), $prevImg.attr ('src', $prevImg.attr ('src').replace (/\/checked\.png$/, '/unchecked.png'));
+					});
+				/**/
+				$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').change (function()
+					{
+						var thisChange = $(this).val (), checkedIndexes = []; /* Record value associated with change event. Also initialize checkedIndexes array. */
+						/**/
+						$('div.ws-plugin--s2member-opt-out-section input[type="checkbox"][name="ws_plugin__s2member_custom_reg_auto_opt_outs\[\]"]').each (function()
+							{
+								var $this = $(this), val = $this.val (), checkboxes = 'input[type="checkbox"]';
+								/**/
+								if (val === 'removal-deletion' && this.checked) /* All sub-items get checked/disabled too. */
+									$this.nextAll (checkboxes).slice (0, 2).attr ({'checked': 'checked', 'disabled': 'disabled'});
+								/**/
+								else if (val === 'removal-deletion' && !this.checked)
+									{
+										$this.nextAll (checkboxes).slice (0, 2).removeAttr ('disabled');
+										(thisChange === 'removal-deletion') ? $this.nextAll (checkboxes).slice (0, 2).removeAttr ('checked') : null;
+									}
+								/**/
+								else if (val === 'modification' && this.checked) /* All sub-items get checked/disabled too. */
+									$this.nextAll (checkboxes).slice (0, 3).attr ({'checked': 'checked', 'disabled': 'disabled'});
+								/**/
+								else if (val === 'modification' && !this.checked)
+									{
+										(thisChange === 'modification') ? $this.nextAll (checkboxes).slice (0, 3).removeAttr ('checked') : null;
+										$this.nextAll (checkboxes).slice (0, 3).removeAttr ('disabled');
+									}
+							})
+						/**/
+						.each (function(index) /* Now, which ones are checked? */
+							{
+								(this.checked) ? checkedIndexes.push (index) : null;
+							});
+						/**/
+						$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').removeAttr ('disabled');
+						if ($.inArray (3, checkedIndexes) === -1 && $.inArray (4, checkedIndexes) === -1 && $.inArray (5, checkedIndexes) === -1 && $.inArray (6, checkedIndexes) === -1)
+							$('select#ws-plugin--s2member-custom-reg-auto-opt-out-transitions').attr ('disabled', 'disabled');
+					/**/
+					}).last ().trigger ('change');
+			}
+		/**/
+		if (location.href.match (/page\=ws-plugin--s2member-integrations/))
+			{
+				$('select#ws-plugin--s2member-bbpress-ovg').change (function()
+					{
+						if ($(this).val () === '0') /* Expand/collapse notation; based on selection. */
+							{
+								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'inline');
+								/**/
+								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
+								/**/
+								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to read/participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
+									{
+										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to read and participate )'));
+									});
+							}
+						else if ($(this).val () === '1') /* Expand/collapse notation. */
+							{
+								$('span#ws-plugin--s2member-bbpress-ovg-off-note').css ('display', 'none');
+								/**/
+								var l = 'form#ws-plugin--s2member-bridge-bbpress-form label[for="ws_plugin--s2member-bridge-bbpress-min-level"]';
+								/**/
+								$(l).text ($(l).text ().replace (/to (read\/)?participate/i, 'to participate')), $('select#ws-plugin--s2member-bbpress-min-level option').each (function()
+									{
+										$(this).text ($(this).text ().replace (/\( to( read and)? participate \)/i, '( to participate )'));
+									});
+							}
+					/**/
+					}).trigger ('change'); /* Fire on ready too. */
 			}
 	});

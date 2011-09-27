@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /*
 Add the plugin Actions/Filters here.
 */
@@ -79,6 +79,7 @@ add_filter ("pre_site_option_add_new_users", "c_ws_plugin__s2member_option_force
 add_filter ("pre_site_option_dashboard_blog", "c_ws_plugin__s2member_option_forces::mms_dashboard_blog");
 add_filter ("pre_option_users_can_register", "c_ws_plugin__s2member_option_forces::check_register_access");
 add_filter ("pre_site_option_registration", "c_ws_plugin__s2member_option_forces::check_mms_register_access");
+add_filter ("bp_core_get_root_options", "c_ws_plugin__s2member_option_forces::check_bp_mms_register_access");
 add_filter ("bp_core_get_site_options", "c_ws_plugin__s2member_option_forces::check_bp_mms_register_access");
 /**/
 add_filter ("random_password", "c_ws_plugin__s2member_registrations::generate_password");

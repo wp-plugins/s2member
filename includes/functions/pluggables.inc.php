@@ -15,7 +15,7 @@
 * @since 110707
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!function_exists ("wp_new_user_notification"))
 	{
@@ -37,6 +37,7 @@ if (!function_exists ("wp_new_user_notification"))
 						/**/
 						return call_user_func_array ("c_ws_plugin__s2member_email_configs::new_user_notification", $args);
 					}
+				add_filter ("wpmu_welcome_user_notification", "wp_new_user_notification", 10, 2); /* Combine. */
 			}
 		$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["pluggables"]["wp_new_user_notification"] = true;
 	}

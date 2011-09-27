@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_translations"))
 	{
@@ -130,6 +130,28 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", "", get_defined_vars ());
 									}
 								else if ($original === "Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart&#8217;s content, but write responsibly!")
+									{
+										if (is_user_logged_in () && !(is_main_site () && current_user_can ("create_users")) && !is_super_admin () && is_object ($user = wp_get_current_user ()) && $user->ID && is_object ($user = new WP_User ($user->ID, $current_site->blog_id)) && $user->ID)
+											{
+												$mms_options = c_ws_plugin__s2member_utilities::mms_options ();
+												$blogs_allowed = (int)@$mms_options["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ($user)];
+												$user_blogs = (is_array ($blogs = get_blogs_of_user ($user->ID))) ? count ($blogs) - 1 : 0;
+												/**/
+												$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; /* NOT less than zero. */
+												$blogs_allowed = ($blogs_allowed >= 0) ? $blogs_allowed : 0;
+												/**/
+												$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ('By filling out the form below, you can <strong>add a site to your account</strong>.', "s2member-front", "s2member") . (($blogs_allowed > 1) ? '<br />' . sprintf (_nx ('You may create up to <strong>%s</strong> site.', 'You may create up to <strong>%s</strong> sites.', $blogs_allowed, "s2member-front", "s2member"), $blogs_allowed) : ''), get_defined_vars ());
+											}
+									}
+							}
+						/**/
+						else if ((isset ($s["is_bp_blog_creation"]) && $s["is_bp_blog_creation"]) || (!isset ($s["is_bp_blog_creation"]) && ($s["is_bp_blog_creation"] = (c_ws_plugin__s2member_utils_conds::bp_is_installed () && bp_is_create_blog ()) ? true : false)))
+							{
+								if ($original === "If you&#8217;re not going to use a great domain, leave it for a new user. Now have at it!")
+									{
+										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", "", get_defined_vars ());
+									}
+								else if ($original === "By filling out the form below, you can <strong>add a site to your account</strong>. There is no limit to the number of sites that you can have, so create to your heart's content, but blog responsibly!")
 									{
 										if (is_user_logged_in () && !(is_main_site () && current_user_can ("create_users")) && !is_super_admin () && is_object ($user = wp_get_current_user ()) && $user->ID && is_object ($user = new WP_User ($user->ID, $current_site->blog_id)) && $user->ID)
 											{

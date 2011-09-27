@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /*
 Determine the directory.
 */
@@ -57,6 +57,10 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["sp_access_item_number_regex"] = "/^(sp
 Configure multibyte detection order when charset is unknown ( used by calls to `mb_convert_encoding()` ).
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["mb_detection_order"] = "UTF-8, ISO-8859-1, WINDOWS-1252, ASCII, JIS, EUC-JP, SJIS";
+/*
+Configure an array of file extensions associated with streaming media file types. See: <http://www.spartanicus.utvinternet.ie/streaming.htm> Also see: <http://www.longtailvideo.com/support/jw-player/jw-player-for-flash-v5/12539/supported-video-and-audio-formats>
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"] = array_unique (array ("wav", "mpa", "mpeg", "mpv", "mps", "m1v", "m2v", "mp4"/**/, "mp3", "m3u"/**/, "mp4", "flv", "f4v", "3gp", "3g2", "aac", "m4a"/**/, "webm"/**/, "ogg", "ogv", "pls", "m3u", "ogm", "m4u"/**/, "mov", "qtl", "mp4"/**/, "asf", "wmv", "wvx", "wma", "wax"/**/, "ra", "rm", "ram"));
 /*
 Configure directory and .htaccess for files protected by s2Member.
 */
@@ -182,11 +186,11 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["new_user_emails_enabled"] = "0";
 				/**/
 				$default_options["new_user_email_subject"] = sprintf (_x ("[%s] Username/Password", "s2member-front", "s2member"), get_bloginfo ("name"));
-				$default_options["new_user_email_message"] = sprintf (_x ("Your Username/Password for:\n%s\n\nUsername: %%user_login%%\nPassword: %%user_pass%%\n%%wp_login_url%%", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["new_user_email_message"] = sprintf (_x ("Your Username/Password for:\n%s\n\nUsername: %%%%user_login%%%%\nPassword: %%%%user_pass%%%%\n%%%%wp_login_url%%%%", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["new_user_admin_email_recipients"] = get_bloginfo ("admin_email");
 				$default_options["new_user_admin_email_subject"] = sprintf (_x ("[%s] New User Registration", "s2member-front", "s2member"), get_bloginfo ("name"));
-				$default_options["new_user_admin_email_message"] = sprintf (_x ("New User Registration on your site:\n%s\n\nUser ID: %%user_id%%\nUsername: %%user_login%%\nEmail: %%user_email%%\nIP Address: %%user_ip%%", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["new_user_admin_email_message"] = sprintf (_x ("New User Registration on your site:\n%s\n\nUser ID: %%%%user_id%%%%\nUsername: %%%%user_login%%%%\nEmail: %%%%user_email%%%%\nIP Address: %%%%user_ip%%%%", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["paypal_sandbox"] = "0";
 				$default_options["paypal_business"] = "";
@@ -203,11 +207,11 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				/**/
 				$default_options["signup_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
 				$default_options["signup_email_subject"] = _x ("Congratulations! ( your membership has been approved )", "s2member-front", "s2member");
-				$default_options["signup_email_message"] = sprintf (_x ("Thanks %%first_name%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%registration_url%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["signup_email_message"] = sprintf (_x ("Thanks %%%%first_name%%%%! Your membership has been approved.\n\nIf you haven't already done so, the next step is to Register a Username.\n\nComplete your registration here:\n%%%%registration_url%%%%\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["sp_email_recipients"] = '"%%full_name%%" <%%payer_email%%>';
 				$default_options["sp_email_subject"] = _x ("Thank You! ( instructions for access )", "s2member-front", "s2member");
-				$default_options["sp_email_message"] = sprintf (_x ("Thanks %%first_name%%!\n\n%%item_name%%\n\nYour order can be retrieved here:\n%%sp_access_url%%\n( link expires in %%sp_access_exp%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
+				$default_options["sp_email_message"] = sprintf (_x ("Thanks %%%%first_name%%%%!\n\n%%%%item_name%%%%\n\nYour order can be retrieved here:\n%%%%sp_access_url%%%%\n( link expires in %%%%sp_access_exp%%%% )\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", "s2member-front", "s2member"), get_bloginfo ("name"));
 				/**/
 				$default_options["mailchimp_api_key"] = "";
 				/**/
@@ -250,10 +254,23 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				/**/
 				$default_options["file_download_limit_exceeded_page"] = "";
 				$default_options["file_download_inline_extensions"] = "";
+				$default_options["file_download_stream_extensions"] = "";
 				/**/
 				$default_options["amazon_s3_files_bucket"] = "";
 				$default_options["amazon_s3_files_access_key"] = "";
 				$default_options["amazon_s3_files_secret_key"] = "";
+				/**/
+				$default_options["amazon_cf_files_private_key"] = "";
+				$default_options["amazon_cf_files_private_key_id"] = "";
+				$default_options["amazon_cf_files_distros_access_id"] = "";
+				$default_options["amazon_cf_files_distros_s3_access_id"] = "";
+				$default_options["amazon_cf_files_distro_downloads_id"] = "";
+				$default_options["amazon_cf_files_distro_downloads_cname"] = "";
+				$default_options["amazon_cf_files_distro_downloads_dname"] = "";
+				$default_options["amazon_cf_files_distro_streaming_id"] = "";
+				$default_options["amazon_cf_files_distro_streaming_cname"] = "";
+				$default_options["amazon_cf_files_distro_streaming_dname"] = "";
+				$default_options["amazon_cf_files_distros_auto_config_status"] = "";
 				/**/
 				for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 					$default_options["level" . $n . "_ruris"] = "";
@@ -316,7 +333,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
@@ -468,10 +485,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "file_download_limit_exceeded_page" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "file_download_inline_extensions" && (!is_string ($value) || !($value = strtolower (preg_replace ("/\s+/", "", $value)))))
+								else if (preg_match ("/^file_download_(inline|stream)_extensions$/", $key) && (!is_string ($value) || !($value = strtolower (preg_replace ("/\s+/", "", $value)))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^amazon_s3_files_(bucket|access_key|secret_key)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^amazon_(s3|cf)_files_/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^level[0-9]+_ruris$/", $key) && (!is_string ($value) || !strlen ($value)))

@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 110915
-Stable tag: 110915
+Version: 110926
+Stable tag: 110926
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -177,6 +177,14 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v110926 =
+* (s2Member/s2Member Pro) **BuddyPress v1.5**. Updated for compatibility with BuddyPress v1.5.
+* (s2Member Pro) **Bug fix**. A bug first introduced in s2Member Pro v110912 was causing problems for Pro Forms integrated on a Child Blog of Multisite Blog Farm. Fixed in this release.
+* (s2Member/s2Member Pro) **Bug fix**. Custom Registration Fields configured to require an EXACT number of characters and/or digits was NOT being handled properly by s2Member in all cases. Fixed in this release.
+* (s2Member/s2Member Pro) **Bug fix**. A bug first introduced in s2Member v110912 was causing problems with s2Member's default email customization templates. Double percent signs `%%` for Replacement Codes were being reduced by s2Member's internationalization routines, to just single percent signs `%`, thereby nullifying them as valid Replacement Codes. Fixed in this release. If you installed s2Member and/or s2Member Pro v110912 - v110915 on a clean installation of WordPress®, it would be a good idea to have a quick look at your email customizations with s2Member, just to make sure your Replacement Codes have double percent signs around them *( for example, this is valid: `%%registration_url%%`, and this is NOT valid: `%registration_url%` )*.
+* (s2Member) **Amazon® S3/CloudFront**. s2Member is now fully integrated with Amazon® CloudFront, in addition to its existing support for Amazon® S3. Please note, one of the greatest things about Amazon® CloudFront, is its ability to `stream/seek` media files in the truest sense of the word over the RTMP protocol. For sites delivering protected `FLV/MP4/OGG/WEBM` and other streaming audio/video file types over the RTMP protocol, Amazon® CloudFront is our recommendation. Once you've successfully configured s2Member to use both Amazon® S3 and Amazon® CloudFront together, please review this section in your Dashboard: `s2Member -> Download Options -> JW Player® & RTMP Protocol Examples`. s2Member will automatically serve your protected files over the RTMP protocol, using an Amazon® CloudFront Streaming Distribution. In fact, s2Member can even configure all of your Amazon® S3/CloudFront Distros, ACLs, and Policies automatically; making it possible for just about anyone to stream media s2Member-protected files in real-time.
+* (s2Member) **s2File Shortcode**. s2Member now provides a new Shortcode: `[s2File /]`. For further details, please check your Dashboard, under: `s2Member -> Download Options -> Basic Download Restrictions`.
 
 = v110915 =
 * (s2Member Pro) **Bug fix**. A bug first introduced in s2Member/s2Member Pro v110912+ was causing parse errors on Authorize.Net Free Regisration Forms. Fixed in this release.

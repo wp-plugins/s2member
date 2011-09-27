@@ -44,51 +44,51 @@ if (!class_exists ("c_ws_plugin__s2member_cache"))
 					{
 						do_action ("ws_plugin__s2member_before_cached_page_links", get_defined_vars ());
 						/**/
-						$login_welcome_page = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"];
-						$membership_options_page = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"];
-						$file_download_limit_exceeded_page = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"];
+						$lwp = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"];
+						$mop = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"];
+						$fdlep = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"];
 						/**/
-						$login_welcome_page_cache = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"];
-						$membership_options_page_cache = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"];
-						$file_download_limit_exceeded_page_cache = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"];
+						$lwp_cache = @$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"];
+						$mop_cache = @$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"];
+						$fdlep_cache = @$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"];
 						/**/
 						$links = array ("login_welcome_page" => "", "membership_options_page" => "", "file_download_limit_exceeded_page" => "");
 						/**/
-						if ($login_welcome_page_cache["page"] === $login_welcome_page && $login_welcome_page_cache["time"] >= strtotime ("-15 minutes") && $login_welcome_page_cache["link"])
+						if (isset ($lwp_cache["page"], $lwp_cache["time"], $lwp_cache["link"]) && $lwp_cache["page"] === $lwp && $lwp_cache["time"] >= strtotime ("-15 minutes") && $lwp_cache["link"])
 							{
-								$links["login_welcome_page"] = $login_welcome_page_cache["link"];
+								$links["login_welcome_page"] = $lwp_cache["link"];
 							}
-						else /* Otherwise, we need to query the database using get_page_link() and update the cache. */
+						else /* Otherwise, query the database using ``get_page_link()`` and update the cache. */
 							{
+								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"]["page"] = $lwp;
 								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"]["time"] = time ();
-								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"]["page"] = $login_welcome_page;
-								$links["login_welcome_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"]["link"] = get_page_link ($login_welcome_page);
+								$links["login_welcome_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["login_welcome_page"]["link"] = get_page_link ($lwp);
 								/**/
 								$cache_needs_updating = true; /* Flag for cache update. */
 							}
 						/**/
-						if ($membership_options_page_cache["page"] === $membership_options_page && $membership_options_page_cache["time"] >= strtotime ("-15 minutes") && $membership_options_page_cache["link"])
+						if (isset ($mop_cache["page"], $mop_cache["time"], $mop_cache["link"]) && $mop_cache["page"] === $mop && $mop_cache["time"] >= strtotime ("-15 minutes") && $mop_cache["link"])
 							{
-								$links["membership_options_page"] = $membership_options_page_cache["link"];
+								$links["membership_options_page"] = $mop_cache["link"];
 							}
-						else /* Otherwise, we need to query the database using get_page_link() and update the cache. */
+						else /* Otherwise, query the database using ``get_page_link()`` and update the cache. */
 							{
+								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"]["page"] = $mop;
 								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"]["time"] = time ();
-								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"]["page"] = $membership_options_page;
-								$links["membership_options_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"]["link"] = get_page_link ($membership_options_page);
+								$links["membership_options_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["membership_options_page"]["link"] = get_page_link ($mop);
 								/**/
 								$cache_needs_updating = true; /* Flag for cache update. */
 							}
 						/**/
-						if ($file_download_limit_exceeded_page_cache["page"] === $file_download_limit_exceeded_page && $file_download_limit_exceeded_page_cache["time"] >= strtotime ("-15 minutes") && $file_download_limit_exceeded_page_cache["link"])
+						if (isset ($fdlep_cache["page"], $fdlep_cache["time"], $fdlep_cache["link"]) && $fdlep_cache["page"] === $fdlep && $fdlep_cache["time"] >= strtotime ("-15 minutes") && $fdlep_cache["link"])
 							{
-								$links["file_download_limit_exceeded_page"] = $file_download_limit_exceeded_page_cache["link"];
+								$links["file_download_limit_exceeded_page"] = $fdlep_cache["link"];
 							}
-						else /* Otherwise, we need to query the database using get_page_link() and update the cache. */
+						else /* Otherwise, query the database using ``get_page_link()`` and update the cache. */
 							{
+								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"]["page"] = $fdlep;
 								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"]["time"] = time ();
-								$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"]["page"] = $file_download_limit_exceeded_page;
-								$links["file_download_limit_exceeded_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"]["link"] = get_page_link ($file_download_limit_exceeded_page);
+								$links["file_download_limit_exceeded_page"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["cache"]["file_download_limit_exceeded_page"]["link"] = get_page_link ($fdlep);
 								/**/
 								$cache_needs_updating = true; /* Flag for cache update. */
 							}
@@ -100,7 +100,7 @@ if (!class_exists ("c_ws_plugin__s2member_cache"))
 						/**/
 						$scheme = (is_ssl ()) ? "https" : "http"; /* SSL mode? */
 						foreach ($links as &$link) /* Conversions for SSL and non-SSL mode. */
-							$link = preg_replace ("/^http(s)?\:\/\//i", $scheme . "://", $link);
+							$link = preg_replace ("/^https?\:\/\//i", $scheme . "://", $link);
 						/**/
 						return apply_filters ("ws_plugin__s2member_cached_page_links", $links, get_defined_vars ());
 					}

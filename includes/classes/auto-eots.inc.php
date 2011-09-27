@@ -119,7 +119,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 											{
 												if (($user_id = $eot->ID) && is_object ($user = new WP_User ($user_id)) && $user->ID)
 													{
-														delete_user_option ($user_id, "s2member_auto_eot_time"); /* ALWAYS delete this. */
+														delete_user_option ($user_id, "s2member_auto_eot_time"); /* Always delete. */
 														/**/
 														if (!$user->has_cap ("administrator")) /* Do NOT process Administrator accounts. */
 															{
@@ -154,7 +154,6 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																		delete_user_option ($user_id, "s2member_subscr_gateway");
 																		/**/
 																		delete_user_option ($user_id, "s2member_ipn_signup_vars");
-																		/**/
 																		if (!apply_filters ("ws_plugin__s2member_preserve_paid_registration_times", true, get_defined_vars ()))
 																			delete_user_option ($user_id, "s2member_paid_registration_times");
 																		/**/
@@ -192,7 +191,8 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																		/**/
 																		if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["eot_del_notification_recipients"] && is_array ($cv = preg_split ("/\|/", $custom)))
 																			{
-																				c_ws_plugin__s2member_email_configs::email_config_release (); /* Release all Filters applied to wp_mail() From: headers. */
+																				$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status ();
+																				c_ws_plugin__s2member_email_configs::email_config_release ();
 																				/**/
 																				$msg = $sbj = "( s2Member / API Notification Email ) - EOT/Deletion";
 																				$msg .= "\n\n"; /* Spacing in the message body. */
@@ -239,6 +239,9 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																													foreach (c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/;+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["eot_del_notification_recipients"])) as $recipient)
 																														($recipient) ? wp_mail ($recipient, apply_filters ("ws_plugin__s2member_eot_del_notification_email_sbj", $sbj, get_defined_vars ()), apply_filters ("ws_plugin__s2member_eot_del_notification_email_msg", $msg, get_defined_vars ()), "From: \"" . preg_replace ('/"/', "'", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . "\" <" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"] . ">\r\nContent-Type: text/plain; charset=utf-8") : null;
 																											}
+																				/**/
+																				if ($email_configs_were_on) /* Back on? */
+																					c_ws_plugin__s2member_email_configs::email_config ();
 																			}
 																		/**/
 																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');

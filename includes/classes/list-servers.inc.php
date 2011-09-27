@@ -80,7 +80,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 							{
 								$ccaps = implode (",", c_ws_plugin__s2member_user_access::user_access_ccaps ($user)); /* Get Custom Capabilities ( comma-delimited ). */
 								/**/
-								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (false); /* s2Member Filters enabled? */
+								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (); /* s2Member Filters enabled? */
 								c_ws_plugin__s2member_email_configs::email_config_release (true); /* Release all mail Filters before we begin this routine. */
 								/**/
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))
@@ -216,7 +216,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 						/**/
 						if (($args = func_get_args ()) && $role && strlen ($level) && $login && is_email ($email) && $opt_out && $user_id && is_object ($user = new WP_User ($user_id)) && ($user_id = $user->ID))
 							{
-								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (false); /* s2Member Filters enabled? */
+								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (); /* s2Member Filters enabled? */
 								c_ws_plugin__s2member_email_configs::email_config_release (true); /* Release all mail Filters before we begin this routine. */
 								/**/
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))

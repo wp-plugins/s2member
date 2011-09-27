@@ -28,18 +28,6 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 		class c_ws_plugin__s2member_utils_conds
 			{
 				/**
-				* Determines whether or not BuddyPress is installed.
-				*
-				* @package s2Member\Utilities
-				* @since 110720
-				*
-				* @return bool True if BuddyPress is installed, else false.
-				*/
-				public static function bp_is_installed ()
-					{
-						return defined ("BP_VERSION");
-					}
-				/**
 				* Determines whether or not s2Member Pro is installed.
 				*
 				* @package s2Member\Utilities
@@ -50,6 +38,32 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				public static function pro_is_installed ()
 					{
 						return defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION");
+					}
+				/**
+				* Determines whether or not BuddyPress is installed.
+				*
+				* @package s2Member\Utilities
+				* @since 110720
+				*
+				* @param bool $query_active_plugins Optional. If true, this conditional will query active plugins too. Defaults to false.
+				* @return bool True if BuddyPress is installed, else false.
+				*/
+				public static function bp_is_installed ($query_active_plugins = FALSE)
+					{
+						if (defined ("BP_VERSION")) /* Installed and active? */
+							return true;
+						/**/
+						if ($query_active_plugins) /* Else, query active plugins? */
+							{
+								$active_plugins = (is_multisite ()) ? wp_get_active_network_plugins () : array ();
+								$active_plugins = array_unique (array_merge ($active_plugins, wp_get_active_and_valid_plugins ()));
+								/**/
+								foreach ($active_plugins as $active_plugin) /* BuddyPress active? */
+									if (plugin_basename ($active_plugin) === "buddypress/bp-loader.php")
+										return true;
+							}
+						/**/
+						return false; /* Default return false. */
 					}
 				/**
 				* Determines whether or not this is a Multisite Farm;
@@ -108,6 +122,52 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 									if ($parse["path"] === "/" || rtrim ($parse["path"], "/") === rtrim (parse_url (site_url (), PHP_URL_PATH), "/"))
 										return true;
 							}
+						/**/
+						return false;
+					}
+				/**
+				* Checks to see if we're using Amazon® S3.
+				*
+				* @package s2Member\Utilities
+				* @since 110926
+				*
+				* @return bool True if using Amazon® S3, else false.
+				*/
+				public static function using_amazon_s3_storage ()
+					{
+						if (!c_ws_plugin__s2member_utils_conds::using_amazon_cf_storage ())
+							{
+								foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
+									if (preg_match ("/^amazon_s3_files_/", $option) && ($option = preg_replace ("/^amazon_s3_files_/", "", $option)))
+										$s3c[$option] = $option_value;
+								/**/
+								if ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"])
+									return true;
+							}
+						/**/
+						return false;
+					}
+				/**
+				* Checks to see if we're using Amazon® CloudFront.
+				*
+				* @package s2Member\Utilities
+				* @since 110926
+				*
+				* @return bool True if using Amazon® CloudFront, else false.
+				*/
+				public static function using_amazon_cf_storage ()
+					{
+						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
+							if (preg_match ("/^amazon_s3_files_/", $option) && ($option = preg_replace ("/^amazon_s3_files_/", "", $option)))
+								$s3c[$option] = $option_value;
+						/**/
+						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
+							if (preg_match ("/^amazon_cf_files_/", $option) && ($option = preg_replace ("/^amazon_cf_files_/", "", $option)))
+								$cfc[$option] = $option_value;
+						/**/
+						if ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"])
+							if ($cfc["private_key"] && $cfc["private_key_id"] && $cfc["distros_access_id"] && $cfc["distros_s3_access_id"] && $cfc["distro_downloads_id"] && $cfc["distro_downloads_dname"] && $cfc["distro_streaming_id"] && $cfc["distro_streaming_dname"])
+								return true;
 						/**/
 						return false;
 					}

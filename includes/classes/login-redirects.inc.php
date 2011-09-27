@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 	{
@@ -40,13 +40,13 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirect ($username = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirect", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$username = (!$username && is_object ($user = wp_get_current_user ())) ? strtolower ($user->user_login) : strtolower ($username);
+						$username = (!$username && is_object ($user = wp_get_current_user ()) && !empty ($user->user_login)) ? strtolower ($user->user_login) : strtolower ($username);
 						/**/
-						if ($username && (is_object ($user) || is_object ($user = new WP_User ($username))) && ($user_id = $user->ID))
+						if ($username && ((isset ($user) && is_object ($user)) || is_object ($user = new WP_User ($username))) && !empty ($user->ID) && ($user_id = $user->ID))
 							{
 								if (!get_user_option ("s2member_registration_ip", $user_id)) /* Have we got this yet? */
 									update_user_option ($user_id, "s2member_registration_ip", $_SERVER["REMOTE_ADDR"]);
@@ -55,7 +55,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 									update_user_option ($user_id, "s2member_login_counter", $logins);
 								/**/
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) /* Nag em? */
-									delete_user_setting("default_password_nag") . update_user_option ($user_id, "default_password_nag", false, true);
+									delete_user_setting ("default_password_nag") . update_user_option ($user_id, "default_password_nag", false, true);
 								/**/
 								$disable_login_ip_restrictions = apply_filters ("ws_plugin__s2member_disable_login_ip_restrictions", false, get_defined_vars ());
 								/**/
@@ -66,27 +66,27 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 									{
 										$obey_redirect_to = apply_filters ("ws_plugin__s2member_obey_login_redirect_to", /* By default, we obey this. */ true, get_defined_vars ());
 										/**/
-										if (!$obey_redirect_to || empty ($_REQUEST["redirect_to"]) || $_REQUEST["redirect_to"] === "wp-admin/" || $_REQUEST["redirect_to"] === admin_url ())
+										if (!$obey_redirect_to || empty ($_REQUEST["redirect_to"]) || !is_string ($_REQUEST["redirect_to"]) || $_REQUEST["redirect_to"] === admin_url () || preg_match ("/^\/?wp-admin\/?$/", $_REQUEST["redirect_to"]))
 											{
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_login_redirect", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
 												if ($redirect && is_string ($redirect)) /* Is this a string? */
-													wp_redirect($redirect); /* Dynamic URL introduced by a Filter. */
+													wp_redirect ($redirect); /* Dynamic URL introduced by a Filter? */
 												/**/
 												else if ($redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user))
-													wp_redirect($redirection_url); /* Special Redirection URL configured with s2Member. */
+													wp_redirect ($redirection_url); /* Special Redirection URL configured with s2Member. */
 												/**/
 												else /* Else we use the Login Welcome Page configured for s2Member. */
-													wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
+													wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
 												/**/
 												exit (); /* Clean exit. */
 											}
 									}
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_login_redirect", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -104,7 +104,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirection_url ($user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirection_url", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -125,7 +125,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function login_redirection_uri ($user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_redirection_uri", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -147,7 +147,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				*/
 				public static function fill_login_redirect_rc_vars ($url = FALSE, $user = FALSE, $root_returns_false = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_fill_login_redirect_rc_vars", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -155,8 +155,8 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 						/**/
 						$user = ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID)) ? $user : false;
 						/**/
-						$user_login = ($user) ? (string)strtolower ($user->user_login) : "";
 						$user_id = ($user) ? (string)$user->ID : "";
+						$user_login = ($user) ? (string)strtolower ($user->user_login) : "";
 						/**/
 						$user_level = (string)c_ws_plugin__s2member_user_access::user_access_level ($user);
 						$user_role = (string)c_ws_plugin__s2member_user_access::user_access_role ($user);

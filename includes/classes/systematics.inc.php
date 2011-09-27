@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_systematics"))
 	{
@@ -47,11 +47,11 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if (preg_match ("/^CLI$/i", PHP_SAPI)) /* CLI = Command Line. Normally indicates a running cron job. */
+						else if (strcasecmp (PHP_SAPI, "CLI") === 0) /* CLI = Command Line. Normally indicates a running cron job. */
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") !== 0 && (!defined ("LOCALHOST") || !LOCALHOST))
+						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}

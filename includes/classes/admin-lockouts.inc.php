@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 	{
@@ -41,16 +41,17 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 					{
 						do_action ("ws_plugin__s2member_before_admin_lockouts", get_defined_vars ());
 						/**/
-						if (!current_user_can ("edit_posts") && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"] && apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ()))
-							{
-								if ($redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
-									wp_redirect($redirection_url); /* Special Redirection. */
-								/**/
-								else /* Else we use the Login Welcome Page configured for s2Member. */
-									wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
-								/**/
-								exit (); /* Clean exit. */
-							}
+						if ((!defined ("DOING_AJAX") || !DOING_AJAX) && !current_user_can ("edit_posts") && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"])
+							if (apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ()) /* Give Filters a chance here too. */)
+								{
+									if ($redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
+										wp_redirect ($redirection_url); /* Special Redirection. */
+									/**/
+									else /* Else we use the Login Welcome Page configured for s2Member. */
+										wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
+									/**/
+									exit (); /* Clean exit. */
+								}
 						/**/
 						do_action ("ws_plugin__s2member_after_admin_lockouts", get_defined_vars ());
 						/**/
@@ -76,7 +77,7 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts"))
 							{
 								if (isset ($wp_admin_bar->menu->{"dashboard"})) /* We don't need this. */
-									unset($wp_admin_bar->menu->{"dashboard"}); /* Remove this entire menu. */
+									unset ($wp_admin_bar->menu->{"dashboard"}); /* Remove this entire menu. */
 								/**/
 								if (is_multisite () && !c_ws_plugin__s2member_utils_conds::is_multisite_farm () && isset ($wp_admin_bar->menu->{"my-blogs"}))
 									{
@@ -87,7 +88,7 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 												if (is_array ($blog) && isset ($blog["href"], $blog["children"]) && is_object ($blog["children"]))
 													{
 														$blog["href"] = preg_replace ("/\/wp-admin/", "", $blog["href"]);
-														unset($blog["children"]); /* Cause all we need is the link. */
+														unset ($blog["children"]); /* Cause all we need is the link. */
 													}
 									}
 								/**/

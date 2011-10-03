@@ -361,25 +361,25 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Signup Tracking Code, for iDevAffiliate® integration:</strong></p>' . "\n";
 								echo '<p>idev_saleamt=<strong>%%initial%%</strong><br />idev_ordernum=<strong>%%subscr_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-signup-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-signup-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Modification Tracking Code, for iDevAffiliate® integration:</strong></p>' . "\n";
 								echo '<p>idev_saleamt=<strong>%%initial%%</strong><br />idev_ordernum=<strong>%%subscr_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-modification-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-modification-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ())
 									{
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										echo '<p><strong>Capability Tracking Code, for iDevAffiliate® integration:</strong></p>' . "\n";
 										echo '<p>idev_saleamt=<strong>%%amount%%</strong><br />idev_ordernum=<strong>%%txn_id%%</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-ccap-tracking-code.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-ccap-tracking-code.x-php")) . '</p>' . "\n";
 									}
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Specific Post/Page Tracking Code, for iDevAffiliate® integration:</strong></p>' . "\n";
 								echo '<p>idev_saleamt=<strong>%%amount%%</strong><br />idev_ordernum=<strong>%%txn_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-sp-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/idev-sp-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p>Your <code>profile</code> ID will be assigned by iDevAffiliate®. Be sure to replace <code>profile=123</code> with your own profile ID.</p>' . "\n";
@@ -407,25 +407,25 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Signup Tracking Code, for ShareASale® integration:</strong></p>' . "\n";
 								echo '<p>amount=<strong>%%initial%%</strong><br />tracking=<strong>%%subscr_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-signup-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-signup-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Modification Tracking Code, for ShareASale® integration:</strong></p>' . "\n";
 								echo '<p>amount=<strong>%%initial%%</strong><br />tracking=<strong>%%subscr_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-modification-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-modification-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ())
 									{
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										echo '<p><strong>Capability Tracking Code, for ShareASale® integration:</strong></p>' . "\n";
 										echo '<p>amount=<strong>%%amount%%</strong><br />tracking=<strong>%%txn_id%%</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-ccap-tracking-code.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-ccap-tracking-code.x-php")) . '</p>' . "\n";
 									}
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p><strong>Specific Post/Page Tracking Code, for ShareASale® integration:</strong></p>' . "\n";
 								echo '<p>amount=<strong>%%amount%%</strong><br />tracking=<strong>%%txn_id%%</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-sp-tracking-code.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sas-sp-tracking-code.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p>Your <code>merchantID</code> will be assigned by ShareASale®. Be sure to replace <code>merchantID=123</code> with the one they assign you.</p>' . "\n";

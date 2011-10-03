@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_in"))
 						/**/
 						if (!empty ($_GET["s2member_profile"])) /* Requesting Profile? */
 							{
-								c_ws_plugin__s2member_no_cache::no_cache_constants (true);
+								c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching. */
 								/**/
 								$tabindex = apply_filters ("ws_plugin__s2member_sc_profile_tabindex", 0, get_defined_vars ());
 								/**/

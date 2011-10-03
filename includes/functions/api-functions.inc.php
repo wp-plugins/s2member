@@ -1798,8 +1798,8 @@ if (!function_exists ("attach_s2member_query_filters"))
 	{
 		function attach_s2member_query_filters ()
 			{
-				remove_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 20);
-				add_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 20);
+				remove_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
+				add_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
 			}
 	}
 /**
@@ -1844,8 +1844,8 @@ if (!function_exists ("detach_s2member_query_filters"))
 	{
 		function detach_s2member_query_filters ()
 			{
-				remove_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 20);
-				add_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 20);
+				remove_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
+				add_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
 			}
 	}
 /**

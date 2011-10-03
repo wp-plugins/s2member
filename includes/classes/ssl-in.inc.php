@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 	{
@@ -38,30 +38,32 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 				* @since 3.5
 				*
 				* @attaches-to: ``add_action("init");``
-				* @attaches-to: ``add_action("template_redirect");``
+				* @also-attaches-to: ``add_action("wp");``
 				*
 				* @return null Possibly exiting script execution after redirection to SSL variation.
+				*
+				* @todo Add `form` to the array ``$non_ssl_attr_only_tags``?
+				* @todo Cleanup this routine and convert callback functions to static class methods?
 				*/
 				public static function force_ssl ($vars = array ()) /* Phase 2 of ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 					{
-						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
+						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_ssl::check_force_ssl()``. */
 						/**/
 						$force_ssl = (!is_string ($force_ssl)) ? (string)(int)$force_ssl : $force_ssl; /* Force string. */
 						$force_ssl = (is_numeric ($force_ssl) && $force_ssl > 1) ? $force_ssl : "yes"; /* Use `yes`. */
 						/**/
 						$ssl_host = preg_replace ("/\:[0-9]+$/", "", $_SERVER["HTTP_HOST"]); /* Remove port here. */
 						$ssl_port = (is_numeric ($force_ssl) && $force_ssl > 1) ? $force_ssl : false; /* Port? */
-						$ssl_host_port = $ssl_host . (($ssl_port) ? ":" . $ssl_port : ""); /* Use port # ? */
+						$ssl_host_port = $ssl_host . (($ssl_port) ? ":" . $ssl_port : ""); /* Use port #? */
 						/**/
 						if (!is_ssl () || !isset ($_GET[$s2_ssl_gv])) /* SSL must be enabled. */
 							{
 								$https = "https://" . $ssl_host_port . $_SERVER["REQUEST_URI"];
 								$https_with_s2_ssl_gv = add_query_arg ($s2_ssl_gv, urlencode ($force_ssl), $https);
-								/**/
-								wp_redirect ($https_with_s2_ssl_gv) . exit ();
+								wp_redirect($https_with_s2_ssl_gv) . exit ();
 							}
-						else /* Otherwise, we buffer all output, and switch all content over to https. */
-							/* Also, we assume here that other links on the site should NOT be converted to https. */
+						else /* Otherwise, we buffer all output, and switch all content over to `https`. */
+							/* Assume here that other links on the site should NOT be converted to `https`. */
 							{
 								add_filter ("redirect_canonical", "__return_false");
 								/**/
@@ -69,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 								define ("_ws_plugin__s2member_force_ssl_port", $ssl_port);
 								define ("_ws_plugin__s2member_force_ssl_host_port", $ssl_host_port);
 								/**/
-								/* Filter these. We do NOT want to create a sitewide https conversion! */
+								/* Filter these. Do NOT create a sitewide conversion to `https`. */
 								add_filter ("home_url", "_ws_plugin__s2member_force_non_ssl_scheme", 10, 3);
 								add_filter ("network_home_url", "_ws_plugin__s2member_force_non_ssl_scheme", 10, 3);
 								add_filter ("site_url", "_ws_plugin__s2member_force_non_ssl_scheme", 10, 3);
@@ -82,48 +84,17 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 								These additional URLs are NOT Filtered by default; but can be if needed. Use these Filters. */
 								if (apply_filters ("_ws_plugin__s2member_force_non_ssl_scheme_content_url", false, get_defined_vars ()))
 									add_filter ("content_url", "_ws_plugin__s2member_force_non_ssl_scheme", 10, 2);
-								/**/
-								if (!function_exists ("_ws_plugin__s2member_force_ssl_buffer"))
+								/*
+								Now we create various callback functions associated with SSL and non-SSL buffering.
+								*/
+								if (!function_exists ("_ws_plugin__s2member_force_ssl_buffer_callback")) /* Pluggable? */
 									{
-										function _ws_plugin__s2member_force_ssl_buffer ($buffer = FALSE)
+										function _ws_plugin__s2member_force_ssl_buffer_callback ($m = FALSE) /* Callback function. */
 											{
-												$o_pcre = @ini_get ("pcre.backtrack_limit"); /* Current configuration. */
+												$s = preg_replace ("/http\:\/\//i", "https://", $m[0]); /* Conversion to SSL mode via `https`. */
 												/**/
-												@ini_set ("pcre.backtrack_limit", 10000000); /* Expands abilities for this routine. */
-												/**/
-												$ssl_tags = array ("script", "style", "link", "img", "input", "iframe", "object", "embed");
-												$ssl_tags = apply_filters ("_ws_plugin__s2member_force_ssl_buffer_tags_array", $ssl_tags, get_defined_vars ());
-												$ssl_tags = array_unique (array_map ("strtolower", $ssl_tags)); /* This array should be lowercase / unique. */
-												/**/
-												$ssl_regex_tags = implode ("|", array_map ("preg_quote", $ssl_tags)); /* Prepare for regex. */
-												/**/
-												$buffer = ($ssl_regex_tags) ? preg_replace_callback ("/\<(" . $ssl_regex_tags . ")(?![a-z_0-9\-])[^\>]+\>/i", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
-												$buffer = (in_array ("object", $ssl_tags)) ? preg_replace_callback ("/\<object(?![a-z_0-9\-])[^\>]*\>.*?\<\/object\>/is", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
-												$buffer = (in_array ("script", $ssl_tags)) ? preg_replace_callback ("/\<script(?![a-z_0-9\-])[^\>]*\>.*?\<\/script\>/is", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
-												$buffer = (in_array ("style", $ssl_tags)) ? preg_replace_callback ("/\<style(?![a-z_0-9\-])[^\>]*\>.*?\<\/style\>/is", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
-												/**/
-												$non_ssl_tags = array ("a"); /* Tags that should NOT contain SSL-enabled links in them. Prevents site-wide conversions */
-												$non_ssl_tags = apply_filters ("_ws_plugin__s2member_force_non_ssl_buffer_tags_array", $non_ssl_tags, get_defined_vars ());
-												$non_ssl_tags = array_unique (array_map ("strtolower", $non_ssl_tags)); /* This array should be lowercase / unique. */
-												/**/
-												$non_ssl_regex_tags = implode ("|", array_map ("preg_quote", $non_ssl_tags)); /* Prepare for regex. */
-												/**/
-												$buffer = ($non_ssl_regex_tags) ? preg_replace_callback ("/\<(" . $non_ssl_regex_tags . ")(?![a-z_0-9\-])[^\>]+\>/i", "_ws_plugin__s2member_force_non_ssl_buffer_callback", $buffer) : $buffer;
-												/**/
-												@ini_set ("pcre.backtrack_limit", $o_pcre); /* Restores previous configuration value now. */
-												/**/
-												return apply_filters ("_ws_plugin__s2member_force_ssl_buffer", $buffer, get_defined_vars ());
-											}
-									}
-								/**/
-								if (!function_exists ("_ws_plugin__s2member_force_ssl_buffer_callback"))
-									{
-										function _ws_plugin__s2member_force_ssl_buffer_callback ($m = FALSE)
-											{
-												$s = preg_replace ("/http\:\/\//i", "https://", $m[0]); /* Conversion. */
-												/**/
-												if (_ws_plugin__s2member_force_ssl_port && _ws_plugin__s2member_force_ssl_host && _ws_plugin__s2member_force_ssl_host_port) /* Need port conversions? */
-													$s = preg_replace ("/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host, "/") . "(\:[0-9]+)?\//i", "/" . _ws_plugin__s2member_force_ssl_host_port . "/", $s);
+												if (_ws_plugin__s2member_force_ssl_host && _ws_plugin__s2member_force_ssl_port && _ws_plugin__s2member_force_ssl_host_port) /* Convert port? */
+													$s = preg_replace ("/(?:https?\:)?\/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host, "/") . "(?:\:[0-9]+)?/i", "https://" . _ws_plugin__s2member_force_ssl_host_port, $s);
 												/**/
 												$s = (strtolower ($m[1]) === "link" && preg_match ("/['\"]alternate['\"]/i", $m[0])) ? $m[0] : $s; /* Alternates are fine to leave like they are. */
 												/**/
@@ -131,44 +102,63 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 											}
 									}
 								/**/
-								if (!function_exists ("_ws_plugin__s2member_force_non_ssl_buffer_callback"))
+								if (!function_exists ("_ws_plugin__s2member_force_non_ssl_buffer_callback")) /* Pluggable? */
 									{
-										function _ws_plugin__s2member_force_non_ssl_buffer_callback ($m = FALSE)
+										function _ws_plugin__s2member_force_non_ssl_buffer_callback ($m = FALSE) /* Callback function. */
 											{
-												$s = preg_replace ("/https\:\/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host_port, "/") . "/i", "http://" . _ws_plugin__s2member_force_ssl_host, $m[0]);
+												$s = preg_replace ("/(?:https?\:)?\/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host_port, "/") . "/i", "http://" . _ws_plugin__s2member_force_ssl_host, $m[0]);
 												/**/
-												$s = preg_replace ("/https\:\/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host, "/") . "/i", "http://" . _ws_plugin__s2member_force_ssl_host, $s);
-												/*
-												Data gets converted to prevent a site-wide conversion over to SSL links.
-												*/
+												$s = preg_replace ("/(?:https?\:)?\/\/" . preg_quote (_ws_plugin__s2member_force_ssl_host, "/") . "/i", "http://" . _ws_plugin__s2member_force_ssl_host, $s);
+												/**/
 												return $s; /* Return string with conversions. */
 											}
 									}
 								/**/
-								if (!function_exists ("_ws_plugin__s2member_force_non_ssl_scheme"))
+								if (!function_exists ("_ws_plugin__s2member_force_non_ssl_scheme")) /* Pluggable? */
 									{
 										function _ws_plugin__s2member_force_non_ssl_scheme ($url = FALSE, $path = FALSE, $scheme = FALSE)
 											{
 												if (!in_array ($scheme, array ("http", "https"))) /* If NOT explicitly passed through. */
 													{
-														/* Allows for special exceptions to the rule of always forcing a non-SSL scheme. */
 														if (($scheme === "login_post" || $scheme === "rpc") && (force_ssl_login () || force_ssl_admin ()))
 															$scheme = "https";
-														else if ($scheme === "login" && force_ssl_admin ())
+														/**/
+														else if (($scheme === "login" || $scheme === "admin") && force_ssl_admin ())
 															$scheme = "https";
-														else if ($scheme === "admin" && force_ssl_admin ())
-															$scheme = "https";
-														else /* Defaults to http. */
+														/**/
+														else /* Default to non-SSL: `http`. */
 															$scheme = "http";
 													}
-												/**/
-												$scheme = apply_filters ("_ws_plugin__s2member_force_non_ssl_scheme", $scheme, get_defined_vars ());
-												/**/
-												return preg_replace ("/^http(s)?\:\/\//i", $scheme . "://", $url);
+												return preg_replace ("/^(?:https?\:)?\/\//i", $scheme . "://", $url);
 											}
 									}
 								/**/
-								ob_start ("_ws_plugin__s2member_force_ssl_buffer");
+								if (!function_exists ("_ws_plugin__s2member_force_ssl_buffer")) /* Pluggable? */
+									{
+										function _ws_plugin__s2member_force_ssl_buffer ($buffer = FALSE) /* Output handler. */
+											{
+												$o_pcre = @ini_get ("pcre.backtrack_limit"); /* Record existing PCRE backtrack limit. */
+												@ini_set ("pcre.backtrack_limit", 10000000); /* Increase PCRE backtrack limit for this routine. */
+												/**/
+												$ssl_entire_tags = array_unique (array_map ("strtolower", apply_filters ("_ws_plugin__s2member_force_ssl_buffer_entire_tags", array ("script", "style", "iframe", "object", "embed", "video"), get_defined_vars ())));
+												$non_ssl_entire_tags = array_unique (array_map ("strtolower", apply_filters ("_ws_plugin__s2member_force_non_ssl_buffer_entire_tags", array (), get_defined_vars ())));
+												/**/
+												$ssl_attr_only_tags = array_unique ( /* Diff here. No need to re-run entire tags. */array_diff (array_map ("strtolower", apply_filters ("_ws_plugin__s2member_force_ssl_buffer_attr_only_tags", array ("link", "img", "input"), get_defined_vars ())), $ssl_entire_tags));
+												$non_ssl_attr_only_tags = array_unique ( /* No need to re-run entire tags. */array_diff (array_map ("strtolower", apply_filters ("_ws_plugin__s2member_force_non_ssl_buffer_attr_only_tags", array ("a"), get_defined_vars ())), $non_ssl_entire_tags));
+												/**/
+												$buffer = ($ssl_entire_tags) ? preg_replace_callback ("/\<(" . implode ("|", c_ws_plugin__s2member_utils_strings::preg_quote_deep ($ssl_entire_tags, "/")) . ")(?![a-z_0-9\-])[^\>]*?\>.*?\<\/\\1\>/is", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
+												$buffer = ($ssl_attr_only_tags) ? preg_replace_callback ("/\<(" . implode ("|", c_ws_plugin__s2member_utils_strings::preg_quote_deep ($ssl_attr_only_tags, "/")) . ")(?![a-z_0-9\-])[^\>]+?\>/i", "_ws_plugin__s2member_force_ssl_buffer_callback", $buffer) : $buffer;
+												/**/
+												$buffer = ($non_ssl_entire_tags) ? preg_replace_callback ("/\<(" . implode ("|", c_ws_plugin__s2member_utils_strings::preg_quote_deep ($non_ssl_entire_tags, "/")) . ")(?![a-z_0-9\-])[^\>]*?\>.*?\<\/\\1\>/is", "_ws_plugin__s2member_force_non_ssl_buffer_callback", $buffer) : $buffer;
+												$buffer = ($non_ssl_attr_only_tags) ? preg_replace_callback ("/\<(" . implode ("|", c_ws_plugin__s2member_utils_strings::preg_quote_deep ($non_ssl_attr_only_tags, "/")) . ")(?![a-z_0-9\-])[^\>]+?\>/i", "_ws_plugin__s2member_force_non_ssl_buffer_callback", $buffer) : $buffer;
+												/**/
+												@ini_set ("pcre.backtrack_limit", $o_pcre); /* Restore original PCRE backtrack limit. This just keeps things tidy; probably NOT necessary. */
+												/**/
+												return apply_filters ("_ws_plugin__s2member_force_ssl_buffer", $buffer, get_defined_vars ());
+											}
+									}
+								/**/
+								ob_start("_ws_plugin__s2member_force_ssl_buffer");
 							}
 						/**/
 						return; /* Return for uniformity. */

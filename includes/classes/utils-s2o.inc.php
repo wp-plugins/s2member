@@ -36,28 +36,19 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 				*/
 				public static function wp_dir ($starting_dir = FALSE, $alt_starting_dir = FALSE)
 					{
-						if ($starting_dir && is_dir ($starting_dir))
-							for ($i = 0, $dir = $starting_dir; $i <= 20; $i++)
-								{
-									for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
-										$dir = dirname ($dir);
-									/**/
-									if (file_exists ($dir . "/wp-settings.php"))
-										return ($wp_dir = $dir);
-								}
+						foreach (array ($starting_dir, $alt_starting_dir) as $directory)
+							if ($directory && is_string ($directory) && is_dir ($directory))
+								for ($i = 0, $dir = $directory; $i <= 20; $i++)
+									{
+										for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
+											$dir = dirname ($dir);
+										/**/
+										if (file_exists ($dir . "/wp-settings.php"))
+											return ($wp_dir = $dir);
+									}
 						/**/
-						if ($alt_starting_dir && is_dir ($alt_starting_dir))
-							for ($i = 0, $dir = $alt_starting_dir; $i <= 20; $i++)
-								{
-									for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
-										$dir = dirname ($dir);
-									/**/
-									if (file_exists ($dir . "/wp-settings.php"))
-										return ($wp_dir = $dir);
-								}
-						/**/
-						header("Content-Type: text/plain; charset=utf-8") . eval ('while (@ob_end_clean ());');
-						header("HTTP/1.0 500 Error") . exit ("ERROR: s2Member® unable to locate WordPress® directory.");
+						header ("Content-Type: text/plain; charset=utf-8") . eval ('while (@ob_end_clean ());');
+						header ("HTTP/1.0 500 Error") . exit ("ERROR: s2Member® unable to locate WordPress® directory.");
 					}
 				/*
 				* WordPress® settings, after ``SHORTINIT`` section.
@@ -71,45 +62,75 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 				*/
 				public static function wp_settings_as ($wp_dir = FALSE, $o_file = FALSE)
 					{
-						if ($wp_dir && is_dir ($wp_dir) && file_exists ($wp_dir . "/wp-settings.php") && $o_file && file_exists ($o_file))
-							if (($wp_settings = $_wp_settings = trim (file_get_contents ($wp_dir . "/wp-settings.php"))))
-								{
-									$wp_shortinit_section = "/if *\( *SHORTINIT *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*return false;[\r\n\t\s ]*\}?[\r\n\t\s ]*/";
-									if (($_wp_settings_parts = preg_split ($wp_shortinit_section, $_wp_settings, 2)) && ($_wp_settings = trim ($_wp_settings_parts[1])) && ($_wp_settings = "<?php\n" . $_wp_settings))
-										{
-											if (($_wp_settings = str_replace ("__FILE__", "'" . str_replace ("'", "\'", $wp_dir) . "/wp-settings.php'", $_wp_settings))) /* Eval compatible. Hard-code `../wp-settings.php`. */
-												{
-													$mu_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_mu_plugins *\( *\) *as *\\\$mu_plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$mu_plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$mu_plugin *\);/";
-													$mu_plugins_replace = "\nif (file_exists (WPMU_PLUGIN_DIR . \"/s2member-o.php\"))\n\tinclude_once WPMU_PLUGIN_DIR . \"/s2member-o.php\";"; /* Supports special file: `s2member-o.php`. */
-													if (($_wp_settings = preg_replace ($mu_plugins_section, $mu_plugins_replace, $_wp_settings, 1, $mu_plugins_replaced)) && $mu_plugins_replaced)
-														{
-															$nw_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_active_network_plugins *\( *\) *as *\\\$network_plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$network_plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$network_plugin *\);/";
-															$nw_plugins_replace = /* Not even in the plugins directory? » */ "\n\$ws_plugin__s2member_temp_s = preg_replace (\"/-o\\.php\$/\", \".php\", __FILE__);\n\nif (!file_exists (WP_PLUGIN_DIR . \"/\" . plugin_basename (\$ws_plugin__s2member_temp_s)) && file_exists (\$ws_plugin__s2member_temp_s))\n\tinclude_once \$ws_plugin__s2member_temp_s;\n";
-															$nw_plugins_replace .= "\n\$ws_plugin__s2member_temp_s = plugin_basename (preg_replace (\"/-o\\.php\$/\", \".php\", __FILE__));\n\$ws_plugin__s2member_temp_a = is_multisite () ? wp_get_active_network_plugins () : array ();\n\nif (in_array (WP_PLUGIN_DIR . \"/\" . \$ws_plugin__s2member_temp_s, \$ws_plugin__s2member_temp_a))\n\tinclude_once WP_PLUGIN_DIR . \"/\" . \$ws_plugin__s2member_temp_s;\n\nunset (\$ws_plugin__s2member_temp_s, \$ws_plugin__s2member_temp_a);";
-															if (($_wp_settings = preg_replace ($nw_plugins_section, $nw_plugins_replace, $_wp_settings, 1, $nw_plugins_replaced)) && $nw_plugins_replaced)
-																{
-																	$st_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_active_and_valid_plugins *\( *\) *as *\\\$plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$plugin *\);/";
-																	$st_plugins_replace = /* Not even in the plugins directory? » */ "\n\$ws_plugin__s2member_temp_s = preg_replace (\"/-o\\.php\$/\", \".php\", __FILE__);\n\nif (!file_exists (WP_PLUGIN_DIR . \"/\" . plugin_basename (\$ws_plugin__s2member_temp_s)) && file_exists (\$ws_plugin__s2member_temp_s))\n\tinclude_once \$ws_plugin__s2member_temp_s;\n";
-																	$st_plugins_replace .= "\n\$ws_plugin__s2member_temp_s = plugin_basename (preg_replace (\"/-o\\.php\$/\", \".php\", __FILE__));\n\$ws_plugin__s2member_temp_a = wp_get_active_and_valid_plugins ();\n\nif (in_array (WP_PLUGIN_DIR . \"/\" . \$ws_plugin__s2member_temp_s, \$ws_plugin__s2member_temp_a))\n\tinclude_once WP_PLUGIN_DIR . \"/\" . \$ws_plugin__s2member_temp_s;\n\nunset (\$ws_plugin__s2member_temp_s, \$ws_plugin__s2member_temp_a);";
-																	if (($_wp_settings = preg_replace ($st_plugins_section, $st_plugins_replace, $_wp_settings, 1, $st_plugins_replaced)) && $st_plugins_replaced)
-																		{
-																			$theme_funcs_section = "/(?:[\r\n\t\s ]+\/\/ Load the functions for the active theme, for both parent and child theme if applicable\.)?[\r\n\t\s ]+if *\( *\! *defined *\( *['\"]WP_INSTALLING['\"] *\) *\|\| *['\"]wp-activate.php['\"] *\=\=\= *\\\$pagenow *\)[\r\n\t\s ]*\{[\r\n\t\s ]*if *\( *TEMPLATEPATH *\!\=\= *STYLESHEETPATH *&& *file_exists *\( *STYLESHEETPATH *\. *['\"]\/functions\.php['\"] *\) *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include *\( *STYLESHEETPATH *\. *['\"]\/functions\.php['\"] *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*if *\( *file_exists *\( *TEMPLATEPATH *\. *['\"]\/functions\.php['\"] *\) *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include *\( *TEMPLATEPATH *\. *['\"]\/functions\.php['\"] *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*\}/";
-																			if (($_wp_settings = preg_replace ($theme_funcs_section, "", $_wp_settings, 1, $theme_funcs_replaced)) && $theme_funcs_replaced)
-																				{
-																					if (($_wp_settings = str_replace ("__FILE__", '"' . str_replace ('"', '\"', $o_file) . '"', $_wp_settings)))
-																						{
-																							if (($_wp_settings = trim ($_wp_settings))) /* WordPress®, with s2Member only. */
-																								return $_wp_settings;
-																						}
-																				}
-																		}
-																}
-														}
-												}
-										}
-								}
+						if ($wp_dir && is_dir ($wp_dir) && is_readable (($wp_settings = $wp_dir . "/wp-settings.php")) && $o_file && file_exists ($o_file) && ($_wp_settings = trim (file_get_contents ($wp_settings))))
+							{
+								$wp_shortinit_section = "/if *\( *SHORTINIT *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*return false;[\r\n\t\s ]*\}?[\r\n\t\s ]*/";
+								if (($_wp_settings_parts = preg_split ($wp_shortinit_section, $_wp_settings, 2)) && ($_wp_settings = trim ($_wp_settings_parts[1])) && ($_wp_settings = "<?php\n" . $_wp_settings))
+									{
+										if (($_wp_settings = str_replace ("__FILE__", "'" . str_replace ("'", "\'", $wp_settings) . "'", $_wp_settings))) /* Eval compatible. Hard-code the ``__FILE__`` location here. */
+											{
+												$mu_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_mu_plugins *\( *\) *as *\\\$mu_plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$mu_plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$mu_plugin *\);/";
+												$mu_plugins_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-mu-plugins.php")))) . "\n";
+												if (($_wp_settings = preg_replace ($mu_plugins_section, $mu_plugins_replace, $_wp_settings, 1, $mu_plugins_replaced)) && $mu_plugins_replaced)
+													{
+														$nw_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_active_network_plugins *\( *\) *as *\\\$network_plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$network_plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$network_plugin *\);/";
+														$nw_plugins_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-nw-plugins.php")))) . "\n";
+														if (($_wp_settings = preg_replace ($nw_plugins_section, $nw_plugins_replace, $_wp_settings, 1, $nw_plugins_replaced)) && $nw_plugins_replaced)
+															{
+																$st_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_active_and_valid_plugins *\( *\) *as *\\\$plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$plugin *\);/";
+																$st_plugins_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-st-plugins.php")))) . "\n";
+																if (($_wp_settings = preg_replace ($st_plugins_section, $st_plugins_replace, $_wp_settings, 1, $st_plugins_replaced)) && $st_plugins_replaced)
+																	{
+																		$th_funcs_section = "/[\r\n\t\s ]+if *\( *\! *defined *\( *['\"]WP_INSTALLING['\"] *\) *\|\| *['\"]wp-activate.php['\"] *\=\=\= *\\\$pagenow *\)[\r\n\t\s ]*\{[\r\n\t\s ]*if *\( *TEMPLATEPATH *\!\=\= *STYLESHEETPATH *&& *file_exists *\( *STYLESHEETPATH *\. *['\"]\/functions\.php['\"] *\) *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include *\( *STYLESHEETPATH *\. *['\"]\/functions\.php['\"] *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*if *\( *file_exists *\( *TEMPLATEPATH *\. *['\"]\/functions\.php['\"] *\) *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include *\( *TEMPLATEPATH *\. *['\"]\/functions\.php['\"] *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*\}/";
+																		$th_funcs_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-th-funcs.php")))) . "\n";
+																		if (($_wp_settings = preg_replace ($th_funcs_section, $th_funcs_replace, $_wp_settings, 1, $th_funcs_replaced)) && $th_funcs_replaced)
+																			{
+																				if (($_wp_settings = str_replace ("__FILE__", '"' . str_replace ('"', '\"', $o_file) . '"', $_wp_settings))) /* Eval compatible. */
+																					{
+																						if (($_wp_settings = trim ($_wp_settings))) /* WordPress®, with s2Member only. */
+																							return ($wp_settings_as = $_wp_settings); /* After ``SHORTINIT``. */
+																					}
+																			}
+																	}
+															}
+													}
+											}
+									}
+							}
 						/**/
-						return false; /* Default return. */
+						return false;
+					}
+				/**
+				* Escapes dollars signs ( for regex patterns ).
+				*
+				* @package s2Member\Utilities
+				* @since 110917
+				*
+				* @param str $string Input string.
+				* @param int $times Mumber of escapes. Defaults to 1.
+				* @return str Output string after dollar signs are escaped.
+				*/
+				public static function esc_ds ($string = FALSE, $times = FALSE)
+					{
+						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						return str_replace ('$', str_repeat ("\\", $times) . '$', (string)$string);
+					}
+				/**
+				* Evaluates PHP code, and "returns" output.
+				*
+				* @package s2Member\Utilities
+				* @since 110917
+				*
+				* @param str $code A string of data, possibly with embedded PHP code.
+				* @return str Output after PHP evaluation.
+				*/
+				public static function evl ($code = FALSE)
+					{
+						ob_start (); /* Output buffer. */
+						/**/
+						eval ("?>" . trim ($code));
+						/**/
+						return ob_get_clean ();
 					}
 			}
 	}

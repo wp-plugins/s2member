@@ -75,32 +75,32 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #1:</strong> Full access for anyone that is logged in.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #2:</strong> Full access for any Member with a Level >= 1.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #3:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #4:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #5:</strong> Using multiple Conditionals together, and even nesting other Shortcodes.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #6:</strong> Using multiple Conditionals together, and even nesting Conditionals.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3-farm.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3-farm.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -119,7 +119,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<p><em><strong>Implementing AND/OR Conditional expressions:</strong></em></p>' . "\n";
 										echo '<p><em>*Tip: do NOT mix AND/OR expressions.<br /> <strong class="ws-menu-page-error-hilite">BAD</strong> <code>is_user_logged_in() AND is_page(1) OR is_page(2)</code><br />- use one or the other; do NOT mix AND/OR together.</em></p>' . "\n";
 										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting:</strong></em></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.x-php")) . '</p>' . "\n";
 										echo '</div>' . "\n";
 										/**/
 										echo '</div>' . "\n";
@@ -142,32 +142,32 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #1:</strong> Full access for anyone that is logged in.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #2:</strong> Full access for any Member with a Level >= 1.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #3:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #4:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #5:</strong> Using multiple Conditionals together, and even nesting other Shortcodes.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>Example #6:</strong> Using multiple Conditionals together, and even nesting Conditionals.</strong></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
@@ -186,7 +186,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<p><em><strong>Implementing AND/OR Conditional expressions:</strong></em></p>' . "\n";
 										echo '<p><em>*Tip: do NOT mix AND/OR expressions.<br /> <strong class="ws-menu-page-error-hilite">BAD</strong> <code>is_user_logged_in() AND is_page(1) OR is_page(2)</code><br />- use one or the other; do NOT mix AND/OR together.</em></p>' . "\n";
 										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting:</strong></em></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.x-php")) . '</p>' . "\n";
 										echo '</div>' . "\n";
 										/**/
 										echo '</div>' . "\n";
@@ -214,42 +214,42 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #1:</strong> Full access for anyone that is logged in.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/is-user-logged-in.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/is-user-logged-in.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #2:</strong> Full access for any Member with a Level >= 1.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-full-access.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-full-access.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #3:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-specific-content.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-specific-content.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #4:</strong> Using s2Member API Conditionals, supplementing WordPress® core functions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-1.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-1.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #5:</strong> Using s2Member API Conditionals, supplementing WordPress® core functions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-2.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-2.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #6:</strong> Using multiple Conditionals together, and even nesting Conditionals.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-3.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2-conditional-supplements-3.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #7:</strong> Using s2Member API Constants, instead of conditional functions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-constants-1.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-constants-1.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #8:</strong> Using s2Member API Constants, instead of conditional functions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-constants-2.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-constants-2.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
@@ -283,32 +283,32 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #1:</strong> Pre-filtering custom queries in WordPress®.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/custom-queries.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/custom-queries.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #2:</strong> OR, instead of pre-filtering; check Access Restrictions in The Loop.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/custom-queries-loop.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/custom-queries-loop.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #3:</strong> Checking Tag Restrictions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-tag-restrictions.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-tag-restrictions.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #4:</strong> Checking Category Restrictions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-category-restrictions.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-category-restrictions.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #5:</strong> Checking Page Restrictions.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-page-restrictions.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-page-restrictions.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Example #6:</strong> Checking Post Restrictions, including Custom Post Types.</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-post-restrictions.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/specific-post-restrictions.x-php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -343,10 +343,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Custom Capabilities:</strong> ( music,videos ):</p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-ccaps-1.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-ccaps-1.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<p><strong>Custom Capabilities:</strong> ( ebooks,reports,tips ):</p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-ccaps-2.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-can-ccaps-2.x-php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -377,7 +377,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<p>Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-ccap-music</code><br />Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-ccap-videos</code></p>' . "\n";
 								echo '<p>Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-ccap-music/file.mp3</code><br />Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-ccap-videos/file.avi</code></p>' . "\n";
 								echo '<p>Now, here are some link examples, using Custom Capability Sub-directories:</p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/ccap-file-downloads.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/ccap-file-downloads.x-php")) . '</p>' . "\n";
 								echo '<p><em>These links will ONLY work for Members who are logged-in, with the proper Capabilities.</em></p>' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -386,7 +386,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<p>Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level0</code><br />Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level1</code><br />Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level2</code><br />Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level3</code><br />Sub-Directory: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level4</code></p>' . "\n";
 								echo '<p>Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level0/tiger.doc</code><br />Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level1/zebra.pdf</code><br />Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level2/elephant.doc</code><br />Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level3/rhino.pdf</code><br />Protected File: <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/access-s2member-level4/lion.doc</code></p>' . "\n";
 								echo '<p>Now, here are some link examples, using Member Level Sub-directories:</p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level-file-downloads.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/level-file-downloads.x-php")) . '</p>' . "\n";
 								echo '<p><em>These links will ONLY work for Members who are logged-in, with an adequate Membership Level.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
@@ -414,7 +414,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>To drip content using <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>:</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-days-dripping.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-days-dripping.x-php")) . '</p>' . "\n";
 								/**/
 								echo '<p><em>There are more examples on this page, under the sub-section "s2Member PHP/API Constants". You\'ll see that s2Member provides you with access to several PHP/API Constants, which will assist you in dripping content. Some of the most relevant API Constants include: <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME</code>, <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>, <code>S2MEMBER_CURRENT_USER_REGISTRATION_TIME</code>, <code>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</code>; and there are many others.</em></p>' . "\n";
 								/**/
@@ -423,9 +423,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<h3>Very Advanced Content Dripping ( some PHP required )</h3>' . "\n";
 								echo '<p>If you plan on dripping content in VERY advanced ways, you can tap into s2Member\'s recorded history of all Paid Registration Times. ( i.e. <code>' . esc_html ('<?php $time = s2member_paid_registration_time("level1"); ?>') . '</code> ) will give you a timestamp at which a Member first paid for Level#1 access. If they\'ve never paid for Level#1 access, the function will return 0. s2Member keeps a recorded history of timestamps associated with each Level that a Member gains access to, throughout the lifetime of their account. * NOTE: This requires s2Member v3.3+. Previous versions of s2Member did NOT record this information. If you implement this functionality on an upgraded installation of s2Member, please remember that s2Member will have NO Paid Registration Time for any Member you acquired prior to installing s2Member v3.3+. <em>Check the forums for work-arounds.</em></p>' . "\n";
 								echo '<p><strong>Here is the function documentation for PHP/WordPress® developers:</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2member-paid-registration-time.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2member-paid-registration-time.x-php")) . '</p>' . "\n";
 								echo '<p><strong>Here are some actual examples that should give you some ideas:</strong></p>' . "\n";
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2member-paid-registration-time-examples.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2member-paid-registration-time-examples.x-php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -452,13 +452,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( standard link tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1-ops.x-php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( open the link in a popup window ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.x-php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone / Code Sample</strong> ( embed the Form with an IFRAME tag ):</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3-ops.php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3-ops.x-php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -719,29 +719,29 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_VERSION</strong><br />This will always be a (string) with the current s2Member version. Available since s2Member 3.0. Dated versions began with s2Member v110604.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/version.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/version.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_LOGIN_COUNTER</strong><br />This will always be (int) <code>-1</code> or higher <em>( representing the number of times a User/Member has logged into your site )</em>. <code>-1</code> if no User is logged in. <code>0</code> if the current User has NEVER logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-login-counter.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-login-counter.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN</strong><br />This will always be (bool) true or false. True if a User/Member is currently logged in with an Access Level >= 0.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-logged-in.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-logged-in.x-php")) . '</p>' . "\n";
 										echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER</strong><br />This will always be (bool) true or false. True if a Member is currently logged in with an Access Level >= 1.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-logged-in-as-member.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-is-logged-in-as-member.x-php")) . '</p>' . "\n";
 										echo '<p><em>See: <code>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</code> below for a full explanation.</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LEVEL</strong><br />This will always be (int) <code>-1</code> thru <code>4</code> <em>( or, up to the total number Membership Levels you\'ve configured )</em>. <code>-1</code> if not logged in. <code>0</code> if logged in as a Free Subscriber.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-access-level.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-access-level.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Membership Levels provide incremental access:</strong></p>' . "\n";
 										echo '<p>* A Member with Level 4 access, will also be able to access Levels 0, 1, 2 &amp; 3.<br />* A Member with Level 3 access, will also be able to access Levels 0, 1 &amp; 2.<br />* A Member with Level 2 access, will also be able to access Levels 0 &amp; 1.<br />* A Member with Level 1 access, will also be able to access Level 0.<br />* A Subscriber with Level 0 access, will ONLY be able to access Level 0.<br />* A public Visitor will have NO access to protected content.</p>' . "\n";
 										echo '<p><em>* WordPress® Subscribers are at Membership Level 0. If you\'re allowing Open Registration, Subscribers will be at Level 0 ( a Free Subscriber ). WordPress® Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member. All of their other Roles/Capabilities are left untouched.</em></p>' . "\n";
@@ -749,228 +749,228 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_ACCESS_LABEL</strong><br />This will always be a (string) containing the Membership Label associated with the current User\'s account. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-access-label.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-access-label.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_SUBSCR_ID</strong><br />This will always be a (string) containing the current User\'s Paid Subscr. ID. If they\'ve NOT paid yet, this will be an empty string. Also empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-id.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-id.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID</strong><br />This will always be a (string) containing the current User\'s Paid Subscr. ID. If they\'ve NOT paid yet, this will be their WordPress® User ID#. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-or-wp-id.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-or-wp-id.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY</strong><br />This will always be a (string) containing the current User\'s Paid Subscr. Gateway. If they\'ve NOT paid yet, this will be empty. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-gateway.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-subscr-gateway.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_CUSTOM</strong><br />This will always be a (string) containing the current User\'s Custom String; associated with their s2Member Profile. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-custom.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-custom.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_TIME</strong><br />This will always be an (int); in the form of a Unix timestamp. 0 if not logged in. This holds the recorded time at which the User originally registered their Username for access to your site; for free or otherwise. This is useful if you want to drip content over an extended period of time, based on how long someone has been registered (period); regardless of whether they are/were paying you. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-time.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-time.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</strong><br />This will always be an (int). 0 if not logged in. This is the number of days that have passed since the User originally registered their Username for access to your site; for free or otherwise. This is useful if you want to drip content over an extended period of time, based on how long someone has been registered (period); regardless of whether they are/were paying you. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-days.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-days.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME</strong><br />This will always be an (int); in the form of a Unix timestamp. However, this will be 0 if they\'re not logged in; or if they\'ve never paid you at all <em>( i.e. if they\'re still a Free Subscriber )</em>. This holds the recorded time at which the Member originally registered their Username (or upgraded for) any type of "paid" access to your site. This value is preserved for the lifetime of their account, even if they upgrade, and even if they\'re demoted at some point. Once this value is recorded, it never changes under any circumstance. This is useful if you want to drip content over an extended period of time, based on how long someone has been a "paying" Member (period); regardless of their original or existing Membership Level. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_REGISTRATION_TIME</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-time.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-time.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</strong><br />This will always be an (int); in the form of a Unix timestamp. However, this will be 0 if they\'re not logged in; or if they\'ve never paid you at all <em>( i.e. if they\'re still a Free Subscriber )</em>. This is the number of days that have passed since the Member originally registered their Username (or upgraded for) any type of "paid" access to your site. The underlying timestamp behind this value is preserved for the lifetime of their account, even if they upgrade, and even if they\'re demoted at some point. Once the underlying timestamp behind this value is recorded, it never changes under any circumstance. This is useful if you want to drip content over an extended period of time, based on how long someone has been a "paying" Member (period); regardless of their original or existing Membership Level. <strong>* Note:</strong> this is NOT the same as <code>S2MEMBER_CURRENT_USER_REGISTRATION_DAYS</code>, which could be used as an alternative, depending on your intended usage.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-days.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-days.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_DISPLAY_NAME</strong><br />This will always be a (string) containing the current User\'s Display Name. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-display-name.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-display-name.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_FIRST_NAME</strong><br />This will always be a (string) containing the current User\'s First Name. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-first-name.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-first-name.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_LAST_NAME</strong><br />This will always be a (string) containing the current User\'s Last Name. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-last-name.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-last-name.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_LOGIN</strong><br />This will always be a (string) containing the current User\'s Username. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-login.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-login.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_EMAIL</strong><br />This will always be a (string) containing the current User\'s Email Address. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-email.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-email.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_IP</strong><br />This will always be a (string) containing the current User\'s IP Address, even when/if NOT logged in. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if browsing anonymously.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-ip.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-ip.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_REGISTRATION_IP</strong><br />This will always be a (string) containing the current User\'s original IP Address during registration. Taken from <code>$_SERVER["REMOTE_ADDR"]</code>. Empty if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-ip.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-registration-ip.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_ID</strong><br />This will always be an (int) containing the current User\'s ID# in WordPress®. However, it will be 0 if not logged in.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-id.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-id.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_FIELDS</strong><br />This will always be a JSON encoded array, in (string) format. An empty JSON encoded array, in (string) format, if not logged in. This JSON encoded array will contain the following fields: <code>id, ip, reg_ip, email, login, first_name, last_name, display_name, subscr_id, subscr_or_wp_id, subscr_gateway, custom</code>. If you\'ve configured additional Custom Fields, those Custom Fields will also be added to this array. You can do <code>print_r(json_decode(S2MEMBER_CURRENT_USER_FIELDS, true));</code> to get a full list for testing.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-fields.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-fields.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'re allowed to download. 0 means no access.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED</strong><br />This will always be (bool) true or false. A value of true means their allowed downloads are >= 999999999, and false means it is not. This is useful if you are allowing unlimited ( 999999999 ) downloads on some Membership Levels. You can display `Unlimited` instead of a number.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed-is-unlimited.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed-is-unlimited.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY</strong><br />This will always be an (int) value >= 0. This indicates how many unique files they\'ve downloaded in the current period.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-currently.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-currently.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS</strong><br />This will always be an (int) value >= 0. This indicates how many total days make up the current period. 0 means no access.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed-days.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-downloads-allowed-days.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL</strong><br />This is a Stand-Alone URL where a User can modify their Profile. In addition to this Stand-Alone version, s2Member also makes a Shortcode available which produces an Inline Profile Editing Form. Use <code>[s2Member-Profile /]</code> in any Post/Page, or even in a Text Widget if you like.</p>' . "\n";
 										echo '<p><strong>Code Sample #1</strong> ( standard link ):</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-1.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Code Sample #2</strong> ( open the link in a popup window ):</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Code Sample #3</strong> ( embed the form into a Post/Page using an IFRAME tag ):</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-3.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL</strong><br />This is the full URL to the Limit Exceeded Page ( informational ).</p>' . "\n";
 										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/file-download-limit-exceeded-page-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/file-download-limit-exceeded-page-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL</strong><br />This is the full URL to the Membership Options Page ( the signup page ).</p>' . "\n";
 										echo '<p><strong>S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/membership-options-page-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/membership-options-page-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LOGIN_WELCOME_PAGE_URL</strong><br />This is the full URL to the Login Welcome Page ( the User\'s account page ). * This could also be the full URL to a Special Redirection URL ( if you configured one ). See <code>s2Member -> General Options -> Login Welcome Page</code>.</p>' . "\n";
 										echo '<p><strong>S2MEMBER_LOGIN_WELCOME_PAGE_ID</strong><br />This is the Page ID that was used to generate the full URL. * In the case of a Special Redirection URL, this ID is not really applicable.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/login-welcome-page-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/login-welcome-page-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LOGIN_PAGE_URL</strong><br />This is the full URL to the Membership Login Page ( the WordPress® login page ).</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/login-page-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/login-page-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LOGOUT_PAGE_URL</strong><br />This is the full URL to the Membership Logout Page ( the WordPress® logout page ).</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/logout-page-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/logout-page-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LEVELn_LABEL</strong><br />This is the (string) Label that you created for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #..</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-label.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-label.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED</strong><br />This is the (int) allowed downloads for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS</strong><br />This is the (int) allowed download days for a particular Membership Level #. Replace <code>n</code> with a numeric Membership Level #.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed-days.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/leveln-file-downloads-allowed-days.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS</strong><br />This is the (string) list of extensions to display inline.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/file-download-inline-extensions.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/file-download-inline-extensions.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_REG_EMAIL_FROM_NAME</strong><br />This is the Name that outgoing email messages are sent by.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/reg-email-from-name.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/reg-email-from-name.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_REG_EMAIL_FROM_EMAIL</strong><br />This is the Email Address that outgoing messages are sent by.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/reg-email-from-email.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/reg-email-from-email.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_NOTIFY_URL</strong><br />This is the URL on your system that receives PayPal® IPN responses.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-notify-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-notify-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_RETURN_URL</strong><br />This is the URL on your system that receives PayPal® return variables.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-return-url.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-return-url.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® server <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-endpoint.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-endpoint.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_API_ENDPOINT</strong><br />This is the Endpoint Domain to the PayPal® API server <em>( changes when Sandbox Mode is enabled )</em>.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-endpoint.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-endpoint.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_BUSINESS</strong><br />This is the Email Address that identifies your PayPal® Business.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-business.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-business.x-php")) . '</p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_API_USERNAME</strong><br />This is the API Username associated with your PayPal® Business.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-username.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-username.x-php")) . '</p>' . "\n";
 										echo '<p><em>* For security purposes, this is NOT included in the JS/API (JavaSript API).</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_API_PASSWORD</strong><br />This is the API Password associated with your PayPal® Business.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-password.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-password.x-php")) . '</p>' . "\n";
 										echo '<p><em>* For security purposes, this is NOT included in the JS/API (JavaSript API).</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_API_SIGNATURE</strong><br />This is the API Signature associated with your PayPal® Business.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-signature.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-api-signature.x-php")) . '</p>' . "\n";
 										echo '<p><em>* For security purposes, this is NOT included in the JS/API (JavaSript API).</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 										/**/
 										echo '<p><strong>S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN</strong><br />This is the PDT Identity Token associated with your PayPal® Business.</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-pdt-identity-token.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/paypal-pdt-identity-token.x-php")) . '</p>' . "\n";
 										echo '<p><em>* For security purposes, this is NOT included in the JS/API (JavaSript API).</em></p>' . "\n";
 										/**/
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -985,7 +985,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 										/**/
 										echo '<p><em>These four Constants are special. They are used by the PayPal® Button Generator for s2Member. This is how s2Member identifies an existing Member ( and/or a Free Subscriber ), who is already logged in when they click a PayPal® Modification Button that was generated for you by s2Member. Instead of forcing a Member ( and/or a Free Subscriber ) to re-register for a new account, s2Member can identify their existing account, and update it, according to the modified terms in your Button Code. Specifically, these three Button Code parameters: <code>on0, os0, modify</code>, work together in harmony. If you\'re using the Shortcode Format for PayPal® Buttons, you won\'t even see these, because they\'re added internally by the Shortcode processor. Anyway, they\'re just documented here for clarity; you probably won\'t use these directly; the Button Generator pops them in.</em></p>' . "\n";
 										/**/
-										echo '<p><em>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-value-for-pp-on0-os0-on1-os1.php")) . '</em></p>' . "\n";
+										echo '<p><em>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-value-for-pp-on0-os0-on1-os1.x-php")) . '</em></p>' . "\n";
 										/**/
 										echo '</div>' . "\n";
 										/**/
@@ -1031,7 +1031,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
-								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars.php")) . '</p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars.x-php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

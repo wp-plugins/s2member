@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_register_access"))
 	{
@@ -42,7 +42,7 @@ if (!class_exists ("c_ws_plugin__s2member_register_access"))
 				*/
 				public static function register_link_gen ($subscr_gateway = FALSE, $subscr_id = FALSE, $custom = FALSE, $item_number = FALSE, $shrink = TRUE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_register_link_gen", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -51,13 +51,10 @@ if (!class_exists ("c_ws_plugin__s2member_register_access"))
 								$register = c_ws_plugin__s2member_utils_encryption::encrypt ("subscr_gateway_subscr_id_custom_item_number_time:.:|:.:" . $subscr_gateway . ":.:|:.:" . $subscr_id . ":.:|:.:" . $custom . ":.:|:.:" . $item_number . ":.:|:.:" . strtotime ("now"));
 								$register_link = site_url ("/?s2member_register=" . urlencode ($register));
 								/**/
-								if ($shrink && ($_alternative = apply_filters ("ws_plugin__s2member_register_link_gen_alternative", $register_link, get_defined_vars ())) && strlen ($_alternative) < strlen ($register_link))
-									return apply_filters ("ws_plugin__s2member_register_link_gen", $_alternative, get_defined_vars ());
+								if ($shrink && ($shorter_url = c_ws_plugin__s2member_utils_urls::shorten ($register_link)))
+									return apply_filters ("ws_plugin__s2member_register_link_gen", $shorter_url . "#" . $_SERVER["HTTP_HOST"], get_defined_vars ());
 								/**/
-								else if ($shrink && ($tinyurl = c_ws_plugin__s2member_utils_urls::remote ("http://tinyurl.com/api-create.php?url=" . rawurlencode ($register_link))))
-									return apply_filters ("ws_plugin__s2member_register_link_gen", $tinyurl . "#" . $_SERVER["HTTP_HOST"], get_defined_vars ());
-								/**/
-								else /* Else use the long one; tinyURL will fail when/if their server is down periodically. */
+								else /* Else use the long one; shortening may fail when/if an API server is down periodically. */
 									return apply_filters ("ws_plugin__s2member_register_link_gen", $register_link, get_defined_vars ());
 							}
 						/**/

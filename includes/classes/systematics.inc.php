@@ -43,19 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return $is_systematic; /* Filters will have already been applied. */
 							}
-						else if (is_admin ()) /* In the admin area? - All administrational pages are considered Systematic. */
-							{
-								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
-							}
-						else if (strcasecmp (PHP_SAPI, "CLI") === 0) /* CLI = Command Line. Normally indicates a running cron job. */
-							{
-								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
-							}
-						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST))
-							{
-								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
-							}
-						else if (preg_match ("/\/(wp-app|wp-signup|wp-register|wp-activate|wp-login|xmlrpc)\.php/", $_SERVER["REQUEST_URI"]) || (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ())))
+						else if (c_ws_plugin__s2member_systematics::is_wp_systematic_use_page ()) /* WordPress® Systematic? */
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
@@ -81,6 +69,53 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							}
 						else /* Otherwise, we return false ( it's NOT Systematic ). */
 							return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", false, get_defined_vars ()));
+					}
+				/**
+				* Determines if the current page is WordPress® Systematic.
+				*
+				* @package s2Member\Systematics
+				* @since 111002
+				*
+				* @return bool True if WordPress® Systematic, else false.
+				*/
+				public static function is_wp_systematic_use_page ()
+					{
+						static $is_wp_systematic; /* For optimization. */
+						/**/
+						if (isset ($is_wp_systematic)) /* Already cached? This saves time. */
+							{
+								return $is_wp_systematic; /* Filters will have already been applied. */
+							}
+						else if (is_admin ()) /* In the admin area? All administrational pages are considered Systematic. */
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if (defined ("WP_INSTALLING") && WP_INSTALLING) /* Installing? All WordPress® installs are considered Systematic. */
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if (defined ("APP_REQUEST") && APP_REQUEST) /* App request? All WordPress® app requests are considered Systematic. */
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if (defined ("XMLRPC_REQUEST") && XMLRPC_REQUEST) /* An XML-RPC request? All of these are considered Systematic too. */
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if ((defined ("DOING_CRON") && DOING_CRON) || strcasecmp (PHP_SAPI, "CLI") === 0) /* CLI, or WordPress® CRON job. */
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if (preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", parse_url ($_SERVER["REQUEST_URI"], PHP_URL_PATH)) || (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ())))
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST))
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else /* Otherwise, we return false ( it's NOT WordPress® Systematic ). */
+							return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", false, get_defined_vars ()));
 					}
 			}
 	}

@@ -55,7 +55,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<a href="https://www.paypal.com/us/mrb/pal=KMEJ5UCMUQVAW" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/paypal-logo.png" class="ws-menu-page-right" style="width:125px; height:125px; border:0;" alt="." /></a>' . "\n";
 								echo '<h3>PayPal® Account Details ( required, if using PayPal® )</h3>' . "\n";
 								echo '<p>This plugin works in conjunction with <a href="https://www.paypal.com/us/mrb/pal=KMEJ5UCMUQVAW" target="_blank" rel="external">PayPal® Website Payments Standard</a>, for businesses. You do NOT need a PayPal® Pro account. You just need to upgrade your Personal PayPal® account to a Business status, which is free. A PayPal® account can be <a href="http://pages.ebay.com/help/buy/questions/upgrade-paypal-account.html" target="_blank" rel="external">upgraded</a> from a Personal account to a Business account, simply by going to the `Profile` button under the `My Account` tab, selecting the `Personal Business Information` button, and then clicking the `Upgrade Your Account` button.</p>' . "\n";
-								echo '<p><em><strong>*PayPal® API Credentials*</strong> Once you have a PayPal® Business account, you\'ll need access to your <a href="https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_NVPAPIBasics#id084E30I30RO" target="_blank" rel="external">PayPal® API Credentials</a>. Log into your PayPal® account, and navigate to <code>Profile -> Request API Credentials</code>. You\'ll choose ( PayPal® API ), and then choose ( Create Your Own ). Once you\'ve got your API Credentials, come back and paste them into the fields below.</em></p>' . "\n";
+								echo '<p><em><strong>*PayPal® API Credentials*</strong> Once you have a PayPal® Business account, you\'ll need access to your <a href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_profile-api-access" target="_blank" rel="external">PayPal® API Credentials</a>. Log into your PayPal® account, and navigate to <code>Profile -> API Access (or Request API Credentials)</code>. You\'ll choose <code>( Request API Signature )</code>.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_paypal_ops_page_during_left_sections_during_paypal_account_details", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -90,7 +90,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="text" name="ws_plugin__s2member_paypal_api_username" id="ws-plugin--s2member-paypal-api-username" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"]) . '" /><br />' . "\n";
-								echo 'In your PayPal® account, go to: <code>Profile -> Request API Credentials</code>.' . "\n";
+								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -107,7 +107,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="password" name="ws_plugin__s2member_paypal_api_password" id="ws-plugin--s2member-paypal-api-password" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"]) . '" /><br />' . "\n";
-								echo 'In your PayPal® account, go to: <code>Profile -> Request API Credentials</code>.' . "\n";
+								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -124,7 +124,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="password" name="ws_plugin__s2member_paypal_api_signature" id="ws-plugin--s2member-paypal-api-signature" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"]) . '" /><br />' . "\n";
-								echo 'In your PayPal® account, go to: <code>Profile -> Request API Credentials</code>.' . "\n";
+								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";

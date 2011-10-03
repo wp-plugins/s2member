@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 	{
@@ -45,22 +45,25 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				* @package s2Member\Utilities
 				* @since 110720
 				*
-				* @param bool $query_active_plugins Optional. If true, this conditional will query active plugins too. Defaults to false.
+				* @param bool $query_active_plugins Optional. If true, this conditional will query active plugins too. Defaults to true if {@link s2Member\WS_PLUGIN__S2MEMBER_ONLY} is true, else false.
 				* @return bool True if BuddyPress is installed, else false.
 				*/
-				public static function bp_is_installed ($query_active_plugins = FALSE)
+				public static function bp_is_installed ($query_active_plugins = NULL)
 					{
 						if (defined ("BP_VERSION")) /* Installed and active? */
-							return true;
+							return true; /* This is the quickest/easiest way to determine. */
 						/**/
-						if ($query_active_plugins && ($buddypress = "buddypress/bp-loader.php"))
+						$s2o = (defined ("WS_PLUGIN__S2MEMBER_ONLY") && WS_PLUGIN__S2MEMBER_ONLY) ? true : false;
+						if (($query_active_plugins = (!isset ($query_active_plugins) && $s2o) ? true : $query_active_plugins))
 							{
+								$buddypress = "buddypress/bp-loader.php"; /* BuddyPress loader. */
+								/**/
 								$active_plugins = (is_multisite ()) ? wp_get_active_network_plugins () : array ();
 								$active_plugins = array_unique (array_merge ($active_plugins, wp_get_active_and_valid_plugins ()));
 								/**/
-								foreach ($active_plugins as $active_plugin) /* BuddyPress active? */
-									if (plugin_basename ($active_plugin) === $buddypress) /* BuddyPress? */
-										return true; /* Yes, BuddyPress is one of the active plugins. */
+								foreach ($active_plugins as $active_plugin) /* Search. */
+									if (plugin_basename ($active_plugin) === $buddypress)
+										return true; /* BuddyPress active. */
 							}
 						/**/
 						return false; /* Default return false. */

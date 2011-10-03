@@ -265,7 +265,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($plugin_file === plugin_basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]) && is_array ($actions))
+						if ($plugin_file === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["plugin_basename"] && is_array ($actions))
 							{
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
 								array_unshift ($actions, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));

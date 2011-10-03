@@ -38,7 +38,11 @@ Determine full URL to the s2Member-only file that loads WordPress® with only s2
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/" . preg_replace ("/\.php$/", "-o.php", basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]));
 /*
-Configure the number of Membership Levels being used with s2Member. This is NOT ready ( yet ). Some areas of s2Member are still hard-coded at 4 Levels + Subscribers.
+Determine correct ``plugin_basename()`` here. WordPress® has a few issues with its ``plugin_basename()`` function across different platforms.
+*/
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["plugin_basename"] = basename (dirname ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"])) . "/" . basename ($GLOBALS["WS_PLUGIN__"]["s2member"]["l"]);
+/*
+Configure the number of Membership Levels being used with s2Member. This is now possible. All areas of s2Member are now capable of adapting to this.
 */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"] = 4; /* Hard coded in at 4 Levels. This can only be extended when/if s2Member Pro is installed. */
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["min_levels"] = 1; /* A lower limit to protect the integrity of the s2Member software application. */
@@ -148,6 +152,9 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 				$default_options["allow_subscribers_in"] = "0";
 				$default_options["force_admin_lockouts"] = "0";
 				$default_options["filter_wp_query"] = array ();
+				/**/
+				$default_options["default_url_shortener"] = "tiny_url";
+				$default_options["default_custom_str_url_shortener"] = "";
 				/**/
 				$default_options["mms_auto_patch"] = "1";
 				$default_options["mms_registration_file"] = "wp-login";
@@ -368,10 +375,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "custom_reg_fields" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^custom_reg_(names|password|opt_in|auto_opt_out_transitions)$/", $key) && (!is_string ($value) || !is_numeric ($value)))
+								else if (preg_match ("/^custom_reg_(?:names|password|opt_in|auto_opt_out_transitions)$/", $key) && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "custom_reg_display_name" && (!is_string ($value) || !preg_match ("/^(full|first|last|login|0)$/", $value)))
+								else if ($key === "custom_reg_display_name" && (!is_string ($value) || !preg_match ("/^(?:full|first|last|login|0)$/", $value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "custom_reg_opt_in_label" && (!is_string ($value) || !strlen ($value)))
@@ -392,10 +399,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "mms_auto_patch" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "mms_registration_file" && (!is_string ($value) || !preg_match ("/^(wp-login|wp-signup)$/", $value)))
+								else if ($key === "mms_registration_file" && (!is_string ($value) || !preg_match ("/^(?:wp-login|wp-signup)$/", $value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "mms_registration_grants" && (!is_string ($value) || !preg_match ("/^(none|user|all)$/", $value)))
+								else if ($key === "mms_registration_grants" && (!is_string ($value) || !preg_match ("/^(?:none|user|all)$/", $value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^mms_registration_blogs_level[0-9]+$/", $key) && (!is_string ($value) || !is_numeric ($value) || $value < 0))
@@ -404,7 +411,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "force_admin_lockouts" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "filter_wp_query" && !is_array ($value)) /* Array CAN be empty. */
+								else if ($key === "filter_wp_query" && !is_array ($value)) /* This array CAN be empty. */
+									$value = $default_options[$key];
+								/**/
+								else if (preg_match ("/^default_(?:custom_str_)?url_shortener$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "login_welcome_page" && (!is_string ($value) || !is_numeric ($value)))
@@ -419,40 +429,40 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "login_reg_background_image" && !is_string ($value)) /* This is optional. */
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "login_reg_background_image_repeat" && (!is_string ($value) || !preg_match ("/^(repeat|repeat-x|repeat-y|no-repeat)$/", $value)))
+								else if ($key === "login_reg_background_image_repeat" && (!is_string ($value) || !preg_match ("/^(?:repeat|repeat-x|repeat-y|no-repeat)$/", $value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^login_reg_(background|logo|font|footer)_/", $key) && !preg_match ("/background_image/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^login_reg_(?:background|logo|font|footer)_/", $key) && !preg_match ("/background_image/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^reg_email_(from_name|from_email|support_link)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^reg_email_(?:from_name|from_email|support_link)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "new_user_emails_enabled" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^new_user_email_(subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^new_user_email_(?:subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^new_user_admin_email_(recipients|subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^new_user_admin_email_(?:recipients|subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "paypal_sandbox" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^paypal_(business|api_username|api_password|api_signature|identity_token)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^paypal_(?:business|api_username|api_password|api_signature|identity_token)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "paypal_btn_encryption" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|modification|ccap|sp)_tracking_codes$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^(?:signup|modification|ccap|sp)_tracking_codes$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|sp)_email_recipients$/", $key) && !is_string ($value)) /* Can be empty. */
+								else if (preg_match ("/^(?:signup|sp)_email_recipients$/", $key) && !is_string ($value)) /* Can be empty. */
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|sp)_email_(subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^(?:signup|sp)_email_(?:subject|message)$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "mailchimp_api_key" && (!is_string ($value) || !strlen ($value)))
@@ -464,10 +474,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^level[0-9]+_aweber_list_ids$/", $key) && (!is_string ($value) || !strlen ($value = preg_replace ("/\s+/", "", $value))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_urls$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^(?:signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_urls$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^(signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_recipients$/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^(?:signup|registration|payment|modification|cancellation|eot_del|ref_rev|sp_sale|sp_ref_rev)_notification_recipients$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^level[0-9]+_label$/", $key) && (!is_string ($value) || !strlen ($value)))
@@ -485,10 +495,10 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "file_download_limit_exceeded_page" && (!is_string ($value) || !is_numeric ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^file_download_(inline|stream)_extensions$/", $key) && (!is_string ($value) || !($value = strtolower (preg_replace ("/\s+/", "", $value)))))
+								else if (preg_match ("/^file_download_(?:inline|stream)_extensions$/", $key) && (!is_string ($value) || !($value = strtolower (preg_replace ("/\s+/", "", $value)))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^amazon_(s3|cf)_files_/", $key) && (!is_string ($value) || !strlen ($value)))
+								else if (preg_match ("/^amazon_(?:s3|cf)_files_/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^level[0-9]+_ruris$/", $key) && (!is_string ($value) || !strlen ($value)))
@@ -497,7 +507,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^level[0-9]+_catgs$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-9]+_ptags$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/( +)/", " ", trim (preg_replace ("/( *),( *)/", ",", $value))), ",")))))
+								else if (preg_match ("/^level[0-9]+_ptags$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/ +/", " ", trim (preg_replace ("/ *, */", ",", $value))), ",")))))
 									$value = $default_options[$key];
 								/**/
 								else if (preg_match ("/^level[0-9]+_posts$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
@@ -509,13 +519,13 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if ($key === "specific_ids" && (!is_string ($value) || !($value = trim (preg_replace ("/[^0-9,]/", "", $value), ","))))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "triggers_immediate_eot" && (!is_string ($value) || !preg_match ("/^(none|refunds|reversals|refunds,reversals)$/", $value)))
+								else if ($key === "triggers_immediate_eot" && (!is_string ($value) || !preg_match ("/^(?:none|refunds|reversals|refunds,reversals)$/", $value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "membership_eot_behavior" && (!is_string ($value) || !preg_match ("/^(demote|delete)$/", $value)))
+								else if ($key === "membership_eot_behavior" && (!is_string ($value) || !preg_match ("/^(?:demote|delete)$/", $value)))
 									$value = $default_options[$key];
 								/**/
-								else if ($key === "eot_time_ext_behavior" && (!is_string ($value) || !preg_match ("/^(extend|reset)$/", $value)))
+								else if ($key === "eot_time_ext_behavior" && (!is_string ($value) || !preg_match ("/^(?:extend|reset)$/", $value)))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "auto_eot_system_enabled" && (!is_string ($value) || !is_numeric ($value)))

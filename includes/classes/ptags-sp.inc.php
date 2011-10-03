@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ptags_sp"))
 	{
@@ -43,59 +43,59 @@ if (!class_exists ("c_ws_plugin__s2member_ptags_sp"))
 						/**/
 						if ($_tag && is_numeric ($_tag) && is_object ($term = get_term_by ("id", $_tag, "post_tag")))
 							{
-								$tag_id = $_tag; /* We need the $tag_id, $tag_slug, and also the $tag_name. */
+								$tag_id = (int)$_tag; /* Need ``$tag_id``, ``$tag_slug``, and also the ``$tag_name``. */
 								$tag_slug = $term->slug; /* Tag slug. */
 								$tag_name = $term->name; /* Tag name. */
 							}
-						else if ($_tag && is_string ($_tag)) /* A string? Either a Tag name or a slug. */
+						else if ($_tag && is_string ($_tag) && is_object ($term = get_term_by ("name", $_tag, "post_tag")))
 							{
-								/* Here, we give "name" priority, because it's likely to be a Tag name. */
-								if (is_object ($term = get_term_by ("name", $_tag, "post_tag")))
-									{
-										$tag_name = $_tag; /* A name was passed in. */
-										$tag_id = $term->term_id; /* Tag ID. */
-										$tag_slug = $term->slug; /* Tag slug. */
-									}
-								else if (is_object ($term = get_term_by ("slug", $_tag, "post_tag")))
-									{
-										$tag_slug = $_tag; /* A slug was passed in. */
-										$tag_id = $term->term_id; /* Tag ID. */
-										$tag_name = $term->name; /* Tag name. */
-									}
+								$tag_name = $_tag; /* Need ``$tag_id``, ``$tag_slug``, and also the ``$tag_name``. */
+								$tag_id = (int)$term->term_id; /* Tag ID. */
+								$tag_slug = $term->slug; /* Tag slug. */
+							}
+						else if ($_tag && is_string ($_tag) && is_object ($term = get_term_by ("slug", $_tag, "post_tag")))
+							{
+								$tag_slug = $_tag; /* Need ``$tag_id``, ``$tag_slug``, and also the ``$tag_name``. */
+								$tag_id = (int)$term->term_id; /* Tag ID. */
+								$tag_name = $term->name; /* Tag name. */
 							}
 						/**/
 						$excluded = apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access_excluded", false, get_defined_vars ());
 						/**/
 						if (!$excluded && !empty ($tag_id) && !empty ($tag_slug) && !empty ($tag_name) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
 							{
-								$tag_uri = c_ws_plugin__s2member_utils_urls::parse_uri (get_tag_link ($tag_id));
+								$tag_uri = c_ws_plugin__s2member_utils_urls::parse_uri (get_tag_link ($tag_id)); /* Get a full valid URI for this Tag. */
 								/**/
-								$user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Get the current User's object. */
-								/**/
-								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $tag_uri) && (!$check_user || !$user || !current_user_can ("access_s2member_level0")))
-									return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => 0), get_defined_vars ());
-								/**/
-								else if (!c_ws_plugin__s2member_systematics_sp::is_systematic_use_specific_page (null, $tag_uri)) /* Never restrict Systematics. However, there is 1 exception ^. */
+								if (!c_ws_plugin__s2member_systematics_sp::is_wp_systematic_use_specific_page (null, $tag_uri)) /* Do NOT touch WordPress® Systematics. */
 									{
-										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Tag Level restrictions. Go through each Level. */
+										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; /* Current User's object. */
+										/**/
+										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $tag_uri) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level0")))
+											return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => 0), get_defined_vars ());
+										/**/
+										else if (!c_ws_plugin__s2member_systematics_sp::is_systematic_use_specific_page (null, $tag_uri)) /* Never restrict Systematics. However, there is 1 exception above. */
 											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] === "all" && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
-													return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+												for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Tag Level restrictions. Go through each Level. */
+													{
+														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] === "all" && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
+															return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+														/**/
+														else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] && (in_array ($tag_name, ($tags = preg_split ("/[\r\n\t;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]))) || in_array ($tag_slug, $tags)) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
+															return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+													}
 												/**/
-												else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] && (in_array ($tag_name, ($tags = preg_split ("/[\r\n\t;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]))) || in_array ($tag_slug, $tags)) && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
-													return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+												for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* URIs. Go through each Level. */
+													{
+														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"]) /* URIs configured at this Level? */
+															/**/
+															foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
+																if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $tag_uri) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
+																	return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+													}
 											}
 										/**/
-										for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* URIs. Go through each Level. */
-											{
-												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"])
-													foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
-														if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $tag_uri) && (!$check_user || !$user || !current_user_can ("access_s2member_level" . $n)))
-															return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
-											}
+										do_action ("ws_plugin__s2member_during_check_specific_ptag_level_access", get_defined_vars ());
 									}
-								/**/
-								do_action ("ws_plugin__s2member_during_check_specific_ptag_level_access", get_defined_vars ());
 							}
 						/**/
 						return apply_filters ("ws_plugin__s2member_check_specific_ptag_level_access", null, get_defined_vars ());

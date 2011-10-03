@@ -102,13 +102,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 										echo '<h3>Rather Do It Yourself? ( <a href="#" onclick="jQuery(\'div#ws-plugin--s2member-mms-patches-details\').toggle(); return false;" class="ws-dotted-link">manual instructions</a> )</h3>' . "\n";
 										echo '<div id="ws-plugin--s2member-mms-patches-details" style="display:none;">' . "\n";
 										echo '<p><strong>Patch #1</strong> ( /wp-login.php )</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-wp-login.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-wp-login.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Patch #2</strong> ( /wp-includes/load.php )</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-load.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-load.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Patch #3</strong> ( /wp-admin/user-new.php )</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-user-new.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-user-new.x-php")) . '</p>' . "\n";
 										echo '<p><strong>Patch #4</strong> ( /wp-includes/ms-functions.php )</p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-ms-functions.php")) . '</p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/mms-patch-ms-functions.x-php")) . '</p>' . "\n";
 										echo '<p><em class="ws-menu-page-hilite">Don\'t forget to patch these files again, each time you upgrade the WordPress® core.</em></p>' . "\n";
 										echo '</div>' . "\n";
 										echo '</div>' . "\n";

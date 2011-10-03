@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_files"))
 	{
@@ -147,7 +147,7 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*/
 				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $log = NULL)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_user_downloads", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -196,25 +196,25 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*/
 				public static function file_download_key ($file = FALSE, $directive = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_file_download_key", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$file = ($file && is_string ($file) && ($file = trim ($file, "/"))) ? $file : "";
 						/**/
 						if ($directive === "ip-forever") /* Allows the current IP forever. */
-							eval('$allow_caching = false; $salt = $file . $_SERVER["REMOTE_ADDR"];');
+							eval ('$allow_caching = false; $salt = $file . $_SERVER["REMOTE_ADDR"];');
 						/**/
 						else if ($directive === "universal" || $directive === "cache-compatible" || $directive)
-							eval('$allow_caching = true; $salt = $file;');
+							eval ('$allow_caching = true; $salt = $file;');
 						/**/
 						else /* Otherwise, we use the default ``$salt``, which is VERY restrictive; even to a specific browser. */
-							eval('$allow_caching = false; $salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;');
+							eval ('$allow_caching = false; $salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;');
 						/**/
 						$key = md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt));
 						/**/
 						if ($allow_caching === false) /* Disallow caching? */
-							c_ws_plugin__s2member_no_cache::no_cache_constants (true);
+							c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching. */
 						/**/
 						return apply_filters ("ws_plugin__s2member_file_download_key", $key, get_defined_vars ());
 					}

@@ -15,14 +15,10 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /*
 Add the plugin Actions/Filters here.
 */
-add_action ("pre_get_posts", /* WP Query. */
-"c_ws_plugin__s2member_security::security_gate_query", 20);
-/* Priority matches `/api-functions.inc.php`. */
-/**/
 add_action ("init", "c_ws_plugin__s2member_translations::load", 2);
 /**/
 add_action ("init", "c_ws_plugin__s2member_ssl::check_force_ssl", 3);
@@ -54,8 +50,11 @@ add_action ("init", "c_ws_plugin__s2member_labels::config_label_translations", 1
 /**/
 add_action ("init", "c_ws_plugin__s2member_login_redirects_r::remove_login_redirect_filters", 11);
 /**/
-add_action ("template_redirect", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
-add_action ("template_redirect", "c_ws_plugin__s2member_security::security_gate", 1);
+add_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
+/**/
+add_action ("wp", "c_ws_plugin__s2member_ssl::check_force_ssl", 2);
+add_action ("wp", "c_ws_plugin__s2member_security::security_gate", 2);
+/* Stay ahead of BuddyPress® @ `3`, in `bp-core-hooks.php`. */
 /**/
 add_filter ("wp_mail", "c_ws_plugin__s2member_email_configs::email_filter");
 /**/
@@ -168,7 +167,7 @@ add_action ("ws_plugin__s2member_during_collective_eots", "c_ws_plugin__s2member
 /**/
 add_filter ("ws_plugin__s2member_content_redirect_status", "c_ws_plugin__s2member_utils_urls::redirect_browsers_using_302_status");
 /**/
-add_action ("bbp_activation", "c_ws_plugin__s2member_roles_caps::config_roles", 11); /* For bbPress® integration. */
+add_action ("bbp_activation", "c_ws_plugin__s2member_roles_caps::config_roles", 11);
 /*
 Register the activation | de-activation routines.
 */

@@ -153,9 +153,12 @@ if (!class_exists ("c_ws_plugin__s2member_no_cache"))
 								/**/
 								foreach (headers_list () as $header) /* No-cache headers already sent? We need to check here. */
 									if (stripos ($header, "no-cache") !== false) /* No-cache headers already sent? */
-										eval('$no_cache_headers_already_sent = true; break;');
+										{
+											$no_cache_headers_already_sent = true; /* Yep, sent. */
+											break; /* Break now, no need to continue any further. */
+										}
 								/**/
-								if (!$no_cache_headers_already_sent) /* Now check it here. */
+								if (!$no_cache_headers_already_sent) /* Check here. */
 									nocache_headers (); /* Only if NOT already sent. */
 								/**/
 								$once = true; /* Only set these headers once. */

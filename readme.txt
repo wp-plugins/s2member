@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111002
-Stable tag: 111002
+Version: 111003
+Stable tag: 111003
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -177,6 +177,9 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111003 =
+* (s2Member) **Bug fix**. Fatal `eval()` error inside: `/includes/classes/no-cache.inc.php`. Fixed in this release.
 
 = v111002 =
 * (s2Member) **BuddyPress v1.5 fix**. Issues with BuddyPress v1.5 and s2Member's URI Restrictions; corrected in this release. Hook priority updated, and `template_redirect` converted to `wp` at priority `2`, giving s2Member the ability to integrate with BuddyPress v1.5 properly in all scenarios.

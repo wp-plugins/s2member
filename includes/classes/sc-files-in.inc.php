@@ -46,7 +46,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_files_in"))
 						do_action ("ws_plugin__s2member_before_sc_get_file", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$attr = c_ws_plugin__s2member_utils_strings::trim_quot_deep ((array)$attr);
+						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr); /* Force array; trim quote entities. */
 						/**/
 						$attr = shortcode_atts (array ("download" => "", "download_key" => "", "stream" => "", "inline" => "", "storage" => "", "remote" => "", "ssl" => "", "rewrite" => "", "rewrite_base" => "", "skip_confirmation" => "", "url_to_storage_source" => "", "count_against_user" => "", "check_user" => "", /* Shortcode-specifics » */ "get_streamer_json" => "", "get_streamer_array" => ""), $attr);
 						/**/

@@ -149,7 +149,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 																													if (($code = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_id), $code)))
 																														{
 																															if (is_array ($fields) && !empty ($fields))
-																																foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																																foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																																	if (!($code = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (maybe_serialize ($val)), $code)))
 																																		break;
 																															/**/

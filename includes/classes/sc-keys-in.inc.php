@@ -46,7 +46,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_keys_in"))
 						do_action ("ws_plugin__s2member_before_sc_get_key", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$attr = c_ws_plugin__s2member_utils_strings::trim_quot_deep ((array)$attr);
+						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr);
 						/**/
 						$attr = shortcode_atts (array ("file_download" => "", "directive" => ""), $attr);
 						/**/

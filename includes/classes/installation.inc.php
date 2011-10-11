@@ -106,7 +106,7 @@ if (!class_exists ("c_ws_plugin__s2member_installation"))
 							}
 						else /* Otherwise (initial activation); we'll help the Site Owner out by giving them a link to the Quick Start Guide. */
 							{
-								$notice = '<strong>Note:</strong> s2Member adds some new data columns to your list of Users/Members. If your list gets overcrowded, please use the <strong>Screen Options</strong> tab <em>( upper right-hand corner )</em>. With WordPress® Screen Options, you can add/remove specific data columns; thereby making the most important data easier to read. For example, if you create Custom Registration Fields with s2Member, those Custom Fields will result in new data columns; which can cause your list of Users/Members to become nearly unreadable. So just use the Screen Options tab to clean things up.';
+								$notice = '<strong>Note:</strong> s2Member adds some new data columns to your list of Users/Members. If your list gets overcrowded, please use the <strong>Screen Options</strong> tab <em>( upper right-hand corner )</em>. With WordPress® Screen Options, you can add/remove specific data columns; thereby making the most important data easier to read. For example, if you create Custom Registration/Profile Fields with s2Member, those Custom Fields will result in new data columns; which can cause your list of Users/Members to become nearly unreadable. So just use the Screen Options tab to clean things up.';
 								/**/
 								c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, "blog:users.php", false, false, true);
 								/**/

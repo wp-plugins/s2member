@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 	{
@@ -44,8 +44,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 						/**/
 						$users = (int)mysql_result ($q2, 0);
 						/**/
-						mysql_free_result($q2);
-						mysql_free_result($q1);
+						mysql_free_result ($q2);
+						mysql_free_result ($q1);
 						/**/
 						return $users;
 					}
@@ -284,7 +284,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_users"))
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
-				* @param str $field_id Required. A unique Custom Registration Field ID, that you configured with s2Member.
+				* @param str $field_id Required. A unique Custom Registration/Profile Field ID, that you configured with s2Member.
 				* 	Or, this could be set to any property that exists on the WP_User object for a particular User;
 				* 	( i.e. `id`, `ID`, `user_login`, `user_email`, `first_name`, `last_name`, `display_name`, `ip`, `IP`,
 				* 	`s2member_registration_ip`, `s2member_custom`, `s2member_subscr_id`, `s2member_subscr_or_wp_id`,

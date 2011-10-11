@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 	{
@@ -56,13 +56,13 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 				*/
 				public static function sc_if_conditionals ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_if_conditionals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$blog_farm_safe = apply_filters ("ws_plugin__s2member_sc_if_conditionals_blog_farm_safe", array ("is_user_logged_in", "is_user_not_logged_in", "user_is", "user_is_not", "user_can", "user_cannot", "current_user_is", "current_user_is_not", "current_user_can", "current_user_cannot", "is_admin", "is_blog_admin", "is_user_admin", "is_network_admin", "is_404", "is_home", "is_front_page", "is_singular", "is_single", "is_page", "is_page_template", "is_attachment", "is_feed", "is_archive", "is_search", "is_category", "is_tax", "is_tag", "has_tag", "is_author", "is_date", "is_day", "is_month", "is_time", "is_year", "is_sticky", "is_paged", "is_preview", "is_comments_popup", "in_the_loop", "comments_open", "pings_open", "has_excerpt", "has_post_thumbnail"), get_defined_vars ());
 						/**/
-						$attr = c_ws_plugin__s2member_utils_strings::trim_quot_deep ((array)$attr); /* Force array, and fix &quot; in attrs. */
+						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr); /* Force array; trim quote entities. */
 						/**/
 						foreach ($attr as $attr_key => $attr_value) /* Detects and removes logical attributes. */
 							/* It's NOT possible to mix logic. You MUST stick to one type of logic or another. */
@@ -71,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 								{ /* Stick with AND/OR. Ampersands are corrupted by the Visual Editor. */
 									/**/
 									$logicals[] = strtolower ($attr_value); /* Place all logicals into an array here. */
-									unset($attr[$attr_key]); /* ^ Detect logic here. We'll use the first key #0. */
+									unset ($attr[$attr_key]); /* ^ Detect logic here. We'll use the first key #0. */
 									/**/
 									if (preg_match ("/^[\!\=\<\>]+$/i", $attr_value)) /* Error on these operators. */
 										{
@@ -88,7 +88,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 						/**/
 						$conditional_logic = (is_array ($logicals) && !empty ($logicals) && preg_match ("/^(\|\||OR)$/i", $logicals[0])) ? "OR" : "AND";
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_if_conditionals_after_conditional_logic", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

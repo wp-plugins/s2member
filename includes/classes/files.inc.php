@@ -135,51 +135,6 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 						return apply_filters ("ws_plugin__s2member_min_level_4_downloads", ((is_int ($min)) ? $min : false), get_defined_vars ());
 					}
 				/**
-				* Determines how many File Downloads are allowed, also provides some extended details.
-				*
-				* @package s2Member\Files
-				* @since 3.5
-				*
-				* @param obj $user Optional. Defaults to the current User's object.
-				* @param str $not_counting_this_particular_file Optional. If you want to exclude a particular file.
-				* @param array $log Optional. Prevents another database connection *( i.e. the log does not need to be pulled again )*.
-				* @return array An array with three elements: `allowed`, `allowed_days`, `currently`.
-				*/
-				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $log = NULL)
-					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_before_user_downloads", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
-						$allowed = $allowed_days = $currently = 0; /* Initialize all of these to zero. */
-						/**/
-						if ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID) && ($user_id = $user->ID))
-							{
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									{
-										if ($user->has_cap ("access_s2member_level" . $n)) /* Do they have access? */
-											{
-												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
-													if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
-														{
-															$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
-															$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
-														}
-												if ($user->has_cap ("s2member_level" . $n)) /* We can stop now, if this is their Role. */
-													break; /* Break now. */
-											}
-									}
-								/**/
-								$file_download_access_log = (isset ($log)) ? (array)$log : (array)get_user_option ("s2member_file_download_access_log", $user_id);
-								foreach ($file_download_access_log as $file_download_access_log_entry_key => $file_download_access_log_entry)
-									if (strtotime ($file_download_access_log_entry["date"]) >= strtotime ("-" . $allowed_days . " days"))
-										if ($file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
-											$currently = $currently + 1;
-							}
-						/**/
-						return apply_filters ("ws_plugin__s2member_user_downloads", array ("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently), get_defined_vars ());
-					}
-				/**
 				* Creates a File Download Key.
 				*
 				* Builds a hash of: ``date("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file``.
@@ -202,7 +157,7 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 						/**/
 						$file = ($file && is_string ($file) && ($file = trim ($file, "/"))) ? $file : "";
 						/**/
-						if ($directive === "ip-forever") /* Allows the current IP forever. */
+						if ($directive === "ip-forever") /* Current IP forever. */
 							eval ('$allow_caching = false; $salt = $file . $_SERVER["REMOTE_ADDR"];');
 						/**/
 						else if ($directive === "universal" || $directive === "cache-compatible" || $directive)
@@ -214,9 +169,55 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 						$key = md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt));
 						/**/
 						if ($allow_caching === false) /* Disallow caching? */
-							c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching. */
+							c_ws_plugin__s2member_no_cache::no_cache_constants (true);
 						/**/
 						return apply_filters ("ws_plugin__s2member_file_download_key", $key, get_defined_vars ());
+					}
+				/**
+				* Download details on a per-User basis.
+				*
+				* @package s2Member\Files
+				* @since 3.5
+				*
+				* @param obj $user Optional. Defaults to the current User's object.
+				* @param str $not_counting_this_particular_file Optional. If you want to exclude a particular file.
+				* @param array $log Optional. Prevents another database connection *( i.e. the log does not need to be pulled again )*.
+				* @return array An array with three elements: `allowed`, `allowed_days`, `currently`.
+				*/
+				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $log = NULL)
+					{
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						do_action ("ws_plugin__s2member_before_user_downloads", get_defined_vars ());
+						unset ($__refs, $__v); /* Unset defined __refs, __v. */
+						/**/
+						$allowed = $allowed_days = $currently = 0; /* Initialize all of these to a default value of zero. */
+						/**/
+						if ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID) && ($user_id = $user->ID))
+							{
+								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+									{
+										if ($user->has_cap ("access_s2member_level" . $n)) /* Do they have access? */
+											{
+												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
+													if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
+														{
+															$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
+															$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
+														}
+												if ($user->has_cap ("s2member_level" . $n)) /* We can stop now, if this is their Role. */
+													break; /* Break now. */
+											}
+									}
+								/**/
+								$user_file_download_access_log = (isset ($log)) ? (array)$log : (array)get_user_option ("s2member_file_download_access_log", $user_id);
+								/**/
+								foreach ($user_file_download_access_log as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
+									if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $allowed_days . " days"))
+										if ($user_file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
+											$currently = $currently + 1;
+							}
+						/**/
+						return apply_filters ("ws_plugin__s2member_user_downloads", array ("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently), get_defined_vars ());
 					}
 			}
 	}

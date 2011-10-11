@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 	{
@@ -43,16 +43,16 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 					{
 						global $current_site, $current_blog; /* Multisite Networking. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_users_list_edit_cols", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$current_user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Current User. */
 						/**/
-						if (is_object ($user) && ($user_id = $user->ID) && is_object ($current_user) && $current_user->ID)
+						if (is_object ($user) && !empty ($user->ID) && ($user_id = $user->ID) && is_object ($current_user) && !empty ($current_user->ID))
 							{
-								$role = c_ws_plugin__s2member_user_access::user_access_role ($user); /* This User's WordPress® Role. */
-								$level = c_ws_plugin__s2member_user_access::user_access_level ($user); /* This User's Access Level for s2Member. */
+								$role = c_ws_plugin__s2member_user_access::user_access_role ($user); /* This User's current WordPress® Role. */
+								$level = c_ws_plugin__s2member_user_access::user_access_level ($user); /* User's Access Level for s2Member. */
 								/**/
 								if (current_user_can ("edit_users") && (!is_multisite () || is_super_admin () || is_user_member_of_blog ($user_id)))
 									{
@@ -62,14 +62,14 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										/**/
 										echo '<table class="form-table">' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
 										if (is_multisite () && is_super_admin ()) /* MUST be a Super Admin. */
 											/* On a Multisite Network, the Super Administrator can ALWAYS edit this. */
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_originating_blog", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -78,12 +78,12 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_originating_blog" id="ws-plugin--s2member-profile-s2member-originating-blog" value="' . format_to_edit (get_user_meta ($user_id, "s2member_originating_blog", true)) . '" class="regular-text" /></td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_originating_blog", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_subscr_gateway", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -96,11 +96,11 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '</td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_subscr_gateway", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_subscr_id", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -109,11 +109,11 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_subscr_id" id="ws-plugin--s2member-profile-s2member-subscr-id" value="' . format_to_edit (get_user_option ("s2member_subscr_id", $user_id)) . '" class="regular-text" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_subscr_id", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_custom", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -122,11 +122,11 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_custom" id="ws-plugin--s2member-profile-s2member-custom" value="' . format_to_edit (get_user_option ("s2member_custom", $user_id)) . '" class="regular-text" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_custom", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_registration_ip", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -135,7 +135,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_registration_ip" id="ws-plugin--s2member-profile-s2member-registration-ip" value="' . format_to_edit (get_user_option ("s2member_registration_ip", $user_id)) . '" class="regular-text" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_registration_ip", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -146,7 +146,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 													if (preg_match ("/^access_s2member_ccap_/", $cap))
 														$ccaps[] = preg_replace ("/^access_s2member_ccap_/", "", $cap);
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_ccaps", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -155,14 +155,14 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_ccaps" id="ws-plugin--s2member-profile-s2member-ccaps" value="' . format_to_edit (((!empty ($ccaps)) ? implode (",", $ccaps) : "")) . '" class="regular-text" onkeyup="if(this.value.match(/[^a-z_0-9,]/)) this.value = jQuery.trim (jQuery.trim (this.value).replace (/[ \-]/g, \'_\').replace (/[^a-z_0-9,]/gi, \'\').toLowerCase ());" /></td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_ccaps", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
 										if (!$user->has_cap ("administrator")) /* Do NOT present these details for Administrator accounts. */
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_auto_eot_time", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -173,14 +173,14 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												echo '<td><input type="text" name="ws_plugin__s2member_profile_s2member_auto_eot_time" id="ws-plugin--s2member-profile-s2member-auto-eot-time" value="' . format_to_edit ($auto_eot_time) . '" class="regular-text" /></td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_auto_eot_time", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 										/**/
 										if (c_ws_plugin__s2member_list_servers::list_servers_integrated ()) /* Only if integrated with s2Member. */
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_opt_in", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -189,15 +189,15 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												echo '<td><label><input type="checkbox" name="ws_plugin__s2member_profile_opt_in" id="ws-plugin--s2member-profile-opt-in" value="1" /> Yes, send a mailing list confirmation email to this User.</label></td>' . "\n";
 												echo '</tr>' . "\n";
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_opt_in", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
 												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_out_transitions"])
-													if (($custom_reg_auto_op_outs = c_ws_plugin__s2member_utils_strings::wrap_deep ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_outs"], "/", "/i")))
+													if (($custom_reg_auto_op_outs = c_ws_plugin__s2member_utils_strings::wrap_deep ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_outs"], "/^", "$/i")))
 														if (c_ws_plugin__s2member_utils_arrays::in_regex_array ("user-role-change", $custom_reg_auto_op_outs) || c_ws_plugin__s2member_utils_arrays::in_regex_array ("modification", $custom_reg_auto_op_outs))
 															{
-																eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_auto_opt_out_transitions", get_defined_vars ());
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																/**/
@@ -206,13 +206,13 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																echo '<td><label><input type="checkbox" name="ws_plugin__s2member_custom_reg_auto_opt_out_transitions" id="ws-plugin--s2member-custom-reg-auto-opt-out-transitions" value="1" checked="checked" /> Yes, automatically transition this User\'s mailing list subscription(s) when/if I change their Role.</label></td>' . "\n";
 																echo '</tr>' . "\n";
 																/**/
-																eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_auto_opt_out_transitions", get_defined_vars ());
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															}
 											}
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_ip_restrictions", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -221,7 +221,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '<td><label><input type="checkbox" name="ws_plugin__s2member_profile_ip_restrictions" id="ws-plugin--s2member-profile-ip-restrictions" value="1" /> Yes, delete/reset IP Restrictions associated with this Username.</label>' . ((c_ws_plugin__s2member_ip_restrictions::specific_ip_restriction_breached_security (strtolower ($user->user_login))) ? '<br /><em>*Note* this User HAS breached security through existing IP Restrictions.</em>' : '<br /><em>*Note* this User is NOT currently banned by any of your IP Restrictions.</em>') . '</td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_ip_restrictions", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -236,13 +236,13 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 													/**/
 													$fields = get_user_option ("s2member_custom_fields", $user_id); /* Existing fields. */
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_custom_fields", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
 													foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 														{
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_before", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															/**/
@@ -251,7 +251,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																	$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 																	$field_id_class = preg_replace ("/_/", "-", $field_var);
 																	/**/
-																	eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																	eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																	if (apply_filters ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_display", true, get_defined_vars ()))
 																		{
 																			if (!empty ($field["section"]) && $field["section"] === "yes") /* Starts a new section? */
@@ -265,12 +265,12 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																	unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																}
 															/**/
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_after", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														}
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_custom_fields", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
@@ -281,7 +281,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 													echo '</tr>' . "\n";
 												}
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_notes", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -290,11 +290,11 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 										echo '<td><textarea name="ws_plugin__s2member_profile_s2member_notes" id="ws-plugin--s2member-profile-s2member-notes" rows="5" wrap="off" spellcheck="false" style="width:99%;">' . format_to_edit (get_user_option ("s2member_notes", $user_id)) . '</textarea></td>' . "\n";
 										echo '</tr>' . "\n";
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_notes", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 										do_action ("ws_plugin__s2member_during_users_list_edit_cols_after", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
@@ -314,19 +314,19 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 													/**/
 													echo '<table class="form-table">' . "\n";
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_before", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
 													$fields = get_user_option ("s2member_custom_fields", $user_id); /* Existing fields. */
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_before_custom_fields", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
 													foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 														{
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_before", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															/**/
@@ -335,7 +335,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																	$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 																	$field_id_class = preg_replace ("/_/", "-", $field_var);
 																	/**/
-																	eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																	eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																	if (apply_filters ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_display", true, get_defined_vars ()))
 																		{
 																			if (!empty ($field["section"]) && $field["section"] === "yes") /* Starts a new section? */
@@ -349,16 +349,16 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																	unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																}
 															/**/
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_users_list_edit_cols_during_custom_fields_after", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														}
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_after_custom_fields", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
-													eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+													eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 													do_action ("ws_plugin__s2member_during_users_list_edit_cols_after", get_defined_vars ());
 													unset ($__refs, $__v); /* Unset defined __refs, __v. */
 													/**/
@@ -369,7 +369,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 									}
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_users_list_edit_cols", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -391,31 +391,34 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 					{
 						global $current_site, $current_blog; /* Multisite Networking. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_users_list_update_cols", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$user = new WP_User ($user_id); /* We need both of these objects. $user and $current_user. */
 						$current_user = (is_user_logged_in ()) ? wp_get_current_user () : false; /* Current User. */
 						/**/
-						if (is_object ($user) && ($user_id = $user->ID) && is_object ($current_user) && $current_user->ID)
+						if (is_object ($user) && !empty ($user->ID) && ($user_id = $user->ID) && is_object ($current_user) && !empty ($current_user->ID))
 							{
 								if (current_user_can ("edit_users") && (!is_multisite () || is_super_admin () || is_user_member_of_blog ($user_id)))
 									{
 										if (!empty ($_POST) && is_array ($_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST))))
 											{
-												$old_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
-												$role = (isset ($_p["role"]) && $_p["role"] !== $old_role) ? $_p["role"] : $old_role;
-												$level = c_ws_plugin__s2member_user_access::user_access_role_to_level ($role);
+												$old_user = unserialize (serialize ($user)); /* Copy existing User obj. */
+												$old_role = c_ws_plugin__s2member_user_access::user_access_role ($old_user);
 												/**/
-												$user->user_email = (isset ($_p["email"]) && is_email ($_p["email"]) && $_p["email"] !== $user->user_email) ? $_p["email"] : $user->user_email;
-												$user->first_name = (isset ($_p["first_name"]) && $_p["first_name"] !== $user->first_name) ? $_p["first_name"] : $user->first_name;
-												$user->last_name = (isset ($_p["last_name"]) && $_p["last_name"] !== $user->last_name) ? $_p["last_name"] : $user->last_name;
+												$role = /* Might be empty! */ (isset ($_p["role"]) && $_p["role"] !== $old_role) ? $_p["role"] : $old_role;
+												$level = /* Might be `-1`. */ c_ws_plugin__s2member_user_access::user_access_role_to_level ($role);
+												/**/
+												$user->roles = (isset ($_p["role"]) && $_p["role"] !== $old_role) ? /* Might be empty! */ array ($_p["role"]): $old_user->roles;
+												$user->user_email = (isset ($_p["email"]) && is_email ($_p["email"]) && $_p["email"] !== $old_user->user_email && !email_exists ($_p["email"])) ? $_p["email"] : $old_user->user_email;
+												$user->first_name = (isset ($_p["first_name"]) && $_p["first_name"] !== $old_user->first_name) ? $_p["first_name"] : $old_user->first_name;
+												$user->last_name = (isset ($_p["last_name"]) && $_p["last_name"] !== $old_user->last_name) ? $_p["last_name"] : $old_user->last_name;
 												/**/
 												$auto_eot_time = (!empty ($_p["ws_plugin__s2member_profile_s2member_auto_eot_time"])) ? strtotime ($_p["ws_plugin__s2member_profile_s2member_auto_eot_time"]) : "";
 												/**/
-												if ($role !== $old_role) /* In this case, we need to fire a Hook on `ws_plugin__s2member_during_collective_mods`. */
-													do_action ("ws_plugin__s2member_during_collective_mods", $user_id, get_defined_vars (), "user-role-change", "modification", $role, $old_role, $user);
+												if ($role !== $old_role) /* In this case, we need to fire Hook: `ws_plugin__s2member_during_collective_mods`. */
+													do_action ("ws_plugin__s2member_during_collective_mods", $user_id, get_defined_vars (), "user-role-change", "modification", $role, $user, $old_user);
 												/**/
 												if (isset ($_p["ws_plugin__s2member_profile_s2member_originating_blog"]) && is_multisite () && is_super_admin ())
 													update_user_meta ($user_id, "s2member_originating_blog", $_p["ws_plugin__s2member_profile_s2member_originating_blog"]);
@@ -457,15 +460,15 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 																$field_id_class = preg_replace ("/_/", "-", $field_var);
 																/**/
-																if (isset ($_p["ws_plugin__s2member_profile_" . $field_var]))
+																if (isset ($_p["ws_plugin__s2member_profile_" . $field_var])) /* Field being set? */
 																	{
-																		if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || strlen ($_p["ws_plugin__s2member_profile_" . $field_var]))
+																		if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || (is_string ($_p["ws_plugin__s2member_profile_" . $field_var]) && strlen ($_p["ws_plugin__s2member_profile_" . $field_var])))
 																			$fields[$field_var] = $_p["ws_plugin__s2member_profile_" . $field_var];
 																		else /* Else unset. */
-																			unset ($fields[$field_var]);
+																			unset($fields[$field_var]);
 																	}
 																else /* Else ``unset()``. */
-																	unset ($fields[$field_var]);
+																	unset($fields[$field_var]);
 															}
 													}
 												/**/
@@ -477,18 +480,18 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 												if ($level > 0) /* We ONLY process this if they are higher than Level #0. */
 													{
 														$pr_times = get_user_option ("s2member_paid_registration_times", $user_id);
-														$pr_times["level"] = (!$pr_times["level"]) ? time () : $pr_times["level"]; /* Preserve. */
-														$pr_times["level" . $level] = (!$pr_times["level" . $level]) ? time () : $pr_times["level" . $level];
+														$pr_times["level"] = (empty ($pr_times["level"])) ? time () : $pr_times["level"];
+														$pr_times["level" . $level] = (empty ($pr_times["level" . $level])) ? time () : $pr_times["level" . $level];
 														update_user_option ($user_id, "s2member_paid_registration_times", $pr_times); /* Update now. */
 													}
 												/**/
-												if (!empty ($_p["ws_plugin__s2member_profile_opt_in"])) /* Should we process List Servers for this User? */
+												if (!empty ($_p["ws_plugin__s2member_profile_opt_in"]) && !empty ($role) && $level >= 0) /* Should we process List Servers? */
 													c_ws_plugin__s2member_list_servers::process_list_servers ($role, $level, $user->user_login, ((!empty ($_p["pass1"])) ? $_p["pass1"] : ""), $user->user_email, $user->first_name, $user->last_name, false, true, true, $user_id);
 												/**/
 												if (!empty ($_p["ws_plugin__s2member_profile_ip_restrictions"])) /* Delete/reset IP Restrictions? */
 													c_ws_plugin__s2member_ip_restrictions::delete_reset_specific_ip_restrictions (strtolower ($user->user_login));
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_update_cols", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
@@ -498,7 +501,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 									{
 										if (!empty ($_POST) && is_array ($_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST))))
 											{
-												$role = c_ws_plugin__s2member_user_access::user_access_role ($user);
+												$role = /* Role is NOT changing here. */ c_ws_plugin__s2member_user_access::user_access_role ($user);
 												$level = c_ws_plugin__s2member_user_access::user_access_role_to_level ($role);
 												/**/
 												if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"])
@@ -511,29 +514,29 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																	$field_var = preg_replace ("/[^a-z0-9]/i", "_", strtolower ($field["id"]));
 																	$field_id_class = preg_replace ("/_/", "-", $field_var);
 																	/**/
-																	if (!in_array ($field["id"], $fields_applicable) || preg_match ("/^no/", $field["editable"]))
+																	if (!in_array ($field["id"], $fields_applicable) || strpos ($field["editable"], "no") === 0)
 																		{
-																			if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
+																			if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || (is_string ($_existing_fields[$field_var]) && strlen ($_existing_fields[$field_var]))))
 																				$fields[$field_var] = $_existing_fields[$field_var];
-																			else /* Else unset. */
-																				unset ($fields[$field_var]);
+																			else /* Else ``unset()``. */
+																				unset($fields[$field_var]);
 																		}
-																	else if ($field["required"] === "yes" && (!isset ($_p["ws_plugin__s2member_profile_" . $field_var]) || (is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || !strlen ($_p["ws_plugin__s2member_profile_" . $field_var])))
+																	else if ($field["required"] === "yes" && (!isset ($_p["ws_plugin__s2member_profile_" . $field_var]) || (!is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !is_string ($_p["ws_plugin__s2member_profile_" . $field_var])) || (is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || (is_string ($_p["ws_plugin__s2member_profile_" . $field_var]) && !strlen ($_p["ws_plugin__s2member_profile_" . $field_var]))))
 																		{
-																			if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || strlen ($_existing_fields[$field_var])))
+																			if (isset ($_existing_fields[$field_var]) && ((is_array ($_existing_fields[$field_var]) && !empty ($_existing_fields[$field_var])) || (is_string ($_existing_fields[$field_var]) && strlen ($_existing_fields[$field_var]))))
 																				$fields[$field_var] = $_existing_fields[$field_var];
-																			else /* Else unset. */
-																				unset ($fields[$field_var]);
+																			else /* Else ``unset()``. */
+																				unset($fields[$field_var]);
 																		}
 																	else if (isset ($_p["ws_plugin__s2member_profile_" . $field_var]))
 																		{
-																			if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || strlen ($_p["ws_plugin__s2member_profile_" . $field_var]))
+																			if ((is_array ($_p["ws_plugin__s2member_profile_" . $field_var]) && !empty ($_p["ws_plugin__s2member_profile_" . $field_var])) || (is_string ($_p["ws_plugin__s2member_profile_" . $field_var]) && strlen ($_p["ws_plugin__s2member_profile_" . $field_var])))
 																				$fields[$field_var] = $_p["ws_plugin__s2member_profile_" . $field_var];
-																			else /* Else unset. */
-																				unset ($fields[$field_var]);
+																			else /* Else ``unset()``. */
+																				unset($fields[$field_var]);
 																		}
 																	else /* Else ``unset()``. */
-																		unset ($fields[$field_var]);
+																		unset($fields[$field_var]);
 																}
 															/**/
 															if (!empty ($fields))
@@ -542,14 +545,14 @@ if (!class_exists ("c_ws_plugin__s2member_users_list_in"))
 																delete_user_option ($user_id, "s2member_custom_fields");
 														}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_users_list_update_cols", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 									}
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_users_list_update_cols", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

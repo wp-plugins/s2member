@@ -52,7 +52,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 						/**/
 						if (($user = (is_user_logged_in ()) ? wp_get_current_user () : false) && ($user_id = $user->ID))
 							{
-								$attr = c_ws_plugin__s2member_utils_strings::trim_quot_deep ((array)$attr);
+								$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr);
 								/**/
 								$attr = shortcode_atts (array (), $attr); /* Possible Attributes. None. */
 								/**/

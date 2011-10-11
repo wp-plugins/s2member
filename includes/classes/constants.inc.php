@@ -965,7 +965,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* o `subscr_or_wp_id` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID}
 						* o `subscr_gateway` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY}
 						* o `custom` = value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_CUSTOM}
-						* o and any Custom Registration Fields configured by the site owner.
+						* o and any Custom Registration/Profile Fields configured by the site owner.
 						*
 						* This will be an empty JSON-encoded array if NOT logged-in.
 						*
@@ -974,7 +974,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* <!php
 						* $fields = json_decode(S2MEMBER_CURRENT_USER_FIELDS, true);
 						* echo $fields["email"]; # The current User's Email Address.
-						* echo $fields["my_unique_field_id"]; # A Custom Registration Field configured by the site owner.
+						* echo $fields["my_unique_field_id"]; # A Custom Registration/Profile Field configured by the site owner.
 						* !>
 						* ```
 						* ———— Shortcode & JavaScript Equivalents ————
@@ -2056,7 +2056,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* PayPal® value for Payment Buttons with input name: `invoice`.
 						*
 						* This can be used to auto-fill the `invoice` value in PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* Note. This API Constant is excluded from the ``$c[]`` hash calculation used in the generation of {@link s2Member\API_Constants\WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5}.
 						* It MUST be excluded, because the value of this particular API Constant will change too often *( i.e. it changes, depending on microtime )*.
@@ -2073,7 +2073,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2106,7 +2106,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var str
 						*
-						* @see s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()
+						* @see s2Member\API_Functions\s2member_value_for_pp_inv()
 						*
 						* @see `Dashboard -> s2Member -> PayPal® Buttons`
 						*/
@@ -2131,7 +2131,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2189,7 +2189,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2244,7 +2244,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
@@ -2299,7 +2299,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* They are used by the PayPal® Button Generator for s2Member.
 						*
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
-						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\S2MEMBER_VALUE_FOR_PP_INV()} function should be used instead.
+						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.

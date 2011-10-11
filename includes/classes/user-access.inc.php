@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_user_access"))
 	{
@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_access"))
 				*/
 				public static function user_access_role ($user = FALSE)
 					{
-						if ((func_num_args () && (!is_object ($user) || !$user->ID)) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || !$user->ID)))
+						if ((func_num_args () && (!is_object ($user) || empty ($user->ID))) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || empty ($user->ID))))
 							{
 								return apply_filters ("ws_plugin__s2member_user_access_role", "", get_defined_vars ());
 							}
@@ -66,7 +66,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_access"))
 				*/
 				public static function user_access_ccaps ($user = FALSE)
 					{
-						if ((func_num_args () && (!is_object ($user) || !$user->ID)) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || !$user->ID)))
+						if ((func_num_args () && (!is_object ($user) || empty ($user->ID))) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || empty ($user->ID))))
 							{
 								return apply_filters ("ws_plugin__s2member_user_access_ccaps", array (), get_defined_vars ());
 							}
@@ -97,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_access"))
 				*/
 				public static function user_access_level ($user = FALSE)
 					{
-						if ((func_num_args () && (!is_object ($user) || !$user->ID)) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || !$user->ID)))
+						if ((func_num_args () && (!is_object ($user) || empty ($user->ID))) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || empty ($user->ID))))
 							{
 								return apply_filters ("ws_plugin__s2member_user_access_level", -1, get_defined_vars ()); /* No $user, or NOT logged in. */
 							}
@@ -157,7 +157,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_access"))
 				*/
 				public static function user_access_label ($user = FALSE)
 					{
-						if ((func_num_args () && (!is_object ($user) || !$user->ID)) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || !$user->ID)))
+						if ((func_num_args () && (!is_object ($user) || empty ($user->ID))) || (!func_num_args () && !$user && (!is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false) || empty ($user->ID))))
 							{
 								return apply_filters ("ws_plugin__s2member_user_access_label", "", get_defined_vars ()); /* No $user, or NOT logged in. */
 							}

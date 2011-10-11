@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 	{
@@ -182,12 +182,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID generated during registration.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -287,12 +287,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID that references this account in the WordPress® database.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -395,12 +395,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID that references this account in the WordPress® database.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -493,12 +493,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID that references this account in the WordPress® database.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -593,12 +593,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID that references this account in the WordPress® database.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -694,12 +694,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<li><code>%%user_id%%</code> = A unique WordPress® User ID that references this account in the WordPress® database.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this Notification:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this Notification:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";

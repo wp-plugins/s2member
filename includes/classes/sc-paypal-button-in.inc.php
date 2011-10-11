@@ -46,9 +46,9 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 						do_action ("ws_plugin__s2member_before_sc_paypal_button", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching on pages that contain this Button. */
+						c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching on pages that contain this Payment Button. */
 						/**/
-						$attr = c_ws_plugin__s2member_utils_strings::trim_quot_deep ((array)$attr); /* Force array, and fix &quot; in attrs. */
+						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr); /* Force array; trim quote entities. */
 						/**/
 						$attr = shortcode_atts (apply_filters ("ws_plugin__s2member_sc_paypal_button_default_attrs", array ("ids" => "0", "exp" => "72", "level" => "1", "ccaps" => "", "desc" => "", "ps" => "paypal", "lc" => "", "cc" => "USD", "dg" => "0", "ns" => "1", "custom" => $_SERVER["HTTP_HOST"], "ta" => "0", "tp" => "0", "tt" => "D", "ra" => "0.01", "rp" => "1", "rt" => "M", "rr" => "1", "rrt" => "", "rra" => "1", "modify" => "0", "cancel" => "0", "sp" => "0", "image" => "default", "output" => "button"), get_defined_vars ()), $attr);
 						/**/

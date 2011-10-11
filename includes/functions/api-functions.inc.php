@@ -2060,7 +2060,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 *
 * It can be used to retrieve basic information like `first_name`, `last_name`, `user_email`, `user_login`.
 * It can also be used to retrieve User Meta/Options, Role/Capabilities, and even supports
-* Custom Registration Fields configured with s2Member and many other plugins.
+* Custom Registration/Profile Fields configured with s2Member and many other plugins.
 *
 * ———— Here Are A Few Examples ————
 * ```
@@ -2090,7 +2090,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_subscr_or_wp_id = get_user_field ("s2member_subscr_or_wp_id"); # Paid Subscr. ID, else WordPress® User ID.
 * $s2member_subscr_gateway = get_user_field ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
 * $s2member_registration_ip = get_user_field ("s2member_registration_ip"); # IP the current User had during registration.
-* $s2member_custom_fields = get_user_field ("s2member_custom_fields"); # Associative array of all Custom Registration Fields.
+* $s2member_custom_fields = get_user_field ("s2member_custom_fields"); # Associative array of all Custom Registration/Profile Fields.
 * $s2member_file_download_access_log = get_user_field ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
 * $s2member_auto_eot_time = get_user_field ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
 * $s2member_last_payment_time = get_user_field ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
@@ -2171,7 +2171,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_subscr_id = get_user_option ("s2member_subscr_id"); # Paid Subscr. ID for the current User.
 * $s2member_subscr_gateway = get_user_option ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
 * $s2member_registration_ip = get_user_option ("s2member_registration_ip"); # IP the current User had during registration.
-* $s2member_custom_fields = get_user_option ("s2member_custom_fields"); # Associative array of all Custom Registration Fields.
+* $s2member_custom_fields = get_user_option ("s2member_custom_fields"); # Associative array of all Custom Registration/Profile Fields.
 * $s2member_file_download_access_log = get_user_option ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
 * $s2member_auto_eot_time = get_user_option ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
 * $s2member_last_payment_time = get_user_option ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
@@ -2191,7 +2191,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * @package s2Member\API_Functions
 * @since 3.5
 *
-* @param str $field_id Required. A unique Custom Registration Field ID, that you configured with s2Member.
+* @param str $field_id Required. A unique Custom Registration/Profile Field ID, that you configured with s2Member.
 * 	Or, this could be set to any property that exists on the WP_User object for a particular User;
 * 	( i.e. `id`, `ID`, `user_login`, `user_email`, `first_name`, `last_name`, `display_name`, `ip`, `IP`,
 * 	`s2member_registration_ip`, `s2member_custom`, `s2member_subscr_id`, `s2member_subscr_or_wp_id`,
@@ -2218,7 +2218,7 @@ if (!function_exists ("get_user_field"))
 			}
 	}
 /**
-* Custom Registration Field configuration.
+* Custom Registration/Profile Field configuration.
 *
 * Provides information about the configuration of each Custom Registration/Profile Field.
 * Returns an associative array with all Custom Field configurations *( and User values too, if ``$user_id`` is passed in )*.
@@ -2278,14 +2278,14 @@ if (!function_exists ("get_s2member_custom_fields"))
 *
 * ———— PHP Code Sample ————
 * ```
-* <!php echo S2MEMBER_VALUE_FOR_PP_INV(); !>
+* <!php echo s2member_value_for_pp_inv(); !>
 * ```
 * ———— Shortcode & JavaScript Equivalents ————
 * ```
 * [s2Get constant="S2MEMBER_VALUE_FOR_PP_INV" /]
 * 
 * <script type="text/javascript">
-* 	document.write(S2MEMBER_VALUE_FOR_PP_INV_GEN());
+* 	document.write(s2member_value_for_pp_inv_gen());
 * </script>
 * ```
 *
@@ -2298,11 +2298,42 @@ if (!function_exists ("get_s2member_custom_fields"))
 *
 * @todo Create a true Shortcode equivalent function.
 */
-if (!function_exists ("S2MEMBER_VALUE_FOR_PP_INV"))
+if (!function_exists ("s2member_value_for_pp_inv"))
 	{
-		function S2MEMBER_VALUE_FOR_PP_INV ()
+		function s2member_value_for_pp_inv ()
 			{
 				return uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
+			}
+	}
+/**
+* Shortens a long URL, based on s2Member configuration.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php echo s2member_shorten_url("http://www.example.com/a-long-url/"); !>
+* <!php echo s2member_shorten_url("http://www.example.com/a-long-url/", "tiny_url"); !>
+* <!php echo s2member_shorten_url("http://www.example.com/a-long-url/", "goo_gl"); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111004
+*
+* @param str $url A full/long URL to be shortened.
+* @param str $api_sp Optional. A specific URL shortening API to use. Defaults to that which is configured in the s2Member Dashboard. Normally `tiny_url` by default.
+* @param bool $try_backups Defaults to true. If a failure occurs with the first API, we'll try others until we have success.
+* @return str|bool The shortened URL on success, else false on failure.
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if (!function_exists ("s2member_shorten_url"))
+	{
+		function s2member_shorten_url ($url = FALSE, $api_sp = FALSE, $try_backups = TRUE)
+			{
+				return c_ws_plugin__s2member_utils_urls::shorten ($url, $api_sp, $try_backups);
 			}
 	}
 ?>

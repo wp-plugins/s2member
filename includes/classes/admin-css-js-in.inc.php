@@ -43,9 +43,8 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_menu_pages_css"]) && is_user_logged_in () && current_user_can ("create_users"))
 							{
-								@ini_set ("zlib.output_compression", 0);
-								/**/
 								status_header (200); /* 200 OK status header. */
+								/**/
 								header ("Content-Type: text/css; charset=utf-8");
 								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
 								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
@@ -88,9 +87,8 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_menu_pages_js"]) && is_user_logged_in () && current_user_can ("create_users"))
 							{
-								@ini_set ("zlib.output_compression", 0);
-								/**/
 								status_header (200); /* 200 OK status header. */
+								/**/
 								header ("Content-Type: text/javascript; charset=utf-8");
 								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
 								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");

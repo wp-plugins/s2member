@@ -25,17 +25,24 @@ jQuery(document).ready (function($)
 		/**/
 		if (location.href.match (/page\=ws-plugin--s2member/)) /* Always on. */
 			{
-				$('input.ws-plugin--s2member-update-roles-button').click (function()
+				$('input.ws-plugin--s2member-update-roles-button, input.ws-plugin--s2member-reset-roles-button').click (function()
 					{
 						var $this = $(this); /* Save $(this) into $this. */
 						$this.val ('one moment please ...'); /* Indicate loading status ( please wait ). */
 						/**/
+						var levels = '<?php echo (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; ?>';
+						var resetUpdate = ($this.hasClass ('ws-plugin--s2member-reset-roles-button')) ? 'Reset' : 'Update';
+						/**/
 						$.post (ajaxurl, {action: 'ws_plugin__s2member_update_roles_via_ajax', ws_plugin__s2member_update_roles_via_ajax: '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (wp_create_nonce ("ws-plugin--s2member-update-roles-via-ajax")); ?>'}, function(response)
 							{
-								if (response === '0')
-									alert('Sorry, your request failed.\ns2Member\'s Roles/Capabilities are locked by Filter:\nws_plugin__s2member_lock_roles_caps'), $this.val ('Update Roles/Capabilities');
-								else if (response === '1')
-									alert('s2Member\'s Roles/Capabilities updated successfully.'), $this.val ('Update Roles/Capabilities');
+								if (response === '1')
+									alert('s2Member\'s Roles/Capabilities ' + ((resetUpdate.toLowerCase () === 'reset') ? 'have been successfully reset' : 'updated successfully') + '.\nYour installation of s2Member has Membership Levels 0-' + levels + '.'), $this.val (resetUpdate + ' Roles/Capabilities');
+								/**/
+								else if (response === 'l' /* Locked? */)
+									alert('Sorry, your request failed.\ns2Member\'s Roles/Capabilities are locked by Filter:\nws_plugin__s2member_lock_roles_caps'), $this.val (resetUpdate + ' Roles/Capabilities');
+								/**/
+								else /* Default response message here. */
+									alert('Sorry, your request failed.\nAccess denied. Do you have the ability to `create_users`?'), $this.val (resetUpdate + ' Roles/Capabilities');
 							});
 						/**/
 						return false;
@@ -345,7 +352,7 @@ jQuery(document).ready (function($)
 								/**/
 								var fieldId2Var = function(fieldId) /* Convert ids to variables. */
 									{
-										return ( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
+										return( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
 									};
 								/**/
 								var fieldTypeDesc = function(type)
@@ -374,7 +381,7 @@ jQuery(document).ready (function($)
 									{
 										var i = 0, html = '', form = '', w = 0, h = 0, editing = ( typeof index === 'number' && typeof fields[index] === 'object') ? true : false, displayForm = (adding || editing) ? true : false, field = (editing) ? $.extend (true, {}, fieldDefaults, fields[index]) : fieldDefaults;
 										/**/
-										html += '<a href="#" onclick="ws_plugin__s2member_customRegFieldAdd(); return false;">Add New Field</a>'; /* Click to add a new Custom Registration Field. */
+										html += '<a href="#" onclick="ws_plugin__s2member_customRegFieldAdd(); return false;">Add New Field</a>'; /* Click to add a new Custom Registration/Profile Field. */
 										/**/
 										tb_remove (), $('div#ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form').remove (); /* Remove an existing thickbox. */
 										/**/
@@ -729,7 +736,7 @@ jQuery(document).ready (function($)
 												/**/
 												$('body').append (form);
 												/**/
-												tb_show(((editing) ? 'Editing Registration Field' : 'New Custom Registration Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form'), $(window).trigger ('resize');
+												tb_show(((editing) ? 'Editing Registration/Profile Field' : 'New Custom Registration/Profile Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form'), $(window).trigger ('resize');
 												/**/
 												$('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form').show ();
 											}

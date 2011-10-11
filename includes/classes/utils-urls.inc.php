@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 	{
@@ -45,13 +45,24 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
-				* @param str $redirect_to Optional. Force a specific redirection after registration.
 				* @return str Location of `/wp-login.php?action=register`.
 				*/
-				public static function wp_register_url ($redirect_to = FALSE)
+				public static function wp_register_url () /* With Filters. */
 					{
-						return apply_filters ("wp_register_location", /* « NOT a core Filter; we're anticipating. */
-						add_query_arg ("action", urlencode ("register"), wp_login_url ($redirect_to)), get_defined_vars ());
+						return apply_filters ("wp_register_location", add_query_arg ("action", urlencode ("register"), wp_login_url ()), get_defined_vars ());
+					}
+				/**
+				* Builds a BuddyPress registration URL to `/register`.
+				*
+				* @package s2Member\Utilities
+				* @since 111009
+				*
+				* @return str Location of `/register`.
+				*/
+				public static function bp_register_url () /* Only if BuddyPress is installed. */
+					{
+						if (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) /* Only if BuddyPress is installed. */
+							return site_url (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () . "/" : BP_REGISTER_SLUG . "/"));
 					}
 				/**
 				* Filters content redirection status *( uses 302s for browsers )*.
@@ -181,7 +192,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						return $response; /* Return response. */
 					}
 				/**
-				* Shortens a long URL through tinyURL, or through another backup API used by this routine.
+				* Shortens a long URL, based on s2Member configuration.
 				*
 				* @package s2Member\Utilities
 				* @since 111002

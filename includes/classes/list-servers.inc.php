@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 	{
@@ -72,16 +72,16 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_process_list_servers", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if (($args = func_get_args ()) && $role && strlen ($level) && $login && is_email ($email) && $opt_in && $user_id && is_object ($user = new WP_User ($user_id)) && ($user_id = $user->ID))
+						if (c_ws_plugin__s2member_list_servers::list_servers_integrated () && ($args = func_get_args ()) && $role && is_string ($role) && is_numeric ($level) && $login && is_string ($login) && is_string ($pass = (string)$pass) && $email && is_string ($email) && is_email ($email) && is_string ($fname = (string)$fname) && is_string ($lname = (string)$lname) && is_string ($ip = (string)$ip) && is_bool ($opt_in = (bool)$opt_in) && $opt_in && is_bool ($double_opt_in = (bool)$double_opt_in) && $user_id && is_numeric ($user_id) && is_object ($user = new WP_User ($user_id)) && !empty ($user->ID))
 							{
-								$ccaps = implode (",", c_ws_plugin__s2member_user_access::user_access_ccaps ($user)); /* Get Custom Capabilities ( comma-delimited ). */
+								$ccaps = implode (",", c_ws_plugin__s2member_user_access::user_access_ccaps ($user)); /* Get Custom Capabilities. */
 								/**/
 								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (); /* s2Member Filters enabled? */
-								c_ws_plugin__s2member_email_configs::email_config_release (true); /* Release all mail Filters before we begin this routine. */
+								c_ws_plugin__s2member_email_configs::email_config_release (); /* Release s2Member Filters before we begin this routine. */
 								/**/
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))
 									{
@@ -149,11 +149,12 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 													{
 														$aweber["bcc"] = apply_filters ("ws_plugin__s2member_aweber_bcc", false, get_defined_vars ());
 														$aweber["pass_inclusion"] = (apply_filters ("ws_plugin__s2member_aweber_pass_inclusion", false, get_defined_vars ()) && $pass) ? "\nPass: " . $pass : false;
+														$buyer = ($fname || $lname) ? trim ($fname . " " . $lname) : /* Must have. AWeber's PayPal Email Parser chokes on an empty value. */ ucwords (preg_replace ("/^(.+?)@.+/", "$1", $email));
 														/**/
 														if ($aweber["wp_mail_response"] = wp_mail ($aweber["list_id"] . "@aweber.com", /* AWeber® List ID converts to email address @aweber.com. */
 														($aweber["wp_mail_sbj"] = apply_filters ("ws_plugin__s2member_aweber_sbj", "s2Member Subscription Request", get_defined_vars ())), /* These Filters make it possible to customize these emails. */
-														($aweber["wp_mail_msg"] = apply_filters ("ws_plugin__s2member_aweber_msg", "s2Member Subscription Request\ns2Member w/ PayPal Email ID\nAd Tracking: s2Member-" . ((is_multisite () && !is_main_site ()) ? $current_blog->domain . $current_blog->path : $_SERVER["HTTP_HOST"]) . "\nEMail Address: " . $email . "\nBuyer: " . $fname . " " . $lname . "\nFull Name: " . $fname . " " . $lname . "\nFirst Name: " . $fname . "\nLast Name: " . $lname . "\nIP Address: " . $ip . "\nUser ID: " . $user_id . "\nLogin: " . $login . $aweber["pass_inclusion"] . "\nRole: " . $role . "\nLevel: " . $level . "\nCCaps: " . $ccaps . "\n - end.", get_defined_vars ())),/**/
-														($aweber["wp_mail_headers"] = "From: \"" . preg_replace ("/\"/", "", $fname . " " . $lname) . "\" <" . $email . ">" . (($aweber["bcc"]) ? "\r\nBcc: " . $aweber["bcc"] : "") . "\r\nContent-Type: text/plain; charset=utf-8")))
+														($aweber["wp_mail_msg"] = apply_filters ("ws_plugin__s2member_aweber_msg", "s2Member Subscription Request\ns2Member w/ PayPal Email ID\nAd Tracking: s2Member-" . ((is_multisite () && !is_main_site ()) ? $current_blog->domain . $current_blog->path : $_SERVER["HTTP_HOST"]) . "\nEMail Address: " . $email . "\nBuyer: " . $buyer . "\nFull Name: " . trim ($fname . " " . $lname) . "\nFirst Name: " . $fname . "\nLast Name: " . $lname . "\nIP Address: " . $ip . "\nUser ID: " . $user_id . "\nLogin: " . $login . $aweber["pass_inclusion"] . "\nRole: " . $role . "\nLevel: " . $level . "\nCCaps: " . $ccaps . "\n - end.", get_defined_vars ())),/**/
+														($aweber["wp_mail_headers"] = "From: \"" . preg_replace ("/\"/", "", trim ($fname . " " . $lname)) . "\" <" . $email . ">" . (($aweber["bcc"]) ? "\r\nBcc: " . $aweber["bcc"] : "") . "\r\nContent-Type: text/plain; charset=utf-8")))
 															$aweber["wp_mail_success"] = $success = true; /* Flag indicating that we DO have a successful processing of a new List; affects the function's overall return value. */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
@@ -170,7 +171,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 											}
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_process_list_servers", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -178,7 +179,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 									c_ws_plugin__s2member_email_configs::email_config ();
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_process_list_servers", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -210,14 +211,16 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if (($args = func_get_args ()) && $role && strlen ($level) && $login && is_email ($email) && $opt_out && $user_id && is_object ($user = new WP_User ($user_id)) && ($user_id = $user->ID))
+						if (c_ws_plugin__s2member_list_servers::list_servers_integrated () && ($args = func_get_args ()) && $role && is_string ($role) && is_numeric ($level) && $login && is_string ($login) && is_string ($pass = (string)$pass) && $email && is_string ($email) && is_email ($email) && is_string ($fname = (string)$fname) && is_string ($lname = (string)$lname) && is_string ($ip = (string)$ip) && is_bool ($opt_out = (bool)$opt_out) && $opt_out && $user_id && is_numeric ($user_id) && is_object ($user = new WP_User ($user_id)) && !empty ($user->ID))
 							{
+								$ccaps = implode (",", c_ws_plugin__s2member_user_access::user_access_ccaps ($user)); /* Get Custom Capabilities. */
+								/**/
 								$email_configs_were_on = c_ws_plugin__s2member_email_configs::email_config_status (); /* s2Member Filters enabled? */
-								c_ws_plugin__s2member_email_configs::email_config_release (true); /* Release all mail Filters before we begin this routine. */
+								c_ws_plugin__s2member_email_configs::email_config_release (); /* Release s2Member Filters before we begin this routine. */
 								/**/
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))
 									{
@@ -263,10 +266,15 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 													{
 														$aweber["removal_bcc"] = apply_filters ("ws_plugin__s2member_aweber_removal_bcc", false, get_defined_vars ());
 														/**/
+														c_ws_plugin__s2member_email_configs::email_config (); /* Email configs MUST be ON for removal requests.
+															The `From:` address MUST match AWeber account. See: <http://www.aweber.com/faq/questions/62/Can+I+Unsubscribe+People+Via+Email%3F>. */
+														/**/
 														if ($aweber["wp_mail_removal_response"] = wp_mail ($aweber["list_id"] . "@aweber.com", /* AWeber® List ID converts to email address @aweber.com. */
 														($aweber["wp_mail_removal_sbj"] = apply_filters ("ws_plugin__s2member_aweber_removal_sbj", "REMOVE#" . $email . "#s2Member#" . $aweber["list_id"], get_defined_vars ())), /* Bug fix. AWeber® does not like dots ( possibly other chars ) in the Ad Tracking field. Now using just: `s2Member`. */
 														($aweber["wp_mail_removal_msg"] = "REMOVE"), ($aweber["wp_mail_removal_headers"] = "From: \"" . preg_replace ('/"/', "'", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . "\" <" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"] . ">" . (($aweber["removal_bcc"]) ? "\r\nBcc: " . $aweber["removal_bcc"] : "") . "\r\nContent-Type: text/plain; charset=utf-8")))
 															$aweber["wp_mail_removal_success"] = $removal_success = true; /* Flag indicating that we DO have a successful removal; affects the function's overall return value. */
+														/**/
+														c_ws_plugin__s2member_email_configs::email_config_release (); /* Release. */
 														/**/
 														$logv = c_ws_plugin__s2member_utilities::ver_details ();
 														$logm = c_ws_plugin__s2member_utilities::mem_details ();
@@ -282,7 +290,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 											}
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_process_list_server_removals", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -290,7 +298,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 									c_ws_plugin__s2member_email_configs::email_config ();
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -307,44 +315,56 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 				* @attaches-to: ``add_action("ws_plugin__s2member_during_collective_mods");``
 				* @attaches-to: ``add_action("ws_plugin__s2member_during_collective_eots");``
 				*
-				* @param int|str $user_id A WordPress® User ID, numeric string or integer.
-				* @param array $vars An array of defined variables from the calling Action Hook.
-				* @param str $event A specific event that triggered this call from the Action Hook.
-				* @param str $event_spec A specific event specification *( a broader classification )*.
-				* @param str $mod_new_role If it's a modification, the new Role they are being modified to.
-				* @param str $mod_old_role If it's a modification, the old Role they had previously.
-				* @param obj $user Optional. A WP_User object that can reduce database queries for this routine.
-				* @return null
-				*
-				* @todo Make it possible to transition Users, even if they were not currently on a list?
-				* 	One suggestion was to send a double-opt-in email in that case; or to provide an option for this?
-				* @todo Tighten up the call to ``c_ws_plugin__s2member_utils_strings::wrap_deep()`` by using `^$`?
+				* @param int|str $user_id Required. A WordPress® User ID, numeric string or integer.
+				* @param array $vars Required. An array of defined variables passed by the calling Hook.
+				* @param str $event Required. A specific event that triggered this call from the Action Hook.
+				* @param str $event_spec Required. A specific event specification *( a broader classification )*.
+				* @param str $mod_new_role Required if ``$event_spec === "modification"`` ( but can be empty ). Role the User is being modified to.
+				* @param str $mod_new_user Optional. If ``$event_spec === "modification"``, the new User object with current details.
+				* @param str $mod_old_user Optional. If ``$event_spec === "modification"``, the old/previous User obj with old details.
+				* @return null This function does not have a return value.
 				*/
-				public static function auto_process_list_server_removals ($user_id = FALSE, $vars = FALSE, $event = FALSE, $event_spec = FALSE, $mod_new_role = FALSE, $mod_old_role = FALSE, $user = FALSE)
+				public static function auto_process_list_server_removals ($user_id = FALSE, $vars = FALSE, $event = FALSE, $event_spec = FALSE, $mod_new_role = FALSE, $mod_new_user = FALSE, $mod_old_user = FALSE)
 					{
 						global $current_site, $current_blog; /* For Multisite support. */
-						static $auto_processed = array (); /* Only process ONE time for each User ID. */
+						static $auto_processed = array (); /* Process ONE time for each User. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_auto_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$custom_reg_auto_op_outs = c_ws_plugin__s2member_utils_strings::wrap_deep ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_outs"], "/", "/i");
+						$custom_reg_auto_op_outs = c_ws_plugin__s2member_utils_strings::wrap_deep ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_outs"], "/^", "$/i");
 						/**/
-						if ($user_id && !in_array ($user_id, $auto_processed) && (c_ws_plugin__s2member_utils_arrays::in_regex_array ($event, $custom_reg_auto_op_outs) || c_ws_plugin__s2member_utils_arrays::in_regex_array ($event_spec, $custom_reg_auto_op_outs)) && c_ws_plugin__s2member_list_servers::list_servers_integrated () && (is_object ($user) || is_object ($user = new WP_User ($user_id))) && ($user_id = $user->ID))
+						if (c_ws_plugin__s2member_list_servers::list_servers_integrated () && $user_id && is_numeric ($user_id) && !in_array ($user_id, $auto_processed) && is_array ($vars) && is_string ($event = (string)$event) && is_string ($event_spec = (string)$event_spec) && (c_ws_plugin__s2member_utils_arrays::in_regex_array ($event, $custom_reg_auto_op_outs) || c_ws_plugin__s2member_utils_arrays::in_regex_array ($event_spec, $custom_reg_auto_op_outs)) && is_object ($user = $_user = new WP_User ($user_id)) && !empty ($user->ID))
 							{
-								$role = ($event_spec === "modification" && $mod_new_role && $mod_old_role) ? $mod_old_role : c_ws_plugin__s2member_user_access::user_access_role ($user);
-								$level = ($event_spec === "modification" && $mod_new_role && $mod_old_role) ? c_ws_plugin__s2member_user_access::user_access_role_to_level ($mod_old_role) : c_ws_plugin__s2member_user_access::user_access_level ($user);
+								$mod_new_role = ($event_spec === "modification" && $mod_new_role && is_string ($mod_new_role)) ? $mod_new_role : /* Might be empty ( i.e. they now have NO Role ). */ false;
+								$mod_new_user = ($event_spec === "modification" && $mod_new_user && is_object ($mod_new_user) && !empty ($mod_new_user->ID) && $mod_new_user->ID === $_user->ID) ? $mod_new_user : false;
+								$mod_old_user = ($event_spec === "modification" && $mod_old_user && is_object ($mod_old_user) && !empty ($mod_old_user->ID) && $mod_old_user->ID === $_user->ID) ? $mod_old_user : false;
 								/**/
-								if (($event_spec !== "modification" || ($event_spec === "modification" && $mod_new_role && $mod_new_role !== $role && strtotime ($user->user_registered) < strtotime ("-10 seconds") && ($event !== "user-role-change" || ($event === "user-role-change" && !empty ($_POST["ws_plugin__s2member_custom_reg_auto_opt_out_transitions"]))))) && ($auto_processed[$user_id] = true))
+								$user = ($event_spec === "modification" && $mod_old_user) ? $mod_old_user : $_user; /* Now, should we switch over to the old/previous User object ``$mod_old_user`` here? Or, should we use the one pulled by this routine with the User's ID? */
+								/**/
+								if (($event_spec !== "modification" || ($event_spec === "modification" && /* Might be empty ( i.e. they now have NO Role ). */ (string)$mod_new_role !== c_ws_plugin__s2member_user_access::user_access_role ($user) && strtotime ($user->user_registered) < strtotime ("-10 seconds") && ($event !== "user-role-change" || ($event === "user-role-change" && !empty ($vars["_p"]["ws_plugin__s2member_custom_reg_auto_opt_out_transitions"]))))) && ($auto_processed[$user->ID] = true))
 									{
-										$removal_success = c_ws_plugin__s2member_list_servers::process_list_server_removals ($role, $level, $user->user_login, false, $user->user_email, $user->first_name, $user->last_name, false, true, $user_id);
-										if ( /* Only if removed successfully. */$removal_success && $event_spec === "modification" && $mod_new_role && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_out_transitions"]) /* Transition? */
-											c_ws_plugin__s2member_list_servers::process_list_servers ($mod_new_role, ($mod_new_level = c_ws_plugin__s2member_user_access::user_access_role_to_level ($mod_new_role)), $user->user_login, false, $user->user_email, $user->first_name, $user->last_name, false, true, false, $user_id);
+										$removed = c_ws_plugin__s2member_list_servers::process_list_server_removals (c_ws_plugin__s2member_user_access::user_access_role ($user), c_ws_plugin__s2member_user_access::user_access_level ($user), $user->user_login, false, $user->user_email, $user->first_name, $user->last_name, false, true, $user->ID);
+										/**/
+										if ($event_spec === "modification" && $mod_new_role && ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_out_transitions"] === "2" || ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_auto_opt_out_transitions"] === "1" && $removed)) /* Transitoning User/Member to different list(s)? */)
+											{
+												$user = ($event_spec === "modification" && $mod_new_user) ? $mod_new_user : $_user; /* Now, should we switch over to a new/current User object ``$mod_new_user`` here? ( which may contain newly updated details ). Or, should we simply use the User object pulled by this routine with the User's ID? */
+												/**/
+												$transitioned = c_ws_plugin__s2member_list_servers::process_list_servers ($mod_new_role, c_ws_plugin__s2member_user_access::user_access_role_to_level ($mod_new_role), $user->user_login, false, $user->user_email, $user->first_name, $user->last_name, false, true, (($removed) ? false : true), $user->ID);
+												/**/
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												do_action ("ws_plugin__s2member_during_auto_process_list_server_removal_transitions", get_defined_vars ());
+												unset ($__refs, $__v); /* Unset defined __refs, __v. */
+											}
+										/**/
+										eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+										do_action ("ws_plugin__s2member_during_auto_process_list_server_removals", get_defined_vars ());
+										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 									}
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_auto_process_list_server_removals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

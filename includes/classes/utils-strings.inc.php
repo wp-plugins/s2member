@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -116,19 +116,20 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_deep", $value) : trim ((string)$value);
 					}
 				/**
-				* Trims &quot; entities deeply.
+				* Trims all single/double quote entity variations deeply.
 				*
 				* This is useful on Shortcode attributes mangled by a Visual Editor.
 				*
 				* @package s2Member\Utilities
-				* @since 3.5
+				* @since 111011
 				*
 				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
 				* @return str|array Either the input string, or the input array; after all data is trimmed up.
 				*/
-				public static function trim_quot_deep ($value = FALSE)
+				public static function trim_qts_deep ($value = FALSE)
 					{
-						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_quot_deep", $value) : preg_replace ("(^(&quot;)+|(&quot;)+$)", "", (string)$value);
+						$qts = implode ("|", array_keys /* Keys are regex patterns. */ (array ("&apos;" => "&apos;", "&#0*39;" => "&#39;", "&#[xX]0*27;" => "&#x27;"/**/, "&lsquo;" => "&lsquo;", "&#0*8216;" => "&#8216;", "&#[xX]0*2018;" => "&#x2018;"/**/, "&rsquo;" => "&rsquo;", "&#0*8217;" => "&#8217;", "&#[xX]0*2019;" => "&#x2019;"/**/, "&quot;" => "&quot;", "&#0*34;" => "&#34;", "&#[xX]0*22;" => "&#x22;"/**/, "&ldquo;" => "&ldquo;", "&#0*8220;" => "&#8220;", "&#[xX]0*201[cC];" => "&#x201C;"/**/, "&rdquo;" => "&rdquo;", "&#0*8221;" => "&#8221;", "&#[xX]0*201[dD];" => "&#x201D;")));
+						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_qts_deep", $value) : preg_replace ("/^(?:" . $qts . ")+|(?:" . $qts . ")+$/", "", (string)$value);
 					}
 				/**
 				* Trims double quotes deeply.
@@ -168,7 +169,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 									$r = c_ws_plugin__s2member_utils_strings::wrap_deep ($r, $beg, $end);
 								return $value; /* Return modified array. */
 							}
-						return (is_string ($value) && strlen ($value)) ? (string)$beg . $value . (string)$end : (string)$value;
+						return (strlen ((string)$value)) ? (string)$beg . (string)$value . (string)$end : (string)$value;
 					}
 				/**
 				* Escapes meta characters with ``preg_quote()`` deeply.
@@ -243,6 +244,39 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						return '<span style="color:#164A61;">' . $m[0] . '</span>';
 					}
 				/**
+				* Parses email addresses from a string or array.
+				*
+				* @package s2Member\Utilities
+				* @since 111009
+				*
+				* @param str|array $value Input string or an array is also fine.
+				* @return array Array of parsed email addresses.
+				*/
+				public static function parse_emails ($value = FALSE)
+					{
+						if (is_array ($value)) /* Handles all types of arrays.
+						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
+						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
+							{
+								$emails = array (); /* Initialize array of emails. */
+								foreach ($value as $_value) /* Loop through array. */
+									$emails = array_merge ($emails, c_ws_plugin__s2member_utils_strings::parse_emails ($_value));
+								return $emails; /* Return array of parsed email addresses. */
+							}
+						/**/
+						$delimiter = (strpos ((string)$value, ";") !== false) ? ";" : ",";
+						foreach (($sections = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/" . preg_quote ($delimiter, "/") . "+/", (string)$value))) as $section)
+							{
+								if (preg_match ("/\<(.+?)\>/", $section, $m) && strpos ($m[1], "@") !== false)
+									$emails[] = $m[1]; /* Email inside brackets. */
+								/**/
+								else if (strpos ($section, "@") !== false)
+									$emails[] = $section;
+							}
+						/**/
+						return (!empty ($emails)) ? $emails : array ();
+					}
+				/**
 				* Base64 URL-safe encoding.
 				*
 				* @package s2Member\Utilities
@@ -256,7 +290,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_encode ($string = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval ('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
+						eval('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
 						/**/
 						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, base64_encode ($string));
 						$base64_url_safe = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
@@ -280,7 +314,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_decode ($base64_url_safe = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval ('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
+						eval('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
 						/**/
 						$string = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
 						$string = (strlen ($trim_padding_chars)) ? str_pad ($string, strlen ($string) % 4, "=", STR_PAD_RIGHT) : $string;

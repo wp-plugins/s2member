@@ -2439,14 +2439,12 @@ class NC_MCAPI {
             $this->errorMessage = $response["error"];
             $this->errorCode = $response["code"];
             return false;
-        } else if($error){
-            $this->errorMessage = "No error message from API server.";
+        } else if($error /* But no error message? */){
+            $this->errorMessage = "No error message.";
             $this->errorCode = $error;
             return false;
-        } else if(!is_array($response) || empty($response)){
-            $this->errorMessage = "No response from API server.";
-            $this->errorCode = "-98";
-            return false;
+        } else if(empty($response)){
+            $response = true;
         }
 
         return $response;

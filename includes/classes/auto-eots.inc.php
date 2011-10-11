@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 	{
@@ -68,7 +68,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 						/**/
 						if (function_exists ("wp_cron")) /* Is `wp_cron()` even available? */
 							{
-								wp_clear_scheduled_hook("ws_plugin__s2member_auto_eot_system__schedule"); /* Since v3.0.3. */
+								wp_clear_scheduled_hook ("ws_plugin__s2member_auto_eot_system__schedule"); /* Since v3.0.3. */
 								/**/
 								return apply_filters ("ws_plugin__s2member_delete_auto_eot_system", true, get_defined_vars ());
 							}
@@ -102,10 +102,10 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 						/**/
 						include_once ABSPATH . "wp-admin/includes/admin.php";
 						/**/
-						@set_time_limit(0); /* Make time for processing larger userbases. */
+						@set_time_limit (0); /* Make time for processing larger userbases. */
 						@ini_set ("memory_limit", "256M"); /* Acquire some additional RAM. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_auto_eot_system", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -136,7 +136,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																		$demotion_role = c_ws_plugin__s2member_option_forces::force_demotion_role ("subscriber");
 																		$existing_role = c_ws_plugin__s2member_user_access::user_access_role ($user);
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_auto_eot_system_during_before_demote", get_defined_vars ());
 																		do_action ("ws_plugin__s2member_during_collective_mods", $user_id, get_defined_vars (), $eot_del_type, "modification", $demotion_role);
 																		do_action ("ws_plugin__s2member_during_collective_eots", $user_id, get_defined_vars (), $eot_del_type, "modification");
@@ -180,7 +180,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																											if (($url = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($user_id)), $url)))
 																												{
 																													if (is_array ($fields) && !empty ($fields))
-																														foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																														foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																															if (!($url = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode (maybe_serialize ($val))), $url)))
 																																break;
 																													/**/
@@ -231,7 +231,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																										if (($msg = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_id), $msg)))
 																											{
 																												if (is_array ($fields) && !empty ($fields))
-																													foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																													foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																														if (!($msg = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (maybe_serialize ($val)), $msg)))
 																															break;
 																												/**/
@@ -244,7 +244,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																					c_ws_plugin__s2member_email_configs::email_config ();
 																			}
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_auto_eot_system_during_demote", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	}
@@ -252,7 +252,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																	{
 																		$eot_del_type = $GLOBALS["ws_plugin__s2member_eot_del_type"] = "auto-eot-cancellation-expiration-deletion";
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_auto_eot_system_during_before_delete", get_defined_vars ());
 																		do_action ("ws_plugin__s2member_during_collective_eots", $user_id, get_defined_vars (), $eot_del_type, "removal-deletion");
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
@@ -266,14 +266,14 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																		/**/
 																		else /* Otherwise, we can actually delete them. */
 																			/* This will automatically trigger `eot_del_notification_urls` as well. */
-																			wp_delete_user($user_id); /* `c_ws_plugin__s2member_user_deletions::handle_user_deletions()` */
+																			wp_delete_user ($user_id); /* `c_ws_plugin__s2member_user_deletions::handle_user_deletions()` */
 																		/**/
-																		eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																		eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																		do_action ("ws_plugin__s2member_during_auto_eot_system_during_delete", get_defined_vars ());
 																		unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																	}
 																/**/
-																eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																do_action ("ws_plugin__s2member_during_auto_eot_system", get_defined_vars ());
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															}
@@ -284,7 +284,7 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 						/**/
 						c_ws_plugin__s2member_utils_logs::cleanup_expired_s2m_transients (); /* Cleanup. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_auto_eot_system", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

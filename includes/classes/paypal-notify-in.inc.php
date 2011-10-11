@@ -190,10 +190,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 								do_action ("ws_plugin__s2member_during_paypal_notify", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
-								@ini_set ("zlib.output_compression", 0); /* Turn off. */
-								/**/
 								status_header (200); /* Send a 200 OK status header. */
-								header ("Content-Type: text/plain; charset=utf-8"); /* With text/plain. */
+								header ("Content-Type: text/plain; charset=utf-8"); /* Content-Type text/plain with UTF-8. */
 								eval ('while (@ob_end_clean ());'); /* End/clean all output buffers that may or may not exist. */
 								/**/
 								exit (((!empty ($paypal["s2member_paypal_proxy_return_url"])) ? $paypal["s2member_paypal_proxy_return_url"] : ""));

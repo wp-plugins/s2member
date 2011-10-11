@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utilities"))
 	{
@@ -40,7 +40,7 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 					{
 						ob_start (); /* Output buffer. */
 						/**/
-						eval("?>" . trim ($code));
+						eval ("?>" . trim ($code));
 						/**/
 						return ob_get_clean ();
 					}
@@ -99,16 +99,16 @@ if (!class_exists ("c_ws_plugin__s2member_utilities"))
 						return $checksum; /* ( i.e. version-pro version-checksum ) */
 					}
 				/**
-				* String with all version details *( for WordPress® and s2Member )*.
+				* String with all version details *( for PHP, WordPress®, s2Member, and Pro )*.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
-				* @return str String with `WordPress® vX.XX :: s2Member® vX.XX :: s2Member® Pro vX.XX`.
+				* @return str String with `PHP vX.XX :: WordPress® vX.XX :: s2Member® vX.XX :: s2Member® Pro vX.XX`.
 				*/
 				public static function ver_details ()
 					{
-						$details = "WordPress® v" . get_bloginfo ("version") . " :: s2Member® v" . WS_PLUGIN__S2MEMBER_VERSION;
+						$details = "PHP v" . PHP_VERSION . " :: WordPress® v" . get_bloginfo ("version") . " :: s2Member® v" . WS_PLUGIN__S2MEMBER_VERSION;
 						$details .= (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? " :: s2Member® Pro v" . WS_PLUGIN__S2MEMBER_PRO_VERSION : "";
 						/**/
 						return $details; /* Return all details. */

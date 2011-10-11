@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 	{
@@ -43,21 +43,20 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_css"]))
 							{
-								@ini_set ("zlib.output_compression", 0);
+								status_header (200); /* 200 OK status header. */
 								/**/
-								status_header(200); /* 200 OK status header. */
-								header("Content-Type: text/css; charset=utf-8");
-								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header("Cache-Control: max-age=604800");
-								header("Pragma: public");
+								header ("Content-Type: text/css; charset=utf-8");
+								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header ("Cache-Control: max-age=604800");
+								header ("Pragma: public");
 								/**/
-								eval('while (@ob_end_clean ());'); /* Clean buffers. */
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
 								/**/
 								$u = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"];
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
-								ob_start("c_ws_plugin__s2member_utils_css::compress_css");
+								ob_start ("c_ws_plugin__s2member_utils_css::compress_css");
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/s2member.css";
 								/**/
@@ -86,16 +85,15 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_js_w_globals"]))
 							{
-								@ini_set ("zlib.output_compression", 0);
+								status_header (200); /* 200 OK status header. */
 								/**/
-								status_header(200); /* 200 OK status header. */
-								header("Content-Type: text/javascript; charset=utf-8");
-								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header("Cache-Control: max-age=604800");
-								header("Pragma: public");
+								header ("Content-Type: text/javascript; charset=utf-8");
+								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header ("Cache-Control: max-age=604800");
+								header ("Pragma: public");
 								/**/
-								eval('while (@ob_end_clean ());'); /* Clean buffers. */
+								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/jquery/jquery.sprintf/jquery.sprintf-min.js";
 								/**/
@@ -181,7 +179,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 								echo "S2MEMBER_PAYPAL_API_ENDPOINT = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq (S2MEMBER_PAYPAL_API_ENDPOINT) . "',";
 								/**/
 								echo "S2MEMBER_VALUE_FOR_PP_INV = Math.round (new Date ().getTime ()) + '~" . c_ws_plugin__s2member_utils_strings::esc_js_sq (S2MEMBER_CURRENT_USER_IP) . "',";
-								echo "S2MEMBER_VALUE_FOR_PP_INV_GEN = function(){ var invoice = '', formatSeed = function(seed, reqWidth) { seed = parseInt(seed, 10).toString (16); if (reqWidth < seed.length) return seed.slice (seed.length - reqWidth); else if (reqWidth > seed.length) return Array(1 + (reqWidth - seed.length)).join ('0') + seed; return seed; }; if (typeof S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED === 'undefined') S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED = Math.floor (Math.random () * 0x75bcd15); S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED++; invoice = formatSeed(parseInt(new Date ().getTime () / 1000, 10), 8); invoice += formatSeed(S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED, 5); invoice += '~' + S2MEMBER_CURRENT_USER_IP; return invoice; },";
+								echo "S2MEMBER_VALUE_FOR_PP_INV_GEN = s2member_value_for_pp_inv_gen = function(){ var invoice = '', formatSeed = function(seed, reqWidth) { seed = parseInt(seed, 10).toString (16); if (reqWidth < seed.length) return seed.slice (seed.length - reqWidth); else if (reqWidth > seed.length) return Array(1 + (reqWidth - seed.length)).join ('0') + seed; return seed; }; if (typeof S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED === 'undefined') S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED = Math.floor (Math.random () * 0x75bcd15); S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED++; invoice = formatSeed(parseInt(new Date ().getTime () / 1000, 10), 8); invoice += formatSeed(S2MEMBER_VALUE_FOR_PP_INV_GEN_UNIQUE_SEED, 5); invoice += '~' + S2MEMBER_CURRENT_USER_IP; return invoice; },";
 								/**/
 								echo "S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0 = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq (S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0) . "',";
 								echo "S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0 = '" . c_ws_plugin__s2member_utils_strings::esc_js_sq (S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0) . "',";

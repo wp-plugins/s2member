@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 	{
@@ -97,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/large-icon.png" title="s2Member ( a Membership management system for WordPress® )" alt="" style="float:right; margin:0 0 0 25px; border:0;" />' . "\n";
 								echo '<h3>Security Encryption Key ( optional, for tighter security )</h3>' . "\n";
 								echo '<p>Just like WordPress®, s2Member is open-source software. Which is wonderful. However, this also makes it possible for anyone to grab a copy of the software, and try to learn their way around its security measures. In order to keep your installation of s2Member unique/secure, you should configure a Security Encryption Key. s2Member will use your Security Encryption Key to protect itself against hackers. It does this by encrypting all sensitive information with your Key. A Security Encryption Key is unique to your installation.</p>' . "\n";
-								echo '<p>Once you configure this, you do NOT want to change it; not ever. In fact, it is a VERY good idea to keep this backed up in a safe place, just in case you need to move your site, or re-install s2Member in the future. Some of the sensitive data that s2Member stores, will be encrypted with this Key. If you change it, that data can no longer be read, even by s2Member itself. In other words, don\'t use s2Member for six months, then decide to change your Key. That would break your installation. You configure this once, for each installation of s2Member; and you NEVER change it.</p>' . "\n";
+								echo '<p>Once you configure this, you do NOT want to change it; not ever. In fact, it is a VERY good idea to keep this backed up in a safe place, just in case you need to move your site, or re-install s2Member in the future. Some of the sensitive data that s2Member stores, will be encrypted with this Key. If you change it, that data can no longer be read, even by s2Member itself. In other words, don\'t use s2Member for six months, then decide to change your Key. That would break your installation.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_security", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -157,8 +157,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-s-badge-wp-footer-code-section">' . "\n";
 								echo '<h3>Security Badge &amp; Footer Configuration ( optional )</h3>' . "\n";
 								echo '<div class="ws-menu-page-right">' . c_ws_plugin__s2member_utilities::s_badge_gen ("1", true, true) . '</div>' . "\n";
-								echo '<p>An s2Member® Security Badge <em>( optional )</em>, can be used to express your site\'s concern for security; demonstrating to all Users/Members that your site <em>( and the s2Member software )</em>, takes security seriously. However, in order to qualify your site, you MUST generate a Security Encryption Key <em>( previous section )</em>, and then click "Save All Changes". Only then, will s2Member officially verify your installation <em>( verification occurs automatically )</em>. Once you\'ve properly configured all aspects of s2Member, your s2Member® Security Badge will be verified. *Note: to see the "verified" version of your Security Badge, you might need to refresh your browser after saving all changes <em>( i.e. after you create a Security Encryption Key )</em>. Also, s2Member will NOT "verify" your site if you turn off Unique IP Restrictions, Brute Force Login Protection, or if your <code>/wp-config.php</code> file lacks <a href="http://codex.wordpress.org/Editing_wp-config.php#Security_Keys" target="_blank" rel="external">Security Keys</a> <em>( at least 60 chars in length, each )</em>.</p>' . "\n";
-								echo '<p><strong>How does s2Member know when my site is secure?</strong><br />If enabled below, an API call for "Security Badge Status", will allow web service connections to determine your status. Clicking <a href="' . esc_attr (site_url ("/?s2member_s_badge_status=1")) . '" target="_blank" rel="external">this link</a> will report <code>1</code> <em>( secure )</em>, <code>0</code> <em>( at risk )</em>, or <code>-</code> <em>( API disabled )</em>. Once all security considerations are satisfied, s2Member will report <code>1</code> <em>( secure )</em> for your installation. *Note, this simple API will NOT, and should not, report any other information. It will ONLY report the current status of your Security Badge, as determined by your installation of s2Member. When/if you install the s2Member Security Badge, s2Member will make a connection to your site "once per day", to test the status of your Security Badge.</p>' . "\n";
+								echo '<p>An s2Member® Security Badge <em>( optional )</em>, can be used to express your site\'s concern for security; demonstrating to all Users/Members that your site <em>( and the s2Member software )</em>, takes security seriously. However, in order to qualify your site, you MUST generate a Security Encryption Key <em>( previous section )</em>, and then click "Save All Changes". Only then, will s2Member officially verify your installation <em>( verification occurs automatically )</em>.</p>' . "\n";
+								echo '<p>Once you\'ve properly configured all aspects of s2Member, your s2Member® Security Badge will be verified. To see the "verified" version of your Security Badge, you might need to refresh your browser after saving all changes <em>( i.e. after you create a Security Encryption Key )</em>. Also, s2Member will NOT "verify" your site if you turn off Unique IP Restrictions, Brute Force Login Protection, or if your <code>/wp-config.php</code> file lacks <a href="http://codex.wordpress.org/Editing_wp-config.php#Security_Keys" target="_blank" rel="external">Security Keys</a> <em>( each at least 60 chars in length )</em>. In addition, it\'s NOT possible for s2Member to verify your Security Badge, if your site is in a <code>localhost</code> environment; i.e. not connected to the web.</p>' . "\n";
+								echo '<p><strong>How does s2Member know when my site is secure?</strong><br />If enabled below, an API call for "Security Badge Status", will allow web service connections to determine your status. Clicking <a href="' . esc_attr (site_url ("/?s2member_s_badge_status=1")) . '" target="_blank" rel="external">this link</a> will report <code>1</code> <em>( secure )</em>, <code>0</code> <em>( at risk )</em>, or <code>-</code> <em>( API disabled )</em>. Once all security considerations are satisfied, s2Member will report <code>1</code> <em>( secure )</em> for your installation. *Note, this simple API will NOT, and should not, report any other information. It will ONLY report the current status of your Security Badge, as determined by your installation of s2Member. When/if you install the s2Member Security Badge, s2Member will make a connection to your site "once per day", to test your status.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_s_badge_wp_footer_code", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -188,7 +189,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<th>' . "\n";
 								echo '<label for="ws-plugin--s2member-wp-footer-code">' . "\n";
 								echo 'Customize WordPress® Footer:<br />' . "\n";
-								echo '<small>[ <a href="#" onclick="this.$code = jQuery(\'textarea#ws-plugin--s2member-wp-footer-code\'); this.$code.val(jQuery.trim(unescape(\'' . rawurlencode ('[s2Member-Security-Badge v="1" /]') . '\')+\'\n\'+this.$code.val())); return false;">Click HERE to insert your Security Badge</a> ],<br />or use Shortcode <code>[s2Member-Security-Badge v="1" /]</code> in a Post/Page/Widget.</small>' . "\n";
+								echo '<small>[ <a href="#" onclick="this.$code = jQuery(\'textarea#ws-plugin--s2member-wp-footer-code\'); this.$code.val(jQuery.trim(unescape(\'' . rawurlencode ('[s2Member-Security-Badge v="1" /]') . '\')+\'\n\'+this.$code.val())); return false;">Click HERE to insert your Security Badge</a> ],<br />or use Shortcode <code>[s2Member-Security-Badge v="1" /]</code> in a Post/Page/Widget.<br />The <code>v="1"</code> attribute is a Security Badge style/variation. Try variations <code>1|2|3</code>.</small>' . "\n";
 								echo '</label>' . "\n";
 								echo '</th>' . "\n";
 								/**/
@@ -253,7 +254,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="text" name="ws_plugin__s2member_reg_email_from_email" id="ws-plugin--s2member-reg-email-from-email" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"]) . '" /><br />' . "\n";
-								echo 'We recommend something like: support@your-domain.com.' . "\n";
+								echo 'Example: support@your-domain.com. <em class="ws-menu-page-hilite">Please read <a href="#" onclick="alert(\'Running WordPress® with an SMTP mail plugin?\\n\\nPlease be advised. If you run an SMTP mail plugin with WordPress®, be sure to configure s2Member with a valid `From:` address ( i.e. one matching your SMTP configuration perhaps ). Most free SMTP servers, such as Gmail® and Yahoo®, require that your `From:` header match the email address associated with your account. Please check with your SMTP service provider before attempting to configure plugins like s2Member to use a different `From:` address when sending email messages.\'); return false;">this IMPORTANT note</a></em>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -309,6 +310,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_new_user_email", get_defined_vars ());
 								/**/
 								echo '<div id="ws-plugin--s2member-new-user-email-details" style="display:none;">' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> please note that BuddyPress does NOT send this email to Users that register through the BuddyPress registration system. This is because BuddyPress sends each User an activation link; eliminating the need for this email all together. However, you CAN still customize s2Member\'s separate email to paying Members. See: <code>s2Member -> PayPal® Options -> Signup Confirmation Email</code>.</em></p>' . "\n" : '';
 								echo '<table class="form-table">' . "\n";
 								echo '<tbody>' . "\n";
 								echo '<tr>' . "\n";
@@ -355,12 +357,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this email:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -450,12 +452,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<li><code>%%wp_login_url%%</code> = The full URL where Users can get logged into your site.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
-								echo '<strong>Custom Registration Fields are also supported in this email:</strong>' . "\n";
+								echo '<strong>Custom Registration/Profile Fields are also supported in this email:</strong>' . "\n";
 								echo '<ul>' . "\n";
-								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration Field with the ID <code>date_of_birth</code>.</li>' . "\n";
-								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration Field with the ID <code>street_address</code>.</li>' . "\n";
-								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration Field with the ID <code>country</code>.</li>' . "\n";
-								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Custom Registration Fields</em>.</li>' . "\n";
+								echo '<li><code>%%date_of_birth%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>date_of_birth</code>.</li>' . "\n";
+								echo '<li><code>%%street_address%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>street_address</code>.</li>' . "\n";
+								echo '<li><code>%%country%%</code> would be valid; if you have a Custom Registration/Profile Field with the ID <code>country</code>.</li>' . "\n";
+								echo '<li><em><code>%%etc, etc...%%</code> <strong>see:</strong> s2Member -> General Options -> Registration/Profile Fields</em>.</li>' . "\n";
 								echo '</ul>' . "\n";
 								/**/
 								echo '<strong>Custom Replacement Codes can also be inserted using these instructions:</strong>' . "\n";
@@ -525,7 +527,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 										echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["allow_subscribers_in"]) ? ' selected="selected"' : '') . '>No ( do NOT allow Open Registration )</option>' . "\n";
 										echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["allow_subscribers_in"]) ? ' selected="selected"' : '') . '>Yes ( allow Open Registration; Free Subscribers at Level #0 )</option>' . "\n";
 										echo '</select><br />' . "\n";
-										echo 'If you set this to <code>Yes</code>, you\'re unlocking <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external">wp-login.php?action=register</a>. When a visitor registers without paying, they\'ll automatically become a Free Subscriber, at Level #0. The s2Member software reserves Level #0; to be used ONLY for Free Subscribers. All other Membership Levels [1-4] require payment.' . "\n";
+										echo 'If you set this to <code>Yes</code>, you\'re unlocking <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your Standard Registration Form.\\n* s2Member makes this form available to logged-in Administrators, at all times ( for testing purposes ), regardless of configuration.' . ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '\\n\\nBuddyPress: * BuddyPress will use its own Registration Form. Please note, you will probably be redirected away from the BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.' : '') . '\');">/wp-login.php?action=register</a>. When a visitor registers without paying, they\'ll automatically become a Free Subscriber, at Level #0. The s2Member software reserves Level #0; to be used ONLY for Free Subscribers. All other Membership Levels [1-4] require payment.' . "\n";
+										echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<br /><br /><em><strong>BuddyPress:</strong> BuddyPress will use its own Registration Form <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your BuddyPress Registration Form.\\n* However, you will probably be redirected away from this BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.\');">here</a>.<br />s2Member integrates with BuddyPress, and the above setting will control Open Regisration for BuddyPress too.</em>' . "\n" : '';
 										echo '</td>' . "\n";
 										/**/
 										echo '</tr>' . "\n";
@@ -547,7 +550,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-membership-levels-section">' . "\n";
 								echo '<h3>Membership Levels ( required, please customize these )</h3>' . "\n";
-								echo '<p>The default Membership Levels are labeled generically; feel free to modify them as needed. s2Member supports Free Subscribers <em>( at Level #0 )</em>, along with several Primary Roles for paid Membership <em>( i.e. Levels 1-4 )</em>, created by the s2Member plugin.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' s2Member also supports unlimited Custom Capability Packages <em>( see <code>s2Member -> API Scripting -> Custom Capabilities</code> )</em>' : '') . '. That being said, you don\'t have to use all of the Membership Levels if you don\'t want to. To use only 1 or 2 of these Levels, just create and/or modify your Membership Options Page, so that it only includes payment Buttons for the Levels you wish to use.</p>' . "\n";
+								echo '<p>The default Membership Levels are labeled generically; feel free to modify them as needed. s2Member supports Free Subscribers <em>( at Level #0 )</em>, along with several Primary Roles for paid Membership <em>( i.e. Levels 1-4 )</em>, created by the s2Member plugin.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' s2Member also supports unlimited Custom Capability Packages <em>( see <code>s2Member -> API Scripting -> Custom Capabilities</code> )</em>' : '') . '. That being said, you don\'t have to use all of the Membership Levels if you don\'t want to. To use only 1 or 2 of these Levels, just design your Membership Options Page, so it only includes Payment Buttons for the Levels being used.</p>' . "\n";
 								echo (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '<p><em><strong>TIP:</strong> <strong>Unlimited Membership Levels</strong> are only possible with <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro</a>. However, Custom Capabilities are possible in all versions of s2Member, including the free version. Custom Capabilities are a great way to extend s2Member in creative ways. If you\'re an advanced site owner, a theme designer, or a web developer integrating s2Member for a client, please check your Dashboard, under: <code>s2Member -> API Scripting -> Custom Capabilities</code>. We also recommend the <a href="http://www.primothemes.com/forums/viewforum.php?f=40" target="_blank" rel="external">s2Member Codex</a>.</em></p>' . "\n" : '';
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_membership_levels", get_defined_vars ());
 								/**/
@@ -595,12 +598,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<td>' . "\n";
 								echo '<input type="radio" name="ws_plugin__s2member_apply_label_translations" id="ws-plugin--s2member-apply-label-translations-0" value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["apply_label_translations"]) ? ' checked="checked"' : '') . ' /> <label for="ws-plugin--s2member-apply-label-translations-0">No</label> &nbsp;&nbsp;&nbsp; <input type="radio" name="ws_plugin__s2member_apply_label_translations" id="ws-plugin--s2member-apply-label-translations-1" value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["apply_label_translations"]) ? ' checked="checked"' : '') . ' /> <label for="ws-plugin--s2member-apply-label-translations-1">Yes, force WordPress® to use my Labels.</label><br />' . "\n";
-								echo 'This particular option affects your administrative Dashboard only <em>( i.e. your list of Users )</em>. s2Member can force WordPress® to use your Labels instead of referencing Roles by `s2Member Level #`. If this is your first installation of s2Member, we suggest leaving this set to <code>no</code> until you\'ve had a chance to get acclimated with s2Member\'s functionality. In fact, many site owners choose to leave this off, because they find it less confusing when Roles are referred to by their s2Member Level #.' . "\n";
+								echo 'This affects your administrative Dashboard only <em>( i.e. your list of Users )</em>.<br />s2Member can force WordPress® to use your Labels instead of referencing Roles by `s2Member Level #`. If this is your first installation of s2Member, we suggest leaving this set to <code>no</code> until you\'ve had a chance to get acclimated with s2Member\'s functionality. In fact, many site owners choose to leave this off, because they find it less confusing when Roles are referred to by their s2Member Level #.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<input type="button" value="Reset Roles/Capabilities" class="ws-menu-page-right ws-plugin--s2member-reset-roles-button" style="min-width:175px;" />' . "\n";
+								echo '<p>The button to the right, is a nifty tool, which allows you to reset s2Member\'s internal Roles and Capabilities that integrate with WordPress®. If you, or a developer working with you, has made attempts to alter the default <em>internal</em> Role/Capability sets that come with s2Member, and you need to reset them back to the way s2Member expects them to be, please use this tool. <em>Attn Developers: it is also possible lock-in your modified Roles/Capabilities with an s2Member Filter. Please see <a href="http://www.primothemes.com/forums/viewtopic.php?f=36&t=15420&p=45162#p45162" target="_blank" rel="external">this thread for details</a>.</em></p>' . "\n";
+								/**/
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -616,8 +625,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-login-registration-section">' . "\n";
 								echo '<h3>Login/Registration Page Customization ( required )</h3>' . "\n";
-								echo '<p>These settings allow you to customize the user interface for your Login / Registration Pages:<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '</a> )</p>' . "\n";
-								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<p><em>A Multisite Blog Farm uses this Form instead, powered by your theme.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '</a> )</em></p>' . "\n" : '';
+								echo '<p>These settings customize your Standard Login/Registration Pages:<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your Standard Registration Form.\\n* s2Member makes this form available to logged-in Administrators, at all times ( for testing purposes ), regardless of configuration.' . ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '\\n\\nBuddyPress: * BuddyPress will use its own Registration Form. Please note, you will probably be redirected away from the BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.' : '') . '\');">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '</a> )</p>' . "\n";
+								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<p><em>The Main Site of a Multisite Blog Farm uses this Form instead, powered by your theme.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your Multisite Registration Form.\\n* s2Member makes this form available to logged-in Super Administrators, at all times ( for testing purposes ), regardless of configuration.' . ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '\\n\\nBuddyPress: * BuddyPress will use its own Registration Form. Please note, you will probably be redirected away from the BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.' : '') . '\');">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '</a> )</em></p>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> BuddyPress will use its own Registration Form, powered by your theme.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your BuddyPress Registration Form.\\n* However, you will probably be redirected away from this BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.\');">' . esc_html (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . '</a> )</em></p>' . "\n" : '';
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_login_registration", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -952,17 +962,15 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 							{
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_before_custom_reg_fields", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="Custom Registration Fields/Options">' . "\n";
+								echo '<div class="ws-menu-page-group" title="Registration/Profile Fields &amp; Options">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-custom-reg-fields-section">' . "\n";
-								echo '<h3>Custom Registration Fields ( optional, for further customization )</h3>' . "\n";
+								echo '<h3>Custom Registration/Profile Fields ( optional, for further customization )</h3>' . "\n";
 								echo '<p>Some fields are already built-in by default. The defaults are: <code>*Username*, *Email*, *First Name*, *Last Name*</code>.</p>' . "\n";
 								/**/
-								echo '<p>Custom Fields will appear in your Standard Registration Form:<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '</a> )</p>' . "\n";
-								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<p><em>A Multisite Blog Farm uses this Form instead. It supports Custom Fields too.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '</a> )</em></p>' . "\n" : '';
-								/**/
-								if (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ())
-									echo '<p><em>* For security purposes, Custom Passwords are NOT possible on the Main Site of a Blog Farm. A User MUST wait for the activation/confirmation email; where a randomly generated Password will be assigned. Please note... this limitation only affects your Main Site, via <code>/wp-signup.php</code>. In other words, your Customers ( i.e. other Blog Owners ) will still have the ability to allow Custom Passwords with s2Member. YOU are affected by this limitation, NOT them. * NOTE: s2Member (Pro) removes this limitation. If you install the s2Member Pro Module, you WILL be able to allow Custom Passwords through s2Member Pro Forms; even on a Multisite Blog Farm.</em></p>' . "\n";
+								echo '<p>Custom Fields will appear in your Standard Registration Form, and in User/Member Profiles:<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your Standard Registration Form.\\n* s2Member makes this form available to logged-in Administrators, at all times ( for testing purposes ), regardless of configuration.' . ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '\\n\\nBuddyPress: * BuddyPress will use its own Registration Form. Please note, you will probably be redirected away from the BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.' : '') . '\');">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_register_url ()) . '</a> )</p>' . "\n";
+								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<p><em>The Main Site of a Multisite Blog Farm uses this Form. s2Member supports Custom Fields here too.<br />( <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your Multisite Registration Form.\\n* s2Member makes this form available to logged-in Super Administrators, at all times ( for testing purposes ), regardless of configuration.' . ((c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '\\n\\nBuddyPress: * BuddyPress will use its own Registration Form. Please note, you will probably be redirected away from the BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.' : '') . '\');">' . esc_html (c_ws_plugin__s2member_utils_urls::wp_signup_url ()) . '</a> )</em></p>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> BuddyPress will use its own Registration Form <a href="' . esc_attr (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . '" target="_blank" rel="external" onclick="alert(\'s2Member will now open your BuddyPress Registration Form.\\n* However, you will probably be redirected away from this BuddyPress Registration Form ( ' . c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_urls::bp_register_url ()) . ' ), because you\\\'re ALREADY logged-in. Please log out before testing BuddyPress registration.\');">here</a>.<br />s2Member can integrate your Custom Fields with BuddyPress too, please see options below.</em></p>' . "\n" : '';
 								/**/
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_custom_reg_fields", get_defined_vars ());
 								/**/
@@ -972,7 +980,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<th>' . "\n";
 								echo '<label>' . "\n";
-								echo 'Custom Registration Fields:' . "\n";
+								echo 'Custom Registration/Profile Fields:' . "\n";
 								echo '</label>' . "\n";
 								echo '</th>' . "\n";
 								/**/
@@ -1002,7 +1010,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_names"]) ? ' selected="selected"' : '') . '>No ( do NOT collect First/Last Names during registration )</option>' . "\n";
 								echo '</select><br />' . "\n";
 								echo 'Recommended setting ( <code>Yes</code> ). It\'s usually a good idea to leave this on.' . "\n";
-								echo (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? '<br /><em>* s2Member Pro (Checkout) Forms always require a First/Last Name.</em>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<br /><em>* Has NO affect on BuddyPress registration form (BuddyPress always collects a full <code>Name</code> field).</em>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::pro_is_installed ()) ? '<br /><em>* s2Member Pro (Checkout) Forms always require a First/Last Name for billing.</em>' . "\n" : '';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1025,6 +1034,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<option value="login"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"] === "login") ? ' selected="selected"' : '') . '>Yes ( set Display Name to User\'s Username )</option>' . "\n";
 								echo '<option value="0"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_display_name"]) ? ' selected="selected"' : '') . '>No ( leave Display Name at default WordPress® value )</option>' . "\n";
 								echo '</select>' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<br /><em>* Has NO affect on BuddyPress registration form (BuddyPress always uses its full <code>Name</code> field).</em>' . "\n" : '';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1045,6 +1055,8 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<option value="1"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"]) ? ' selected="selected"' : '') . '>Yes ( allow members to create their own password during registration )</option>' . "\n";
 								echo '</select><br />' . "\n";
 								echo 'Auto-generated Passwords are recommended for best security; because, this also serves as a form of email confirmation.' . "\n";
+								echo (is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && is_main_site ()) ? '<br /><em>* For security purposes, Custom Passwords are NOT possible on the Main Site of a Blog Farm. <a href="#" onclick="alert(\'For security purposes, Custom Passwords are NOT possible on the Main Site of a Blog Farm. A User MUST wait for the activation/confirmation email; where a randomly generated Password will be assigned. Please note, this limitation only affects your Main Site, via `/wp-signup.php`. In other words, your Customers ( i.e. other Blog Owners ) will still have the ability to allow Custom Passwords with s2Member. YOU are affected by this limitation, NOT them.\\n\\n* NOTE: s2Member (Pro) removes this limitation.\\nIf you install the s2Member Pro Module, you WILL be able to allow Custom Passwords through s2Member Pro Forms; even on a Multisite Blog Farm.\'); return false;" tabindex="-1">[?]</a></em>' . "\n" : '';
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<br /><em>* Does NOT affect BuddyPress registration form (always <code>yes</code> with BuddyPress registration).</em>' . "\n" : '';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1064,6 +1076,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo 'To force personal email addresses, provide a comma-delimited list of email users to reject. <a href="#" onclick="alert(\'s2Member will reject [user]@ ( based on your configuration here ). A JavaScript alert message will be issued, asking the User to, `please use a personal email address`.\'); return false;" tabindex="-1">[?]</a><br />' . "\n";
 								echo 'Ex: <code>info,help,admin,webmaster,hostmaster,sales,support,spam</code><br />' . "\n";
 								echo 'See: <a href="http://kb.mailchimp.com/article/what-role-addresses-does-mailchimp-specifically-block-from-bulk-importing/" target="_blank" rel="external">this article</a> for a more complete list.' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<br /><em>* Affects BuddyPress registration form too.</em>' . "\n" : '';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1071,7 +1084,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<th>' . "\n";
 								echo '<label for="ws-plugin--s2member-custom-reg-fields-4bp">' . "\n";
-								echo 'Integrate Custom Registration Fields with BuddyPress too?' . "\n";
+								echo 'Integrate Custom Registration/Profile Fields with BuddyPress?' . "\n";
 								echo '</label>' . "\n";
 								echo '</th>' . "\n";
 								/**/
@@ -1084,8 +1097,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								foreach (array ("profile-view" => "Yes, integrate with BuddyPress Public Profiles.", "registration" => "Yes, integrate with BuddyPress Registration Form.", "profile" => "Yes, integrate with BuddyPress Profile Editing Panel.") as $ws_plugin__s2member_temp_s_value => $ws_plugin__s2member_temp_s_label)
 									echo '<input type="checkbox" name="ws_plugin__s2member_custom_reg_fields_4bp[]" id="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '" value="' . esc_attr ($ws_plugin__s2member_temp_s_value) . '"' . ((in_array ($ws_plugin__s2member_temp_s_value, $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields_4bp"])) ? ' checked="checked"' : '') . ((!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? ' disabled="disabled"' : '') . ' /> <label for="ws-plugin--s2member-custom-reg-fields-4bp-' . esc_attr (preg_replace ("/[^a-z0-9_\-]/", "-", $ws_plugin__s2member_temp_s_value)) . '">' . $ws_plugin__s2member_temp_s_label . '</label><br />' . "\n";
 								echo '</div>' . "\n";
-								echo (!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? 'BuddyPress is NOT installed; which is perfectly OK. BuddyPress is NOT a requirement.<br />' . "\n" : '';
-								echo 'Also, see below: <code>Member Profile Modifications</code>.' . "\n";
+								echo (!c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<em>* BuddyPress is NOT installed; which is perfectly OK. BuddyPress is NOT a requirement.</em>' . "\n" : '<em>* The options above, make it possible to integrate Custom Registration/Profile Fields ( i.e. those configured with s2Member ) into BuddyPress as well. However, if you configure Profile Fields with BuddyPress, those will NOT be integrated with s2Member. Therefore, if you need Custom Registration/Profile Fields to work with both s2Member and with BuddyPress, please configure them with s2Member.</em>';
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1107,6 +1119,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-login-welcome-page-section">' . "\n";
 								echo '<h3>Login Welcome Page ( required, please customize this )</h3>' . "\n";
 								echo '<p>Please create and/or choose an existing Page to use as the first page Members will see after logging in.</p>' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> s2Member integrates with BuddyPress. Your Login Welcome Page affects BuddyPress too.</em></p>' . "\n" : '';
 								echo '<p><em><strong>*Tip*</strong> This special Page will be protected from public access ( automatically ) by s2Member.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_login_welcome_page", get_defined_vars ());
 								/**/
@@ -1152,7 +1165,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-membership-options-page-section">' . "\n";
 								echo '<h3>Membership Options Page ( required, please customize this )</h3>' . "\n";
-								echo '<p>Please create and/or choose an existing Page that showcases your Membership subscription options. This special Page is where you will insert the PayPal® Subscription Buttons generated for you by s2Member. This Page serves as your signup page. It should detail all of the features that come with Membership to your site, and provide a PayPal® Subscription Button for each Level of access you plan to offer. This is also the page that Users will be redirected to, should they attempt to access an area of your site that requires Membership.</p>' . "\n";
+								echo '<p>Please create and/or choose an existing Page that showcases your Membership subscription options. This special Page is where you will insert the Payment Button(s) generated for you by s2Member. This Page serves as your lead-in signup page <em>( i.e. you\'ll give visitors one or more registration options here, and they\'ll be redirected to your Payment Gateway, to pay for the option they choose )</em>.</p>' . "\n";
+								echo '<p>Your Membership Options Page should detail all of the features that come with Membership to your site, and provide a Payment Button for each Level of access you plan to offer. This is also the Page that anyone could be redirected to <em>( by s2Member )</em>, should they attempt to access an area of your site, which may require access to something they\'re NOT currenty allowed to view.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' For more on this advanced topic, please check your Dashboard here: <code>s2Member -> API Scripting -> Membership Options Page / Variables</code>.' : '') . '</p>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> If you allow Open Registration ( i.e. Free Subscribers ), you might want to place a link on your Membership Options Page, which points directly to your Registration Form, instead of routing a Customer through your Payment Gateway first. For further details, please check the section above: <code>s2Member -> General Options -> Open Registration</code>.</em></p>' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> Even with BuddyPress, s2Member still needs a Membership Options Page. This is where your Payment Button(s) will go, giving people the ability to pay you. And again, this is also the Page that anyone could be redirected to <em>( by s2Member )</em>, should they attempt to access an area of your site, which may require access to something they are currenty NOT allowed to view.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? ' For more on this advanced topic, please check your Dashboard here: <code>s2Member -> API Scripting -> Membership Options Page / Variables</code>.' : '') . '</em></p>' . "\n" : '';
 								echo '<p><em><strong>*Tip*</strong> s2Member will NEVER allow this Page to be protected from public access.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_membership_options_page", get_defined_vars ());
 								/**/
@@ -1175,7 +1191,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								foreach (($ws_plugin__s2member_temp_a = array_merge ((array)get_pages ())) as $ws_plugin__s2member_temp_o)
 									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '"' . (($ws_plugin__s2member_temp_o->ID == $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"]) ? ' selected="selected"' : '') . '>' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								echo '</select><br />' . "\n";
-								echo 'Please choose a Page that provides Users a way to signup for Membership. This Page should also contain your PayPal&reg Subscription button(s). We recommend the following title: <code>Membership Signup</code>.' . "\n";
+								echo 'Please choose a Page that provides Users a way to signup for Membership. This Page should also contain your Payment Button(s). We recommend the following title: <code>Membership Signup</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1197,8 +1213,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-profile-modifications-section">' . "\n";
 								echo '<h3>Giving Members The Ability To Modify Their Profile</h3>' . "\n";
 								echo '<p>s2Member can be configured to redirect Members away from the <a href="' . esc_attr (admin_url ("/profile.php")) . '" target="_blank" rel="external">default Profile Editing Panel</a> that is built into WordPress®. When/if a Member attempts to access the default Profile Editing Panel, they\'ll instead, be redirected to the Login Welcome Page that you\'ve configured through s2Member. <strong>Why would I redirect?</strong> Unless you\'ve made some drastic modifications to your WordPress® installation, the default Profile Editing Panel that ships with WordPress®, is NOT really suited for public access, even by a Member.</p>' . "\n";
-								echo '<p>So instead of using this default Profile Editing Panel; s2Member creates an added layer of functionality, on top of WordPress®. It does this by providing you ( as the site owner ), with a special Shortcode: <code>[s2Member-Profile /]</code> that you can place into your Login Welcome Page, or any Post/Page for that matter ( even into a Text Widget ). This Shortcode produces an Inline Profile Editing Form that supports all aspects of s2Member, including Password changes; and any Custom Registration/Profile Fields that you\'ve configured with s2Member.</p>' . "\n";
-								echo '<p>Alternatively, s2Member also gives you the ability to send your Members to a <a href="' . esc_attr (site_url ("/?s2member_profile=1")) . '" target="_blank" rel="external">special Stand-Alone version</a>. This Stand-Alone version has been designed ( with a bare-bones format ), intentionally. This makes it possible for you to <a href="#" onclick="if(!window.open(\'' . site_url ("/?s2member_profile=1") . '\', \'_popup\', \'width=600,height=400,left=100,screenX=100,top=100,screenY=100,location=0,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1\')) alert(\'Please disable popup blockers and try again!\'); return false;" rel="external">open it up in a popup window</a>, or embed it into your Login Welcome Page using an IFRAME. Code samples are provided below.</p>' . "\n";
+								echo '<p>So instead of using this default Profile Editing Panel; s2Member creates an added layer of functionality, on top of WordPress®. It does this by providing you <em>( as the site owner )</em>, with a special Shortcode: <code>[s2Member-Profile /]</code> that you can place into your Login Welcome Page, or any Post/Page for that matter <em>( even into a Text Widget )</em>. This Shortcode produces an Inline Profile Editing Form that supports all aspects of s2Member, including Password changes; and any Custom Registration/Profile Fields that you\'ve configured with s2Member.</p>' . "\n";
+								echo '<p>Alternatively, s2Member also gives you the ability to send your Members to a <a href="' . esc_attr (site_url ("/?s2member_profile=1")) . '" target="_blank" rel="external">special Stand-Alone version</a>. This Stand-Alone version has been designed <em>( with a bare-bones format )</em>, intentionally. This makes it possible for you to <a href="#" onclick="if(!window.open(\'' . site_url ("/?s2member_profile=1") . '\', \'_popup\', \'width=600,height=400,left=100,screenX=100,top=100,screenY=100,location=0,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1\')) alert(\'Please disable popup blockers and try again!\'); return false;" rel="external">open it up in a popup window</a>, or embed it into your Login Welcome Page using an IFRAME. Code samples are provided below.</p>' . "\n";
+								echo (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) ? '<p><em><strong>BuddyPress:</strong> BuddyPress already provides Users/Members with a Profile Editing Panel, powered by your theme. If you\'ve configured Custom Registration/Profile Fields with s2Member, you can also enable s2Member\'s Profile Field integration with BuddyPress ( recommended ). For further details, see: <code>s2Member -> General Options -> Registration/Profile Fields</code>.</em></p>' . "\n" : '';
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_during_profile_modifications", get_defined_vars ());
 								/**/
 								echo '<table class="form-table">' . "\n";
@@ -1244,7 +1261,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 							{
 								do_action ("ws_plugin__s2member_during_gen_ops_page_during_left_sections_before_url_shortening", get_defined_vars ());
 								/**/
-								echo '<div class="ws-menu-page-group" title="URL Shortening API ( Preference )">' . "\n";
+								echo '<div class="ws-menu-page-group" title="URL Shortening Service Preference">' . "\n";
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-url-shortening-section">' . "\n";
 								echo '<h3>URL Shortening Service API ( Preference )</h3>' . "\n";

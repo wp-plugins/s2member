@@ -150,7 +150,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 																													if (($url = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($user_id)), $url)))
 																														{
 																															if (is_array ($fields) && !empty ($fields))
-																																foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																																foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																																	if (!($url = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode (maybe_serialize ($val))), $url)))
 																																		break;
 																															/**/
@@ -200,7 +200,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 																												if (($msg = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_id), $msg)))
 																													{
 																														if (is_array ($fields) && !empty ($fields))
-																															foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																															foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																																if (!($msg = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (maybe_serialize ($val)), $msg)))
 																																	break;
 																														/**/
@@ -345,7 +345,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 																						if (($url = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($user_id)), $url)))
 																							{
 																								if (is_array ($fields) && !empty ($fields))
-																									foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																									foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																										if (!($url = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode (maybe_serialize ($val))), $url)))
 																											break;
 																								/**/
@@ -399,7 +399,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 																					if (($msg = preg_replace ("/%%user_id%%/i", c_ws_plugin__s2member_utils_strings::esc_ds ($user_id), $msg)))
 																						{
 																							if (is_array ($fields) && !empty ($fields))
-																								foreach ($fields as $var => $val) /* Custom Registration Fields. */
+																								foreach ($fields as $var => $val) /* Custom Registration/Profile Fields. */
 																									if (!($msg = preg_replace ("/%%" . preg_quote ($var, "/") . "%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (maybe_serialize ($val)), $msg)))
 																										break;
 																							/**/

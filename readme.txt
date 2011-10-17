@@ -12,12 +12,12 @@ WP Multisite Compatible: yes
 Multisite Blog Farm Compatible: yes
 
 PayPal® Standard Compatible: yes
-PayPal® Pro Compatible: w/ s2Member Pro
-Google® Checkout Compatible: w/ s2Member Pro
-Authorize.Net® Compatible: w/ s2Member Pro
-ClickBank® Compatible: w/ s2Member Pro
-AliPay® Compatible: w/ s2Member Pro
-ccBill® Compatible: w/ s2Member Pro
+PayPal® Pro Compatible: yes w/ s2Member Pro
+Google® Checkout Compatible: yes w/ s2Member Pro
+Authorize.Net® Compatible: yes w/ s2Member Pro
+ClickBank® Compatible: yes w/ s2Member Pro
+AliPay® Compatible: yes w/ s2Member Pro
+ccBill® Compatible: yes w/ s2Member Pro
 
 Tested up to: 3.2.1
 Requires at least: 3.2

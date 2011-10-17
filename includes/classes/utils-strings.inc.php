@@ -290,7 +290,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_encode ($string = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval ('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
+						$string = (string)$string; /* Force string values here. String MUST be a string. */
+						$trim_padding_chars = (string)$trim_padding_chars; /* And force this one too. */
 						/**/
 						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, base64_encode ($string));
 						$base64_url_safe = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
@@ -314,7 +315,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_decode ($base64_url_safe = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval ('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
+						$base64_url_safe = (string)$base64_url_safe; /* Force string values here. This MUST be a string. */
+						$trim_padding_chars = (string)$trim_padding_chars; /* And force this one too. */
 						/**/
 						$string = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
 						$string = (strlen ($trim_padding_chars)) ? str_pad ($string, strlen ($string) % 4, "=", STR_PAD_RIGHT) : $string;
@@ -376,7 +378,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 								file_put_contents (($rsa_sha1_sig_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-sig") . ".tmp"), "");
 								/**/
 								@shell_exec ($esa ($openssl) . " sha1 -sign " . $esa ($private_key_file) . " -out " . $esa ($rsa_sha1_sig_file) . " " . $esa ($string_file));
-								$signature = trim (file_get_contents ($rsa_sha1_sig_file)); /* Hopefully the signature was written. */
+								$signature = /* Do NOT trim here. */ file_get_contents ($rsa_sha1_sig_file); /* Was the signature was written? */
 								unlink ($rsa_sha1_sig_file) . unlink ($private_key_file) . unlink ($string_file); /* Cleanup. */
 							}
 						/**/

@@ -65,7 +65,7 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($uri && ($query = parse_url ($uri, PHP_URL_QUERY)) && strpos ($query, "s2member") === 0 && c_ws_plugin__s2member_utils_conds::is_site_root ($uri))
+						else if ($uri && ($query = c_ws_plugin__s2member_utils_urls::parse_url ($uri, PHP_URL_QUERY)) && strpos ($query, "s2member") === 0 && c_ws_plugin__s2member_utils_conds::is_site_root ($uri))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
@@ -93,7 +93,7 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
 							}
-						else if ($uri && preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", parse_url ($uri, PHP_URL_PATH))) /* A core WordPress® file? */
+						else if ($uri && preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", c_ws_plugin__s2member_utils_urls::parse_url ($uri, PHP_URL_PATH)))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
 							}

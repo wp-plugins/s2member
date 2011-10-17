@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 	{
@@ -88,25 +88,59 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						return $status; /* Else keep existing status code. */
 					}
 				/**
-				* Parses out a full valid URI, from either a full URL, or a partial.
+				* Parses out a full valid URI, from either a full URL, or a partial URI.
+				*
+				* Uses {@link s2Member\Utilities\c_ws_plugin__s2member_utils_urls::parse_url()}.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
 				* @param str $url_or_uri Either a full URL, or a partial URI.
-				* @return str|bool A valid URI, starting with `/` on success, else false.
+				* @return str A valid URI, starting with `/` on success, else an empty string.
 				*/
 				public static function parse_uri ($url_or_uri = FALSE)
 					{
-						if (($parse = @parse_url ($url_or_uri))) /* See: http://php.net/manual/en/function.parse-url.php. */
+						if (is_string ($url_or_uri) && is_array ($parse = c_ws_plugin__s2member_utils_urls::parse_url ($url_or_uri)))
 							{
 								$parse["path"] = (!empty ($parse["path"])) ? ((strpos ($parse["path"], "/") === 0) ? $parse["path"] : "/" . $parse["path"]) : "/";
-								$parse["path"] = preg_replace ("/\/+/", "/", $parse["path"]); /* Removes multi slashes. */
 								/**/
 								return (!empty ($parse["query"])) ? $parse["path"] . "?" . $parse["query"] : $parse["path"];
 							}
+						else /* Force a string return value here. */
+							return ""; /* Empty string. */
+					}
+				/**
+				* Parses a URL with same args as PHP's ``parse_url()`` function.
+				*
+				* This works around issues with this PHP function in versions prior to 5.3.8.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $url_or_uri Either a full URL, or a partial URI.
+				* @param bool|int $component Optional. See PHP documentation on ``parse_url()`` function.
+				* @param bool $clean_path Defaults to true. s2Member will cleanup any return array `path`.
+				* @return str|array|bool The return value from PHP's ``parse_url()`` function.
+				* 	However, if ``$component`` is passed, s2Member forces a string return.
+				*/
+				public static function parse_url ($url_or_uri = FALSE, $component = FALSE, $clean_path = TRUE)
+					{
+						$component = ($component === false || $component === -1) ? -1 : $component;
 						/**/
-						return false;
+						if (is_string ($url_or_uri) && strpos ($url_or_uri, "?") !== "false") /* A query string? */
+							{
+								list ($_, $query) = preg_split ("/\?/", $url_or_uri, 2); /* Split at the query string. */
+								/* Works around bug in many versions of PHP. See: <https://bugs.php.net/bug.php?id=38143>. */
+								$query = str_replace ("://", urlencode ("://"), $query);
+								$url_or_uri = $_ . "?" . $query;
+							}
+						/**/
+						$parse = @parse_url ($url_or_uri, $component); /* Let PHP work its magic now. */
+						/**/
+						if ($clean_path && isset ($parse["path"]) && is_string ($parse["path"]) && !empty ($parse["path"]))
+							$parse["path"] = preg_replace ("/\/+/", "/", $parse["path"]);
+						/**/
+						return ($component !== -1) ? /* Force a string return value here? */ (string)$parse : $parse;
 					}
 				/**
 				* Responsible for all remote communications processed by s2Member.

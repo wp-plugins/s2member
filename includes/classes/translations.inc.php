@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_translations"))
 	{
@@ -39,7 +39,8 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 				*/
 				public static function load ()
 					{
-						load_plugin_textdomain ("s2member", false, c_ws_plugin__s2member_utils_dirs::rel_path (WP_PLUGIN_DIR, dirname (dirname (__FILE__)) . "/translations/"));
+						load_plugin_textdomain ("s2member", false, c_ws_plugin__s2member_utils_dirs::rel_path (WP_PLUGIN_DIR, dirname (dirname (__FILE__)) . "/translations"));
+						load_plugin_textdomain ("s2member"); /* Allows `.mo` file to be loaded from the `/wp-content/plugins/s2member-[locale].mo`. */
 						/**/
 						do_action ("ws_plugin__s2member_during_translations_load", get_defined_vars ());
 						/**/

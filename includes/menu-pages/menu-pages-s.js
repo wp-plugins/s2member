@@ -352,7 +352,7 @@ jQuery(document).ready (function($)
 								/**/
 								var fieldId2Var = function(fieldId) /* Convert ids to variables. */
 									{
-										return( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
+										return ( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
 									};
 								/**/
 								var fieldTypeDesc = function(type)
@@ -858,7 +858,7 @@ jQuery(document).ready (function($)
 						var $visiblePrivateKeyEntry = $('textarea#ws-plugin--s2member-amazon-cf-files-private-key-entry');
 						var hiddenPrivateKeyValue = $.trim ($hiddenPrivateKey.val ()), visiblePrivateKeyEntryValue = $.trim ($visiblePrivateKeyEntry.val ());
 						/**/
-						if ((hiddenPrivateKeyValue && !visiblePrivateKeyEntryValue) || visiblePrivateKeyEntryValue.match (/[^\r\n\u25CF]/)) /* 9679.toString(16).toUpperCase() = 25CF ( i.e the hex value ). */
+						if ((hiddenPrivateKeyValue && !visiblePrivateKeyEntryValue) || visiblePrivateKeyEntryValue.match (/[^\r\n\u25CF]/)) /* 9679.toString(16).toUpperCase() = 25CF. */
 							$hiddenPrivateKey.val (visiblePrivateKeyEntryValue), $visiblePrivateKeyEntry.val (visiblePrivateKeyEntryValue.replace (/[^\r\n]/g, String.fromCharCode (9679)));
 					};
 				/**/

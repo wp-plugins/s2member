@@ -297,16 +297,21 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													return apply_filters ("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars ());
 												}
 											/**/
-											else if ($creating) /* Else we're creating a URL w/ a query-string, pointing to local storage. */
+											else if ($creating) /* Else we're creating a URL w/ a query-string; w/ local storage. */
 												{
-													$url = (isset ($req["file_download_key"])) ? (($key) ? "&s2member_file_download_key=" . urlencode ($key) : "") : "";
+													/* * Note: we don't URL encode unreserved chars. Improves media player compatibility. */
+													$_url_e_key = ($key) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($key)) : "";
+													$_url_e_storage = ($storage) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($storage)) : "";
+													$_url_e_file = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($req["file_download"]));
+													/**/
+													$url = (isset ($req["file_download_key"])) ? (($key && $_url_e_key) ? "&s2member_file_download_key=" . $_url_e_key : "") : "";
 													$url .= (isset ($req["file_stream"])) ? (($stream) ? "&s2member_file_stream=yes" : "&s2member_file_stream=no") : "";
 													$url .= (isset ($req["file_inline"])) ? (($inline) ? "&s2member_file_inline=yes" : "&s2member_file_inline=no") : "";
-													$url .= (isset ($req["file_storage"])) ? (($storage) ? "&s2member_file_storage=" . urlencode ($storage) : "") : "";
+													$url .= (isset ($req["file_storage"])) ? (($storage && $_url_e_storage) ? "&s2member_file_storage=" . $_url_e_storage : "") : "";
 													$url .= (isset ($req["file_remote"])) ? (($remote) ? "&s2member_file_remote=yes" : "&s2member_file_remote=no") : "";
 													$url .= (isset ($req["skip_confirmation"])) ? (($skip_confirmation) ? "&s2member_skip_confirmation=yes" : "&s2member_skip_confirmation=no") : "";
 													/**/
-													$url = site_url ("/?" . ltrim ($url . "&s2member_file_download=/" . urlencode ($req["file_download"]), "&"));
+													$url = site_url ("/?" . ltrim ($url . "&s2member_file_download=/" . $_url_e_file, "&"));
 													$url = ($ssl) ? preg_replace ("/^https?/", "https", $url) : preg_replace ("/^https?/", "http", $url);
 													/**/
 													return apply_filters ("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars ());
@@ -410,7 +415,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								if ($get_streamer_array && $streaming && ($cfx = "/cfx/st") && ($cfx_pos = strpos ($_url, $cfx)) !== false && ($streamer = substr ($_url, 0, $cfx_pos + strlen ($cfx))) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false)))))
 									$return = array ("streamer" => $streamer, "file" => preg_replace ("/^" . preg_quote ($streamer, "/") . "\//", "", $_url), "url" => preg_replace ("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
-								else if ($get_streamer_array && $streaming && is_array ($ups = @parse_url ($_url)) && ($streamer = $ups["scheme"] . "://" . $ups["host"] . ((!empty ($ups["port"])) ? ":" . $ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false)))))
+								else if ($get_streamer_array && $streaming && is_array ($ups = c_ws_plugin__s2member_utils_urls::parse_url ($_url)) && isset ($ups["scheme"], $ups["host"]) && ($streamer = $ups["scheme"] . "://" . $ups["host"] . ((!empty ($ups["port"])) ? ":" . $ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false)))))
 									$return = array ("streamer" => $streamer, "file" => preg_replace ("/^" . preg_quote ($streamer, "/") . "\//", "", $_url), "url" => preg_replace ("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
 								else if ($get_streamer_array) /* Else, we MUST return false here, unable to acquire streamer/file. */
@@ -504,8 +509,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 					{
 						$s3c["secret_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"];
 						/**/
-						$s3_signature = str_pad (((strlen ($s3c["secret_key"]) > 64) ? pack ('H*', sha1 ($s3c["secret_key"])) : $s3c["secret_key"]), 64, chr (0x00));
-						return pack ('H*', sha1 (($s3_signature ^ str_repeat (chr (0x5c), 64)) . pack ('H*', sha1 (($s3_signature ^ str_repeat (chr (0x36), 64)) . (string)$string))));
+						return c_ws_plugin__s2member_utils_strings::hmac_sha1_sign ((string)$string, $s3c["secret_key"]);
 					}
 				/**
 				* Creates an Amazon® S3 HMAC-SHA1 signature URL.
@@ -531,12 +535,13 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						/**/
 						$s3c["expires"] = strtotime ("+" . apply_filters ("ws_plugin__s2member_amazon_s3_file_expires_time", "30 seconds", get_defined_vars ()));
 						/**/
-						$s3_file = add_query_arg (urlencode_deep (array ("response-cache-control" => ($s3_cache_control = "no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0"), "response-content-disposition" => ($s3_content_disposition = (((bool)$inline) ? "inline" : "attachment") . '; filename="' . (string)$basename . '"'), "response-content-type" => ($s3_content_type = (string)$mimetype), "response-expires" => ($s3_expires = gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT"))), "/" . $file);
+						$s3_file = add_query_arg (c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode_deep (array ("response-cache-control" => ($s3_cache_control = "no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0"), "response-content-disposition" => ($s3_content_disposition = (((bool)$inline) ? "inline" : "attachment") . '; filename="' . (string)$basename . '"'), "response-content-type" => ($s3_content_type = (string)$mimetype), "response-expires" => ($s3_expires = gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT")))), "/" . $file);
 						$s3_raw_file = add_query_arg (array ("response-cache-control" => $s3_cache_control, "response-content-disposition" => $s3_content_disposition, "response-content-type" => $s3_content_type, "response-expires" => $s3_expires), "/" . $file);
 						$s3_signature = base64_encode (c_ws_plugin__s2member_files_in::amazon_s3_sign ("GET\n\n\n" . $s3c["expires"] . "\n" . "/" . $s3c["bucket"] . $s3_raw_file));
 						/**/
 						$s3_url = ((strtolower ($s3c["bucket"]) !== $s3c["bucket"])) ? "http" . (($ssl) ? "s" : "") . "://s3.amazonaws.com/" . $s3c["bucket"] . $s3_file : "http" . (($ssl) ? "s" : "") . "://" . $s3c["bucket"] . ".s3.amazonaws.com" . $s3_file;
-						return add_query_arg (urlencode_deep (array ("AWSAccessKeyId" => $s3c["access_key"], "Expires" => $s3c["expires"], "Signature" => $s3_signature)), $s3_url);
+						return add_query_arg (c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep /* Don't encode unreserved chars. Maximizes media player compatibility. */
+						(urlencode_deep (array ("AWSAccessKeyId" => $s3c["access_key"], "Expires" => $s3c["expires"], "Signature" => $s3_signature))), $s3_url);
 					}
 				/**
 				* Auto-configures an Amazon® S3 Bucket's ACLs.
@@ -636,8 +641,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 					{
 						$cfc["secret_key"] = $s3c["secret_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"];
 						/**/
-						$cf_signature = str_pad (((strlen ($cfc["secret_key"]) > 64) ? pack ('H*', sha1 ($cfc["secret_key"])) : $cfc["secret_key"]), 64, chr (0x00));
-						return pack ('H*', sha1 (($cf_signature ^ str_repeat (chr (0x5c), 64)) . pack ('H*', sha1 (($cf_signature ^ str_repeat (chr (0x36), 64)) . (string)$string))));
+						return c_ws_plugin__s2member_utils_strings::hmac_sha1_sign ((string)$string, ($cfc["secret_key"] = $s3c["secret_key"]));
 					}
 				/**
 				* Creates an Amazon® CloudFront RSA-SHA1 signature.
@@ -647,52 +651,15 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*
 				* @param str $string Input string/data, to be signed by this routine.
 				* @return str|bool An RSA-SHA1 signature for Amazon® CloudFront, else false on failure.
+				*
+				* @todo Double underscores *( i.e. base64 padding chars )* in the signature seem to cause issues for Amazon® CloudFront?
+				* 	See ticket: {@link https://forums.aws.amazon.com/thread.jspa?messageID=286182&#286182}
 				*/
 				public static function amazon_cf_rsa_sign ($string = FALSE)
 					{
 						$cfc["private_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key"];
 						/**/
-						if (stripos (PHP_SAPI, "apache") !== false) /* PHP is running as an Apache module? */
-							if ( /* Some `mod_php` installs have issues with OpenSSL version conflicts. See: <http://www.apachelounge.com/viewtopic.php?t=4180>. */
-							($signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_shell_sign ($string)) /* Also try some other OpenSSL locations on Windows®. */
-							|| (stripos (PHP_OS, "win") === 0 && ($signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_shell_sign ($string, "C:\openssl-win32\bin\openssl.exe"))) #
-							|| (stripos (PHP_OS, "win") === 0 && ($signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_shell_sign ($string, "C:\openssl-win64\bin\openssl.exe"))))
-								return $signature;
-						/**/
-						if (function_exists ("openssl_get_privatekey") && function_exists ("openssl_sign") && is_resource ($private_key = openssl_get_privatekey ($cfc["private_key"])))
-							openssl_sign ((string)$string, $signature, $private_key, OPENSSL_ALGO_SHA1) . openssl_free_key ($private_key);
-						/**/
-						else if (function_exists ("shell_exec")) /* Last ditch effort here. */
-							$signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_shell_sign ($string);
-						/**/
-						return (!empty ($signature)) ? $signature : false;
-					}
-				/**
-				* Creates an Amazon® CloudFront RSA-SHA1 signature via ``shell_exec()`` to `openssl`.
-				*
-				* @package s2Member\Files
-				* @since 110926
-				*
-				* @param str $string Input string/data, to be signed by this routine.
-				* @param str $openssl Optional. A specific absolute path to OpenSSL application.
-				* @return str|bool An RSA-SHA1 signature for Amazon® CloudFront, else false on failure.
-				*/
-				public static function amazon_cf_rsa_shell_sign ($string = FALSE, $openssl = FALSE)
-					{
-						$cfc["private_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key"];
-						/**/
-						if (function_exists ("shell_exec") && ($openssl = (($openssl && is_string ($openssl)) ? $openssl : "openssl")) && ($esa = "escapeshellarg"))
-							{
-								file_put_contents (($cf_string_file = get_temp_dir () . wp_unique_filename (get_temp_dir (), md5 (time () . "cf-string") . ".tmp")), (string)$string);
-								file_put_contents (($cf_private_key_file = get_temp_dir () . wp_unique_filename (get_temp_dir (), md5 (time () . "cf-private-key") . ".tmp")), $cfc["private_key"]);
-								file_put_contents (($cf_rsa_sha1_sig_file = get_temp_dir () . wp_unique_filename (get_temp_dir (), md5 (time () . "cf-rsa-sha1-signature-file") . ".tmp")), "");
-								/**/
-								@shell_exec($esa ($openssl) . " sha1 -sign " . $esa ($cf_private_key_file) . " -out " . $esa ($cf_rsa_sha1_sig_file) . " " . $esa ($cf_string_file));
-								$signature = trim (file_get_contents ($cf_rsa_sha1_sig_file)); /* Now try to obtain signature file contents. */
-								unlink($cf_rsa_sha1_sig_file) . unlink ($cf_private_key_file) . unlink ($cf_string_file); /* Cleanup. */
-							}
-						/**/
-						return (!empty ($signature)) ? $signature : false;
+						return c_ws_plugin__s2member_utils_strings::rsa_sha1_sign ((string)$string, $cfc["private_key"]);
 					}
 				/**
 				* Creates an Amazon® CloudFront RSA-SHA1 signature URL.
@@ -722,14 +689,15 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$cf_stream_extn_resource_exclusions = array_unique ((array)apply_filters ("ws_plugin__s2member_amazon_cf_file_streaming_extension_resource_exclusions", array ("mp3" /* MP3 files should NOT include an extension in their resource reference. */), get_defined_vars ()));
 						$cf_resource = ($stream) ? ((in_array ($cf_extn, $cf_stream_extn_resource_exclusions)) ? substr ($file, 0, strrpos ($file, ".")) : $file) : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
 						$cf_url = ($stream) ? "rtmp" . (($ssl) ? "e" : "") . "://" . (($cfc["distro_streaming_cname"]) ? $cfc["distro_streaming_cname"] : $cfc["distro_streaming_dname"]) . "/cfx/st/" . $file : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
-						$cf_ip_res = (stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST)) ? true : false; /* Don NOT restrict access to a particular IP during `localhost` development. The IP will NOT be the same one Amazon® CloudFront sees ( so will NOT jive ). */
+						$cf_ip_res = (stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST)) ? true : false; /* Don NOT restrict access to a particular IP during `localhost` development. The IP will NOT be the same one Amazon® CloudFront sees ( will NOT jive ). */
 						$cf_policy = '{"Statement":[{"Resource":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($cf_resource) . '","Condition":{' . (($cf_ip_res) ? '"IpAddress":{"AWS:SourceIp":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($_SERVER["REMOTE_ADDR"]) . '/32"},' : '') . '"DateLessThan":{"AWS:EpochTime":' . (int)$cfc["expires"] . '}}}]}';
 						/**/
 						$cf_signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_sign ($cf_policy);
 						$cf_base64_url_safe_policy = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($cf_policy, array ("+", "=", "/"), array ("-", "_", "~"), false);
 						$cf_base64_url_safe_signature = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($cf_signature, array ("+", "=", "/"), array ("-", "_", "~"), false);
 						/**/
-						return add_query_arg (urlencode_deep (array ("Policy" => $cf_base64_url_safe_policy, "Signature" => $cf_base64_url_safe_signature, "Key-Pair-Id" => $cfc["private_key_id"])), $cf_url);
+						return add_query_arg (c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep /* Don't encode unreserved chars. Maximizes media player compatibility. */
+						(urlencode_deep (array ("Policy" => $cf_base64_url_safe_policy, "Signature" => $cf_base64_url_safe_signature, "Key-Pair-Id" => $cfc["private_key_id"]))), $cf_url);
 					}
 				/**
 				* Auto-configures Amazon® S3/CloudFront distros.

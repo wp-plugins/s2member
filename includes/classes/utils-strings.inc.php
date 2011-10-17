@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -290,7 +290,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_encode ($string = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
+						eval ('$string = (string)$string; $trim_padding_chars = (string)$trim_padding_chars;');
 						/**/
 						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, base64_encode ($string));
 						$base64_url_safe = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
@@ -314,13 +314,140 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function base64_url_safe_decode ($base64_url_safe = FALSE, $url_unsafe_chars = array ("+", "/"), $url_safe_chars = array ("-", "_"), $trim_padding_chars = "=~.")
 					{
-						eval('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
+						eval ('$base64_url_safe = (string)$base64_url_safe; $trim_padding_chars = (string)$trim_padding_chars;');
 						/**/
 						$string = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
 						$string = (strlen ($trim_padding_chars)) ? str_pad ($string, strlen ($string) % 4, "=", STR_PAD_RIGHT) : $string;
 						$string = base64_decode (str_replace ((array)$url_safe_chars, (array)$url_unsafe_chars, $string));
 						/**/
 						return $string; /* Base64 decoded, with URL-safe replacements. */
+					}
+				/**
+				* Generates an RSA-SHA1 signature.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $string Input string/data, to be signed by this routine.
+				* @param str $key The secret key that will be used in this signature.
+				* @return str|bool An RSA-SHA1 signature string, or false on failure.
+				*/
+				public static function rsa_sha1_sign ($string = FALSE, $key = FALSE)
+					{
+						$key = /* Fixes key wrappers. */ c_ws_plugin__s2member_utils_strings::_rsa_sha1_key_fix_wrappers ((string)$key);
+						/**/
+						$signature = /* Command line. */ c_ws_plugin__s2member_utils_strings::_rsa_sha1_shell_sign ((string)$string, (string)$key);
+						/**/
+						if (empty ($signature) && stripos (PHP_OS, "win") === 0 && file_exists (($openssl = "c:\openssl-win32\bin\openssl.exe")))
+							$signature = c_ws_plugin__s2member_utils_strings::_rsa_sha1_shell_sign ((string)$string, (string)$key, /* Specific location. */ $openssl);
+						/**/
+						if (empty ($signature) && stripos (PHP_OS, "win") === 0 && file_exists (($openssl = "c:\openssl-win64\bin\openssl.exe")))
+							$signature = c_ws_plugin__s2member_utils_strings::_rsa_sha1_shell_sign ((string)$string, (string)$key, /* Specific location. */ $openssl);
+						/**/
+						if (empty ($signature) && function_exists ("openssl_get_privatekey") && function_exists ("openssl_sign") && is_resource ($private_key = openssl_get_privatekey ((string)$key)))
+							openssl_sign ((string)$string, $signature, $private_key, OPENSSL_ALGO_SHA1) . openssl_free_key ($private_key);
+						/**/
+						if (empty ($signature)) /* Now, if we're still empty, trigger an error here. */
+							trigger_error ("s2Member was unable to generate an RSA-SHA1 signature." .
+								" Please make sure your installation of PHP is compiled with OpenSSL: `openssl_sign()`." .
+								" See: http://php.net/manual/en/function.openssl-sign.php", E_USER_ERROR);
+						/**/
+						return (!empty ($signature)) ? $signature : false;
+					}
+				/**
+				* Generates an RSA-SHA1 signature from the command line.
+				*
+				* Used by {@link s2Member\Utilities\c_ws_plugin__s2member_utils_strings::rsa_sha1_sign()}.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $string Input string/data, to be signed by this routine.
+				* @param str $key The secret key that will be used in this signature.
+				* @param str $openssl Optional. Defaults to `openssl`. Path to OpenSSL executable.
+				* @return str|bool An RSA-SHA1 signature string, or false on failure.
+				*/
+				public static function _rsa_sha1_shell_sign ($string = FALSE, $key = FALSE, $openssl = FALSE)
+					{
+						if (function_exists ("shell_exec") && ($esa = "escapeshellarg") && ($openssl = (($openssl && is_string ($openssl)) ? $openssl : "openssl")) && ($temp_dir = c_ws_plugin__s2member_utils_dirs::get_temp_dir ()))
+							{
+								file_put_contents (($string_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-string") . ".tmp"), (string)$string);
+								file_put_contents (($private_key_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-private-key") . ".tmp"), (string)$key);
+								file_put_contents (($rsa_sha1_sig_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-sig") . ".tmp"), "");
+								/**/
+								@shell_exec ($esa ($openssl) . " sha1 -sign " . $esa ($private_key_file) . " -out " . $esa ($rsa_sha1_sig_file) . " " . $esa ($string_file));
+								$signature = trim (file_get_contents ($rsa_sha1_sig_file)); /* Hopefully the signature was written. */
+								unlink ($rsa_sha1_sig_file) . unlink ($private_key_file) . unlink ($string_file); /* Cleanup. */
+							}
+						/**/
+						return (!empty ($signature)) ? $signature : false;
+					}
+				/**
+				* Fixes incomplete private key wrappers for RSA-SHA1 signing.
+				*
+				* Used by {@link s2Member\Utilities\c_ws_plugin__s2member_utils_strings::rsa_sha1_sign()}.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $key The secret key to be used in an RSA-SHA1 signature.
+				* @return str Key with incomplete wrappers corrected, when/if possible.
+				*
+				* @see http://www.faqs.org/qa/qa-14736.html
+				*/
+				public static function _rsa_sha1_key_fix_wrappers ($key = FALSE)
+					{
+						if (($key = trim ((string)$key)) && (strpos ($key, "-----BEGIN RSA PRIVATE KEY-----") === false || strpos ($key, "-----END RSA PRIVATE KEY-----") === false))
+							{
+								foreach (($lines = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/[\r\n]+/", $key))) as $line => $value)
+									if (strpos ($value, "-") === 0) /* Begins with a boundary identifying character ( a hyphen `-` )? */
+										{
+											$boundaries = (empty ($boundaries)) ? 1 : $boundaries + 1; /* Counter. */
+											unset ($lines[$line]); /* Remove this boundary line. We'll fix these below. */
+										}
+								if (empty ($boundaries) || $boundaries <= 2) /* Do NOT modify keys with more than 2 boundaries. */
+									$key = "-----BEGIN RSA PRIVATE KEY-----\n" . implode ("\n", $lines) . "\n-----END RSA PRIVATE KEY-----";
+							}
+						return $key; /* Always a trimmed string here. */
+					}
+				/**
+				* Generates an HMAC-SHA1 signature.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $string Input string/data, to be signed by this routine.
+				* @param str $key The secret key that will be used in this signature.
+				* @return str An HMAC-SHA1 signature string.
+				*/
+				public static function hmac_sha1_sign ($string = FALSE, $key = FALSE)
+					{
+						$key_64 = str_pad (((strlen ((string)$key) > 64) ? pack ('H*', sha1 ((string)$key)) : (string)$key), 64, chr (0x00));
+						/**/
+						return pack ('H*', sha1 (($key_64 ^ str_repeat (chr (0x5c), 64)) . pack ('H*', sha1 (($key_64 ^ str_repeat (chr (0x36), 64)) . (string)$string))));
+					}
+				/**
+				* Decodes unreserved chars encoded by PHP's ``urlencode()``, deeply.
+				*
+				* For further details regarding unreserved chars, see: {@link http://www.faqs.org/rfcs/rfc3986.html}.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @return str|array Either the input string, or the input array; after all unreserved chars are decoded properly.
+				*/
+				public static function urldecode_ur_chars_deep ($value = array ())
+					{
+						if (is_array ($value)) /* Handles all types of arrays.
+						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
+						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
+							{
+								foreach ($value as &$r) /* Reference. */
+									$r = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep ($r);
+								return $value; /* Return modified array. */
+							}
+						return str_replace (array ("%2D", "%2E", "%5F", "%7E"), array ("-", ".", "_", "~"), (string)$value);
 					}
 			}
 	}

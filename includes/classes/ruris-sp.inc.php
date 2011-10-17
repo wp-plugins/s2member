@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ruris_sp"))
 	{
@@ -33,16 +33,15 @@ if (!class_exists ("c_ws_plugin__s2member_ruris_sp"))
 				* @package s2Member\URIs
 				* @since 3.5
 				*
-				* @param str $_uri A URI, or a full URL is also fine.
+				* @param str $uri A URI, or a full URL is also fine.
 				* @param bool $check_user Test permissions against the current User? Defaults to true.
 				* @return null|array Non-empty array ( with details ) if access is denied, else null if access is allowed.
 				*/
-				public static function check_specific_ruri_level_access ($_uri = FALSE, $check_user = TRUE)
+				public static function check_specific_ruri_level_access ($uri = FALSE, $check_user = TRUE)
 					{
 						do_action ("ws_plugin__s2member_before_check_specific_ruri_level_access", get_defined_vars ());
 						/**/
-						if ($_uri && is_string ($_uri)) /* Could be a full URL too. */
-							$uri = c_ws_plugin__s2member_utils_urls::parse_uri ($_uri);
+						$uri = ($uri && is_string ($uri) && ($uri = c_ws_plugin__s2member_utils_urls::parse_uri ($uri))) ? $uri : false;
 						/**/
 						$excluded = apply_filters ("ws_plugin__s2member_check_specific_ruri_level_access_excluded", false, get_defined_vars ());
 						/**/

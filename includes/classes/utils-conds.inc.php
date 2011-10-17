@@ -37,7 +37,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				*/
 				public static function pro_is_installed ()
 					{
-						return defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION");
+						return (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")
+						/* And loaded? */ && did_action ("ws_plugin__s2member_pro_after_loaded"));
 					}
 				/**
 				* Determines whether or not BuddyPress is installed.
@@ -50,13 +51,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				*/
 				public static function bp_is_installed ($query_active_plugins = NULL)
 					{
-						if (defined ("BP_VERSION")) /* Installed and active? */
-							return true; /* This is the quickest/easiest way to determine. */
+						if (defined ("BP_VERSION") && did_action ("bp_core_loaded"))
+							return true; /* Quickest/easiest way to determine. */
 						/**/
 						$s2o = (defined ("WS_PLUGIN__S2MEMBER_ONLY") && WS_PLUGIN__S2MEMBER_ONLY) ? true : false;
+						/**/
 						if (($query_active_plugins = (!isset ($query_active_plugins) && $s2o) ? true : $query_active_plugins))
 							{
-								$buddypress = "buddypress/bp-loader.php"; /* BuddyPress loader. */
+								$buddypress = "buddypress/bp-loader.php"; /* BuddyPress. */
 								/**/
 								$active_plugins = (is_multisite ()) ? wp_get_active_network_plugins () : array ();
 								$active_plugins = array_unique (array_merge ($active_plugins, wp_get_active_and_valid_plugins ()));
@@ -116,13 +118,12 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				*/
 				public static function is_site_root ($url_or_uri = FALSE)
 					{
-						if (($parse = @parse_url ($url_or_uri))) /* See: http://php.net/manual/en/function.parse-url.php. */
+						if (is_array ($parse = c_ws_plugin__s2member_utils_urls::parse_url ($url_or_uri)))
 							{
 								$parse["path"] = (!empty ($parse["path"])) ? ((strpos ($parse["path"], "/") === 0) ? $parse["path"] : "/" . $parse["path"]) : "/";
-								$parse["path"] = preg_replace ("/\/+/", "/", $parse["path"]); /* Removes multi slashes. */
 								/**/
-								if (empty ($parse["host"]) || strcasecmp ($parse["host"], parse_url (site_url (), PHP_URL_HOST)) === 0)
-									if ($parse["path"] === "/" || rtrim ($parse["path"], "/") === rtrim (parse_url (site_url (), PHP_URL_PATH), "/"))
+								if (empty ($parse["host"]) || strcasecmp ($parse["host"], c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_HOST)) === 0)
+									if ($parse["path"] === "/" || rtrim ($parse["path"], "/") === rtrim (c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_PATH), "/"))
 										return true;
 							}
 						/**/

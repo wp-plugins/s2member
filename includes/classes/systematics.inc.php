@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_systematics"))
 	{
@@ -102,11 +102,15 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if ((defined ("DOING_CRON") && DOING_CRON) || strcasecmp (PHP_SAPI, "CLI") === 0) /* CLI, or WordPress® CRON job. */
+						else if ((defined ("DOING_CRON") && DOING_CRON) || strcasecmp (PHP_SAPI, "CLI") === 0) /* CLI ( command line ) or CRON job. */
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if (preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", parse_url ($_SERVER["REQUEST_URI"], PHP_URL_PATH)) || (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ())))
+						else if (preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", c_ws_plugin__s2member_utils_urls::parse_url ($_SERVER["REQUEST_URI"], PHP_URL_PATH)))
+							{
+								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
+							}
+						else if (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ()))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}

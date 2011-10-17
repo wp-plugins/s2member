@@ -64,8 +64,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 					{
 						if ($wp_dir && is_dir ($wp_dir) && is_readable (($wp_settings = $wp_dir . "/wp-settings.php")) && $o_file && file_exists ($o_file) && ($_wp_settings = trim (file_get_contents ($wp_settings))))
 							{
-								$wp_shortinit_section = "/if *\( *SHORTINIT *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*return false;[\r\n\t\s ]*\}?[\r\n\t\s ]*/";
-								if (($_wp_settings_parts = preg_split ($wp_shortinit_section, $_wp_settings, 2)) && ($_wp_settings = trim ($_wp_settings_parts[1])) && ($_wp_settings = "<?php\n" . $_wp_settings))
+								$wp_shortinit_section /* Run ``preg_match()`` to confirm existence. */ = "/if *\( *SHORTINIT *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*return false;[\r\n\t\s ]*\}?[\r\n\t\s ]*/";
+								if (preg_match ($wp_shortinit_section, $_wp_settings) && ($_wp_settings_parts = preg_split ($wp_shortinit_section, $_wp_settings, 2)) && ($_wp_settings = trim ($_wp_settings_parts[1])) && ($_wp_settings = "<?php\n" . $_wp_settings))
 									{
 										if (($_wp_settings = str_replace ("__FILE__", "'" . str_replace ("'", "\'", $wp_settings) . "'", $_wp_settings))) /* Eval compatible. Hard-code the ``__FILE__`` location here. */
 											{

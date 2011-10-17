@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111011
-Stable tag: 111011
+Version: 111017
+Stable tag: 111017
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -98,7 +98,7 @@ Like WordPress® itself, we chose to use the GNU `gettext` localization framewor
 
 The file: `/s2member/includes/translations/s2member.pot` will be updated with each new release of s2Member.
 
-If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/s2member/includes/translations/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
+If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/wp-content/plugins/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
 
 Quick Tip: If you only need to translate the front-end of s2Member, please ignore entries in the `s2member.pot` file with a context matching `s2member-admin`. Those sections of s2Member are only seen by site Administrators; they are NOT used in s2Member's front-end integration with WordPress®. Skipping over translation entries with a context matching `s2member-admin` can save you time.
 
@@ -178,6 +178,15 @@ Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/)
 
 == Changelog ==
 
+= v111017 =
+* (s2Member/s2Member Pro) **Bug fix**. s2Member now works around a known bug in PHP, related to the `parse_url()` function. For further details, please see [this PHP bug report](https://bugs.php.net/bug.php?id=38143).
+* (s2Member/s2Member Pro) **Compatibility**. Improvements to s2Member's `wp_mail()` conformity, related to the reducton of `"Name" <email>` to just `email`. This release should work to further improve email deliverability in edge cases, particulary on sites running an SMTP mail plugin.
+* (s2Member/s2Member Pro) **Compatibility**. Improvements to s2Member's JW Player® integration. s2Member now prevents `unreserved chars`, i.e. `array ("-", ".", "_", "~")` from being URL-encoded in file download URLs, maximizing compatibility with many media players, including JW Player®. In previous releases, JW Player® would randomly fail on some RTMP streams with error `Stream Not Found`. Fixed in this release, with [one exception](https://forums.aws.amazon.com/thread.jspa?messageID=286182&#286182). For further details, see [RFC 3896](http://www.faqs.org/rfcs/rfc3986.html).
+* (s2Member/s2Member Pro) **Compatibility**. Initial testing against WordPress v3.3-beta1. Looks pretty good. A few minor cosmetic issues still need to be addressed in a future release of s2Member though.
+* (s2Member/s2Member Pro) **Compatibility**. Tested against BuddyPress v1.5.1. Updated s2Member to support `$bp->maintenance_mode`, and other cases where `bp_core_loaded` is NOT fired at all.
+* (s2Member/s2Member Pro) **Routine maintenance**. Some code optimization, some cleanup, and some organizational improvements in preparation for new features in a coming release.
+* (s2Member/s2Member Pro) **Bug fix**. Edge case identified where the `/s2member-o.php` file was failing to fallback on full WordPress®. Fixed in this release.
+
 = v111011 =
 * (s2Member/s2Member Pro) **Bug fix**. An array to string conversion error was found in Profile editing panels whenever a multi-option Select Menu was created as a Custom Registration/Profile Field with s2Member. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15416&p=44801#p45169).
 * (s2Member/s2Member Pro) **Email recipients / compatibility fix**. A bug found by an s2Member Pro customer, related to PHP's `mail()` function in PHP 5.2 < 5.2.11 was preventing some email messages from being processed properly. Fixed in this release. For further details, see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=14957#p45222) and/or [this PHP bug report](https://bugs.php.net/bug.php?id=28038) please.
@@ -232,7 +241,7 @@ Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/)
  Like WordPress® itself, we chose to use the GNU `gettext` localization framework to provide localization infrastructure for s2Member®. GNU `gettext` is a mature, widely used framework for modular translation of software, and is the *de facto* standard for localization in the open source/free software realm. If you'd like to translate s2Member and/or s2Member Pro, please use the POT file found inside `/s2member/includes/translations/s2member.pot`, which contains all translation entries for both the s2Member Framework *( i.e. the free version )*, and also for s2Member Pro.
  
  The file: `/s2member/includes/translations/s2member.pot` will be updated with each new release of s2Member.
- If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/s2member/includes/translations/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
+ If this is your first translation of a WordPress® plugin, [this article](http://codex.wordpress.org/Translating_WordPress#Localization_Technology) and/or [this article](http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/), might be of some assistance. When you are finished translating the `s2member.pot` file, place your completed `s2member-[locale].mo` file into this directory: `/wp-content/plugins/`; and please feel free to [share your translation](http://www.primothemes.com/forums/viewforum.php?f=4) with the rest of the s2Member® community.
  
  Quick Tip: If you only need to translate the front-end of s2Member, please ignore entries in the `s2member.pot` file with a context matching `s2member-admin`. Those sections of s2Member are only seen by site Administrators; they are NOT used in s2Member's front-end integration with WordPress®. Skipping over translation entries with a context matching `s2member-admin` can save you time.
 * (s2Member) **Bug fix / Multisite**. A bug fix related to site creation within the Dashboard on a Multisite Blog Farm, has been corrected in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=10307#p32628).

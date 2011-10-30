@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111017
-Stable tag: 111017
+Version: 111029
+Stable tag: 111029
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -19,7 +19,7 @@ ClickBank® Compatible: yes w/ s2Member Pro
 AliPay® Compatible: yes w/ s2Member Pro
 ccBill® Compatible: yes w/ s2Member Pro
 
-Tested up to: 3.2.1
+Tested up to: 3.3-beta2
 Requires at least: 3.2
 Requires: WordPress® 3.2+, PHP 5.2.3+
 
@@ -35,6 +35,7 @@ Domain Path: /includes/translations
 
 Plugin Name: s2Member
 Video Tutorials: http://www.s2member.com/videos/
+Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/
 Forum URI: http://www.primothemes.com/forums/viewforum.php?f=4
 Privacy URI: http://www.primothemes.com/about/privacy-policy/
@@ -177,6 +178,19 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111029 =
+* (s2Member Pro) **Compatibility**. s2Member Pro now supports automatic upgrades through filesystem methdologies, other than `direct`. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15283#p49034).
+* (s2Member) **Bug fix**. A bug in the s2Member framework was causing some IPNs with `txn_type = recurring_payment_suspended_due_to_max_failed_payment` to get bypassed inadvertently. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=6204&p=48246#p48361).
+* (s2Member Pro) **Bug fix**. A bug in s2Member Pro's AliPay® integration was causing an error `could not find existing User ID`. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15569&p=49044#p48604).
+* (s2Member Pro) **Bug fix**. A bug in s2Member Pro's AliPay® integration was causing issues in duplicate IPNs received from AliPay®. Fixed in this release.
+* (s2Member/s2Member Pro) **Compatibility**. File Downloads. s2Member now considers server software environments before chunking file downloads, avoiding issues with partially corrupted files on some hosting platforms. In addition, s2Member is now capable of falling back on a flushed delivery method so it can continue to avoid memory issues on shared hosting accounts, even when `Transfer-Encoding: chunked` is not possible. These improvements allow s2Member to remain compatible in edge cases. Such as when running on Litespeed and/or Windows servers; or on shared hosting platforms that have fewer resources available.
+* (s2Member Pro) **Bug fix**. Automatic upgrader failing on `copy` command when running at HostGator. Fixed in this release.
+* (s2Member/s2Member Pro) **Security fix**. The `/s2member-files/` directory *(with newly updated Mod Rewrite rules in its .htaccess file)* was allowing directory indexing inadvertently, on some servers. This was a low-level vulnerability, because although directory indexing was possible, protected file access was not. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15665&p=48984&hilit=next+release#p48984).
+* (s2Member/s2Member Pro) **Bug fix**. A bug related to the `init()` Hook firing an early call to `c_ws_plugin__s2member_systematics::is_wp_systematic_use_page()` was identified. Fixed in this release. One symptom of this bug was for Users/Members to have trouble accessing a BuddyPress registration form after having paid for Membership, under the right scenario.
+* (s2Member/s2Member Pro) **New API Functions**. New API Functions: `s2member_shorten_url()`, `s2member_user_downloads()`, `s2member_total_downloads_of()`, and `s2member_total_unique_downloads_of()`. For further details, please check the [s2Member Codex](http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455).
+* (s2Member/s2Member Pro) **Routine maintenance**. Some code optimization, some cleanup, and some organizational improvements in preparation for new features in a coming release.
+* (s2Member/s2Member Pro) **WordPress® 3.3-beta2**. Compatibility updates. CSS tweaks, JavaScript tweaks and other considerations for the coming release of WordPress® 3.3.
 
 = v111017 =
 * (s2Member/s2Member Pro) **Bug fix**. s2Member now works around a known bug in PHP, related to the `parse_url()` function. For further details, please see [this PHP bug report](https://bugs.php.net/bug.php?id=38143).

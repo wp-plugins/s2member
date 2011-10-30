@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 111017
-Stable tag: 111017
+Version: 111029
+Stable tag: 111029
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -38,7 +38,7 @@ ClickBank® Compatible: w/ s2Member Pro
 AliPay® Compatible: w/ s2Member Pro
 ccBill® Compatible: w/ s2Member Pro
 
-Tested up to: 3.2.1
+Tested up to: 3.3-beta2
 Requires at least: 3.2
 Requires: WordPress® 3.2+, PHP 5.2.3+
 
@@ -54,6 +54,7 @@ Domain Path: /includes/translations
 
 Plugin Name: s2Member
 Video Tutorials: http://www.s2member.com/videos/
+Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/
 Forum URI: http://www.primothemes.com/forums/viewforum.php?f=4
 Privacy URI: http://www.primothemes.com/about/privacy-policy/
@@ -75,7 +76,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "111017");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "111029");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -105,7 +106,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111017");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111029");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

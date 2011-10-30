@@ -23,7 +23,14 @@ These routines address common layout styles for menu pages.
 */
 jQuery(document).ready (function($)
 	{
-		$('div#ws-menu-page-js-c-w').hide (); /* Hide warning. */
+		$('div#ws-menu-page-js-c-w').hide (); /* Hide JavaScript conflict warning. */
+		/**/
+		$(window).resize ( /* Global function. */tb_position /* Thickbox resizer/positioner. */ = function()
+			{
+				var w = ($(window).width () > 720) ? 720 : $(window).width (), h = $(window).height (), admin_bar_h = ($('body.admin-bar').length) ? 28 : 0;
+				$('#TB_window').css ({'width': w - 50 + 'px', 'height': h - 45 - admin_bar_h + 'px', 'top': 25 + admin_bar_h + 'px', 'margin-top': 0, 'margin-left': '-' + parseInt(((w - 50) / 2), 10) + 'px'});
+				$('#TB_ajaxContent').css ({'width': w - 50 + 'px', 'height': h - 75 - admin_bar_h + 'px', 'margin': 0, 'padding': 0});
+			});
 		/**/
 		var $groups = $('div.ws-menu-page-group'); /* Query groups. */
 		$groups.each (function(index) /* Go through each group, one at a time. */
@@ -112,7 +119,7 @@ jQuery(document).ready (function($)
 		/**/
 		$('input.ws-menu-page-media-btn').filter (function() /* Only those that have a rel attribute. */
 			{
-				return($(this).attr ('rel')) ? true : false; /* Must have rel targeting an input id. */
+				return ($(this).attr ('rel')) ? true : false; /* Must have rel targeting an input id. */
 			})/**/
 		.click (function() /* Attach click events to media buttons with send_to_editor(). */
 			{

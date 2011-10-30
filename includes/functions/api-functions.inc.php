@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**
 * Conditional to determine if the current User is NOT logged in.
 *
@@ -1972,6 +1972,162 @@ if (!function_exists ("s2member_file_download_key"))
 			}
 	}
 /**
+* Retrieves an array of details, related to a User's File Downloads.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php
+* $user_downloads = s2member_user_downloads();
+* $specific_user_downloads = s2member_user_downloads(($user_id = 123));
+* !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this yet.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111026
+*
+* @param str|int $user_id Optional. Defaults to the currently logged-in User's ID.
+* @param str $not_counting_this_particular_file Optional. If you want to exclude a particular file, relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+* @return array An array with the following elements... File Downloads allowed for this User: (int)`allowed`, Download Period for this User in days: (int)`allowed_days`, Files downloaded by this User in the current Period: (int)`currently`, log of all Files downloaded in the current Period, with file names/dates: (array)`log`, archive of all Files downloaded in prior Periods, with file names/dates: (array)`archive`.
+*
+* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+*
+* @see s2Member\API_Functions\s2member_total_downloads_of()
+* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL
+*
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
+*
+* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
+* @todo Create a Shortcode equivalent.
+*/
+if (!function_exists ("s2member_user_downloads"))
+	{
+		function s2member_user_downloads ($user_id = FALSE, $not_counting_this_particular_file = FALSE)
+			{
+				$user = ($user_id && is_object ($user = new WP_User ((int)$user_id)) && !empty ($user->ID)) ? $user : false;
+				return c_ws_plugin__s2member_files::user_downloads ($user, $not_counting_this_particular_file);
+			}
+	}
+/**
+* Total downloads of a particular file; possibly by a particular User.
+*
+* ———— PHP Code Samples ————
+* ```
+* File: `example-file.zip`, has been downloaded a total of <!php echo s2member_total_downloads_of("example-file.zip"); !> times; collectively, among all Users/Members, for all time *( includes all duplicate downloads of the same file by the same User/Member )*.
+* File: `example-file.zip`, has been downloaded a total of <!php echo s2member_total_downloads_of("example-file.zip", false, false); !> times; collectively, among all Users/Members, in this Period only *( includes all duplicate downloads of the same file by the same User/Member )*.
+* File: `example-file.zip`, has been downloaded by User ID# 123, a total of <!php echo s2member_total_downloads_of("example-file.zip", 123); !> times; for all time, since they first became a User/Member of the site *( includes all duplicate downloads of the same file by this User/Member )*.
+* File: `example-file.zip`, has been downloaded by User ID# 123, a total of <!php echo s2member_total_downloads_of("example-file.zip", 123, false); !> times; in this Period only *( includes all duplicate downloads of the same file by this User/Member )*.
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this yet.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111026
+*
+* @param str $file Required. Location of the file, relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+* @param str|int $user_id Optional. If specified, s2Member will return total downloads by a particular User/Member, instead of collectively *( i.e among all Users/Members )*.
+* @param bool $check_archives_too Optional. Defaults to true. When true, s2Member checks its File Download Archive too, instead of ONLY looking at Files downloaded in the current Period. Period is based on your Basic Download Restrictions setting of allowed days across various Levels of Membership, for each respective User/Member. Or, if ``$user_id`` is specified, based solely on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level.
+* @return int The total for this particular ``$file``, based on configuration of function arguments.
+*
+* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+*
+* @see s2Member\API_Functions\s2member_user_downloads()
+* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL
+*
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
+*
+* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
+* @todo Create a Shortcode equivalent.
+*/
+if (!function_exists ("s2member_total_downloads_of"))
+	{
+		function s2member_total_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+			{
+				return c_ws_plugin__s2member_files::total_downloads_of ($file, $user_id, $check_archives_too);
+			}
+	}
+/**
+* Total unique downloads of a particular file; possibly by a particular User.
+*
+* ———— PHP Code Samples ————
+* ```
+* File: `example-file.zip`, has been downloaded a total of <!php echo s2member_total_unique_downloads_of("example-file.zip"); !> times; collectively, among all Users/Members, for all time *( does NOT include duplicate downloads of the same file, in a single Period, by the same User/Member )*.
+* File: `example-file.zip`, has been downloaded a total of <!php echo s2member_total_unique_downloads_of("example-file.zip", false, false); !> times; collectively, among all Users/Members, in this Period only *( does NOT include duplicate downloads of the same file, in a single Period, by the same User/Member )*.
+* File: `example-file.zip`, has been downloaded by User ID# 123, a total of <!php echo s2member_total_unique_downloads_of("example-file.zip", 123); !> times; for all time, since they first became a User/Member of the site *( does NOT include duplicate downloads of the same file, in a single Period, by this User/Member )*.
+* File: `example-file.zip`, has been downloaded by User ID# 123, a total of <!php echo s2member_total_unique_downloads_of("example-file.zip", 123, false); !> times; in this Period only *( does NOT include duplicate downloads of the same file, in a single Period, by this User/Member )*.
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this yet.
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111026
+*
+* @param str $file Required. Location of the file, relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+* @param str|int $user_id Optional. If specified, s2Member will return total downloads by a particular User/Member, instead of collectively *( i.e among all Users/Members )*.
+* @param bool $check_archives_too Optional. Defaults to true. When true, s2Member checks its File Download Archive too, instead of ONLY looking at Files downloaded in the current Period. Period is based on your Basic Download Restrictions setting of allowed days across various Levels of Membership, for each respective User/Member. Or, if ``$user_id`` is specified, based solely on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level.
+* @return int The total for this particular ``$file``, based on configuration of function arguments.
+*
+* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+*
+* @see s2Member\API_Functions\s2member_user_downloads()
+* @see s2Member\API_Functions\s2member_total_downloads_of()
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL
+*
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED
+* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS
+*
+* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
+*
+* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
+* @todo Create a Shortcode equivalent.
+*/
+if (!function_exists ("s2member_total_unique_downloads_of"))
+	{
+		function s2member_total_unique_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+			{
+				return c_ws_plugin__s2member_files::total_unique_downloads_of ($file, $user_id, $check_archives_too);
+			}
+	}
+/**
 * Obtains the Registration Time for the current User, and/or for a particular User.
 *
 * The Registration Time, is the time at which the Username was created for the account, that's it.
@@ -2091,7 +2247,8 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_subscr_gateway = get_user_field ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
 * $s2member_registration_ip = get_user_field ("s2member_registration_ip"); # IP the current User had during registration.
 * $s2member_custom_fields = get_user_field ("s2member_custom_fields"); # Associative array of all Custom Registration/Profile Fields.
-* $s2member_file_download_access_log = get_user_field ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
+* $s2member_file_download_access_log = get_user_field ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User, in the current Period *( Period is based on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level )*.
+* $s2member_file_download_access_arc = get_user_field ("s2member_file_download_access_arc"); # Associative array of all File Downloads by the current User, in previous Periods *( Periods are based on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's Membership Levels in the past )*.
 * $s2member_auto_eot_time = get_user_field ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
 * $s2member_last_payment_time = get_user_field ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
 * $s2member_paid_registration_times = get_user_field ("s2member_paid_registration_times"); # Timestamps. Associative array of all Paid Registration Times.
@@ -2172,7 +2329,8 @@ if (!function_exists ("s2member_paid_registration_time"))
 * $s2member_subscr_gateway = get_user_option ("s2member_subscr_gateway"); # Paid Subscr. Gateway Code for the current User.
 * $s2member_registration_ip = get_user_option ("s2member_registration_ip"); # IP the current User had during registration.
 * $s2member_custom_fields = get_user_option ("s2member_custom_fields"); # Associative array of all Custom Registration/Profile Fields.
-* $s2member_file_download_access_log = get_user_option ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User.
+* $s2member_file_download_access_log = get_user_option ("s2member_file_download_access_log"); # Associative array of all File Downloads by the current User, in the current Period *( Period is based on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level )*.
+* $s2member_file_download_access_arc = get_user_option ("s2member_file_download_access_arc"); # Associative array of all File Downloads by the current User, in previous Periods *( Periods are based on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's Membership Levels in the past )*.
 * $s2member_auto_eot_time = get_user_option ("s2member_auto_eot_time"); # Auto EOT-Time for the current User ( when applicable ).
 * $s2member_last_payment_time = get_user_option ("s2member_last_payment_time"); # Timestamp. Last time an actual payment was received by s2Member.
 * $s2member_paid_registration_times = get_user_option ("s2member_paid_registration_times"); # Timestamps. Associative array of all Paid Registration Times.
@@ -2195,7 +2353,7 @@ if (!function_exists ("s2member_paid_registration_time"))
 * 	Or, this could be set to any property that exists on the WP_User object for a particular User;
 * 	( i.e. `id`, `ID`, `user_login`, `user_email`, `first_name`, `last_name`, `display_name`, `ip`, `IP`,
 * 	`s2member_registration_ip`, `s2member_custom`, `s2member_subscr_id`, `s2member_subscr_or_wp_id`,
-* 	`s2member_subscr_gateway`, `s2member_custom_fields`, `s2member_file_download_access_log`,
+* 	`s2member_subscr_gateway`, `s2member_custom_fields`, `s2member_file_download_access_[log|arc]`,
 * 	`s2member_auto_eot_time`, `s2member_last_payment_time`, `s2member_paid_registration_times`,
 * 	`s2member_access_role`, `s2member_access_level`, `s2member_access_label`,
 * 	`s2member_access_ccaps`, `s2member_login_counter`, etc, etc. ).

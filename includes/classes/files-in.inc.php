@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_files_in"))
 	{
@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_download_access ($create_file_download_url = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_file_download_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -87,7 +87,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -97,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											else if ($req["file_download_key"] && is_string ($req["file_download_key"]) && !$valid_file_download_key)
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>503 ( Invalid Key ):</strong> Sorry, your access to this file has expired. Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -117,7 +117,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													if ((isset ($file_downloads_enabled_by_site_owner, $min_level_4_downloads) && $file_downloads_enabled_by_site_owner === false) || ($file_downloads_enabled_by_site_owner = $min_level_4_downloads = c_ws_plugin__s2member_files::min_level_4_downloads ()) === false)
 														{
 															if ($serving) /* We only need this section when/if we're actually serving. */
-																status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+																status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 																. exit (_x ('<strong>503: Basic File Downloads are NOT enabled yet.</strong> Please contact Support for assistance. If you are the site owner, please configure: <code>s2Member -> Download Options -> Basic Download Restrictions</code>.', "s2member-front", "s2member"));
 															/**/
 															else /* Else return false. */
@@ -174,32 +174,50 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															$user_previous_file_downloads = 0; /* Downloads the User has already; in current period/cycle. */
 															$user_already_downloaded_this_file = $user_already_downloaded_a_streaming_variation_of_this_file = false;
 															/**/
-															$user_file_download_access_log = (array)get_user_option ("s2member_file_download_access_log", $user_id);
-															$user_file_download_access_arc = (array)get_user_option ("s2member_file_download_access_arc", $user_id);
+															$user_file_download_access_log = (is_array ($user_file_download_access_log = get_user_option ("s2member_file_download_access_log", $user_id))) ? $user_file_download_access_log : array ();
+															$user_file_download_access_arc = (is_array ($user_file_download_access_arc = get_user_option ("s2member_file_download_access_arc", $user_id))) ? $user_file_download_access_arc : array ();
 															/**/
 															$streaming_file_extns = c_ws_plugin__s2member_utils_strings::preg_quote_deep ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"], "/");
 															$streaming_variations = /* Only count one streaming media file variation. */ "/\.(" . implode ("|", $streaming_file_extns) . ")$/i";
 															/**/
-															$max_download_period_days = c_ws_plugin__s2member_files::max_download_period (); /* Max download period; counted in days. */
-															/**/
 															foreach ($user_file_download_access_log as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
 																{
-																	if (strtotime ($user_file_download_access_log_entry["date"]) < strtotime ("-" . $max_download_period_days . " days"))
+																	if ( /* Weed out corrupt/empty log entries. */isset ($user_file_download_access_log_entry["date"], $user_file_download_access_log_entry["file"]))
 																		{
-																			unset($user_file_download_access_log[$user_file_download_access_log_entry_key]);
-																			$user_file_download_access_arc[] = $user_file_download_access_log_entry;
+																			if (strtotime ($user_file_download_access_log_entry["date"]) < strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
+																				{
+																					unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove it from the `log`. */
+																					$user_file_download_access_arc[] = $user_file_download_access_log_entry; /* Move `log` entry to the `archive` now. */
+																				}
+																			else if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
+																				{
+																					$user_previous_file_downloads++; /* Previous files always count against this User/Member; it's already in the `log`. */
+																					/**/
+																					$_user_file_download_access_log_entry = &$user_file_download_access_log[$user_file_download_access_log_entry_key];
+																					$_user_already_downloaded_this_file = $_user_already_downloaded_a_streaming_variation_of_this_file = false;
+																					/**/
+																					if ($user_file_download_access_log_entry["file"] === $req["file_download"]) /* Already downloaded this file? If yes, mark this flag as true. */
+																						$user_already_downloaded_this_file = $_user_already_downloaded_this_file = true; /* Already downloaded this file? If yes, mark as true. */
+																					/**/
+																					else if (preg_replace ($streaming_variations, "", $user_file_download_access_log_entry["file"]) === preg_replace ($streaming_variations, "", $req["file_download"]))
+																						$user_already_downloaded_this_file = $_user_already_downloaded_this_file = $user_already_downloaded_a_streaming_variation_of_this_file = $_user_already_downloaded_a_streaming_variation_of_this_file = true;
+																					/**/
+																					if ( /* Updating counter? */$updating_user_counter && ($_user_already_downloaded_this_file || $_user_already_downloaded_a_streaming_variation_of_this_file))
+																						{
+																							$_user_file_download_access_log_entry /* First, we update the last download time for this file. */["ltime"] = time ();
+																							/**/
+																							if ( /* Backward compatiility here. Is this even set? */!empty ($user_file_download_access_log_entry["counter"]))
+																								$_user_file_download_access_log_entry["counter"] = (int)$user_file_download_access_log_entry["counter"] + 1;
+																							else /* Backward compatiility here. Default value to `1`, if this is NOT even set yet. */
+																								$_user_file_download_access_log_entry["counter"] = 1 + 1;
+																						}
+																				}
 																		}
-																	else if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
-																		{
-																			$user_previous_file_downloads++; /* A previous file that counts against this User/Member, since it's already in the log. */
-																			/**/
-																			if ($user_file_download_access_log_entry["file"] === $req["file_download"]) /* Already downloaded this file before? */
-																				$user_already_downloaded_this_file = true; /* Already downloaded this file? If yes, mark this flag as true. */
-																			/**/
-																			else if (preg_replace ($streaming_variations, "", $user_file_download_access_log_entry["file"]) === preg_replace ($streaming_variations, "", $req["file_download"]))
-																				$user_already_downloaded_this_file = $user_already_downloaded_a_streaming_variation_of_this_file = true;
-																		}
+																	else /* Weed out empty log entries. Some older versions of s2Member may have corrupt/empty log entries by mistake. */
+																		unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove from `log`. */
 																}
+															if ( /* Updating counter? */$updating_user_counter && /* Do we need a new log entry for this file? */ !$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file)
+																$user_file_download_access_log[] = array ("date" => date ("Y-m-d"), "time" => time (), "ltime" => time (), "file" => $req["file_download"], "counter" => 1);
 															/**/
 															if (!$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file && !$user->has_cap ("administrator") && $user_previous_file_downloads >= $user_file_downloads["allowed"])
 																{
@@ -209,15 +227,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																	else /* Else return false. */
 																		return false;
 																}
-															/**/
-															else if (!$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file)
-																$user_file_download_access_log[] = array ("date" => date ("Y-m-d"), "file" => $req["file_download"]);
-															/**/
-															if ($updating_user_counter) /* By default, we do NOT update the counter when a URL is being created; but this behavior can be modified. */
-																{
-																	update_user_option ($user_id, "s2member_file_download_access_arc", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_arc));
-																	update_user_option ($user_id, "s2member_file_download_access_log", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_log));
-																}
+															else if /* Save/update counter? */ ($updating_user_counter) /* By default, we do NOT update the counter when a URL is simply being created for access. */
+																update_user_option ($user_id, "s2member_file_download_access_log", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_log)) . update_user_option ($user_id, "s2member_file_download_access_arc", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_arc));
 														}
 												}
 										}
@@ -226,7 +237,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -259,14 +270,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											$mimetype = ($mimetypes[$extension]) ? $mimetypes[$extension] : "application/octet-stream";
 											$length = (!$using_amazon_storage && $file) ? filesize ($file) : -1;
 											/**/
-											eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+											eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 											do_action ("ws_plugin__s2member_during_file_download_access", get_defined_vars ());
 											unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											/**/
 											if ($using_amazon_s3_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														wp_redirect(c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
+														wp_redirect (c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters ("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars ());
@@ -275,7 +286,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											else if ($using_amazon_cf_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														wp_redirect(c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
+														wp_redirect (c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters ("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars ());
@@ -319,53 +330,64 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											else /* Else, ``if ($serving)`` , use local storage option (default). */
 												{
-													@set_time_limit(0) . @ini_set ("zlib.output_compression", 0);
+													@set_time_limit (0) . @ini_set ("zlib.output_compression", 0);
 													/**/
-													status_header(200); /* 200 OK status header. */
+													status_header (200); /* 200 OK status header. */
 													/**/
-													header("Accept-Ranges: none");
-													header("Content-Encoding: none");
-													header("Content-Type: " . $mimetype);
-													header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
-													header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-													header("Cache-Control: no-cache, must-revalidate, max-age=0");
+													header ("Accept-Ranges: none");
+													header ("Content-Encoding: none");
+													header ("Content-Type: " . $mimetype);
+													header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
+													header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+													header ("Cache-Control: no-cache, must-revalidate, max-age=0");
 													header ("Cache-Control: post-check=0, pre-check=0", false);
-													header("Pragma: no-cache");
+													header ("Pragma: no-cache");
 													/**/
-													header('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
+													header ('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
 													/**/
-													eval('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist already. */
+													eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist already. Prep for content delivery. */
 													/**/
-													if ($length && apply_filters ("ws_plugin__s2member_chunk_file_downloads", true, get_defined_vars ()) && is_resource ($resource = fopen ($file, "rb")))
+													$_chunk_file = ($_SERVER["SERVER_PROTOCOL"] === "HTTP/1.1" && preg_match ("/apache/i", $_SERVER["SERVER_SOFTWARE"])) ? true : false;
+													/**/
+													if ($length && apply_filters ("ws_plugin__s2member_chunk_file_downloads", $_chunk_file, get_defined_vars ()) && is_resource ($resource = fopen ($file, "rb")))
 														{
 															$_chunk_size = apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_chunk_size", 2097152, get_defined_vars ());
-															$_chunk_w_content_length = (stripos (PHP_OS, "win") === 0 && (!function_exists ("apache_get_version") || apache_get_version () === false)) ? false : true;
 															/**/
-															/* Windows® IIS doesn't seem to like it when both `Content-Length` and `Transfer-Encoding: chunked` are sent together. */
-															if (apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_content_length", $_chunk_w_content_length, get_defined_vars ()))
-																header("Content-Length: " . $length);
+															if (apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_content_length", true, get_defined_vars ()))
+																header ("Content-Length: " . $length);
 															/**/
-															header("Transfer-Encoding: chunked"); /* Uses `Transfer-Encoding: chunked` for simulated streaming. */
+															header ("Transfer-Encoding: chunked"); /* `Transfer-Encoding: chunked` conserves memory. */
 															/**/
 															while (!feof ($resource) && ($chunk_size = strlen ($data = fread ($resource, $_chunk_size))))
-																eval('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
+																eval ('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
 															/**/
-															fclose($resource) . exit ("0\r\n\r\n");
+															fclose ($resource) . exit ("0\r\n\r\n");
+														}
+													else if ($length && apply_filters ("ws_plugin__s2member_flush_file_downloads", true, get_defined_vars ()) && is_resource ($resource = fopen ($file, "rb")))
+														{
+															$_flush_size = apply_filters ("ws_plugin__s2member_flush_file_downloads_w_flush_size", 2097152, get_defined_vars ());
+															/**/
+															if (apply_filters ("ws_plugin__s2member_flush_file_downloads_w_content_length", true, get_defined_vars ()))
+																header ("Content-Length: " . $length);
+															/**/
+															while (!feof ($resource) && ($flush_size = strlen ($data = fread ($resource, $_flush_size))))
+																eval ('echo $data; @flush ();'); /* Conserves memory. */
 														}
 													else if ($length) /* Else, use: ``file_get_contents()``. */
 														{
-															header("Content-Length: " . $length) . exit (file_get_contents ($file));
+															@ini_set ("memory_limit", WP_MAX_MEMORY_LIMIT); /* RAM/memory. */
+															header ("Content-Length: " . $length) . exit (file_get_contents ($file));
 														}
 													else /* Else, we have an empty file with no length. */
 														{
-															header("Content-Length: 0") . exit ();
+															header ("Content-Length: 0") . exit ();
 														}
 												}
 										}
 								}
 							/**/
 							else if ($serving && $req["file_download"]) /* We only need this section when/if we're actually serving. */
-								status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+								status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 								. exit (_x ('<strong>503: Access denied.</strong> Invalid File Download specs.', "s2member-front", "s2member"));
 							/**/
 							else if ($creating) /* We only need this section when/if we're creating a URL. */
@@ -390,7 +412,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function create_file_download_url ($config = FALSE, $get_streamer_array = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -404,7 +426,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						/**/
 						if (($_url = c_ws_plugin__s2member_files_in::check_file_download_access (($create_file_download_url = $config))) /* Successfully created a URL to the file? */)
 							{
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -412,10 +434,10 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								$streaming = (isset ($config["file_stream"])) ? filter_var ($config["file_stream"], FILTER_VALIDATE_BOOLEAN) : ((in_array ($extension, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_stream_extensions"]))) ? true : false);
 								$ssl = (isset ($config["file_ssl"])) ? filter_var ($config["file_ssl"], FILTER_VALIDATE_BOOLEAN) : ((is_ssl ()) ? true : false);
 								/**/
-								if ($get_streamer_array && $streaming && ($cfx = "/cfx/st") && ($cfx_pos = strpos ($_url, $cfx)) !== false && ($streamer = substr ($_url, 0, $cfx_pos + strlen ($cfx))) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false)))))
+								if ($get_streamer_array && $streaming && ($cfx = "/cfx/st") && ($cfx_pos = strpos ($_url, $cfx)) !== false && ($streamer = substr ($_url, 0, $cfx_pos + strlen ($cfx))) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false, "count_against_user" => false)))))
 									$return = array ("streamer" => $streamer, "file" => preg_replace ("/^" . preg_quote ($streamer, "/") . "\//", "", $_url), "url" => preg_replace ("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
-								else if ($get_streamer_array && $streaming && is_array ($ups = c_ws_plugin__s2member_utils_urls::parse_url ($_url)) && isset ($ups["scheme"], $ups["host"]) && ($streamer = $ups["scheme"] . "://" . $ups["host"] . ((!empty ($ups["port"])) ? ":" . $ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false)))))
+								else if ($get_streamer_array && $streaming && is_array ($ups = c_ws_plugin__s2member_utils_urls::parse_url ($_url)) && isset ($ups["scheme"], $ups["host"]) && ($streamer = $ups["scheme"] . "://" . $ups["host"] . ((!empty ($ups["port"])) ? ":" . $ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false, "count_against_user" => false)))))
 									$return = array ("streamer" => $streamer, "file" => preg_replace ("/^" . preg_quote ($streamer, "/") . "\//", "", $_url), "url" => preg_replace ("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
 								else if ($get_streamer_array) /* Else, we MUST return false here, unable to acquire streamer/file. */
@@ -440,7 +462,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_remote_authorization ($user = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_check_file_remote_authorization", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -452,13 +474,13 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								/**/
 								if (empty ($_SERVER["PHP_AUTH_USER"]) || empty ($_SERVER["PHP_AUTH_PW"]) || !user_pass_ok ($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]))
 									{
-										header('WWW-Authenticate: Basic realm="' . c_ws_plugin__s2member_utils_strings::esc_dq (strip_tags (_x ("Members Only", "s2member-front", "s2member"))) . '"');
+										header ('WWW-Authenticate: Basic realm="' . c_ws_plugin__s2member_utils_strings::esc_dq (strip_tags (_x ("Members Only", "s2member-front", "s2member"))) . '"');
 										/**/
-										status_header(401); /* Send an unauthorized 401 status header now. */
-										header("Content-Type: text/html; charset=utf-8"); /* Content-Type with UTF-8. */
-										eval('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist. */
+										status_header (401); /* Send an unauthorized 401 status header now. */
+										header ("Content-Type: text/html; charset=utf-8"); /* Content-Type with UTF-8. */
+										eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist. */
 										/**/
-										exit(_x ('<strong>401:</strong> Sorry, access denied.', "s2member-front", "s2member"));
+										exit (_x ('<strong>401:</strong> Sorry, access denied.', "s2member-front", "s2member"));
 									}
 								else if (is_object ($_user = new WP_User ($_SERVER["PHP_AUTH_USER"])) && !empty ($_user->ID))
 									$user = $_user; /* Now assign ``$user``. */
@@ -480,7 +502,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_download_key ($file = FALSE, $key = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_check_file_download_key", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

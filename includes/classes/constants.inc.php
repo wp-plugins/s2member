@@ -1035,6 +1035,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var int
 						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
 						*
@@ -1085,6 +1089,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var bool
 						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
 						*
@@ -1124,6 +1132,12 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @since 3.5
 						*
 						* @var int
+						*
+						* @note This does NOT include File Downloads accessed with an Advanced File Download Key.
+						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
@@ -1165,6 +1179,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var int
 						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
 						*
@@ -1204,6 +1222,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @since 3.5
 						*
 						* @var int
+						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
@@ -1374,6 +1396,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @since 3.5
 						*
 						* @var str
+						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
@@ -1636,6 +1662,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var int
 						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
@@ -1685,6 +1715,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @var int
 						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
+						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS
@@ -1725,6 +1759,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @since 3.5
 						*
 						* @var str
+						*
+						* @see s2Member\API_Functions\s2member_user_downloads()
+						* @see s2Member\API_Functions\s2member_total_downloads_of()
+						* @see s2Member\API_Functions\s2member_total_unique_downloads_of()
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED

@@ -156,7 +156,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_gets"))
 							{
 								foreach ($results as $result) /* Now we need to check Custom Capabilities against $user. */
 									{
-										if (!is_object ($user) || !$user->ID) /* No ``$user``, not logged-in?. */
+										if (!is_object ($user) || empty ($user->ID)) /* No ``$user``, not logged-in?. */
 											$singular_ids[] = $result->post_id; /* No way to satisfy. */
 										/**/
 										else if (is_array ($ccaps = @unserialize ($result->meta_value)))

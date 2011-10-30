@@ -151,7 +151,6 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																if (!get_user_option ("s2member_registration_ip", $user_id))
 																	update_user_option ($user_id, "s2member_registration_ip", $paypal["ip"]);
 																/**/
-																delete_user_option ($user_id, "s2member_file_download_access_arc");
 																delete_user_option ($user_id, "s2member_file_download_access_log");
 																/**/
 																if (preg_match ("/^web_accept$/i", $paypal["txn_type"]) && $paypal["eotper"])

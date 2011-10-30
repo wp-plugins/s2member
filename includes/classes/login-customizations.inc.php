@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 	{
@@ -80,7 +80,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 						$s = ""; /* Initialize styles string here to give Hooks a chance. */
 						$a = array (); /* Initialize here to give Filters a chance. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_login_header_styles", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -106,7 +106,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 						$a[] = 'div#login p#backtoblog, div#login p#backtoblog a, div#login p#backtoblog a:hover, div#login p#backtoblog a:active, div#login p#backtoblog a:focus { color:#' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_color"] . $i . '; text-shadow:1px 1px 3px #' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_shadow_color"] . $i . '; }';
 						/**/
 						$a[] = 'div#login form p { margin:2px 0 16px 0' . $i . '; }'; /* Handles paragraph margins inside the form. */
-						$a[] = 'div#login form input[type="text"], div#login form input[type="password"], div#login form textarea, div#login form select { font-weight:normal' . $i . '; color:#333333' . $i . '; background:none repeat scroll 0 0 #FBFBFB' . $i . '; border:1px solid #E5E5E5' . $i . '; font-size:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_field_size"] . $i . '; margin:0' . $i . '; padding:3px' . $i . '; -moz-border-radius:3px' . $i . '; -webkit-border-radius:3px' . $i . '; border-radius:3px' . $i . '; width:100%' . $i . '; width:98%' . $i . ' !ie<8; margin-right:2%' . $i . ' !ie<8; box-sizing:border-box' . $i . '; -ms-box-sizing:border-box' . $i . '; -moz-box-sizing:border-box' . $i . '; -webkit-box-sizing:border-box' . $i . '; }';
+						$a[] = 'div#login form input[type="text"], div#login form input[type="email"], div#login form input[type="password"], div#login form textarea, div#login form select { font-weight:normal' . $i . '; color:#333333' . $i . '; background:none repeat scroll 0 0 #FBFBFB' . $i . '; border:1px solid #E5E5E5' . $i . '; font-size:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_field_size"] . $i . '; margin:0' . $i . '; padding:3px' . $i . '; -moz-border-radius:3px' . $i . '; -webkit-border-radius:3px' . $i . '; border-radius:3px' . $i . '; width:100%' . $i . '; width:98%' . $i . ' !ie<8; margin-right:2%' . $i . ' !ie<8; box-sizing:border-box' . $i . '; -ms-box-sizing:border-box' . $i . '; -moz-box-sizing:border-box' . $i . '; -webkit-box-sizing:border-box' . $i . '; }';
 						$a[] = 'div#login form select { width:99.5%' . $i . ' !ie<8; } div#login form select > option { font-size:' . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_field_size"] . $i . '; }';
 						$a[] = 'div#login form label { cursor:pointer' . $i . '; } div#login form label.ws-plugin--s2member-custom-reg-field-op-l { opacity:0.7' . $i . '; font-size:90%' . $i . '; vertical-align:middle' . $i . '; }';
 						$a[] = 'div#login form input[type="checkbox"], div#login form input[type="radio"] { margin:0 3px 0 0' . $i . '; vertical-align:middle' . $i . '; }';
@@ -118,8 +118,8 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 						$a[] = 'div#login form p.submit { margin-bottom:0' . $i . '; }';
 						$a[] = 'div#login form input[type="submit"], div#login form input[type="submit"]:hover, div#login form input[type="submit"]:active, div#login form input[type="submit"]:focus { color:#666666' . $i . '; text-shadow:2px 2px 5px #EEEEEE' . $i . '; border:1px solid #999999' . $i . '; background:#FBFBFB' . $i . '; padding:5px' . $i . '; -moz-border-radius:3px' . $i . '; -webkit-border-radius:3px' . $i . '; border-radius:3px' . $i . '; }';
 						$a[] = 'div#login form input[type="submit"]:hover, div#login form input[type="submit"]:active, div#login form input[type="submit"]:focus { color:#000000' . $i . '; text-shadow:2px 2px 5px #CCCCCC' . $i . '; border-color:#000000' . $i . '; }';
-						$a[] = 'div#login form#registerform { padding-bottom:16px' . $i . '; } div#login form#registerform p.submit { float:none' . $i . '; margin-top:-10px' . $i . '; } div#login form#registerform input[type="submit"] { width:100%' . $i . '; }';
-						$a[] = 'div#login form#lostpasswordform { padding-bottom:16px' . $i . '; } div#login form#lostpasswordform p.submit { float:none' . $i . '; } div#login form#lostpasswordform input[type="submit"] { width:100%' . $i . '; }';
+						$a[] = 'div#login form#registerform { padding-bottom:16px' . $i . '; } div#login form#registerform p.submit { float:none' . $i . '; margin-top:-10px' . $i . '; } div#login form#registerform input[type="submit"] { float:none' . $i . '; width:100%' . $i . '; width:98%' . $i . ' !ie<8; margin-right:2%' . $i . ' !ie<8; box-sizing:border-box' . $i . '; -ms-box-sizing:border-box' . $i . '; -moz-box-sizing:border-box' . $i . '; -webkit-box-sizing:border-box' . $i . '; }';
+						$a[] = 'div#login form#lostpasswordform { padding-bottom:16px' . $i . '; } div#login form#lostpasswordform p.submit { float:none' . $i . '; } div#login form#lostpasswordform input[type="submit"] { float:none' . $i . '; width:100%' . $i . '; width:98%' . $i . ' !ie<8; margin-right:2%' . $i . ' !ie<8; box-sizing:border-box' . $i . '; -ms-box-sizing:border-box' . $i . '; -moz-box-sizing:border-box' . $i . '; -webkit-box-sizing:border-box' . $i . '; }';
 						/**/
 						$a[] = 'div.ws-plugin--s2member-password-strength { margin-top:3px' . $i . '; font-color:#000000' . $i . '; background-color:#EEEEEE' . $i . '; padding:3px' . $i . '; -moz-border-radius:3px' . $i . '; -webkit-border-radius:3px' . $i . '; border-radius:3px' . $i . '; } div.ws-plugin--s2member-password-strength-short { background-color:#FFA0A0' . $i . '; } div.ws-plugin--s2member-password-strength-bad { background-color:#FFB78C' . $i . '; } div.ws-plugin--s2member-password-strength-good { background-color:#FFEC8B' . $i . '; } div.ws-plugin--s2member-password-strength-strong { background-color:#C3FF88' . $i . '; } div.ws-plugin--s2member-password-strength-mismatch { background-color:#D6C1AB' . $i . '; }';
 						/**/
@@ -131,7 +131,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 						$a = apply_filters ("ws_plugin__s2member_login_header_styles_array_before_close", $a, get_defined_vars ());
 						$a[] = '</style>'; /* Now close style tag. There are other Filters below. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_during_login_header_styles", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -166,7 +166,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 								}
 							else /* Otherwise, safe to allow PHP code. */
 								{
-									eval ("?>" . $code);
+									eval("?>" . $code);
 								}
 						/**/
 						do_action ("ws_plugin__s2member_after_login_footer_design", get_defined_vars ());

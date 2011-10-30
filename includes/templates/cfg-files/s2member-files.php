@@ -8,7 +8,7 @@ $ws_plugin__s2member_temp_s_base = (!empty ($base)) ? $base : c_ws_plugin__s2mem
 /* Do NOT use ``site`` URL. Must use the `home` URL here, because that's what WordPress® uses in its own `mod_rewrite` implementation. */
 ?>
 
-Options +FollowSymLinks -MultiViews
+Options +FollowSymLinks -MultiViews -Indexes
 
 <IfModule mod_rewrite.c>
 	RewriteEngine On

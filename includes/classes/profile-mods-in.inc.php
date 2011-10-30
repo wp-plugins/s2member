@@ -52,7 +52,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 									{
 										$GLOBALS["ws_plugin__s2member_profile_saved"] = true; /* Global flag as having been saved/updated successfully. */
 										/**/
-										$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST));
+										$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)); /* Clean ``$_POST`` vars. */
 										/**/
 										$userdata["ID"] = $user_id; /* Needed for database update. */
 										/**/
@@ -121,7 +121,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 										do_action ("ws_plugin__s2member_during_handle_profile_modifications", get_defined_vars ());
 										unset ($__refs, $__v); /* Unset defined __refs, __v. */
 										/**/
-										$user = new WP_User ($user_id); /* Update the WP_User object for the current User/Member. */
+										$user = new WP_User ($user_id); /* Update the ``WP_User`` object for the current User/Member. */
 										(function_exists ("setup_userdata")) ? setup_userdata () : null; /* Update global vars. */
 										/**/
 										$lwp = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user);

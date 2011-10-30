@@ -100,9 +100,9 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @return int Number of days, where 0 means no access to files is allowed.
 				* 	Will not return a value > `365`, because this routine also controls the age of download logs to archives.
 				*
-				* @todo Remove the limitation of `365` days somehow.
+				* @deprecated Deprecated in v111029. This function is no longer used by s2Member.
 				*/
-				public static function max_download_period ()
+				public static function max_download_period /* No longer used by s2Member. */ ()
 					{
 						do_action ("ws_plugin__s2member_before_max_download_period", get_defined_vars ());
 						/**/
@@ -122,7 +122,7 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*
 				* @return bool|int False if no access is allowed, else Level number (int) 0+.
 				*/
-				public static function min_level_4_downloads ()
+				public static function min_level_4_downloads () /* Multipurpose. False if no access. */
 					{
 						do_action ("ws_plugin__s2member_before_min_level_4_downloads", get_defined_vars ());
 						/**/
@@ -179,18 +179,24 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @package s2Member\Files
 				* @since 3.5
 				*
-				* @param obj $user Optional. Defaults to the current User's object.
-				* @param str $not_counting_this_particular_file Optional. If you want to exclude a particular file.
-				* @param array $log Optional. Prevents another database connection *( i.e. the log does not need to be pulled again )*.
-				* @return array An array with three elements: `allowed`, `allowed_days`, `currently`.
+				* @param obj $user Optional. A `WP_User` object. Defaults to the current User's object.
+				* @param str $not_counting_this_particular_file Optional. If you want to exclude a particular file,
+				* 	relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+				* @param array $user_log Optional. Prevents another database connection *( i.e. the User's log does not need to be pulled again )*.
+				* @param array $user_arc Optional. Prevents another database connection *( i.e. the User's archive does not need to be pulled again )*.
+				* @return array An array with the following elements... File Downloads allowed for this User: (int)`allowed`, Download Period for this User in days: (int)`allowed_days`, Files downloaded by this User in the current Period: (int)`currently`, log of all Files downloaded in the current Period, with file names/dates: (array)`log`, archive of all Files downloaded in prior Periods, with file names/dates: (array)`archive`.
+				*
+				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 				*/
-				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $log = NULL)
+				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $user_log = FALSE, $user_arc = FALSE)
 					{
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_user_downloads", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$allowed = $allowed_days = $currently = 0; /* Initialize all of these to a default value of zero. */
+						$allowed = $allowed_days = $currently = 0; /* Initialize these to zero. */
+						$log = $arc = array (); /* Initialize these to a default empty array value. */
 						/**/
 						if ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID) && ($user_id = $user->ID))
 							{
@@ -198,26 +204,95 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 									{
 										if ($user->has_cap ("access_s2member_level" . $n)) /* Do they have access? */
 											{
-												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
-													if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
-														{
-															$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
-															$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
-														}
+												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
+													{
+														$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
+														$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
+													}
 												if ($user->has_cap ("s2member_level" . $n)) /* We can stop now, if this is their Role. */
 													break; /* Break now. */
 											}
 									}
+								$log = (is_array ($user_log)) ? $user_log : ((is_array ($log = get_user_option ("s2member_file_download_access_log", $user_id)) && $log !== array (false)) ? $log : array ());
+								$arc = (is_array ($user_arc)) ? $user_arc : ((is_array ($arc = get_user_option ("s2member_file_download_access_arc", $user_id)) && $arc !== array (false)) ? $arc : array ());
 								/**/
-								$user_file_download_access_log = (isset ($log)) ? (array)$log : (array)get_user_option ("s2member_file_download_access_log", $user_id);
-								/**/
-								foreach ($user_file_download_access_log as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
-									if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $allowed_days . " days"))
-										if ($user_file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
+								foreach (($user_file_download_access_log = $log) as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
+									if (isset ($user_file_download_access_log_entry["date"]) && strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $allowed_days . " days"))
+										if (isset ($user_file_download_access_log_entry["file"]) && $user_file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
 											$currently = $currently + 1;
 							}
 						/**/
-						return apply_filters ("ws_plugin__s2member_user_downloads", array ("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently), get_defined_vars ());
+						return apply_filters ("ws_plugin__s2member_user_downloads", array ("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently, "log" => $log, "archive" => $arc), get_defined_vars ());
+					}
+				/**
+				* Total downloads of a particular file; possibly by a particular User.
+				*
+				* @package s2Member\Files
+				* @since 111026
+				*
+				* @param str $file Required. Location of the file, relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+				* @param str|int $user_id Optional. If specified, s2Member will return total downloads by a particular User/Member, instead of collectively *( i.e among all Users/Members )*.
+				* @param bool $check_archives_too Optional. Defaults to true. When true, s2Member checks its File Download Archive too, instead of ONLY looking at Files downloaded in the current Period. Period is based on your Basic Download Restrictions setting of allowed days across various Levels of Membership, for each respective User/Member. Or, if ``$user_id`` is specified, based solely on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level.
+				* @return int The total for this particular ``$file``, based on configuration of function arguments.
+				*
+				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
+				*/
+				public static function total_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+					{
+						global $wpdb; /* Global database object reference. */
+						/**/
+						if ($file && is_string ($file)) /* Was ``$file`` passed in properly? */
+							{
+								if (is_array ($results = $wpdb->get_results ("SELECT `meta_key`, `meta_value` FROM `" . $wpdb->usermeta . "` WHERE " . ((is_numeric ($user_id)) ? "`user_id` = '" . esc_sql ($user_id) . "' AND " : "") . "(`meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_log'" . (($check_archives_too) ? " OR `meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_arc'" : "") . ") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"" . esc_sql ($file) . "\".*'")))
+									{
+										foreach ($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
+											if (is_array ($la_entries = /* Unserialize the array. */ maybe_unserialize ($r->meta_value)) && !empty ($la_entries))
+												/**/
+												foreach ($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
+													if (!empty ($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty ($la_entry["counter"]) || ($la_entry["counter"] = 1)))
+														{
+															$total = (!empty ($total)) ? $total + (int)$la_entry["counter"] : (int)$la_entry["counter"];
+															break; /* Break now. No need to continue looping; ``$file`` found in these entries. */
+														}
+									}
+							}
+						return (!empty ($total)) ? $total : /* Else return zero by default. */ 0;
+					}
+				/**
+				* Total unique downloads of a particular file; possibly by a particular User.
+				*
+				* @package s2Member\Files
+				* @since 111026
+				*
+				* @param str $file Required. Location of the file, relative to the `/s2member-files/` directory, or relative to the root of your Amazon® S3 Bucket *( when applicable )*.
+				* @param str|int $user_id Optional. If specified, s2Member will return total downloads by a particular User/Member, instead of collectively *( i.e among all Users/Members )*.
+				* @param bool $check_archives_too Optional. Defaults to true. When true, s2Member checks its File Download Archive too, instead of ONLY looking at Files downloaded in the current Period. Period is based on your Basic Download Restrictions setting of allowed days across various Levels of Membership, for each respective User/Member. Or, if ``$user_id`` is specified, based solely on a specific User's `allowed_days`, configured in your Basic Download Restrictions, at the User's current Membership Level.
+				* @return int The total for this particular ``$file``, based on configuration of function arguments.
+				*
+				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
+				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
+				*/
+				public static function total_unique_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+					{
+						global $wpdb; /* Global database object reference. */
+						/**/
+						if ($file && is_string ($file)) /* Was ``$file`` passed in properly? */
+							{
+								if (is_array ($results = $wpdb->get_results ("SELECT `meta_key`, `meta_value` FROM `" . $wpdb->usermeta . "` WHERE " . ((is_numeric ($user_id)) ? "`user_id` = '" . esc_sql ($user_id) . "' AND " : "") . "(`meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_log'" . (($check_archives_too) ? " OR `meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_arc'" : "") . ") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"" . esc_sql ($file) . "\".*'")))
+									{
+										foreach ($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
+											if (is_array ($la_entries = /* Unserialize the array. */ maybe_unserialize ($r->meta_value)) && !empty ($la_entries))
+												/**/
+												foreach ($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
+													if (!empty ($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty ($la_entry["counter"]) || ($la_entry["counter"] = 1)))
+														{
+															$total = (!empty ($total)) ? /* Only count `1` here ( i.e. unique downloads ). */ $total + 1 : 1;
+															break; /* Break now. No need to continue looping; ``$file`` found in these entries. */
+														}
+									}
+							}
+						return (!empty ($total)) ? $total : /* Else return zero by default. */ 0;
 					}
 			}
 	}

@@ -34,6 +34,9 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 				* @since 3.5
 				*
 				* @return bool True if Systematic, else false.
+				*
+				* @note The results of this function are cached staticially.
+				* 	Do NOT call upon this until the `wp` Hook is fired.
 				*/
 				public static function is_systematic_use_page ()
 					{
@@ -67,6 +70,10 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
 							}
+						else if (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ()))
+							{
+								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", true, get_defined_vars ()));
+							}
 						else /* Otherwise, we return false ( it's NOT Systematic ). */
 							return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_page", false, get_defined_vars ()));
 					}
@@ -77,6 +84,9 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 				* @since 111002
 				*
 				* @return bool True if WordPress® Systematic, else false.
+				*
+				* @note The results of this function are cached staticially.
+				* 	Do NOT call upon this until the `wp` Hook is fired.
 				*/
 				public static function is_wp_systematic_use_page ()
 					{
@@ -107,10 +117,6 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}
 						else if (preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", c_ws_plugin__s2member_utils_urls::parse_url ($_SERVER["REQUEST_URI"], PHP_URL_PATH)))
-							{
-								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
-							}
-						else if (c_ws_plugin__s2member_utils_conds::bp_is_installed () && (bp_is_register_page () || bp_is_activation_page ()))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}

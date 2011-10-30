@@ -86,6 +86,7 @@ div#content > div.mu_register h2
 		width: 100%; /* Expand to 100%. */
 	}
 div#content > div.mu_register > form#setupform input[type = "text"],
+div#content > div.mu_register > form#setupform input[type = "email"],
 div#content > div.mu_register > form#setupform input[type = "password"],
 div#content > div.mu_register > form#setupform input[type = "submit"],
 div#content > div.mu_register > form#setupform textarea,
@@ -442,6 +443,7 @@ If you're using a `PriMo Theme`, you can use:
 See: http://www.primothemes.com/
 */
 body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type = "text"],
+body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type = "email"],
 body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "text"],
 body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "password"],
 body.logged-in.profile.profile-edit form textarea.ws-plugin--s2member-profile-field-4bp,

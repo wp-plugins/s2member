@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 	{
@@ -38,26 +38,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 				*/
 				public static function array_unique ($array = FALSE)
 					{
-						if (!is_array ($array))
-							{
-								return array ($array);
-							}
-						else /* Serialized array_unique. */
-							{
-								foreach ($array as &$value)
-									{
-										$value = serialize ($value);
-									}
-								/**/
-								$array = array_unique ($array);
-								/**/
-								foreach ($array as &$value)
-									{
-										$value = unserialize ($value);
-									}
-								/**/
-								return $array;
-							}
+						$array = (array)$array;
+						/**/
+						foreach ($array as &$value)
+							$value = serialize ($value);
+						/**/
+						$array = array_unique ($array);
+						/**/
+						foreach ($array as &$value)
+							$value = unserialize ($value);
+						/**/
+						return $array;
 					}
 				/**
 				* Searches an array *( or even a multi-dimensional array )* using a regular expression match against array values.
@@ -137,16 +128,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 					{
 						if (is_array ($array) && !empty ($array))
 							{
-								foreach ($array as $key => $value)
+								foreach ($array as $key => &$value)
 									{
-										if (is_array ($value)) /* Recursive function call. */
-											{
-												$array[$key] = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
-											}
+										if (is_array ($value)) /* Recursive function call here. */
+											$value = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
+										/**/
 										else if (is_null ($value)) /* Is it null? */
-											{
-												unset($array[$key]);
-											}
+											unset ($array[$key]);
 									}
 								/**/
 								return $array;

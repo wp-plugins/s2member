@@ -102,8 +102,8 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 						/**/
 						include_once ABSPATH . "wp-admin/includes/admin.php";
 						/**/
-						@set_time_limit (0); /* Make time for processing larger userbases. */
-						@ini_set ("memory_limit", "256M"); /* Acquire some additional RAM. */
+						@set_time_limit (0); /* Make time for processing a larger userbase. */
+						@ini_set ("memory_limit", apply_filters ("admin_memory_limit", WP_MAX_MEMORY_LIMIT));
 						/**/
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_auto_eot_system", get_defined_vars ());
@@ -162,7 +162,6 @@ if (!class_exists ("c_ws_plugin__s2member_auto_eots"))
 																		delete_user_option ($user_id, "s2member_last_payment_time");
 																		delete_user_option ($user_id, "s2member_auto_eot_time");
 																		/**/
-																		delete_user_option ($user_id, "s2member_file_download_access_arc");
 																		delete_user_option ($user_id, "s2member_file_download_access_log");
 																		/**/
 																		c_ws_plugin__s2member_user_notes::append_user_notes ($user_id, "Demoted by s2Member: " . date ("D M j, Y g:i a T"));

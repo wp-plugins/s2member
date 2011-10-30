@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 	{
@@ -42,6 +42,8 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 				*/
 				public static function is_systematic_use_specific_page ($singular_id = FALSE, $uri = FALSE)
 					{
+						global $bp; /* If BuddyPress is installed, we'll need this global reference. */
+						/**/
 						$singular_id = ($singular_id && is_numeric ($singular_id)) ? (int)$singular_id : false; /* Force types. */
 						$uri = ($uri && is_string ($uri) && ($uri = c_ws_plugin__s2member_utils_urls::parse_uri ($uri))) ? $uri : false;
 						/**/
@@ -69,6 +71,14 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 							{
 								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
 							}
+						else if ($uri && c_ws_plugin__s2member_utils_conds::bp_is_installed () && preg_match ("/\/(" . preg_quote (trim (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () : BP_REGISTER_SLUG), "/"), "/") . "|" . preg_quote (trim (((function_exists ("bp_get_activate_slug")) ? bp_get_activate_slug () : BP_ACTIVATION_SLUG), "/"), "/") . ")(\/|$)/", $uri))
+							{
+								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
+							}
+						else if ($singular_id && c_ws_plugin__s2member_utils_conds::bp_is_installed () && ((!empty ($bp->pages->register->id) && $singular_id === (int)$bp->pages->register->id) || (!empty ($bp->pages->activate->id) && $singular_id === (int)$bp->pages->activate->id)))
+							{
+								return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", true, get_defined_vars ()));
+							}
 						else /* Otherwise, we return false ( i.e. it's NOT a Systematic area ). */
 							return ($is_systematic = apply_filters ("ws_plugin__s2member_is_systematic_use_specific_page", false, get_defined_vars ()));
 					}
@@ -84,8 +94,6 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 				*/
 				public static function is_wp_systematic_use_specific_page ($singular_id = FALSE, $uri = FALSE)
 					{
-						global $bp; /* If BuddyPress is installed, we'll need this global reference. */
-						/**/
 						$singular_id = ($singular_id && is_numeric ($singular_id)) ? (int)$singular_id : false; /* Force types. */
 						$uri = ($uri && is_string ($uri) && ($uri = c_ws_plugin__s2member_utils_urls::parse_uri ($uri))) ? $uri : false;
 						/**/
@@ -94,14 +102,6 @@ if (!class_exists ("c_ws_plugin__s2member_systematics_sp"))
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
 							}
 						else if ($uri && preg_match ("/^\/(?:wp-.+?|xmlrpc)\.php$/", c_ws_plugin__s2member_utils_urls::parse_url ($uri, PHP_URL_PATH)))
-							{
-								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
-							}
-						else if ($uri && c_ws_plugin__s2member_utils_conds::bp_is_installed () && preg_match ("/\/(" . preg_quote (trim (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () : BP_REGISTER_SLUG), "/"), "/") . "|" . preg_quote (trim (((function_exists ("bp_get_activate_slug")) ? bp_get_activate_slug () : BP_ACTIVATION_SLUG), "/"), "/") . ")(\/|$)/", $uri))
-							{
-								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
-							}
-						else if ($singular_id && c_ws_plugin__s2member_utils_conds::bp_is_installed () && ((!empty ($bp->pages->register->id) && $singular_id === (int)$bp->pages->register->id) || (!empty ($bp->pages->activate->id) && $singular_id === (int)$bp->pages->activate->id)))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_specific_page", true, get_defined_vars ()));
 							}

@@ -352,7 +352,7 @@ jQuery(document).ready (function($)
 								/**/
 								var fieldId2Var = function(fieldId) /* Convert ids to variables. */
 									{
-										return ( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
+										return( typeof fieldId === 'string') ? $.trim (fieldId).toLowerCase ().replace (/[^a-z0-9]/g, '_') : '';
 									};
 								/**/
 								var fieldTypeDesc = function(type)
@@ -736,22 +736,12 @@ jQuery(document).ready (function($)
 												/**/
 												$('body').append (form);
 												/**/
-												tb_show(((editing) ? 'Editing Registration/Profile Field' : 'New Custom Registration/Profile Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form'), $(window).trigger ('resize');
+												tb_show(((editing) ? 'Editing Registration/Profile Field' : 'New Custom Registration/Profile Field'), '#TB_inline?inlineId=ws-plugin--s2member-custom-reg-field-configuration-thickbox-tools-form');
 												/**/
 												$('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form').show ();
 											}
 										/**/
 										$tools.html (html);
-									};
-								/**/
-								var attachTBResizer = function() /* Resize inline #TB_ajaxContent. */
-									{
-										$(window).resize (function()
-											{
-												var w, h; /* Initialize width/height vars. */
-												w = $(window).width (), h = $(window).height (), w = (w > 720) ? 720 : w;
-												$('#TB_ajaxContent').css ({'width': w - 50, 'height': h - 75, 'margin': 0, 'padding': 0});
-											});
 									};
 								/**/
 								var buildTable = function() /* This builds the table of existing fields. */
@@ -794,8 +784,8 @@ jQuery(document).ready (function($)
 										/**/
 										$table.html (html);
 									};
-								/* Initialize configuration. */
-								buildTools (), attachTBResizer (), buildTable ();
+								/* Initialize config. */
+								buildTools (), buildTable ();
 							/**/
 							}) ();
 					}

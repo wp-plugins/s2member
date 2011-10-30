@@ -282,7 +282,7 @@ jQuery(document).ready (function($)
 				/*
 				Attach form submission handler to `/profile/edit/` for BuddyPress.
 				*/
-				$('body.logged-in.profile.profile-edit input.ws-plugin--s2member-profile-field-4bp[type = "text"]').closest ('form').submit (function()
+				$('body.logged-in.profile.profile-edit :input.ws-plugin--s2member-profile-field-4bp').closest ('form').submit (function()
 					{
 						var context = this, label = '', error = '', errors = '';
 						/**/

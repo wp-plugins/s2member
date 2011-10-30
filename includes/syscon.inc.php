@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /*
 Determine the directory.
 */
@@ -68,12 +68,12 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"] = array_unique 
 /*
 Configure directory and .htaccess for files protected by s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters ("ws_plugin__s2member_files_dir", dirname (dirname (__FILE__)) . "-files" . ((stripos (PHP_OS, "win") === 0 && (!function_exists ("apache_get_version") || apache_get_version () === false)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters ("ws_plugin__s2member_files_dir", dirname (dirname (__FILE__)) . "-files" . ((stripos (PHP_OS, "win") === 0 && stripos ($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : ""));
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"] = dirname (__FILE__) . "/templates/cfg-files/s2member-files.php";
 /*
 Configure the directory for logs protected by s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters ("ws_plugin__s2member_logs_dir", dirname (dirname (__FILE__)) . "-logs" . ((stripos (PHP_OS, "win") === 0 && (!function_exists ("apache_get_version") || apache_get_version () === false)) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters ("ws_plugin__s2member_logs_dir", dirname (dirname (__FILE__)) . "-logs" . ((stripos (PHP_OS, "win") === 0 && stripos ($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : ""));
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"] = dirname (__FILE__) . "/templates/cfg-files/s2member-logs.php";
 /*
 Configure the global reCaptcha for ( www.s2-all-domains.com ). These public/private keys work on any installation.
@@ -340,7 +340,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];

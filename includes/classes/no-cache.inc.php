@@ -157,7 +157,6 @@ if (!class_exists ("c_ws_plugin__s2member_no_cache"))
 											$no_cache_headers_already_sent = true; /* Yep, sent. */
 											break; /* Break now, no need to continue any further. */
 										}
-								/**/
 								if (!$no_cache_headers_already_sent) /* Check here. */
 									nocache_headers (); /* Only if NOT already sent. */
 								/**/

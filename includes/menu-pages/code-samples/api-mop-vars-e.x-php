@@ -1,0 +1,36 @@
+<?php
+/* --------------------------------------------------------------- */
+
+$_GET = stripslashes_deep ($_GET);
+
+/* --------------------------------------------------------------- */
+
+if (isset ($_GET["_s2member_seeking"]["page"]))
+	echo 'You were trying to access Page ID #' . esc_html ($_GET["_s2member_seeking"]["page"]) . '.';
+
+else if (isset ($_GET["_s2member_seeking"]["post"]))
+	echo 'You were trying to access Post ID #' . esc_html ($_GET["_s2member_seeking"]["post"]) . '.';
+
+else if (isset ($_GET["_s2member_seeking"]["catg"]))
+	echo 'You were trying to access Category ID #' . esc_html ($_GET["_s2member_seeking"]["catg"]) . '.';
+
+else if (isset ($_GET["_s2member_seeking"]["ptag"]))
+	echo 'You were trying to access the Tag ID #' . esc_html ($_GET["_s2member_seeking"]["ptag"]) . '.';
+
+else if (isset ($_GET["_s2member_seeking"]["file"]))
+	echo 'You were trying to access the File: `' . esc_html ($_GET["_s2member_seeking"]["file"]) . '`.';
+
+else if (isset ($_GET["_s2member_seeking"]["ruri"]))
+	echo 'You were trying to access URI: `' . esc_html (base64_decode ($_GET["_s2member_seeking"]["ruri"])) . '`.';
+
+/* --------------------------------------------------------------- */
+
+if (isset ($_GET["_s2member_seeking"]["req_level"]))
+	echo 'You must be a Member at Level #' . esc_html ($_GET["_s2member_seeking"]["req_level"]) . ' or higher.';
+
+else if (isset ($_GET["_s2member_seeking"]["req_ccap"]))
+	echo 'You must be a Member with Custom Capability: ' . esc_html ($_GET["_s2member_seeking"]["req_ccap"]) . '.';
+
+else if (isset ($_GET["_s2member_seeking"]["req_sp"]))
+	echo 'You must purchase Specific Post/Page ID #' . esc_html ($_GET["_s2member_seeking"]["req_sp"]) . '.';
+?>

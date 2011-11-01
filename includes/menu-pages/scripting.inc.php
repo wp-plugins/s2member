@@ -1032,6 +1032,16 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars.x-php")) . '</p>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>Code Samples:</strong> This may give you some ideas [ <a href="#" onclick="jQuery(\'p#ws-plugin--s2member-api-mop-vars-code-samples\').toggle(); return false;" class="ws-dotted-link">click here</a> ].</p>' . "\n";
+								echo '<p id="ws-plugin--s2member-api-mop-vars-code-samples" style="display:none;">' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars-e.x-php")) . '</p>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								/**/
+								echo '<p><strong>Backward compatibility:</strong> The structure of s2Member\'s MOP Vars changed a bit in Nov, 2011. However, s2Member still provides the same MOP Vars that it used in previous versions, for backward compatibility. These <a href="#" onclick="jQuery(\'p#ws-plugin--s2member-old-api-mop-vars-details\').toggle(); return false;" class="ws-dotted-link">old MOP Variables</a> were more difficult to use; they are now deprecated <em>( i.e. they WILL eventually be removed )</em>. Going foward, please go by the new documentation above.</p>' . "\n";
+								echo '<p id="ws-plugin--s2member-old-api-mop-vars-details" style="display:none;">' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/api-mop-vars-o.x-php")) . '</p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

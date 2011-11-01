@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_ruris"))
 	{
@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; /* Current User's object. */
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level0")))
-											wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => "0")), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+											wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ruri]" => base64_encode ($_SERVER["REQUEST_URI"]), "_s2member_seeking[req_level]" => "0", "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => "0")), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
 										/**/
 										else if (!c_ws_plugin__s2member_systematics::is_systematic_use_page ()) /* Do NOT protect Systematics. However, there is 1 exception above ^. */
 											{
@@ -58,7 +58,7 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 															/**/
 															foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
 																if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
-																	wp_redirect (add_query_arg (urlencode_deep (array ("s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																	wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ruri]" => base64_encode ($_SERVER["REQUEST_URI"]), "_s2member_seeking[req_level]" => $n, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
 													}
 											}
 										/**/
@@ -80,7 +80,7 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 				*/
 				public static function fill_ruri_level_access_rc_vars ($uris = FALSE, $user = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_fill_ruri_level_access_rc_vars", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

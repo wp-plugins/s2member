@@ -43,7 +43,7 @@ Tags: membership, members, member, register, signup, paypal, pay pal, s2member, 
 
 -- end section for bbPress® parsing. --------------------------------------------------------------------------------- */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /* ------------------------------------------------------------------------------------------------------------------- */
 /**
 * Numeric string 1|0 indicating true or false.
@@ -94,7 +94,7 @@ if (!function_exists ("ws_plugin__s2member_bridge_bbpress_roles"))
 					{
 						if (empty ($user->roles)) /* Only if/when no bbPress® Role is assigned. */
 							{
-								bb_give_user_default_role ($user); /* Assign default Role. */
+								bb_give_user_default_role($user); /* Assign default Role. */
 							}
 					}
 				/**/
@@ -145,7 +145,7 @@ if (!function_exists ("ws_plugin__s2member_bridge_bbpress_access"))
 													wp_redirect ($url, apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 												/**/
 												else /* Otherwise, trigger the Membership Options Page + s2member_level_req = $min. */
-													wp_redirect ($url . "/?s2member_membership_options_page=1&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+													wp_redirect ($url . "/?s2member_membership_options_page=1&_s2member_seeking[bbpress]=bbpress&_s2member_seeking[req_level]=" . urlencode ($min) . "&_s2member_seeking[_uri]=" . base64_encode ($_SERVER["REQUEST_URI"]) . "&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 												/**/
 												exit (); /* Clean exit. */
 											}
@@ -163,7 +163,7 @@ if (!function_exists ("ws_plugin__s2member_bridge_bbpress_access"))
 																	wp_redirect ($url, apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 																/**/
 																else /* Otherwise, redirect this User to your Membership Options Page. */
-																	wp_redirect ($url . "/?s2member_membership_options_page=1&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+																	wp_redirect ($url . "/?s2member_membership_options_page=1&_s2member_seeking[bbpress]=bbpress&_s2member_seeking[req_level]=" . urlencode ($min) . "&_s2member_seeking[_uri]=" . base64_encode ($_SERVER["REQUEST_URI"]) . "&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 																/**/
 																exit (); /* Clean exit. */
 															}
@@ -231,7 +231,7 @@ if (!function_exists ("ws_plugin__s2member_bridge_bbpress_access"))
 														/**/
 														if (bb_is_user_logged_in () && !bb_current_user_can ("participate")) /* Unable to participate? */
 															{
-																echo '<p class="upgrade-line">Your Membership needs to be <a href="' . esc_attr (bb_get_option ("wp_siteurl") . "/?s2member_membership_options_page=1&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min)) . '" class="upgrade-link">upgraded</a> before you can Post.</p>';
+																echo '<p class="upgrade-line">Your Membership needs to be <a href="' . esc_attr (bb_get_option ("wp_siteurl") . "/?s2member_membership_options_page=1&_s2member_seeking[bbpress]=bbpress&_s2member_seeking[req_level]=" . urlencode ($min) . "&_s2member_seeking[_uri]=" . base64_encode ($_SERVER["REQUEST_URI"]) . "&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min)) . '" class="upgrade-link">upgraded</a> before you can Post.</p>';
 															}
 														/**/
 														return; /* Return for uniformity. */
@@ -244,7 +244,7 @@ if (!function_exists ("ws_plugin__s2member_bridge_bbpress_access"))
 					{
 						if ($url = bb_get_option ("wp_siteurl")) /* This will redirect registrants to your Membership Options Page. */
 							{
-								wp_redirect ($url . "/?s2member_membership_options_page=1&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
+								wp_redirect ($url . "/?s2member_membership_options_page=1&_s2member_seeking[bbpress]=bbpress&_s2member_seeking[req_level]=" . urlencode ($min) . "&_s2member_seeking[_uri]=" . base64_encode ($_SERVER["REQUEST_URI"]) . "&s2member_seeking=bbpress&s2member_level_req=" . urlencode ($min), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ()));
 								/**/
 								exit (); /* Clean exit. */
 							}

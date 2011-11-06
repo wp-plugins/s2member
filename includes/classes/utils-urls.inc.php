@@ -1,0 +1,274 @@
+<?php
+/**
+* URL utilities.
+*
+* Copyright: © 2009-2011
+* {@link http://www.websharks-inc.com/ WebSharks, Inc.}
+* ( coded in the USA )
+*
+* Released under the terms of the GNU General Public License.
+* You should have received a copy of the GNU General Public License,
+* along with this software. In the main directory, see: /licensing/
+* If not, see: {@link http://www.gnu.org/licenses/}.
+*
+* @package s2Member\Utilities
+* @since 3.5
+*/
+if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
+	exit("Do not access this file directly.");
+/**/
+if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
+	{
+		/**
+		* URL utilities.
+		*
+		* @package s2Member\Utilities
+		* @since 3.5
+		*/
+		class c_ws_plugin__s2member_utils_urls
+			{
+				/**
+				* Builds a WordPress® signup URL to `/wp-signup.php`.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return str Full URL to `/wp-signup.php`.
+				*/
+				public static function wp_signup_url () /* With Filters. */
+					{
+						return apply_filters ("wp_signup_location", site_url ("/wp-signup.php"));
+					}
+				/**
+				* Builds a WordPress® registration URL to `/wp-login.php?action=register`.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @return str Location of `/wp-login.php?action=register`.
+				*/
+				public static function wp_register_url () /* With Filters. */
+					{
+						return apply_filters ("wp_register_location", add_query_arg ("action", urlencode ("register"), wp_login_url ()), get_defined_vars ());
+					}
+				/**
+				* Builds a BuddyPress registration URL to `/register`.
+				*
+				* @package s2Member\Utilities
+				* @since 111009
+				*
+				* @return str Location of `/register`.
+				*/
+				public static function bp_register_url () /* Only if BuddyPress is installed. */
+					{
+						if (c_ws_plugin__s2member_utils_conds::bp_is_installed ()) /* Only if BuddyPress is installed. */
+							return site_url (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () . "/" : BP_REGISTER_SLUG . "/"));
+					}
+				/**
+				* Filters content redirection status *( uses 302s for browsers )*.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("ws_plugin__s2member_content_redirect_status");``
+				*
+				* @param int|str $status A numeric redirection status code.
+				* @return int|str A numeric status redirection code, possibly modified to a value of `302`.
+				*
+				* @see http://en.wikipedia.org/wiki/Web_browser_engine
+				*/
+				public static function redirect_browsers_using_302_status ($status = 301)
+					{
+						$engines = "msie|trident|gecko|webkit|presto|konqueror|playstation";
+						/**/
+						if ((int)$status === 301 && !empty ($_SERVER["HTTP_USER_AGENT"]))
+							if (($is_browser = preg_match ("/(" . $engines . ")[\/ ]([0-9\.]+)/i", $_SERVER["HTTP_USER_AGENT"])))
+								return 302;
+						/**/
+						return $status; /* Else keep existing status code. */
+					}
+				/**
+				* Parses out a full valid URI, from either a full URL, or a partial URI.
+				*
+				* Uses {@link s2Member\Utilities\c_ws_plugin__s2member_utils_urls::parse_url()}.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $url_or_uri Either a full URL, or a partial URI.
+				* @return str A valid URI, starting with `/` on success, else an empty string.
+				*/
+				public static function parse_uri ($url_or_uri = FALSE)
+					{
+						if (is_string ($url_or_uri) && is_array ($parse = c_ws_plugin__s2member_utils_urls::parse_url ($url_or_uri)))
+							{
+								$parse["path"] = (!empty ($parse["path"])) ? ((strpos ($parse["path"], "/") === 0) ? $parse["path"] : "/" . $parse["path"]) : "/";
+								/**/
+								return (!empty ($parse["query"])) ? $parse["path"] . "?" . $parse["query"] : $parse["path"];
+							}
+						else /* Force a string return value here. */
+							return ""; /* Empty string. */
+					}
+				/**
+				* Parses a URL with same args as PHP's ``parse_url()`` function.
+				*
+				* This works around issues with this PHP function in versions prior to 5.3.8.
+				*
+				* @package s2Member\Utilities
+				* @since 111017
+				*
+				* @param str $url_or_uri Either a full URL, or a partial URI.
+				* @param bool|int $component Optional. See PHP documentation on ``parse_url()`` function.
+				* @param bool $clean_path Defaults to true. s2Member will cleanup any return array `path`.
+				* @return str|array|bool The return value from PHP's ``parse_url()`` function.
+				* 	However, if ``$component`` is passed, s2Member forces a string return.
+				*/
+				public static function parse_url ($url_or_uri = FALSE, $component = FALSE, $clean_path = TRUE)
+					{
+						$component = ($component === false || $component === -1) ? -1 : $component;
+						/**/
+						if (is_string ($url_or_uri) && strpos ($url_or_uri, "?") !== "false") /* A query string? */
+							{
+								list ($_, $query) = preg_split ("/\?/", $url_or_uri, 2); /* Split at the query string. */
+								/* Works around bug in many versions of PHP. See: <https://bugs.php.net/bug.php?id=38143>. */
+								$query = str_replace ("://", urlencode ("://"), $query);
+								$url_or_uri = $_ . "?" . $query;
+							}
+						/**/
+						$parse = @parse_url ($url_or_uri, $component); /* Let PHP work its magic now. */
+						/**/
+						if ($clean_path && isset ($parse["path"]) && is_string ($parse["path"]) && !empty ($parse["path"]))
+							$parse["path"] = preg_replace ("/\/+/", "/", $parse["path"]);
+						/**/
+						return ($component !== -1) ? /* Force a string return value here? */ (string)$parse : $parse;
+					}
+				/**
+				* Responsible for all remote communications processed by s2Member.
+				*
+				* Uses ``wp_remote_request()`` through the `WP_Http` class.
+				* This function will try to use cURL first, and then fall back on FOPEN and/or other supported transports.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @param str $url Full URL with possible query string parameters.
+				* @param str|array $post_vars Optional. Either a string of POST vars, or an array.
+				* @param array $args Optional. An array of additional arguments used by ``wp_remote_request()``.
+				* @param bool $return Optional. One of: `body|array`. Defaults to `body`. If `array`, an array with the following elements is returned:
+				* 	`headers` *(an array of headers)*, `body` *(the response body string)*, `code` *(http response code)*, `message` *(http response message)*, `response` *(response array)*.
+				* @return str|array|bool Requested response data from the remote location *(see ``$return`` parameter )*, else false on failure.
+				*/
+				public static function remote ($url = FALSE, $post_vars = FALSE, $args = FALSE, $return = FALSE)
+					{
+						if ($url && is_string ($url)) /* We MUST have a valid full URL (string) before we do anything in this routine. */
+							{
+								$args = (!is_array ($args)) ? array (): $args; /* Force array & disable SSL verification. */
+								$args["sslverify"] = (!isset ($args["sslverify"])) ? /* Off. */ false : $args["sslverify"];
+								/**/
+								if ((is_array ($post_vars) || is_string ($post_vars)) && !empty ($post_vars))
+									$args = array_merge ($args, array ("method" => "POST", "body" => $post_vars));
+								/**/
+								if (preg_match ("/^https/i", $url) && stripos (PHP_OS, "win") === 0)
+									add_filter ("use_curl_transport", "__return_false", ($curl_disabled = 1352));
+								/**/
+								if (!has_filter ("http_response", "c_ws_plugin__s2member_utils_urls::_remote_gz_variations"))
+									add_filter ("http_response", "c_ws_plugin__s2member_utils_urls::_remote_gz_variations");
+								/**/
+								$response = wp_remote_request ($url, $args); /* Try to process the remote request now. */
+								/**/
+								if ($return === "array" /* Return array? */ && !is_wp_error ($response) && is_array ($response))
+									{
+										$r = array ("code" => (int)wp_remote_retrieve_response_code ($response), "message" => wp_remote_retrieve_response_message ($response));
+										/**/
+										$r = array_merge ($r, array ("o_headers" => wp_remote_retrieve_headers ($response), "headers" => array ()));
+										foreach (array_keys ($r["o_headers"]) as $header) /* Array of lowercase headers makes things easier. */
+											$r["headers"][strtolower ($header)] = $r["o_headers"][$header];
+										/**/
+										$r = array_merge ($r, array ("body" => wp_remote_retrieve_body ($response), "response" => $response));
+									}
+								/**/
+								else if (!is_wp_error ($response) && is_array ($response)) /* Else returning ``$response`` body only. */
+									$r = wp_remote_retrieve_body ($response);
+								/**/
+								else /* Else this remote request has failed completely. We must return a `false` value. */
+									$r = false; /* Remote request failed, return false. */
+								/**/
+								if (isset ($curl_disabled) && $curl_disabled === 1352) /* Remove this Filter now? */
+									remove_filter ("use_curl_transport", "__return_false", 1352);
+								/**/
+								return $r; /* The ``$r`` return value. */
+							}
+						/**/
+						else /* Else, return false. */
+							return false;
+					}
+				/**
+				* Filters the `WP_Http` response for additional gzinflate variations.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @attaches-to: ``add_filter("http_response");``
+				*
+				* @param array $response An array of response details.
+				* @return array of ``$response`` details, with possible body modifications.
+				*/
+				public static function _remote_gz_variations ($response = array ())
+					{
+						if (!isset ($response["ws__gz_variations"]) && ($response["ws__gz_variations"] = 1))
+							{
+								if (!empty ($response["headers"]["content-encoding"]))
+									if (!empty ($response["body"]) && substr ($response["body"], 0, 2) === "\x78\x9c")
+										if (($gz = @gzinflate (substr ($response["body"], 2))))
+											$response["body"] = $gz;
+							}
+						/**/
+						return $response; /* Return response. */
+					}
+				/**
+				* Shortens a long URL, based on s2Member configuration.
+				*
+				* @package s2Member\Utilities
+				* @since 111002
+				*
+				* @param str $url A full/long URL to be shortened.
+				* @param str $api_sp Optional. A specific URL shortening API to use. Defaults to that which is configured in the s2Member Dashboard. Normally `tiny_url` by default.
+				* @param bool $try_backups Defaults to true. If a failure occurs with the first API, we'll try others until we have success.
+				* @return str|bool The shortened URL on success, else false on failure.
+				*/
+				public static function shorten ($url = FALSE, $api_sp = FALSE, $try_backups = TRUE)
+					{
+						$url = ($url && is_string ($url)) ? $url : false; /* Only accept a string value here. */
+						$api_sp = ($api_sp && is_string ($api_sp)) ? $api_sp : false; /* Only accept a string value. */
+						/**/
+						$default_url_shortener = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_url_shortener"];
+						$default_custom_str_url_shortener = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_custom_str_url_shortener"];
+						/**/
+						$apis = array ("tiny_url", "goo_gl"); /* The shortening APIs integrated with this routine so far. More will come soon. */
+						/**/
+						if ($url && ($api = ($api_sp) ? strtolower ($api_sp) : $default_url_shortener)) /* If specific, use it. Otherwise, default shortener. */
+							{
+								if (!$api_sp && ($custom_url = apply_filters ("ws_plugin__s2member_url_shorten", false, get_defined_vars ())) && stripos ($custom_url, "http") === 0)
+									return ($shorter_url = $custom_url); /* Using whatever other shortener API you prefer, over the ones available by default with s2Member. */
+								/**/
+								else if (!$api_sp && stripos ($default_custom_str_url_shortener, "http") === 0 && ($custom_url = trim (c_ws_plugin__s2member_utils_urls::remote (str_ireplace (array ("%%s2_long_url%%", "%%s2_long_url_md5%%"), array (rawurlencode ($url), urlencode (md5 ($url))), $default_custom_str_url_shortener)))) && stripos ($custom_url, "http") === 0)
+									return ($shorter_url = $custom_url); /* Using whatever other shortener API that a site owner prefers, over the ones available by default with s2Member. */
+								/**/
+								else if ($api === "tiny_url" && ($tiny_url = trim (c_ws_plugin__s2member_utils_urls::remote ("http://tinyurl.com/api-create.php?url=" . rawurlencode ($url)))) && stripos ($tiny_url, "http") === 0)
+									return ($shorter_url = $tiny_url); /* The default tinyURL API: <http://tinyurl.com/api-create.php?url=http://www.example.com/>.
+								/**/
+								else if ($api === "goo_gl" && ($goo_gl = json_decode (trim (c_ws_plugin__s2member_utils_urls::remote ("https://www.googleapis.com/urlshortener/v1/url" . ((($goo_gl_key = apply_filters ("ws_plugin__s2member_url_shorten_api_goo_gl_key", false))) ? "?key=" . urlencode ($goo_gl_key) : ""), json_encode (array ("longUrl" => $url)), array ("headers" => array ("Content-Type" => "application/json")))), true)) && !empty ($goo_gl["id"]) && ($goo_gl_url = $goo_gl["id"]) && stripos ($goo_gl_url, "http") === 0)
+									return ($shorter_url = $goo_gl_url); /* Google® API: <http://code.google.com/apis/urlshortener/v1/getting_started.html>.
+								/**/
+								else if ($try_backups && count ($apis) > 1) /* Try backups? This way we can still try to shorten the URL. */
+									/**/
+									foreach (array_diff ($apis, array ($api)) as $backup)
+										if (($backup = c_ws_plugin__s2member_utils_urls::shorten ($url, $backup, false)))
+											return ($shorter_url = $backup);
+							}
+						/**/
+						return false; /* Default return value. */
+					}
+			}
+	}
+?>

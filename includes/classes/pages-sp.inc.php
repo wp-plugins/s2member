@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_pages_sp"))
 	{
@@ -36,6 +36,8 @@ if (!class_exists ("c_ws_plugin__s2member_pages_sp"))
 				* @param int|str $page_id Numeric Page ID.
 				* @param bool $check_user Test permissions against the current User? Defaults to true.
 				* @return null|array Non-empty array ( with details ) if access is denied, else null if access is allowed.
+				*
+				* @todo Provide more information in the return array ( like MOP Vars ).
 				*/
 				public static function check_specific_page_level_access ($page_id = FALSE, $check_user = TRUE)
 					{
@@ -65,6 +67,9 @@ if (!class_exists ("c_ws_plugin__s2member_pages_sp"))
 												for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Page Level restrictions. Go through each Level. */
 													{
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"] === "all" && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
+															return apply_filters ("ws_plugin__s2member_check_specific_page_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
+														/**/
+														else if (strpos ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"], "all-") !== false && in_array ("all-pages", preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
 															return apply_filters ("ws_plugin__s2member_check_specific_page_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 														/**/
 														else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"] && in_array ($page_id, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"])) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))

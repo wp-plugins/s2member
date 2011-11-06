@@ -107,6 +107,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -190,6 +193,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -266,6 +272,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -327,6 +336,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '</tr>' . "\n";
 								echo '</tbody>' . "\n";
 								echo '</table>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -353,9 +365,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-idev-section">' . "\n";
 								echo '<h3>Integrating iDevAffiliate® ( affiliate program management )</h3>' . "\n";
-								echo '<a href="http://www.idevdirect.com/14200.html" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/idev-logo.gif" class="ws-menu-page-right" style="width:125px; height:125px; border:0;" alt="." /></a>' . "\n";
-								echo '<p>Adding affiliate tracking software to your site is one of the most effective ways to achieve more sales, more traffic, and more search engine ranking. <a href="http://www.idevdirect.com/14200.html" target="_blank" rel="external">iDevAffiliate®</a> ( an affiliate management portal ), installs in just minutes, and can be integrated seamlessly with s2Member. We recommend <a href="http://www.idevdirect.com/14200.html" target="_blank" rel="external">iDevAffiliate® Standard</a> ( $99 ) because of its proven track record, and its ability to integrate with s2Member using a variety of techniques. The most popular being a Hidden Image Tag.</p>' . "\n";
-								echo '<p>If you choose to <a href="http://www.idevdirect.com/14200.html" target="_blank" rel="external">install iDevAffiliate®</a>, you will need to configure your <code>iDevAffiliate® -> Shopping Cart Integration</code>. Please choose <code>Generic Tracking Pixel</code>. Then, grab your Hidden Image Tag, and pop the code provided by iDevAffiliate® into one of the fields for Tracking Codes <em>( at the top of this page )</em>. You MUST also add Replacement Codes to your Hidden Image Tag. To save you some trouble, we\'ve provided some examples below, one for each of s2Member\'s Tracking Code integrations.</p>' . "\n";
+								echo '<a href="http://www.s2member.com/idev-affiliate" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/idev-logo.gif" class="ws-menu-page-right" style="width:125px; height:125px; border:0;" alt="." /></a>' . "\n";
+								echo '<p>Adding affiliate tracking software to your site is one of the most effective ways to achieve more sales, more traffic, and more search engine ranking. <a href="http://www.s2member.com/idev-affiliate" target="_blank" rel="external">iDevAffiliate®</a> ( an affiliate management portal ), installs in just minutes, and can be integrated seamlessly with s2Member. We recommend <a href="http://www.s2member.com/idev-affiliate" target="_blank" rel="external">iDevAffiliate® Standard</a> ( $99 ) because of its proven track record, and its ability to integrate with s2Member using a variety of techniques. The most popular being a Hidden Image Tag.</p>' . "\n";
+								echo '<p>If you choose to <a href="http://www.s2member.com/idev-affiliate" target="_blank" rel="external">install iDevAffiliate®</a>, you will need to configure your <code>iDevAffiliate® -> Shopping Cart Integration</code>. Please choose <code>Generic Tracking Pixel</code>. Then, grab your Hidden Image Tag, and pop the code provided by iDevAffiliate® into one of the fields for Tracking Codes <em>( at the top of this page )</em>. You MUST also add Replacement Codes to your Hidden Image Tag. To save you some trouble, we\'ve provided some examples below, one for each of s2Member\'s Tracking Code integrations.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_trk_ops_page_during_left_sections_during_idev", get_defined_vars ());
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -384,6 +396,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p>Your <code>profile</code> ID will be assigned by iDevAffiliate®. Be sure to replace <code>profile=123</code> with your own profile ID.</p>' . "\n";
 								echo '<p><em><strong>*Tip*</strong> iDevAffiliate® also provides an alternative method, using a 3rd-party call. The alternative 3rd-party call, could be used with <code>s2Member -> API Notifications.</code> A 3rd-party call, is essentially an HTTP connection that runs silently behind-the-scene, as opposed to being loaded in a browser. It\'s a bit more powerful, but also more advanced.</em></p>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes with iDevAffiliate®. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -399,9 +414,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								/**/
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-shareasale-section">' . "\n";
 								echo '<h3>Integrating ShareASale® ( affiliate program management )</h3>' . "\n";
-								echo '<a href="http://www.shareasale.com/merchantsignup.cfm" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/sas-logo.png" class="ws-menu-page-right" style="width:125px; height:125px; border:0;" alt="." /></a>' . "\n";
-								echo '<p>Established in 2000, <a href="http://www.shareasale.com/merchantsignup.cfm" target="_blank" rel="external">ShareASale®</a> provides award winning technology and service; which will enable you to connect with a network of established affiliates, as well as recruit new ones. Joining ShareASale®, maximizes your ability to reach the greatest number of affiliates, with the least amount of work. At ShareASale®, you\'ll have access to an existing affiliate-base. You place your site on the market, and let their existing affiliates promote your products/services.</p>' . "\n";
-								echo '<p>If you <a href="http://www.shareasale.com/merchantsignup.cfm" target="_blank" rel="external">become a Merchant at ShareASale®</a>, you will need to configure your <code>ShareASale® -> Sale Tracking</code>. Grab your Hidden Image Tag, and pop the code provided by ShareASale® into one of the fields for Tracking Codes <em>( at the top of this page )</em>. You MUST also add Replacement Codes to your Hidden Image Tag. To save you some trouble, we\'ve provided some examples below, one for each of s2Member\'s Tracking Code integrations.</p>' . "\n";
+								echo '<a href="http://www.s2member.com/shareasale" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/sas-logo.png" class="ws-menu-page-right" style="width:125px; height:125px; border:0;" alt="." /></a>' . "\n";
+								echo '<p>Established in 2000, <a href="http://www.s2member.com/shareasale" target="_blank" rel="external">ShareASale®</a> provides award winning technology and service; which will enable you to connect with a network of established affiliates, as well as recruit new ones. Joining ShareASale®, maximizes your ability to reach the greatest number of affiliates, with the least amount of work. At ShareASale®, you\'ll have access to an existing affiliate-base. You place your site on the market, and let their existing affiliates promote your products/services.</p>' . "\n";
+								echo '<p>If you <a href="http://www.s2member.com/shareasale" target="_blank" rel="external">become a Merchant at ShareASale®</a>, you will need to configure your <code>ShareASale® -> Sale Tracking</code>. Grab your Hidden Image Tag, and pop the code provided by ShareASale® into one of the fields for Tracking Codes <em>( at the top of this page )</em>. You MUST also add Replacement Codes to your Hidden Image Tag. To save you some trouble, we\'ve provided some examples below, one for each of s2Member\'s Tracking Code integrations.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_trk_ops_page_during_left_sections_during_shareasale", get_defined_vars ());
 								/**/
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -430,6 +445,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								echo '<p>Your <code>merchantID</code> will be assigned by ShareASale®. Be sure to replace <code>merchantID=123</code> with the one they assign you.</p>' . "\n";
 								echo '<p><em><strong>*Tip*</strong> ShareASale® also provides an alternative method, using a 3rd-party call. The alternative 3rd-party call, could be used with <code>s2Member -> API Notifications.</code> A 3rd-party call, is essentially an HTTP connection that runs silently behind-the-scene, as opposed to being loaded in a browser. It\'s a bit more powerful, but also more advanced.</em></p>' . "\n";
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes with ShareASale®. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -447,6 +465,9 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_trk_ops"))
 								echo '<h3>Other Tracking Methods Are Available ( there\'s always a way )</h3>' . "\n";
 								echo '<p>Check the s2Member API Notifications panel. You\'ll find additional layers of automation available through the use of the `Signup`, `Registration`, `Payment`, `Modification`, `EOT/Deletion`, `Refund/Reversal`, and `Specific Post/Page` Notifications that are available to you through the s2Member API. The s2Member API Notifications make it possible to integrate with 3rd party applications; like list servers, affiliate programs, and other back-office routines; in more advanced ways. Since s2Member API Notifications operate silently on the back-end, they tend to be more reliable and also more versatile. That being said, nothing replaces the simplicity of Tracking Codes. The more advanced API Notifications are NOT always the best tool for the job. For instance, API Notifications will NOT work with Google® Analytics, or 1 pixel &lt;img&gt; tags. They operate silently behind-the-scene, using HTTP connections, as opposed to being loaded in a browser.</p>' . "\n";
 								do_action ("ws_plugin__s2member_during_trk_ops_page_during_left_sections_during_other_methods", get_defined_vars ());
+								/**/
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+								echo '<p><em><strong>*Tip*</strong> With <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a>, it\'s possible to integrate Affiliate Coupon Codes with iDevAffiliate®. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code that you\'ve configured with s2Member Pro. Please check your Dashboard here: <code>s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes</code>. This is a VERY powerful feature.</em></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";

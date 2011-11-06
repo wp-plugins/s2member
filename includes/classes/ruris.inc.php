@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; /* Current User's object. */
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level0")))
-											wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ruri]" => base64_encode ($_SERVER["REQUEST_URI"]), "_s2member_seeking[req_level]" => "0", "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => "0")), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+											c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ruri", $_SERVER["REQUEST_URI"], "level", 0, $_SERVER["REQUEST_URI"], "sys") . exit ();
 										/**/
 										else if (!c_ws_plugin__s2member_systematics::is_systematic_use_page ()) /* Do NOT protect Systematics. However, there is 1 exception above ^. */
 											{
@@ -58,7 +58,7 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 															/**/
 															foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
 																if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
-																	wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ruri]" => base64_encode ($_SERVER["REQUEST_URI"]), "_s2member_seeking[req_level]" => $n, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ruri-" . base64_encode ($_SERVER["REQUEST_URI"]), "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																	c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ruri", $_SERVER["REQUEST_URI"], "level", $n, $_SERVER["REQUEST_URI"]) . exit ();
 													}
 											}
 										/**/
@@ -76,6 +76,8 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 				* @package s2Member\URIs
 				* @since 3.5
 				*
+				* @param str $uris A URI string, or a string of multiple URIs is also fine.
+				* @param obj $user Optional. A `WP_User` object. Defaults to the current User, if logged-in.
 				* @return str Collective string of input URIs, with Replacement Codes having been filled.
 				*/
 				public static function fill_ruri_level_access_rc_vars ($uris = FALSE, $user = FALSE)
@@ -84,12 +86,13 @@ if (!class_exists ("c_ws_plugin__s2member_ruris"))
 						do_action ("ws_plugin__s2member_before_fill_ruri_level_access_rc_vars", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
+						$uris = (string)$uris; /* Force ``$uris`` to a string value. */
 						$orig_uris = $uris; /* Record the original URIs that were passed in; collectively. */
 						/**/
 						$user = ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID)) ? $user : false;
 						/**/
-						$user_login = ($user) ? (string)strtolower ($user->user_login) : "";
 						$user_id = ($user) ? (string)$user->ID : "";
+						$user_login = ($user) ? (string)strtolower ($user->user_login) : "";
 						/**/
 						$user_level = (string)c_ws_plugin__s2member_user_access::user_access_level ($user);
 						$user_role = (string)c_ws_plugin__s2member_user_access::user_access_role ($user);

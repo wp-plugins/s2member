@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 	{
@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 					{
 						$updated_all_options = false; /* Initialize this to a value of false. Initializing this variable here makes it an available reference-variable to Hooks/Filters. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -70,7 +70,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								/**/
 								unset ($key, $value); /* Unset these utility variables now. This prevents bleeding vars into Hooks/Filters that are of no use. */
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -110,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$updated_all_options = true; /* Flag indicating this routine was processed successfully; and that all s2Member options have been updated successfully.*/
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -261,7 +261,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				*/
 				public static function _add_settings_link ($actions = FALSE, $plugin_file = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -270,7 +270,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
 								array_unshift ($actions, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("_ws_plugin__s2member_during_add_settings_link", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
@@ -293,10 +293,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_script ("jquery");
-								wp_enqueue_script ("thickbox");
-								wp_enqueue_script ("media-upload");
-								wp_enqueue_script ("jquery-ui-core");
+								wp_enqueue_script("jquery");
+								wp_enqueue_script("thickbox");
+								wp_enqueue_script("media-upload");
+								wp_enqueue_script("jquery-ui-core");
 								wp_enqueue_script ("jquery-sprintf", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.sprintf/jquery.sprintf-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.json-ps/jquery.json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.ui-effects/jquery.ui-effects-min.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
@@ -325,7 +325,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_style ("thickbox");
+								wp_enqueue_style("thickbox");
 								wp_enqueue_style ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_css=" . urlencode (mt_rand ())), array ("thickbox"), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
 								do_action ("ws_plugin__s2member_during_add_admin_styles", get_defined_vars ());
@@ -618,45 +618,6 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				public static function integrations_page ()
 					{
 						do_action ("ws_plugin__s2member_before_integrations_page", get_defined_vars ());
-						/**/
-						if (!empty ($_POST["ws_plugin__s2member_bridge_bbpress"]) && ($nonce = $_POST["ws_plugin__s2member_bridge_bbpress"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-bridge-bbpress") && ($_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST))))
-							{
-								if (!empty ($_p["ws_plugin__s2member_bridge_bbpress_plugins_dir"]) && is_dir ($plugins_dir = untrailingslashit ($_p["ws_plugin__s2member_bridge_bbpress_plugins_dir"])))
-									{
-										if (is_writable ($plugins_dir)) /* This directory MUST be writable. */
-											{
-												if (preg_match ("/^Install/i", $_p["ws_plugin__s2member_bridge_bbpress_action"]))
-													{
-														$min = (string)$_p["ws_plugin__s2member_bridge_bbpress_min_level"];
-														$ovg = (string)$_p["ws_plugin__s2member_bridge_bbpress_ovg"];
-														/**/
-														if (($file = file_get_contents (dirname (dirname (__FILE__)) . "/dropins/bridges/_s2member-bbpress-bridge.php")) && ($file = preg_replace ("/%%min%%/i", c_ws_plugin__s2member_utils_strings::esc_dq ($min), preg_replace ("/%%ovg%%/i", c_ws_plugin__s2member_utils_strings::esc_dq ($ovg), $file))) && file_put_contents ($plugins_dir . "/_s2member-bbpress-bridge.php", $file))
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin has been <strong>installed successfully</strong>.');
-														/**/
-														else /* Otherwise, something unexpected. The site owner will need to install the bbPress® plugin manually. */
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unknown error. Please try again, or install manually.', true);
-													}
-												/**/
-												else if (preg_match ("/^Un-Install/i", $_p["ws_plugin__s2member_bridge_bbpress_action"]))
-													{
-														if (file_exists ($plugins_dir . "/_s2member-bbpress-bridge.php"))
-															{
-																if (!unlink ($plugins_dir . "/_s2member-bbpress-bridge.php")) /* Test return value of unlink. */
-																	c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unknown error. Please try again, or un-install manually.', true);
-																/**/
-																else /* Otherwise, everything looks good. The plugin file has been removed successfully. */
-																	c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin has been successfully <strong>uninstalled</strong>.');
-															}
-														else
-															c_ws_plugin__s2member_admin_notices::display_admin_notice ('The bbPress® Bridge/plugin is already un-installed.', true);
-													}
-											}
-										else
-											c_ws_plugin__s2member_admin_notices::display_admin_notice ('The directory you specified is NOT writable. Please try again, or install manually.', true);
-									}
-								else
-									c_ws_plugin__s2member_admin_notices::display_admin_notice ('The directory you specified does NOT exist. Please try again, or install manually.', true);
-							}
 						/**/
 						include_once dirname (dirname (__FILE__)) . "/menu-pages/integrations.inc.php";
 						/**/

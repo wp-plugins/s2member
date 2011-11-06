@@ -119,28 +119,70 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 				* Removes all null-value array keys from an array *( or even a multi-dimensional array )*.
 				*
 				* @package s2Member\Utilities
-				* @since 110720
+				* @since 111101
 				*
 				* @param array $array An input array.
-				* @return array|mixed The output array, or whatever was passed in.
+				* @return array Returns the ``$array`` after having reduced it to a non-null set of values.
 				*/
-				public static function remove_null_keys ($array = FALSE)
+				public static function remove_nulls ($array = FALSE)
 					{
-						if (is_array ($array) && !empty ($array))
+						$array = (array)$array;
+						/**/
+						foreach ($array as $key => &$value)
 							{
-								foreach ($array as $key => &$value)
-									{
-										if (is_array ($value)) /* Recursive function call here. */
-											$value = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
-										/**/
-										else if (is_null ($value)) /* Is it null? */
-											unset ($array[$key]);
-									}
+								if (is_array ($value)) /* Recursive function call here. */
+									$value = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
 								/**/
-								return $array;
+								else if (is_null ($value)) /* Is it null? */
+									unset ($array[$key]);
 							}
-						else /* Return same. */
-							return $array;
+						return $array;
+					}
+				/**
+				* Forces string values on each array value *( also supports multi-dimensional arrays )*.
+				*
+				* @package s2Member\Utilities
+				* @since 111101
+				*
+				* @param array $array An input array.
+				* @return array Returns the ``$array`` after having forced it to set of string values.
+				*/
+				public static function force_strings ($array = FALSE)
+					{
+						$array = (array)$array;
+						/**/
+						foreach ($array as &$value)
+							{
+								if (is_array ($value)) /* Recursive function call here. */
+									$value = c_ws_plugin__s2member_utils_arrays::force_strings ($value);
+								/**/
+								else if (!is_string ($value)) /* String? */
+									$value = (string)$value;
+							}
+						return $array;
+					}
+				/**
+				* Forces integer values on each array value *( also supports multi-dimensional arrays )*.
+				*
+				* @package s2Member\Utilities
+				* @since 111101
+				*
+				* @param array $array An input array.
+				* @return array Returns the ``$array`` after having forced it to set of integer values.
+				*/
+				public static function force_integers ($array = FALSE)
+					{
+						$array = (array)$array;
+						/**/
+						foreach ($array as &$value)
+							{
+								if (is_array ($value)) /* Recursive function call here. */
+									$value = c_ws_plugin__s2member_utils_arrays::force_integers ($value);
+								/**/
+								else if (!is_integer ($value)) /* Integer? */
+									$value = (int)$value;
+							}
+						return $array;
 					}
 			}
 	}

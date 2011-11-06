@@ -130,6 +130,21 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 						return false;
 					}
 				/**
+				* Checks to see if we're in a localhost environment.
+				*
+				* @package s2Member\Utilities
+				* @since 111101
+				*
+				* @return bool True if we're in a localhost environment, else false.
+				*/
+				public static function is_localhost ()
+					{
+						if ((defined ("LOCALHOST") && LOCALHOST) || stripos ($_SERVER["HTTP_HOST"], "localhost") !== false || strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") !== false)
+							return true;
+						/**/
+						return false;
+					}
+				/**
 				* Checks to see if we're using Amazon® S3.
 				*
 				* @package s2Member\Utilities

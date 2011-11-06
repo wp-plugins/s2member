@@ -31,4 +31,4 @@ Here is a breakdown on each of these Variables:
 	
 -----------------------------------------------------------------------------------------------------------
 
-* The use of MOP Vars is 100% completely optional ( for advanced site owners ).
+* These old MOP Vars are deprecated ( they will NOT be available in future versions of s2Member ).

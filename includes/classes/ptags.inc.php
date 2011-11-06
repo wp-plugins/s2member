@@ -43,24 +43,24 @@ if (!class_exists ("c_ws_plugin__s2member_ptags"))
 						/**/
 						$excluded = apply_filters ("ws_plugin__s2member_check_ptag_level_access_excluded", false, get_defined_vars ());
 						/**/
-						if (!$excluded && is_tag () && is_object ($tag = $wp_query->get_queried_object ()) && ($tag_id = (int)$tag->term_id) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
+						if (!$excluded && is_tag () && is_object ($tag = $wp_query->get_queried_object ()) && !empty ($tag->term_id) && ($tag_id = (int)$tag->term_id) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
 							{
 								if (!c_ws_plugin__s2member_systematics::is_wp_systematic_use_page ()) /* Do NOT touch WordPress® Systematics. This excludes all WordPress® Systematics. */
 									{
 										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; /* Current User's object. */
 										/**/
 										if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"] && ($login_redirection_uri = c_ws_plugin__s2member_login_redirects::login_redirection_uri ($user, "root-returns-false")) && preg_match ("/^" . preg_quote ($login_redirection_uri, "/") . "$/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level0")))
-											wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ptag]" => $tag_id, "_s2member_seeking[req_level]" => "0", "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ptag-" . $tag_id, "s2member_level_req" => "0")), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+											c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ptag", $tag_id, "level", 0, $_SERVER["REQUEST_URI"], "sys") . exit ();
 										/**/
 										else if (!c_ws_plugin__s2member_systematics::is_systematic_use_page ()) /* Do NOT protect Systematics. However, there is 1 exception above. */
 											{
 												for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Tag Level restrictions. Go through each Level. */
 													{
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] === "all" && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
-															wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ptag]" => $tag_id, "_s2member_seeking[req_level]" => $n, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ptag-" . $tag_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+															c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ptag", $tag_id, "level", $n, $_SERVER["REQUEST_URI"]) . exit ();
 														/**/
 														else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] && (is_tag ($tags = preg_split ("/[\r\n\t;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"])) || in_array ($tag_id, $tags)) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
-															wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ptag]" => $tag_id, "_s2member_seeking[req_level]" => $n, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ptag-" . $tag_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+															c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ptag", $tag_id, "level", $n, $_SERVER["REQUEST_URI"]) . exit ();
 													}
 												/**/
 												for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* URIs. Go through each Level. */
@@ -69,7 +69,7 @@ if (!class_exists ("c_ws_plugin__s2member_ptags"))
 															/**/
 															foreach (preg_split ("/[\r\n\t]+/", c_ws_plugin__s2member_ruris::fill_ruri_level_access_rc_vars ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ruris"], $user)) as $str)
 																if ($str && preg_match ("/" . preg_quote ($str, "/") . "/", $_SERVER["REQUEST_URI"]) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
-																	wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[ptag]" => $tag_id, "_s2member_seeking[req_level]" => $n, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "ptag-" . $tag_id, "s2member_level_req" => $n)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																	c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("ptag", $tag_id, "level", $n, $_SERVER["REQUEST_URI"], "ruri") . exit ();
 													}
 											}
 										/**/

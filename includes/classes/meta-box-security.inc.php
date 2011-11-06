@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 	{
@@ -38,7 +38,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 				*/
 				public static function security_meta_box ($post = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_security_meta_box", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -54,13 +54,20 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 												for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 													$pages[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
 												/**/
+												for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+													$posts[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
+												/**/
 												echo '<p style="margin-left:2px;"><strong>Page Level Restriction?</strong></p>' . "\n";
 												echo '<label class="screen-reader-text" for="ws-plugin--s2member-security-meta-box-level">Add Level Restriction?</label>' . "\n";
 												echo '<select name="ws_plugin__s2member_security_meta_box_level" id="ws-plugin--s2member-security-meta-box-level" style="width:99%;">' . "\n";
 												echo '<option value=""></option>' . "\n"; /* By default, we allow public access to any Post/Page. */
 												/**/
 												for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-													echo ($pages[$n] !== array ("all")) ? '<option value="' . $n . '"' . ((in_array ($page_id, $pages[$n])) ? ' selected="selected"' : '') . '>' . (($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Require Highest Level #' . $n : 'Require Level #' . $n . ' ( or higher )') . '</option>' . "\n" : '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Pages )</option>' . "\n";
+													echo ($pages[$n] !== array ("all")) ? /* Protecting `all` Pages, of any kind? */
+													((!in_array ("all-pages", $posts[$n])) /* Protecting Posts of type: `page` ( i.e. `all-pages` )? */
+													? '<option value="' . $n . '"' . ((in_array ($page_id, $pages[$n])) ? ' selected="selected"' : '') . '>' . (($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Require Highest Level #' . $n : 'Require Level #' . $n . ' ( or higher )') . '</option>' . "\n"/**/
+													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts of this type )</option>' . "\n")/**/
+													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Pages )</option>' . "\n";
 												/**/
 												echo '</select><br /><small>* see: <code>General Options -> Page Level Access</code></small>' . "\n";
 												/**/
@@ -102,7 +109,11 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 												echo '<option value=""></option>' . "\n"; /* By default, we allow public access to any Post/Page. */
 												/**/
 												for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-													echo ($posts[$n] !== array ("all")) ? '<option value="' . $n . '"' . ((in_array ($post_id, $posts[$n])) ? ' selected="selected"' : '') . '>' . (($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Require Highest Level #' . $n : 'Require Level #' . $n . ' ( or higher )') . '</option>' . "\n" : '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts )</option>' . "\n";
+													echo ($posts[$n] !== array ("all")) ? /* Protecting `all` Posts, of any kind? */
+													((!in_array ("all-" . $post->post_type . "s", $posts[$n])) /* Protecting Posts `all-[of-this-type]` ( don't forget plural `s` )? */
+													? '<option value="' . $n . '"' . ((in_array ($post_id, $posts[$n])) ? ' selected="selected"' : '') . '>' . (($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'Require Highest Level #' . $n : 'Require Level #' . $n . ' ( or higher )') . '</option>' . "\n"/**/
+													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts of this type )</option>' . "\n")/**/
+													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts )</option>' . "\n";
 												/**/
 												echo '</select><br /><small>* see: <code>General Options -> Post Level Access</code></small>' . "\n";
 												/**/

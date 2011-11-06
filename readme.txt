@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111029
-Stable tag: 111029
+Version: 111105
+Stable tag: 111105
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -178,6 +178,19 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111105 =
+* (s2Member Pro) **New feature**. It is now possible to configure Coupon Codes that are ONLY valid on specific Pages/Posts which may hold one of your s2Member Pro Forms. For further details, please check the examples in your Dashboard, here: `s2Member -> Pro Coupon Codes`.
+* (s2Member Pro) **New feature**. Affiliate Coupon Codes make it possible for your affiliates to receive credit for sales they refer, using one of your Coupon Codes. Here's how it works. You tell your affiliates about one or more of the Coupon Codes that you accept. Each of your affiliates can add their affiliate ID onto the end of any valid Coupon Code, like this: `COUPON-CODE-A:123`; where `COUPON-CODE` is the valid Coupon Code that you've configured, and `123` is the affiliate's ID. If a Customer comes to your site, and they use a Coupon Code with an affiliate ID on the end of it; your affiliate will be tracked automatically by s2Member. If this Customer actually completes the sale, the referring affiliate will be credited with whatever commission your affiliate program offers. For further details, please check the examples in your Dashboard, here: `s2Member -> Pro Coupon Codes -> Affiliate Coupon Codes`.
+* (s2Member/s2Member Pro) **New feature**. It is now possible to protect `all` Posts, but only of a specific Post Type. For further details, please check your Dashboard, under: `s2Member -> Restriction Options -> Post Level Access Restrictions`.
+* (s2Member Pro) **Improvement**. The s2Member Pro Login Widget now has improved handling of its `%%previous%%` Replacement Code for login redirections. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15522&p=48448#p48515).
+* (s2Member/s2Member Pro) **MOP Vars improved**. s2Member MOP Vars ( Membership Options Page Variables ), have been improved in this release. For further details, please check your Dashboard, under: `s2Member -> API / Scripting -> Membership Options Page (Variables)`.
+* (s2Member/s2Member Pro) **bbPress®**. Dropped legacy support for bbPress® stand-alone version. s2Member still supports the WordPress® plugin version of bbPress® v2.0+. However, from this version forward, we will no longer support the legacy s2Member Bridge to the stand-alone version of bbPress®. If you've already installed the s2Member Bridge for the stand-alone version of bbPress®, using a previous release of s2Member, your s2Member Bridge plugin should continue to work. However, the s2Member bbPress® Bridge is no longer included with s2Member, and we will not support the stand-alone version of bbPress® from this point forward.
+* (s2Member) **Bug fix**. s2Member function `c_ws_plugin__s2member_utils_gets::get_all_post_ids()` was not properly excluding Post Type `nav_menu_item`. Fixed in this release.
+* (s2Member) **Bug fix**. s2Member function `c_ws_plugin__s2member_utils_gets::get_all_child_category_ids()` was not including empty terms. Fixed in this release.
+* (s2Member) **Bug fix**. s2Member function `c_ws_plugin__s2member_utils_gets::get_all_tag_ids()` was not including empty terms. Fixed in this release.
+* (s2Member/s2Member Pro) **Routine maintenance**. Some code optimization, some cleanup, and some organizational improvements in preparation for new features in a coming release.
+* (s2Member/s2Member Pro) **WordPress® 3.3-beta2**. Compatibility updates for the coming release of WordPress® 3.3.
 
 = v111029 =
 * (s2Member Pro) **Compatibility**. s2Member Pro now supports automatic upgrades through filesystem methdologies, other than `direct`. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15283#p49034).

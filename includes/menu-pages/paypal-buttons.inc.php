@@ -176,7 +176,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_buttons"))
 								echo '</select></p>' . "\n";
 								/**/
 								echo '<p id="ws-plugin--s2member-modification-trial-line">I\'ll offer the first <input type="text" id="ws-plugin--s2member-modification-trial-period" value="0" size="6" /> <select id="ws-plugin--s2member-modification-trial-term">' . trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/options/paypal-membership-trial-terms.php"))) . '</select> @ $<input type="text" id="ws-plugin--s2member-modification-trial-amount" value="0.00" size="4" /></p>' . "\n";
-								echo '<p><span id="ws-plugin--s2member-modification-trial-then">Then, </span>I want to charge: $<input type="text" id="ws-plugin--s2member-modification-amount" value="0.01" size="4" /> / <select id="ws-plugin--s2member-modification-term">' . trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/options/paypal-membership-regular-terms.php"))) . '</select><span id="ws-plugin--s2member-modification-20p-rule"><br /><small>* Watch out for <a href="https://www.x.com/thread/41748" target="_blank" rel="external">the 20% rule</a>. Additional details are <a href="https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_WPRecurringPayments#id086530108PM__id08653060UE6" target="_blank" rel="external">documented here</a>.<br />* <strong>Tip</strong> <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a> are NOT subjected to this ridiculous 20% rule.</small></span></p>' . "\n";
+								echo '<p><span id="ws-plugin--s2member-modification-trial-then">Then, </span>I want to charge: $<input type="text" id="ws-plugin--s2member-modification-amount" value="0.01" size="4" /> / <select id="ws-plugin--s2member-modification-term">' . trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/options/paypal-membership-regular-terms.php"))) . '</select><span id="ws-plugin--s2member-modification-20p-rule"><br /><small>* Watch out for <a href="https://www.x.com/thread/41748" target="_blank" rel="external">the 20% rule</a>. Additional details are <a href="http://www.s2member.com/paypal-20p-rule" target="_blank" rel="external">documented here</a>.<br />* <strong>Tip</strong> <a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Pro Module / Prices")) . '" target="_blank" rel="external">s2Member Pro Forms</a> are NOT subjected to this ridiculous 20% rule.</small></span></p>' . "\n";
 								echo '<p>Checkout Page Style <a href="#" onclick="alert(\'Optional. This can be configured inside your PayPal® account. PayPal® allows you to create Custom Page Styles, and assign a unique name to them. You can add your own header image and color selection to the checkout form. Once you\\\'ve created a Custom Page Style at PayPal®, you can enter that Page Style here.\\n\\nIn addition. The Shortcode below, provided by s2Member; supports an image attribute: image=\\\'\\\'default\\\'\\\'. This can be changed to a full URL, pointing to a custom image of your own; instead of the default PayPal® Button image.\'); return false;" tabindex="-1">[?]</a>: <input type="text" id="ws-plugin--s2member-modification-page-style" value="paypal" size="18" /> <select id="ws-plugin--s2member-modification-currency">' . trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/options/paypal-currencies.php"))) . '</select> <input type="button" value="Generate Button Code" onclick="ws_plugin__s2member_paypalButtonGenerate(\'modification\');" class="button-primary" /></p>' . "\n";
 								echo '<p>Description: <input type="text" id="ws-plugin--s2member-modification-desc" value="Description and pricing details here." size="73" /></p>' . "\n";
 								echo '<p' . ((is_multisite () && c_ws_plugin__s2member_utils_conds::is_multisite_farm () && !is_main_site ()) ? ' style="display:none;"' : '') . '>Custom Capabilities ( comma-delimited ) <a href="#" onclick="alert(\'Optional. This is VERY advanced.\\nSee: s2Member -> API Scripting -> Custom Capabilities.\\n\\n*ADVANCED TIP: You can specifiy a list of Custom Capabilities that will be (Added) with this purchase. Or, you could tell s2Member to (Remove All) Custom Capabilities that may or may not already exist for a particular Member, and (Add) only the new ones that you specify. To do this, just start your list of Custom Capabilities with `-all`.\\n\\nSo instead of just (Adding) Custom Capabilities:\\nmusic,videos,archives,gifts\\n\\nYou could (Remove All) that may already exist, and then (Add) new ones:\\n-all,calendar,forums,tools\\n\\nOr to just (Remove All) and (Add) nothing:\\n-all\'); return false;" tabindex="-1">[?]</a> <input type="text" id="ws-plugin--s2member-modification-ccaps" size="40" maxlength="125" /></p>' . "\n";
@@ -456,28 +456,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_buttons"))
 								echo '<p><select id="ws-plugin--s2member-sp-leading-id">' . "\n";
 								echo '<option value="">&mdash; Select a Leading Post/Page that you\'ve protected &mdash;</option>' . "\n";
 								/**/
-								$ws_plugin__s2member_temp_a_pp = ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) ? (array)get_posts ("post_type=any&include=" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) : array ();
+								$ws_plugin__s2member_temp_a_singulars = c_ws_plugin__s2member_utils_gets::get_all_singulars_with_sp ("exclude-conflicts");
 								/**/
-								$ws_plugin__s2member_temp_a_pp_excludes = array ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"], $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"], $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"]);
-								/**/
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									$ws_plugin__s2member_temp_a_pp_excludes = array_merge ($ws_plugin__s2member_temp_a_pp_excludes, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
-								/**/
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									$ws_plugin__s2member_temp_a_pp_excludes = array_merge ($ws_plugin__s2member_temp_a_pp_excludes, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
-								/**/
-								foreach (($ws_plugin__s2member_temp_a = $ws_plugin__s2member_temp_a_pp) as $ws_plugin__s2member_temp_o)
-									if (!in_array ($ws_plugin__s2member_temp_o->ID, $ws_plugin__s2member_temp_a_pp_excludes))
-										echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
+								foreach ($ws_plugin__s2member_temp_a_singulars as $ws_plugin__s2member_temp_o)
+									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								/**/
 								echo '</select> <a href="#" onclick="alert(\'Required. The Leading Post/Page, is what your Customers will land on after checkout.\n\n*Tip* If there are no Posts/Pages in the menu, it\\\'s because you\\\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> Restriction Options -> Specific Post/Page Access.\'); return false;" tabindex="-1">[?]</a></p>' . "\n";
 								/**/
 								echo '<p><select id="ws-plugin--s2member-sp-additional-ids" multiple="multiple" style="height:100px;">' . "\n";
 								echo '<optgroup label="&mdash; Package Additional Posts/Pages that you\'ve protected &mdash;">' . "\n";
 								/**/
-								foreach (($ws_plugin__s2member_temp_a = $ws_plugin__s2member_temp_a_pp) as $ws_plugin__s2member_temp_o)
-									if (!in_array ($ws_plugin__s2member_temp_o->ID, $ws_plugin__s2member_temp_a_pp_excludes))
-										echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
+								foreach ($ws_plugin__s2member_temp_a_singulars as $ws_plugin__s2member_temp_o)
+									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								/**/
 								echo '</optgroup></select> <a href="#" onclick="alert(\'Hold down your `Ctrl` key to select multiples.\\n\\nOptional. If you include Additional Posts/Pages, Customers will still land on your Leading Post/Page; BUT, they\\\'ll ALSO have access to some Additional Posts/Pages that you\\\'ve protected. This gives you the ability to create Post/Page Packages.\\n\\nIn other words, a Customer is sold a Specific Post/Page ( they\\\'ll land on your Leading Post/Page after checkout ), which might contain links to some other Posts/Pages that you\\\'ve packaged together under one transaction.\\n\\nBundling Additional Posts/Pages into one Package, authenticates the Customer for access to the Additional Posts/Pages automatically ( e.g. only one Access Link is needed, and s2Member generates this automatically ). However, you will STILL need to design your Leading Post/Page ( which is what a Customer will actually land on ), with links pointing to the other Posts/Pages. This way your Customers will have clickable links to everything they\\\'ve paid for.\\n\\n*Quick Summary* s2Member sends Customers to your Leading Post/Page, and also authenticates them for access to any Additional Posts/Pages automatically. You handle it from there.\\n\\n*Tip* If there are no Posts/Pages in this menu, it\\\'s because you\\\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> Restriction Options -> Specific Post/Page Access.\'); return false;" tabindex="-1">[?]</a></p>' . "\n";
 								/**/
@@ -550,28 +540,18 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_buttons"))
 								echo '<p><select id="ws-plugin--s2member-sp-link-leading-id">' . "\n";
 								echo '<option value="">&mdash; Select a Leading Post/Page that you\'ve protected &mdash;</option>' . "\n";
 								/**/
-								$ws_plugin__s2member_temp_a_pp = ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) ? (array)get_posts ("post_type=any&include=" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) : array ();
+								$ws_plugin__s2member_temp_a_singulars = c_ws_plugin__s2member_utils_gets::get_all_singulars_with_sp ("exclude-conflicts");
 								/**/
-								$ws_plugin__s2member_temp_a_pp_excludes = array ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"], $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"], $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"]);
-								/**/
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									$ws_plugin__s2member_temp_a_pp_excludes = array_merge ($ws_plugin__s2member_temp_a_pp_excludes, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
-								/**/
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-									$ws_plugin__s2member_temp_a_pp_excludes = array_merge ($ws_plugin__s2member_temp_a_pp_excludes, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
-								/**/
-								foreach (($ws_plugin__s2member_temp_a = $ws_plugin__s2member_temp_a_pp) as $ws_plugin__s2member_temp_o)
-									if (!in_array ($ws_plugin__s2member_temp_o->ID, $ws_plugin__s2member_temp_a_pp_excludes))
-										echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
+								foreach ($ws_plugin__s2member_temp_a_singulars as $ws_plugin__s2member_temp_o)
+									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								/**/
 								echo '</select> <a href="#" onclick="alert(\'Required. The Leading Post/Page, is what your Customers will land on after checkout.\n\n*Tip* If there are no Posts/Pages in the menu, it\\\'s because you\\\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> Restriction Options -> Specific Post/Page Access.\'); return false;" tabindex="-1">[?]</a></p>' . "\n";
 								/**/
 								echo '<p><select id="ws-plugin--s2member-sp-link-additional-ids" multiple="multiple" style="height:100px; min-width:450px;">' . "\n";
 								echo '<optgroup label="&mdash; Package Additional Posts/Pages that you\'ve protected &mdash;">' . "\n";
 								/**/
-								foreach (($ws_plugin__s2member_temp_a = $ws_plugin__s2member_temp_a_pp) as $ws_plugin__s2member_temp_o)
-									if (!in_array ($ws_plugin__s2member_temp_o->ID, $ws_plugin__s2member_temp_a_pp_excludes))
-										echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
+								foreach ($ws_plugin__s2member_temp_a_singulars as $ws_plugin__s2member_temp_o)
+									echo '<option value="' . esc_attr ($ws_plugin__s2member_temp_o->ID) . '">' . esc_html ($ws_plugin__s2member_temp_o->post_title) . '</option>' . "\n";
 								/**/
 								echo '</optgroup></select> <a href="#" onclick="alert(\'Hold down your `Ctrl` key to select multiples.\\n\\nOptional. If you include Additional Posts/Pages, Customers will still land on your Leading Post/Page; BUT, they\\\'ll ALSO have access to some Additional Posts/Pages that you\\\'ve protected. This gives you the ability to create Post/Page Packages.\\n\\nIn other words, a Customer is sold a Specific Post/Page ( they\\\'ll land on your Leading Post/Page after checkout ), which might contain links to some other Posts/Pages that you\\\'ve packaged together under one transaction.\\n\\nBundling Additional Posts/Pages into one Package, authenticates the Customer for access to the Additional Posts/Pages automatically ( e.g. only one Access Link is needed, and s2Member generates this automatically ). However, you will STILL need to design your Leading Post/Page ( which is what a Customer will actually land on ), with links pointing to the other Posts/Pages. This way your Customers will have clickable links to everything they\\\'ve paid for.\\n\\n*Quick Summary* s2Member sends Customers to your Leading Post/Page, and also authenticates them for access to any Additional Posts/Pages automatically. You handle it from there.\\n\\n*Tip* If there are no Posts/Pages in this menu, it\\\'s because you\\\'ve not configured s2Member for Specific Post/Page Access yet. See: s2Member -> Restriction Options -> Specific Post/Page Access.\'); return false;" tabindex="-1">[?]</a></p>' . "\n";
 								/**/
@@ -612,7 +592,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_buttons"))
 								echo (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '<li><code>ccaps="music,videos"</code> A comma-delimited list of Custom Capabilities. Only valid w/ Membership Level Access and/or Independent Custom Capabilities.</li>' . "\n" : '';
 								echo '<li><code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '"</code> must start with your domain. Additional values can be piped in ( ex: <code>custom="' . esc_html ($_SERVER["HTTP_HOST"]) . '|cv1|cv2|cv3|etc"</code> ). Not valid when <code>cancel="1"</code>.</li>' . "\n";
 								echo '<li><code>desc="Gold Membership"</code> A brief purchase Description. Not valid when <code>cancel="1"</code>.</li>' . "\n";
-								echo '<li><code>dg="0"</code> The Digital Goods directive. s2Member will eventually be integrated with <a href="https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_IntroducingExpressCheckoutDG" target="_blank" rel="external">Digital Goods</a> for inline Express Checkout. But for now, this should always be <code>0</code>.</li>' . "\n";
+								echo '<li><code>dg="0"</code> The Digital Goods directive. s2Member will eventually be integrated with <a href="http://www.s2member.com/paypal-express-co-digitals" target="_blank" rel="external">Digital Goods</a> for inline Express Checkout. But for now, this should always be <code>0</code>.</li>' . "\n";
 								echo '<li><code>exp="72"</code> Access Expires ( in hours ). Only valid when <code>sp="1"</code> for Specific Post/Page Access.</li>' . "\n";
 								echo '<li><code>ids="14"</code> A Post/Page ID#, or a comma-delimited list of IDs. Only valid when <code>sp="1"</code> for Specific Post/Page Access.</li>' . "\n";
 								echo '<li><code>image="default"</code> Button Image Location. Possible values: <code>default</code> = use the default PayPal® Button, <code>http://...</code> = location of your custom Image.</li>' . "\n";

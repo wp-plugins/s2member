@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 	{
@@ -41,16 +41,14 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 					{
 						do_action ("ws_plugin__s2member_before_admin_lockouts", get_defined_vars ());
 						/**/
-						if ((!defined ("DOING_AJAX") || !DOING_AJAX) && !current_user_can ("edit_posts") && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"])
-							if (apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ()) /* Give Filters a chance here too. */)
+						if ((!defined ("DOING_AJAX") || !DOING_AJAX) && !current_user_can ("edit_posts") /* Give Filters a chance here too. */)
+							if (apply_filters ("ws_plugin__s2member_admin_lockout", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"], get_defined_vars ()))
 								{
 									if ($redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
-										wp_redirect ($redirection_url); /* Special Redirection. */
+										wp_redirect($redirection_url) . exit (); /* Special Redirection. */
 									/**/
 									else /* Else we use the Login Welcome Page configured for s2Member. */
-										wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
-									/**/
-									exit (); /* Clean exit. */
+										wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . exit ();
 								}
 						/**/
 						do_action ("ws_plugin__s2member_after_admin_lockouts", get_defined_vars ());
@@ -58,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 						return; /* Return for uniformity. */
 					}
 				/**
-				* Filters administrative menu bars.
+				* Filters administrative menu bar for Users/Members.
 				*
 				* @package s2Member\Admin_Lockouts
 				* @since 3.5
@@ -74,39 +72,45 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 						/**/
 						do_action ("ws_plugin__s2member_before_filter_admin_menu_bar", get_defined_vars ());
 						/**/
-						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts"))
+						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts") /* Always for Users/Members. */)
 							{
-								if (isset ($wp_admin_bar->menu->{"dashboard"})) /* We don't need this. */
-									unset ($wp_admin_bar->menu->{"dashboard"}); /* Remove this entire menu. */
+								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"wp-logo"}))
+									unset /* Ditch this. */($wp_admin_bar->menu->{"wp-logo"});
 								/**/
-								if (is_multisite () && !c_ws_plugin__s2member_utils_conds::is_multisite_farm () && isset ($wp_admin_bar->menu->{"my-blogs"}))
-									{
-										$wp_admin_bar->menu->{"my-blogs"}["href"] = "#"; /* Void this link out by converting to `#`. */
-										/**/
-										if (isset ($wp_admin_bar->menu->{"my-blogs"}["children"]) && is_object ($wp_admin_bar->menu->{"my-blogs"}["children"]))
-											foreach ($wp_admin_bar->menu->{"my-blogs"}["children"] as &$blog) /* Modify other Blog links in drop-down. */
-												if (is_array ($blog) && isset ($blog["href"], $blog["children"]) && is_object ($blog["children"]))
-													{
-														$blog["href"] = preg_replace ("/\/wp-admin/", "", $blog["href"]);
-														unset ($blog["children"]); /* Cause all we need is the link. */
-													}
-									}
+								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"site-name"}["href"]))
+									$wp_admin_bar->menu->{"site-name"}["href"] = /* Modify this to. */ site_url ("/");
 								/**/
-								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"] && apply_filters ("ws_plugin__s2member_admin_lockout", true, get_defined_vars ()))
-									{
-										$lwp = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user);
-										$lwp = (!$lwp) ? get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]) : $lwp;
-										/**/
-										if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"})) /* Profile. */
-											{
-												if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]))
-													$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = $lwp;
-												/**/
-												if (isset ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"]))
-													$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"] = $lwp;
-											}
-									}
+								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"site-name"}["children"]))
+									unset /* Ditch this. */($wp_admin_bar->menu->{"site-name"}["children"]);
+								/**/
+								if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"dashboard"}))
+									unset /* Ditch this. */($wp_admin_bar->menu->{"dashboard"});
+								/**/
+								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-sites"}))
+									unset /* Ditch this. */($wp_admin_bar->menu->{"my-sites"});
+								/**/
+								if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-blogs"}))
+									unset /* Ditch this. */($wp_admin_bar->menu->{"my-blogs"});
 							}
+						/**/
+						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts") /* If locking Users/Members out of `/wp-admin/` areas. */)
+							if (apply_filters ("ws_plugin__s2member_admin_lockout", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"], get_defined_vars ()))
+								{
+									$lwp = c_ws_plugin__s2member_login_redirects::login_redirection_url ();
+									$lwp = (!$lwp) ? get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]) : $lwp;
+									/**/
+									if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-account"}["href"]))
+										$wp_admin_bar->menu->{"my-account"}["href"] = /* Modify this to. */ $lwp;
+									/**/
+									if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]))
+										$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = /* Modify this to. */ $lwp;
+									/**/
+									if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"]))
+										$wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"] = /* Modify this to. */ $lwp;
+									/**/
+									if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"]))
+										$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"] = /* Modify this to. */ $lwp;
+								}
 						/**/
 						do_action ("ws_plugin__s2member_after_filter_admin_menu_bar", get_defined_vars ());
 						/**/

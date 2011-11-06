@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_files_in"))
 	{
@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_download_access ($create_file_download_url = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_file_download_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -87,7 +87,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -97,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											else if ($req["file_download_key"] && is_string ($req["file_download_key"]) && !$valid_file_download_key)
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>503 ( Invalid Key ):</strong> Sorry, your access to this file has expired. Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -117,7 +117,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													if ((isset ($file_downloads_enabled_by_site_owner, $min_level_4_downloads) && $file_downloads_enabled_by_site_owner === false) || ($file_downloads_enabled_by_site_owner = $min_level_4_downloads = c_ws_plugin__s2member_files::min_level_4_downloads ()) === false)
 														{
 															if ($serving) /* We only need this section when/if we're actually serving. */
-																status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+																status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 																. exit (_x ('<strong>503: Basic File Downloads are NOT enabled yet.</strong> Please contact Support for assistance. If you are the site owner, please configure: <code>s2Member -> Download Options -> Basic Download Restrictions</code>.', "s2member-front", "s2member"));
 															/**/
 															else /* Else return false. */
@@ -129,7 +129,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_level" . $req_level)))
 																{
 																	if ($serving) /* We only need this section when/if we're actually serving. */
-																		wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[req_level]" => $req_level, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"], "s2member_level_req" => $req_level)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
 																	/**/
 																	else /* Else return false. */
 																		return false;
@@ -138,14 +138,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_ccap_" . $req_ccap)))
 																{
 																	if ($serving) /* We only need this section when/if we're actually serving. */
-																		wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[req_ccap]" => $req_ccap, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"], "s2member_ccap_req" => $req_ccap)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();
 																	/**/
 																	else /* Else return false. */
 																		return false;
 																}
 															/**/
 															else if ($serving) /* We only need this section when/if we're actually serving. */
-																wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[req_level]" => (string)$min_level_4_downloads, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"], "s2member_level_req" => (string)$min_level_4_downloads)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $min_level_4_downloads, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
 																return false;
@@ -154,7 +154,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													else if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && !$user->has_cap ("access_s2member_level" . $req_level))
 														{
 															if ($serving) /* We only need this section when/if we're actually serving. */
-																wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[req_level]" => $req_level, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"], "s2member_level_req" => $req_level)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
 																return false;
@@ -163,7 +163,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && !$user->has_cap ("access_s2member_ccap_" . $req_ccap))
 														{
 															if ($serving) /* We only need this section when/if we're actually serving. */
-																wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[req_ccap]" => $req_ccap, "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"], "s2member_ccap_req" => $req_ccap)), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
 																return false;
@@ -186,7 +186,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																		{
 																			if (strtotime ($user_file_download_access_log_entry["date"]) < strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
 																				{
-																					unset($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove it from the `log`. */
+																					unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove it from the `log`. */
 																					$user_file_download_access_arc[] = $user_file_download_access_log_entry; /* Move `log` entry to the `archive` now. */
 																				}
 																			else if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
@@ -214,15 +214,15 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																				}
 																		}
 																	else /* Weed out empty log entries. Some older versions of s2Member may have corrupt/empty log entries by mistake. */
-																		unset($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove from `log`. */
+																		unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove from `log`. */
 																}
 															if ( /* Updating counter? */$updating_user_counter && /* Do we need a new log entry for this file? */ !$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file)
 																$user_file_download_access_log[] = array ("date" => date ("Y-m-d"), "time" => time (), "ltime" => time (), "file" => $req["file_download"], "counter" => 1);
 															/**/
-															if (!$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file && !$user->has_cap ("administrator") && $user_previous_file_downloads >= $user_file_downloads["allowed"])
+															if ($user_previous_file_downloads >= $user_file_downloads["allowed"] && !$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file && !$user->has_cap ("administrator"))
 																{
 																	if ($serving) /* We only need this section when/if we're actually serving. */
-																		wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking[file]" => $req["file_download"], "_s2member_seeking[_uri]" => base64_encode ($_SERVER["REQUEST_URI"]), "s2member_seeking" => "file-" . $req["file_download"])), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
+																		wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking" => array ("type" => "file", "file" => $req["file_download"], "_uri" => base64_encode ($_SERVER["REQUEST_URI"])), "s2member_seeking" => "file-" . $req["file_download"])), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
 																	/**/
 																	else /* Else return false. */
 																		return false;
@@ -237,7 +237,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														status_header(404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
 													else /* Else return false. */
@@ -270,14 +270,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											$mimetype = ($mimetypes[$extension]) ? $mimetypes[$extension] : "application/octet-stream";
 											$length = (!$using_amazon_storage && $file) ? filesize ($file) : -1;
 											/**/
-											eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+											eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 											do_action ("ws_plugin__s2member_during_file_download_access", get_defined_vars ());
 											unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											/**/
 											if ($using_amazon_s3_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														wp_redirect(c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
+														wp_redirect (c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters ("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars ());
@@ -286,7 +286,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											else if ($using_amazon_cf_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
 													if ($serving) /* We only need this section when/if we're actually serving. */
-														wp_redirect(c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
+														wp_redirect (c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters ("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars ());
@@ -330,22 +330,22 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											else /* Else, ``if ($serving)`` , use local storage option (default). */
 												{
-													@set_time_limit(0) . @ini_set ("zlib.output_compression", 0);
+													@set_time_limit (0) . @ini_set ("zlib.output_compression", 0);
 													/**/
-													status_header(200); /* 200 OK status header. */
+													status_header (200); /* 200 OK status header. */
 													/**/
-													header("Accept-Ranges: none");
-													header("Content-Encoding: none");
-													header("Content-Type: " . $mimetype);
-													header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
-													header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-													header("Cache-Control: no-cache, must-revalidate, max-age=0");
+													header ("Accept-Ranges: none");
+													header ("Content-Encoding: none");
+													header ("Content-Type: " . $mimetype);
+													header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
+													header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+													header ("Cache-Control: no-cache, must-revalidate, max-age=0");
 													header ("Cache-Control: post-check=0, pre-check=0", false);
-													header("Pragma: no-cache");
+													header ("Pragma: no-cache");
 													/**/
-													header('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
+													header ('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
 													/**/
-													eval('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist already. Prep for content delivery. */
+													eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist already. Prep for content delivery. */
 													/**/
 													$_chunk_file = ($_SERVER["SERVER_PROTOCOL"] === "HTTP/1.1" && preg_match ("/apache/i", $_SERVER["SERVER_SOFTWARE"])) ? true : false;
 													/**/
@@ -354,40 +354,40 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															$_chunk_size = apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_chunk_size", 2097152, get_defined_vars ());
 															/**/
 															if (apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_content_length", true, get_defined_vars ()))
-																header("Content-Length: " . $length);
+																header ("Content-Length: " . $length);
 															/**/
-															header("Transfer-Encoding: chunked"); /* `Transfer-Encoding: chunked` conserves memory. */
+															header ("Transfer-Encoding: chunked"); /* `Transfer-Encoding: chunked` conserves memory. */
 															/**/
 															while (!feof ($resource) && ($chunk_size = strlen ($data = fread ($resource, $_chunk_size))))
-																eval('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
+																eval ('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
 															/**/
-															fclose($resource) . exit ("0\r\n\r\n");
+															fclose ($resource) . exit ("0\r\n\r\n");
 														}
 													else if ($length && apply_filters ("ws_plugin__s2member_flush_file_downloads", true, get_defined_vars ()) && is_resource ($resource = fopen ($file, "rb")))
 														{
 															$_flush_size = apply_filters ("ws_plugin__s2member_flush_file_downloads_w_flush_size", 2097152, get_defined_vars ());
 															/**/
 															if (apply_filters ("ws_plugin__s2member_flush_file_downloads_w_content_length", true, get_defined_vars ()))
-																header("Content-Length: " . $length);
+																header ("Content-Length: " . $length);
 															/**/
 															while (!feof ($resource) && ($flush_size = strlen ($data = fread ($resource, $_flush_size))))
-																eval('echo $data; @flush ();'); /* Conserves memory. */
+																eval ('echo $data; @flush ();'); /* Conserves memory. */
 														}
 													else if ($length) /* Else, use: ``file_get_contents()``. */
 														{
 															@ini_set ("memory_limit", WP_MAX_MEMORY_LIMIT); /* RAM/memory. */
-															header("Content-Length: " . $length) . exit (file_get_contents ($file));
+															header ("Content-Length: " . $length) . exit (file_get_contents ($file));
 														}
 													else /* Else, we have an empty file with no length. */
 														{
-															header("Content-Length: 0") . exit ();
+															header ("Content-Length: 0") . exit ();
 														}
 												}
 										}
 								}
 							/**/
 							else if ($serving && $req["file_download"]) /* We only need this section when/if we're actually serving. */
-								status_header(503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
+								status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 								. exit (_x ('<strong>503: Access denied.</strong> Invalid File Download specs.', "s2member-front", "s2member"));
 							/**/
 							else if ($creating) /* We only need this section when/if we're creating a URL. */
@@ -412,7 +412,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function create_file_download_url ($config = FALSE, $get_streamer_array = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -426,7 +426,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						/**/
 						if (($_url = c_ws_plugin__s2member_files_in::check_file_download_access (($create_file_download_url = $config))) /* Successfully created a URL to the file? */)
 							{
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -462,7 +462,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_remote_authorization ($user = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_check_file_remote_authorization", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -474,13 +474,13 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								/**/
 								if (empty ($_SERVER["PHP_AUTH_USER"]) || empty ($_SERVER["PHP_AUTH_PW"]) || !user_pass_ok ($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]))
 									{
-										header('WWW-Authenticate: Basic realm="' . c_ws_plugin__s2member_utils_strings::esc_dq (strip_tags (_x ("Members Only", "s2member-front", "s2member"))) . '"');
+										header ('WWW-Authenticate: Basic realm="' . c_ws_plugin__s2member_utils_strings::esc_dq (strip_tags (_x ("Members Only", "s2member-front", "s2member"))) . '"');
 										/**/
-										status_header(401); /* Send an unauthorized 401 status header now. */
-										header("Content-Type: text/html; charset=utf-8"); /* Content-Type with UTF-8. */
-										eval('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist. */
+										status_header (401); /* Send an unauthorized 401 status header now. */
+										header ("Content-Type: text/html; charset=utf-8"); /* Content-Type with UTF-8. */
+										eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist. */
 										/**/
-										exit(_x ('<strong>401:</strong> Sorry, access denied.', "s2member-front", "s2member"));
+										exit (_x ('<strong>401:</strong> Sorry, access denied.', "s2member-front", "s2member"));
 									}
 								else if (is_object ($_user = new WP_User ($_SERVER["PHP_AUTH_USER"])) && !empty ($_user->ID))
 									$user = $_user; /* Now assign ``$user``. */
@@ -502,7 +502,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function check_file_download_key ($file = FALSE, $key = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_check_file_download_key", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -708,10 +708,10 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$cfc["expires"] = strtotime ("+" . apply_filters ("ws_plugin__s2member_amazon_cf_file_expires_time", "24 hours", get_defined_vars ()));
 						/**/
 						$cf_extn = strtolower (substr ($file, strrpos ($file, ".") + 1)); /* Parses the file extension out so we can scan it in some special scenarios. */
+						$cf_ip_res = (c_ws_plugin__s2member_utils_conds::is_localhost ()) ? false : true; /* Do NOT restrict access to a particular IP during `localhost` development. The IP may NOT be the same one Amazon® CloudFront sees. */
 						$cf_stream_extn_resource_exclusions = array_unique ((array)apply_filters ("ws_plugin__s2member_amazon_cf_file_streaming_extension_resource_exclusions", array ("mp3" /* MP3 files should NOT include an extension in their resource reference. */), get_defined_vars ()));
 						$cf_resource = ($stream) ? ((in_array ($cf_extn, $cf_stream_extn_resource_exclusions)) ? substr ($file, 0, strrpos ($file, ".")) : $file) : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
 						$cf_url = ($stream) ? "rtmp" . (($ssl) ? "e" : "") . "://" . (($cfc["distro_streaming_cname"]) ? $cfc["distro_streaming_cname"] : $cfc["distro_streaming_dname"]) . "/cfx/st/" . $file : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
-						$cf_ip_res = (stripos ($_SERVER["HTTP_HOST"], "localhost") === false && strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") === false && (!defined ("LOCALHOST") || !LOCALHOST)) ? true : false; /* Don NOT restrict access to a particular IP during `localhost` development. The IP will NOT be the same one Amazon® CloudFront sees ( will NOT jive ). */
 						$cf_policy = '{"Statement":[{"Resource":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($cf_resource) . '","Condition":{' . (($cf_ip_res) ? '"IpAddress":{"AWS:SourceIp":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($_SERVER["REMOTE_ADDR"]) . '/32"},' : '') . '"DateLessThan":{"AWS:EpochTime":' . (int)$cfc["expires"] . '}}}]}';
 						/**/
 						$cf_signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_sign ($cf_policy);

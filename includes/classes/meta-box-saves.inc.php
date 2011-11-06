@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 	{
@@ -40,7 +40,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 				*/
 				public static function save_meta_boxes ($post_id = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_save_meta_boxes", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -54,23 +54,26 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 										{
 											if ($_p["post_type"] === "page" && ($page_id = $post_id)) /* OK. So we're dealing with a Page classification. */
 												{
-													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* Just needs to be set. CAN be empty. */
+													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* CAN be empty. */
 														{
 															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																$pages[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
 															/**/
 															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+																$posts[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
+															/**/
+															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																if (($i = array_search ($page_id, $pages[$n])) !== false)
-																	unset ($pages[$n][$i]);
+																	unset($pages[$n][$i]);
 															/**/
 															if (isset ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]]) && is_array ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]]))
-																if ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all"))
-																	array_push ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]], $page_id);
+																if ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all")&& !in_array ("all-pages", $posts[$_p["ws_plugin__s2member_security_meta_box_level"]]))
+																	array_push ($pages[$_p["ws_plugin__s2member_security_meta_box_level"]], (string)$page_id);
 															/**/
 															for ($n = 0, $new_options = array (); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																$new_options = array_merge ($new_options, array ("ws_plugin__s2member_level" . $n . "_pages" => trim (implode (",", $pages[$n]))));
 															/**/
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_save_meta_boxes", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															/**/
@@ -80,23 +83,23 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 											/**/
 											else /* Otherwise, we assume this is a Post, or possibly a Custom Post Type. It's NOT a Page. */
 												{
-													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* Just needs to be set. CAN be empty. */
+													if (isset ($_p["ws_plugin__s2member_security_meta_box_level"])) /* CAN be empty. */
 														{
 															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																$posts[$n] = array_unique (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]));
 															/**/
 															for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																if (($i = array_search ($post_id, $posts[$n])) !== false)
-																	unset ($posts[$n][$i]);
+																	unset($posts[$n][$i]);
 															/**/
 															if (isset ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]]) && is_array ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]]))
-																if ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all"))
-																	array_push ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]], $post_id);
+																if ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]] !== array ("all")&& !in_array ("all-" . $_p["post_type"] . "s", $posts[$_p["ws_plugin__s2member_security_meta_box_level"]]))
+																	array_push ($posts[$_p["ws_plugin__s2member_security_meta_box_level"]], (string)$post_id);
 															/**/
 															for ($n = 0, $new_options = array (); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 																$new_options = array_merge ($new_options, array ("ws_plugin__s2member_level" . $n . "_posts" => trim (implode (",", $posts[$n]))));
 															/**/
-															eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+															eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 															do_action ("ws_plugin__s2member_during_save_meta_boxes", get_defined_vars ());
 															unset ($__refs, $__v); /* Unset defined __refs, __v. */
 															/**/
@@ -106,10 +109,10 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 											/**/
 											if ($_p["post_type"] === "page" && ($page_id = $post_id)) /* OK. So we're dealing with a Page classification. */
 												{
-													if (isset ($_p["ws_plugin__s2member_security_meta_box_ccaps"])) /* Just needs to be set. CAN be empty. */
+													if (isset ($_p["ws_plugin__s2member_security_meta_box_ccaps"])) /* CAN be empty. */
 														{
 															$ccaps_req = trim (strtolower ($_p["ws_plugin__s2member_security_meta_box_ccaps"]), ",");
-															$ccaps_req = trim (preg_replace ("/[^a-z_0-9,]/", "", $ccaps_req), ","); /* Now clean up. */
+															$ccaps_req = trim (preg_replace ("/[^a-z_0-9,]/", "", $ccaps_req), ",");
 															/**/
 															if (strlen ($ccaps_req) && ($s2member_ccaps_req = preg_split ("/[\r\n\t\s;,]+/", $ccaps_req)))
 																update_post_meta ($page_id, "s2member_ccaps_req", $s2member_ccaps_req);
@@ -121,10 +124,10 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_saves"))
 											/**/
 											else /* Otherwise, we assume this is a Post, or possibly a Custom Post Type. It's NOT a Page. */
 												{
-													if (isset ($_p["ws_plugin__s2member_security_meta_box_ccaps"])) /* Just needs to be set. It CAN be empty. */
+													if (isset ($_p["ws_plugin__s2member_security_meta_box_ccaps"])) /* CAN be empty. */
 														{
 															$ccaps_req = trim (strtolower ($_p["ws_plugin__s2member_security_meta_box_ccaps"]), ",");
-															$ccaps_req = trim (preg_replace ("/[^a-z_0-9,]/", "", $ccaps_req), ","); /* Now clean up. */
+															$ccaps_req = trim (preg_replace ("/[^a-z_0-9,]/", "", $ccaps_req), ",");
 															/**/
 															if (strlen ($ccaps_req) && ($s2member_ccaps_req = preg_split ("/[\r\n\t\s;,]+/", $ccaps_req)))
 																update_post_meta ($post_id, "s2member_ccaps_req", $s2member_ccaps_req);

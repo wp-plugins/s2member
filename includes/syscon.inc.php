@@ -18,7 +18,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /*
 Determine the directory.
 */
@@ -340,7 +340,7 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $key => &$value)
 							{
 								if (!isset ($default_options[$key]) && !preg_match ("/^pro_/", $key))
-									unset($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
+									unset ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"][$key]);
 								/**/
 								else if ($key === "options_checksum" && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
@@ -504,16 +504,16 @@ if (!function_exists ("ws_plugin__s2member_configure_options_and_their_defaults"
 								else if (preg_match ("/^level[0-9]+_ruris$/", $key) && (!is_string ($value) || !strlen ($value)))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-9]+_catgs$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_catgs$/", $key) && (!is_string ($value) || !($value = ((strcasecmp ($value, "all") === 0) ? strtolower ($value) : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-9]+_ptags$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/ +/", " ", trim (preg_replace ("/ *, */", ",", $value))), ",")))))
+								else if (preg_match ("/^level[0-9]+_ptags$/", $key) && (!is_string ($value) || !($value = ((strcasecmp ($value, "all") === 0) ? strtolower ($value) : trim (preg_replace ("/ +/", " ", trim (preg_replace ("/ *, */", ",", $value))), ",")))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-9]+_posts$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_posts$/", $key) && (!is_string ($value) || !($value = trim ( /* Supports `all` or `1,2,3,all-[type]s`. */preg_replace ("/[^a-z0-9_\-,]/", "", strtolower ($value)), ","))))
 									$value = $default_options[$key];
 								/**/
-								else if (preg_match ("/^level[0-9]+_pages$/", $key) && (!is_string ($value) || !($value = (($value === "all") ? $value : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
+								else if (preg_match ("/^level[0-9]+_pages$/", $key) && (!is_string ($value) || !($value = ((strcasecmp ($value, "all") === 0) ? strtolower ($value) : trim (preg_replace ("/[^0-9,]/", "", $value), ",")))))
 									$value = $default_options[$key];
 								/**/
 								else if ($key === "specific_ids" && (!is_string ($value) || !($value = trim (preg_replace ("/[^0-9,]/", "", $value), ","))))

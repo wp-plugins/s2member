@@ -898,7 +898,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 									{
 										if ($urls = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["registration_notification_urls"])
 											/**/
-											foreach (preg_split ("/[\r\n\t]+/", $urls) as $url) /* Notify each of the urls. */
+											foreach (preg_split ("/[\r\n\t]+/", $urls) as $url) /* Notify each of the URLs. */
 												/**/
 												if (($url = preg_replace ("/%%cv([0-9]+)%%/ei", 'urlencode(trim($cv[$1]))', $url)))
 													if (($url = preg_replace ("/%%role%%/i", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($role)), $url)))

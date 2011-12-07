@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile"))
 				* @package s2Member\Profiles
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2Member-Profile");``
+				* @attaches-to ``add_shortcode("s2Member-Profile");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

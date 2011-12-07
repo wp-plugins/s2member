@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_files"))
 				* @package s2Member\s2File
 				* @since 110926
 				*
-				* @attaches-to: ``add_shortcode("s2File");``
+				* @attaches-to ``add_shortcode("s2File");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

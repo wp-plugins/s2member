@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_labels"))
 				* @package s2Member\Roles_Caps
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null
 				*/
@@ -54,7 +54,7 @@ if (!class_exists ("c_ws_plugin__s2member_labels"))
 				* @package s2Member\Roles_Caps
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("gettext_with_context");``
+				* @attaches-to ``add_filter("gettext_with_context");``
 				*
 				* @param str $translation Expects a string; already translated.
 				* @param str $original The original text, passed in by the Filter.

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 	{
@@ -28,7 +28,22 @@ if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 		class c_ws_plugin__s2member_utils_captchas
 			{
 				/**
-				* Verifies a reCaptcha code though a connection to Google®.
+				* Public/private keys to use for reCAPTCHA™.
+				*
+				* @package s2Member\Utilities
+				* @since 111203
+				*
+				* @return array An array with with two elements: `public` and `private`.
+				*/
+				public static function recaptcha_keys ()
+					{
+						$public = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["public_key"];
+						$private = /* Private key. */ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["private_key"];
+						/**/
+						return apply_filters ("ws_plugin__s2member_recaptcha_keys", array ("public" => $public, "private" => $private), get_defined_vars ());
+					}
+				/**
+				* Verifies a reCAPTCHA™ code via Google®.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
@@ -39,12 +54,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 				*/
 				public static function recaptcha_code_validates ($challenge = FALSE, $response = FALSE)
 					{
-						$post_vars = array ("privatekey" => $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["private_key"], "remoteip" => $_SERVER["REMOTE_ADDR"], "challenge" => $challenge, "response" => $response);
+						$keys = c_ws_plugin__s2member_utils_captchas::recaptcha_keys ();
+						$post_vars = array ("privatekey" => $keys["private"], "remoteip" => $_SERVER["REMOTE_ADDR"], "challenge" => $challenge, "response" => $response);
 						/**/
 						return preg_match ("/^true/i", trim (c_ws_plugin__s2member_utils_urls::remote ("http://www.google.com/recaptcha/api/verify", $post_vars)));
 					}
 				/**
-				* Builds a reCaptcha JavaScript `script` tag for display.
+				* Builds a reCAPTCHA™ JavaScript `script` tag for display.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
@@ -56,14 +72,15 @@ if (!class_exists ("c_ws_plugin__s2member_utils_captchas"))
 				*/
 				public static function recaptcha_script_tag ($theme = FALSE, $tabindex = FALSE, $error = FALSE)
 					{
-						$theme = ($theme) ? $theme : "clean"; /* Defaults to the `clean` theme style. */
-						$tabindex = (strlen ($tabindex)) ? (int)$tabindex : -1; /* -1 default. */
+						$theme = ($theme) ? $theme : "clean";
+						$tabindex = (strlen ($tabindex)) ? (int)$tabindex : -1;
+						$keys = c_ws_plugin__s2member_utils_captchas::recaptcha_keys ();
 						/**/
 						$options = '<script type="text/javascript">' . "if(typeof RecaptchaOptions !== 'object'){ var RecaptchaOptions = {theme: '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($theme) . "', lang: '" . c_ws_plugin__s2member_utils_strings::esc_js_sq ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["lang"]) . "', tabindex: " . $tabindex . " }; }" . '</script>' . "\n";
 						$no_tabindex_icons = '<script type="text/javascript">' . "if(typeof jQuery === 'function'){ jQuery('td a[id^=\"recaptcha\"]').removeAttr('tabindex'); }" . '</script>';
 						$adjustments = (!apply_filters ("c_ws_plugin__s2member_utils_tabindex_recaptcha_icons", false, get_defined_vars ())) ? $no_tabindex_icons : "";
 						/**/
-						return $options . '<script type="text/javascript" src="' . esc_attr ('https://www.google.com/recaptcha/api/challenge?k=' . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"]["public_key"])) . '' . (($error) ? '&amp;error=' . urlencode ($error) : '') . '"></script>' . $adjustments;
+						return $options . '<script type="text/javascript" src="' . esc_attr ('https://www.google.com/recaptcha/api/challenge?k=' . urlencode ($keys["public"])) . '' . (($error) ? '&amp;error=' . urlencode ($error) : '') . '"></script>' . $adjustments;
 					}
 			}
 	}

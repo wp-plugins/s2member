@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 	{
@@ -27,6 +27,28 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 		*/
 		class c_ws_plugin__s2member_utils_strings
 			{
+				/**
+				* Array of all ampersand entities.
+				*
+				* Array keys are actually regex patterns *( very useful )*.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @var array
+				*/
+				public static /* Array keys are actually regex patterns. */ $ampersand_entities = array ("&amp;" => "&amp;", "&#0*38;" => "&#38;", "&#[xX]0*26;" => "&#x26;");
+				/**
+				* Array of all quote entities *( and entities for quote variations )*.
+				*
+				* Array keys are actually regex patterns *( very useful )*.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @var array
+				*/
+				public static $quote_entities_w_variations = array ("&apos;" => "&apos;", "&#0*39;" => "&#39;", "&#[xX]0*27;" => "&#x27;", "&lsquo;" => "&lsquo;", "&#0*8216;" => "&#8216;", "&#[xX]0*2018;" => "&#x2018;", "&rsquo;" => "&rsquo;", "&#0*8217;" => "&#8217;", "&#[xX]0*2019;" => "&#x2019;", "&quot;" => "&quot;", "&#0*34;" => "&#34;", "&#[xX]0*22;" => "&#x22;", "&ldquo;" => "&ldquo;", "&#0*8220;" => "&#8220;", "&#[xX]0*201[cC];" => "&#x201C;", "&rdquo;" => "&rdquo;", "&#0*8221;" => "&#8221;", "&#[xX]0*201[dD];" => "&#x201D;");
 				/**
 				* Escapes double quotes.
 				*
@@ -40,6 +62,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				public static function esc_dq ($string = FALSE, $times = FALSE)
 					{
 						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						/**/
 						return str_replace ('"', str_repeat ("\\", $times) . '"', (string)$string);
 					}
 				/**
@@ -55,6 +78,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				public static function esc_sq ($string = FALSE, $times = FALSE)
 					{
 						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						/**/
 						return str_replace ("'", str_repeat ("\\", $times) . "'", (string)$string);
 					}
 				/**
@@ -70,6 +94,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				public static function esc_js_sq ($string = FALSE, $times = FALSE)
 					{
 						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						/**/
 						return str_replace ("'", str_repeat ("\\", $times) . "'", str_replace (array ("\r", "\n"), array ("", '\\n'), str_replace ("\'", "'", (string)$string)));
 					}
 				/**
@@ -85,25 +110,71 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				public static function esc_ds ($string = FALSE, $times = FALSE)
 					{
 						$times = (is_numeric ($times) && $times >= 0) ? (int)$times : 1;
+						/**/
 						return str_replace ('$', str_repeat ("\\", $times) . '$', (string)$string);
 					}
 				/**
-				* Sanitizes a string; by removing non-standard characters.
-				*
-				* This allows all characters that appears on a standard U.S. keyboard.
+				* Sanitizes a string; by stripping characters NOT on a standard U.S. keyboard.
 				*
 				* @package s2Member\Utilities
-				* @since 3.5
+				* @since 111106
 				*
 				* @param str $string Input string.
-				* @return str Output string after non-keyboard chars are removed.
+				* @return str Output string, after characters NOT on a standard U.S. keyboard have been stripped.
 				*/
-				public static function keyboard_chars_only ($string = FALSE)
+				public static function strip_2_kb_chars ($string = FALSE)
 					{
 						return preg_replace ("/[^0-9A-Z\r\n\t\s`\=\[\]\\\;',\.\/~\!@#\$%\^&\*\(\)_\+\|\}\{\:\"\?\>\<\-]/i", "", remove_accents ((string)$string));
 					}
 				/**
-				* Trims deeply.
+				* Trims deeply; alias of ``trim_deep``.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @see s2Member\Utilities\c_ws_plugin__s2member_utils_strings::trim_deep()
+				* @see http://php.net/manual/en/function.trim.php
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @param str|bool $chars Optional. Defaults to false, indicating the default trim chars ` \t\n\r\0\x0B`. Or, set to a specific string of chars.
+				* @param str|bool $extra_chars Optional. This is NOT possible with PHP alone, but here you can specify extra chars; in addition to ``$chars``.
+				* @return str|array Either the input string, or the input array; after all data is trimmed up according to arguments passed in.
+				*/
+				public static function trim ($value = FALSE, $chars = FALSE, $extra_chars = FALSE)
+					{
+						return c_ws_plugin__s2member_utils_strings::trim_deep ($value, $chars, $extra_chars);
+					}
+				/**
+				* Trims deeply; or use {@link s2Member\Utilities\c_ws_plugin__s2member_utils_strings::trim()}.
+				*
+				* @package s2Member\Utilities
+				* @since 3.5
+				*
+				* @see s2Member\Utilities\c_ws_plugin__s2member_utils_strings::trim()
+				* @see http://php.net/manual/en/function.trim.php
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @param str|bool $chars Optional. Defaults to false, indicating the default trim chars ` \t\n\r\0\x0B`. Or, set to a specific string of chars.
+				* @param str|bool $extra_chars Optional. This is NOT possible with PHP alone, but here you can specify extra chars; in addition to ``$chars``.
+				* @return str|array Either the input string, or the input array; after all data is trimmed up according to arguments passed in.
+				*/
+				public static function trim_deep ($value = FALSE, $chars = FALSE, $extra_chars = FALSE)
+					{
+						$chars = /* List of chars to be trimmed by this routine. */ (is_string ($chars)) ? $chars : " \t\n\r\0\x0B";
+						$chars = (is_string ($extra_chars) /* Adding additional chars? */) ? $chars . $extra_chars : $chars;
+						/**/
+						if (is_array ($value)) /* Handles all types of arrays.
+						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
+						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
+							{
+								foreach ($value as &$r) /* Reference. */
+									$r = c_ws_plugin__s2member_utils_strings::trim_deep ($r, $chars);
+								return $value; /* Return modified array. */
+							}
+						return trim ((string)$value, $chars);
+					}
+				/**
+				* Trims double quotes deeply.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
@@ -111,9 +182,35 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
 				* @return str|array Either the input string, or the input array; after all data is trimmed up.
 				*/
-				public static function trim_deep ($value = FALSE)
+				public static function trim_dq_deep ($value = FALSE)
 					{
-						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_deep", $value) : trim ((string)$value);
+						return c_ws_plugin__s2member_utils_strings::trim_deep ($value, false, '"');
+					}
+				/**
+				* Trims single quotes deeply.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @return str|array Either the input string, or the input array; after all data is trimmed up.
+				*/
+				public static function trim_sq_deep ($value = FALSE)
+					{
+						return c_ws_plugin__s2member_utils_strings::trim_deep ($value, false, "'");
+					}
+				/**
+				* Trims double and single quotes deeply.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
+				* @return str|array Either the input string, or the input array; after all data is trimmed up.
+				*/
+				public static function trim_dsq_deep ($value = FALSE)
+					{
+						return c_ws_plugin__s2member_utils_strings::trim_deep ($value, false, "'" . '"');
 					}
 				/**
 				* Trims all single/double quote entity variations deeply.
@@ -128,23 +225,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function trim_qts_deep ($value = FALSE)
 					{
-						$qts = implode ("|", array_keys /* Keys are regex patterns. */ (array ("&apos;" => "&apos;", "&#0*39;" => "&#39;", "&#[xX]0*27;" => "&#x27;"/**/, "&lsquo;" => "&lsquo;", "&#0*8216;" => "&#8216;", "&#[xX]0*2018;" => "&#x2018;"/**/, "&rsquo;" => "&rsquo;", "&#0*8217;" => "&#8217;", "&#[xX]0*2019;" => "&#x2019;"/**/, "&quot;" => "&quot;", "&#0*34;" => "&#34;", "&#[xX]0*22;" => "&#x22;"/**/, "&ldquo;" => "&ldquo;", "&#0*8220;" => "&#8220;", "&#[xX]0*201[cC];" => "&#x201C;"/**/, "&rdquo;" => "&rdquo;", "&#0*8221;" => "&#8221;", "&#[xX]0*201[dD];" => "&#x201D;")));
+						$qts = implode ("|", array_keys /* Keys are regex patterns. */ (c_ws_plugin__s2member_utils_strings::$quote_entities_w_variations));
+						/**/
 						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_qts_deep", $value) : preg_replace ("/^(?:" . $qts . ")+|(?:" . $qts . ")+$/", "", (string)$value);
-					}
-				/**
-				* Trims double quotes deeply.
-				*
-				* This is useful on CSV data that is encapsulated by double quotes.
-				*
-				* @package s2Member\Utilities
-				* @since 3.5
-				*
-				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
-				* @return str|array Either the input string, or the input array; after all data is trimmed up.
-				*/
-				public static function trim_dq_deep ($value = FALSE)
-					{
-						return is_array ($value) ? array_map ("c_ws_plugin__s2member_utils_strings::trim_dq_deep", $value) : trim ((string)$value, "\" \t\n\r\0\x0B");
 					}
 				/**
 				* Wraps a string with the characters provided.
@@ -157,19 +240,20 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
 				* @param str $beg Optional. A string value to wrap at the beginning of each value.
 				* @param str $end Optional. A string value to wrap at the ending of each value.
+				* @param bool $wrap_e Optional. Defaults to false. Should empty strings be wrapped too?
 				* @return str|array Either the input string, or the input array; after all data is wrapped up.
 				*/
-				public static function wrap_deep ($value = FALSE, $beg = FALSE, $end = FALSE)
+				public static function wrap_deep ($value = FALSE, $beg = FALSE, $end = FALSE, $wrap_e = FALSE)
 					{
 						if (is_array ($value)) /* Handles all types of arrays.
 						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
 						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
 							{
 								foreach ($value as &$r) /* Reference. */
-									$r = c_ws_plugin__s2member_utils_strings::wrap_deep ($r, $beg, $end);
+									$r = c_ws_plugin__s2member_utils_strings::wrap_deep ($r, $beg, $end, $wrap_e);
 								return $value; /* Return modified array. */
 							}
-						return (strlen ((string)$value)) ? (string)$beg . (string)$value . (string)$end : (string)$value;
+						return (strlen ((string)$value) || $wrap_e) ? (string)$beg . (string)$value . (string)$end : (string)$value;
 					}
 				/**
 				* Escapes meta characters with ``preg_quote()`` deeply.
@@ -199,13 +283,15 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
-				* @param int $length Length of the randomly generated string.
+				* @param int $length Optional. Defaults to `12`. Length of the random string.
 				* @param bool $special_chars Defaults to true. If false, special chars are NOT included.
 				* @param bool $extra_special_chars Defaults to false. If true, extra special chars are included.
 				* @return str A randomly generated string, based on parameter configuration.
 				*/
-				public static function random_str_gen ($length = 12, $special_chars = TRUE, $extra_special_chars = FALSE)
+				public static function random_str_gen ($length = FALSE, $special_chars = TRUE, $extra_special_chars = FALSE)
 					{
+						$length = (is_numeric ($length) && $length >= 0) ? (int)$length : 12;
+						/**/
 						$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 						$chars .= ($extra_special_chars) ? "-_ []{}<>~`+=,.;:/?|" : "";
 						$chars .= ($special_chars) ? "!@#$%^&*()" : "";
@@ -213,7 +299,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						for ($i = 0, $random_str = ""; $i < $length; $i++)
 							$random_str .= substr ($chars, mt_rand (0, strlen ($chars) - 1), 1);
 						/**/
-						return $random_str;
+						return /* Randomly generated string of chars. */ $random_str;
 					}
 				/**
 				* Highlights PHP, and also Shortcodes.
@@ -226,22 +312,9 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*/
 				public static function highlight_php ($string = FALSE)
 					{
-						$string = highlight_string ((string)$string, true); /* Start with PHP syntax highlighting first. */
+						$string = highlight_string ((string)$string, true); /* Start with PHP syntax, then Shortcodes. */
 						/**/
-						return preg_replace_callback ("/(\[)(\/?)(_*s2If|s2Get|s2Member-[A-z_0-9\-]+)(.*?)(\])/i", "c_ws_plugin__s2member_utils_strings::_highlight_php", $string);
-					}
-				/**
-				* Highlights Shortcodes.
-				*
-				* @package s2Member\Utilities
-				* @since 3.5
-				*
-				* @param array $m Array passed in from `preg_replace_callback()`.
-				* @return str The highlighted string.
-				*/
-				public static function _highlight_php ($m = FALSE)
-					{
-						return '<span style="color:#164A61;">' . $m[0] . '</span>';
+						return preg_replace ("/\[\/?_*s2[a-z0-9_\-]+.*?\]/i", '<span style="color:#164A61;">$0</span>', $string);
 					}
 				/**
 				* Parses email addresses from a string or array.
@@ -258,23 +331,21 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						Note, we do NOT use ``array_map()`` here, because multiple args to ``array_map()`` causes a loss of string keys.
 						For further details, see: <http://php.net/manual/en/function.array-map.php>. */
 							{
-								$emails = array (); /* Initialize array of emails. */
-								foreach ($value as $_value) /* Loop through array. */
-									$emails = array_merge ($emails, c_ws_plugin__s2member_utils_strings::parse_emails ($_value));
-								return $emails; /* Return array of parsed email addresses. */
+								$emails = array (); /* Initialize array. */
+								foreach /* Loop through array. */ ($value as $v)
+									$emails = array_merge ($emails, c_ws_plugin__s2member_utils_strings::parse_emails ($v));
+								return $emails; /* Return array. */
 							}
-						/**/
-						$delimiter = (strpos ((string)$value, ";") !== false) ? ";" : ",";
-						foreach (($sections = c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/" . preg_quote ($delimiter, "/") . "+/", (string)$value))) as $section)
+						$delimiter = /* Supports semicolons or commas. */ (strpos ((string)$value, ";") !== false) ? ";" : ",";
+						foreach (c_ws_plugin__s2member_utils_strings::trim_deep (preg_split ("/" . preg_quote ($delimiter, "/") . "+/", (string)$value)) as $section)
 							{
 								if (preg_match ("/\<(.+?)\>/", $section, $m) && strpos ($m[1], "@") !== false)
-									$emails[] = $m[1]; /* Email inside brackets. */
+									$emails[] = $m[1]; /* Email inside <brackets>. */
 								/**/
 								else if (strpos ($section, "@") !== false)
 									$emails[] = $section;
 							}
-						/**/
-						return (!empty ($emails)) ? $emails : array ();
+						return /* Array. */ (!empty ($emails)) ? $emails : array ();
 					}
 				/**
 				* Base64 URL-safe encoding.
@@ -293,7 +364,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						$string = (string)$string; /* Force string values here. String MUST be a string. */
 						$trim_padding_chars = (string)$trim_padding_chars; /* And force this one too. */
 						/**/
-						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, base64_encode ($string));
+						$base64_url_safe = str_replace ((array)$url_unsafe_chars, (array)$url_safe_chars, (string)base64_encode ($string));
 						$base64_url_safe = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
 						/**/
 						return $base64_url_safe; /* Base64 encoded, with URL-safe replacements. */
@@ -320,7 +391,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 						/**/
 						$string = (strlen ($trim_padding_chars)) ? rtrim ($base64_url_safe, $trim_padding_chars) : $base64_url_safe;
 						$string = (strlen ($trim_padding_chars)) ? str_pad ($string, strlen ($string) % 4, "=", STR_PAD_RIGHT) : $string;
-						$string = base64_decode (str_replace ((array)$url_safe_chars, (array)$url_unsafe_chars, $string));
+						$string = (string)base64_decode (str_replace ((array)$url_safe_chars, (array)$url_unsafe_chars, $string));
 						/**/
 						return $string; /* Base64 decoded, with URL-safe replacements. */
 					}
@@ -377,11 +448,10 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 								file_put_contents (($private_key_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-private-key") . ".tmp"), (string)$key);
 								file_put_contents (($rsa_sha1_sig_file = $temp_dir . "/" . md5 (uniqid ("", true) . "rsa-sha1-sig") . ".tmp"), "");
 								/**/
-								@shell_exec ($esa ($openssl) . " sha1 -sign " . $esa ($private_key_file) . " -out " . $esa ($rsa_sha1_sig_file) . " " . $esa ($string_file));
+								@shell_exec($esa ($openssl) . " sha1 -sign " . $esa ($private_key_file) . " -out " . $esa ($rsa_sha1_sig_file) . " " . $esa ($string_file));
 								$signature = /* Do NOT trim here. */ file_get_contents ($rsa_sha1_sig_file); /* Was the signature was written? */
-								unlink ($rsa_sha1_sig_file) . unlink ($private_key_file) . unlink ($string_file); /* Cleanup. */
+								unlink($rsa_sha1_sig_file) . unlink ($private_key_file) . unlink ($string_file); /* Cleanup. */
 							}
-						/**/
 						return (!empty ($signature)) ? $signature : false;
 					}
 				/**
@@ -405,7 +475,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 									if (strpos ($value, "-") === 0) /* Begins with a boundary identifying character ( a hyphen `-` )? */
 										{
 											$boundaries = (empty ($boundaries)) ? 1 : $boundaries + 1; /* Counter. */
-											unset ($lines[$line]); /* Remove this boundary line. We'll fix these below. */
+											unset($lines[$line]); /* Remove this boundary line. We'll fix these below. */
 										}
 								if (empty ($boundaries) || $boundaries <= 2) /* Do NOT modify keys with more than 2 boundaries. */
 									$key = "-----BEGIN RSA PRIVATE KEY-----\n" . implode ("\n", $lines) . "\n-----END RSA PRIVATE KEY-----";
@@ -435,6 +505,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_strings"))
 				*
 				* @package s2Member\Utilities
 				* @since 111017
+				*
+				* @see http://www.faqs.org/rfcs/rfc3986.html
 				*
 				* @param str|array $value Either a string, an array, or a multi-dimensional array, filled with integer and/or string values.
 				* @return str|array Either the input string, or the input array; after all unreserved chars are decoded properly.

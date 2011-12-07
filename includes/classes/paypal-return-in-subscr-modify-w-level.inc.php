@@ -15,7 +15,7 @@
 * @since 110720
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level"))
 	{
@@ -40,13 +40,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 				*/
 				public static function cp ($vars = array ()) /* Conditional phase for ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 					{
-						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
+						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
 						if (/**/(!empty ($paypal["txn_type"]) && preg_match ("/^subscr_modify$/i", $paypal["txn_type"]))/**/
 						&& (!empty ($paypal["item_number"]) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"], $paypal["item_number"]))/**/
 						&& (!empty ($paypal["subscr_id"]))/**/)
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_modify", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -75,6 +75,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 										$paypal["regular_term"] = $paypal["period3"]; /* This is just set to keep a standard; this way both initial_term & regular_term are available. */
 										$paypal["recurring"] = ($paypal["recurring"]) ? $paypal["mc_amount3"] : "0"; /* If non-recurring, this should be zero, otherwise Regular. */
 										/**/
+										eval('$ipn_signup_vars = $paypal; unset($ipn_signup_vars["s2member_log"]);'); /* Create array of wouldbe IPN signup vars w/o s2member_log. */
+										/**/
 										if (($user_id = c_ws_plugin__s2member_utils_users::get_user_id_with ($paypal["subscr_id"])) && is_object ($user = new WP_User ($user_id)) && $user->ID)
 											{
 												if (!$user->has_cap ("administrator")) /* Do NOT process this routine on Administrators. */
@@ -87,7 +89,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 														/**/
 														if (is_multisite () && !is_user_member_of_blog ($user_id)) /* Must have a Role on this Blog. */
 															{
-																add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
+																add_existing_user_to_blog(array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
 																$user = new WP_User ($user_id); /* Now update the $user object we're using. */
 															}
 														/**/
@@ -112,6 +114,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 														/**/
 														if (!get_user_option ("s2member_registration_ip", $user_id))
 															update_user_option ($user_id, "s2member_registration_ip", $paypal["ip"]);
+														/**/
+														update_user_option ($user_id, "s2member_ipn_signup_vars", $ipn_signup_vars);
 														/**/
 														delete_user_option ($user_id, "s2member_file_download_access_log");
 														/**/
@@ -161,7 +165,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 																							}
 															}
 														/**/
-														eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+														eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 														do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_modify", get_defined_vars ());
 														unset ($__refs, $__v); /* Unset defined __refs, __v. */
 														/**/
@@ -169,7 +173,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 															{
 																$paypal["s2member_log"][] = "Redirecting this Member to a custom URL after modification: " . $redirection_url_after_modification;
 																/**/
-																wp_redirect ($redirection_url_after_modification);
+																wp_redirect($redirection_url_after_modification);
 															}
 														else /* Else, use standard/default handling in this scenario. Have the Customer log in again. */
 															{
@@ -213,7 +217,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_modify_w_level
 										_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_modify", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/

@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111105
-Stable tag: 111105
+Version: 111206
+Stable tag: 111206
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -19,7 +19,7 @@ ClickBank® Compatible: yes w/ s2Member Pro
 AliPay® Compatible: yes w/ s2Member Pro
 ccBill® Compatible: yes w/ s2Member Pro
 
-Tested up to: 3.3-beta2
+Tested up to: 3.3
 Requires at least: 3.2
 Requires: WordPress® 3.2+, PHP 5.2.3+
 
@@ -178,6 +178,15 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111206 =
+* (s2Member/s2Member Pro) **WordPress® v3.3**. Updates for compatibility with WordPress® v3.3. This release of s2Member also remains compatible with the WordPress® v3.2.x series.
+* (s2Member/s2Member Pro) **Bug fix**. An important bug was identified in s2Member's handling of certain EOT events associated with Subscr. Modifications *( under the right scenario )*. Fixed in this release.
+* (s2Member Pro) **reCAPTCHA™ bug fix**. An issue with reCAPTCHA™ public/private keys, on s2Member Pro Forms *( particularly on Free Registration Forms )*, which was related to some data loss suffered by Google's reCAPTCHA™ service; has been resolved in this release. In addition, a new UI panel has been introduced, allowing site owners to use their own public/private keys associated with reCAPTCHA™; if they so choose. This is optional however. For further details, please check your Dashboard here: `s2Member -> General Options -> CAPTCHA Anti-Spam Security`. Requires s2Member® Pro.
+* (s2Member/s2Member Pro) **Security hardening**. Additional security checksums have been added to s2Member's utility encryption methods to make these routines even more secure.
+* (s2Member/s2Member Pro) **Security hardening**. Additional security protocols have been added to s2Member's core PayPal® processors to make these routines even more secure.
+* (s2Member Pro) **Deprecated feature**. For s2Member Pro Forms with Custom Return URLs on success, the `%%response%%` Replacement Code within URLs is now deprecated, in favor of the new `%%s_response%%`. For further details, please check your Dashboard here: `s2Member -> PayPal/Authorize.Net Pro Forms -> Custom Return URLs On Success -> Replacement Codes`.
+* (s2Member/s2Member Pro) **Security fix**. A security vulnerability related to unsigned URLs leading to checkout pages for ccBill®, ClickBank® and Google® Checkout, has been addressed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15232&p=41707#p41707).
 
 = v111105 =
 * (s2Member Pro) **New feature**. It is now possible to configure Coupon Codes that are ONLY valid on specific Pages/Posts which may hold one of your s2Member Pro Forms. For further details, please check the examples in your Dashboard, here: `s2Member -> Pro Coupon Codes`.

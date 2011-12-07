@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 				* @package s2Member\Profiles
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2Member-Profile");``
+				* @attaches-to ``add_shortcode("s2Member-Profile");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
@@ -92,7 +92,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 										echo '<td>' . "\n";
 										echo '<label for="ws-plugin--s2member-profile-login">' . "\n";
 										echo '<strong>' . _x ("Username", "s2member-front", "s2member") . ' *</strong> <small>' . _x ("( cannot be changed )", "s2member-front", "s2member") . '</small><br />' . "\n";
-										echo '<input aria-required="true" type="text" maxlength="60" name="ws_plugin__s2member_profile_login" id="ws-plugin--s2member-profile-login" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->user_login) . '" disabled="disabled" />' . "\n";
+										echo '<input type="text" aria-required="true" maxlength="60" autocomplete="off" name="ws_plugin__s2member_profile_login" id="ws-plugin--s2member-profile-login" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->user_login) . '" disabled="disabled" />' . "\n";
 										echo '</label>' . "\n";
 										echo '</td>' . "\n";
 										echo '</tr>' . "\n";
@@ -112,7 +112,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 										echo '<td>' . "\n";
 										echo '<label for="ws-plugin--s2member-profile-email">' . "\n";
 										echo '<strong>' . _x ("Email Address", "s2member-front", "s2member") . ' *</strong><br />' . "\n";
-										echo '<input aria-required="true" data-expected="email" type="text" maxlength="100" name="ws_plugin__s2member_profile_email" id="ws-plugin--s2member-profile-email" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->user_email) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+										echo '<input type="text" aria-required="true" data-expected="email" maxlength="100" autocomplete="off" name="ws_plugin__s2member_profile_email" id="ws-plugin--s2member-profile-email" class="ws-plugin--s2member-profile-field" value="' . format_to_edit ($user->user_email) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 										echo '</label>' . "\n";
 										echo '</td>' . "\n";
 										echo '</tr>' . "\n";
@@ -134,7 +134,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 												echo '<td>' . "\n";
 												echo '<label for="ws-plugin--s2member-profile-first-name">' . "\n";
 												echo '<strong>' . _x ("First Name", "s2member-front", "s2member") . ' *</strong><br />' . "\n";
-												echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_first_name" id="ws-plugin--s2member-profile-first-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->first_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+												echo '<input type="text" aria-required="true" maxlength="100" autocomplete="off" name="ws_plugin__s2member_profile_first_name" id="ws-plugin--s2member-profile-first-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->first_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 												echo '</label>' . "\n";
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
@@ -154,7 +154,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 												echo '<td>' . "\n";
 												echo '<label for="ws-plugin--s2member-profile-last-name">' . "\n";
 												echo '<strong>' . _x ("Last Name", "s2member-front", "s2member") . ' *</strong><br />' . "\n";
-												echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_last_name" id="ws-plugin--s2member-profile-last-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->last_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+												echo '<input type="text" aria-required="true" maxlength="100" autocomplete="off" name="ws_plugin__s2member_profile_last_name" id="ws-plugin--s2member-profile-last-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->last_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 												echo '</label>' . "\n";
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
@@ -174,7 +174,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 												echo '<td>' . "\n";
 												echo '<label for="ws-plugin--s2member-profile-display-name">' . "\n";
 												echo '<strong>' . _x ("Display Name", "s2member-front", "s2member") . ' *</strong><br />' . "\n";
-												echo '<input aria-required="true" type="text" maxlength="100" name="ws_plugin__s2member_profile_display_name" id="ws-plugin--s2member-profile-display-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->display_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+												echo '<input type="text" aria-required="true" maxlength="100" autocomplete="off" name="ws_plugin__s2member_profile_display_name" id="ws-plugin--s2member-profile-display-name" class="ws-plugin--s2member-profile-field" value="' . esc_attr ($user->display_name) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 												echo '</label>' . "\n";
 												echo '</td>' . "\n";
 												echo '</tr>' . "\n";
@@ -274,7 +274,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_profile_in"))
 								echo '<td>' . "\n";
 								echo '<input type="hidden" name="ws_plugin__s2member_sc_profile_save" id="ws-plugin--s2member-sc-profile-save" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-sc-profile-save")) . '" />' . "\n";
 								echo '<input type="hidden" name="ws_plugin__s2member_profile_save" id="ws-plugin--s2member-profile-save" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-profile-save")) . '" />' . "\n";
-								echo '<input id="ws-plugin--s2member-profile-submit" type="submit" value="' . esc_attr (_x ("Save All Changes", "s2member-front", "s2member")) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
+								echo '<input type="submit" id="ws-plugin--s2member-profile-submit" value="' . esc_attr (_x ("Save All Changes", "s2member-front", "s2member")) . '" tabindex="' . esc_attr (($tabindex = $tabindex + 10)) . '" />' . "\n";
 								echo '</td>' . "\n";
 								echo '</tr>' . "\n";
 								/**/

@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds"))
 				* @package s2Member\s2If
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2If")`` + _s2If, __s2If, ___s2If for nesting.
+				* @attaches-to ``add_shortcode("s2If")`` + _s2If, __s2If, ___s2If for nesting.
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

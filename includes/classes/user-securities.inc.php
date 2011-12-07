@@ -37,7 +37,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				* @package s2Member\User_Securities
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null
 				*/
@@ -51,7 +51,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				* @package s2Member\User_Securities
 				* @since 110815
 				*
-				* @attaches-to: ``add_filter("user_has_cap");``
+				* @attaches-to ``add_filter("user_has_cap");``
 				*
 				* @param array $capabilities Expects an array of Capabilities passed in by the Filter.
 				* 	This array contains all of the Capabilities that the User has *( i.e. ``$user->allcaps`` )*.
@@ -84,7 +84,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				* @package s2Member\User_Securities
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("enable_edit_any_user_configuration");``
+				* @attaches-to ``add_filter("enable_edit_any_user_configuration");``
 				*
 				* @param bool $allow Expects boolean value passed through by the Filter.
 				* @return bool True if the current User is allowed to edit any User, else existing value.
@@ -113,7 +113,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_securities"))
 				* @package s2Member\User_Securities
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("show_password_fields");``
+				* @attaches-to ``add_filter("show_password_fields");``
 				*
 				* @param bool $show Expects boolean value passed through by the Filter.
 				* @param obj $user Expects a `WP_User` object passed through by the Filter.

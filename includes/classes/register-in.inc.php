@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_register_in"))
 				* @package s2Member\Registrations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after redirection.
 				*/

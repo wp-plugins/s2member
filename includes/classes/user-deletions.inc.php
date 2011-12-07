@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_deletions"))
 				* @package s2Member\User_Deletions
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("remove_user_from_blog");``
+				* @attaches-to ``add_action("remove_user_from_blog");``
 				*
 				* @param int|str $user_id Numeric WordPress® User ID.
 				* @param int|str $blog_id Numeric WordPress® Blog ID.
@@ -79,8 +79,8 @@ if (!class_exists ("c_ws_plugin__s2member_user_deletions"))
 				* @package s2Member\User_Deletions
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("delete_user");``
-				* @attaches-to: ``add_action("wpmu_delete_user");``
+				* @attaches-to ``add_action("delete_user");``
+				* @attaches-to ``add_action("wpmu_delete_user");``
 				*
 				* @param int|str $user_id Numeric WordPress® User ID.
 				* @return null

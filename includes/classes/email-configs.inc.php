@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 	{
@@ -42,6 +42,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 						do_action ("ws_plugin__s2member_before_email_config", get_defined_vars ());
 						/**/
 						c_ws_plugin__s2member_email_configs::email_config_release ();
+						/**/
 						add_filter ("wp_mail_from", "c_ws_plugin__s2member_email_configs::_email_config_email");
 						add_filter ("wp_mail_from_name", "c_ws_plugin__s2member_email_configs::_email_config_name");
 						/**/
@@ -121,7 +122,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 						remove_filter ("wp_mail_from_name", "c_ws_plugin__s2member_email_configs::_email_config_name");
 						/**/
 						if ($all) /* If ``$all`` is true, remove ALL attached WordPress® Filters. */
-							remove_all_filters("wp_mail_from") . remove_all_filters ("wp_mail_from_name");
+							remove_all_filters ("wp_mail_from") . remove_all_filters ("wp_mail_from_name");
 						/**/
 						do_action ("ws_plugin__s2member_after_email_config_release", get_defined_vars ());
 						/**/
@@ -135,14 +136,14 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 				* @package s2Member\Email_Configs
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("wpmu_signup_user_notification_email");``
+				* @attaches-to ``add_filter("wpmu_signup_user_notification_email");``
 				*
 				* @param str $message Expects the message string to be passed in by the Filter.
 				* @return str Message after having been Filtered by s2Member.
 				*/
 				public static function ms_nice_email_roles ($message = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_ms_nice_email_roles", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -186,7 +187,7 @@ if (!class_exists ("c_ws_plugin__s2member_email_configs"))
 				*/
 				public static function new_user_notification ($user_id = FALSE, $user_pass = FALSE, $notify = array ("user", "admin"))
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_new_user_notification", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/

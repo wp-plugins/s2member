@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 	{
@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after loading CSS.
 				*/
@@ -43,20 +43,20 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_css"]))
 							{
-								status_header (200); /* 200 OK status header. */
+								status_header(200); /* 200 OK status. */
 								/**/
-								header ("Content-Type: text/css; charset=utf-8");
-								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header ("Cache-Control: max-age=604800");
-								header ("Pragma: public");
+								header("Content-Type: text/css; charset=utf-8");
+								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header("Cache-Control: max-age=604800");
+								header("Pragma: public");
 								/**/
-								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
+								eval('while (@ob_end_clean ());');
 								/**/
 								$u = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"];
 								$i = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/images";
 								/**/
-								ob_start ("c_ws_plugin__s2member_utils_css::compress_css");
+								ob_start("c_ws_plugin__s2member_utils_css::compress_css");
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/s2member.css";
 								/**/
@@ -75,7 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after loading JS w/Globals.
 				*/
@@ -85,15 +85,15 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_in"))
 						/**/
 						if (!empty ($_GET["ws_plugin__s2member_js_w_globals"]))
 							{
-								status_header (200); /* 200 OK status header. */
+								status_header(200); /* 200 OK status header. */
 								/**/
-								header ("Content-Type: text/javascript; charset=utf-8");
-								header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
-								header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
-								header ("Cache-Control: max-age=604800");
-								header ("Pragma: public");
+								header("Content-Type: text/javascript; charset=utf-8");
+								header("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("+1 week")) . " GMT");
+								header("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+								header("Cache-Control: max-age=604800");
+								header("Pragma: public");
 								/**/
-								eval ('while (@ob_end_clean ());'); /* Clean buffers. */
+								eval('while (@ob_end_clean ());');
 								/**/
 								include_once dirname (dirname (__FILE__)) . "/jquery/jquery.sprintf/jquery.sprintf-min.js";
 								/**/

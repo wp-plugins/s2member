@@ -44,13 +44,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages_rs"))
 						echo '</div>' . "\n";
 						/**/
 						echo '<script type="text/javascript">' . "\n";
-						echo "jQuery('div#ws-menu-page-js-c-w').hide();" . "\n"; /* Hide! */
+						echo "jQuery('div#ws-menu-page-js-c-w').hide();" . "\n";
 						echo '</script>' . "\n";
 						/**/
-						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"]["mlist"])
+						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"]["updates"])
 							{
-								echo '<div class="ws-menu-page-mlist">' . "\n";
-								include_once dirname (dirname (__FILE__)) . "/menu-pages/ws-mlist.inc.php";
+								echo '<div class="ws-menu-page-updates">' . "\n";
+								include_once dirname (dirname (__FILE__)) . "/menu-pages/updates.inc.php";
 								echo '</div>' . "\n";
 							}
 						/**/

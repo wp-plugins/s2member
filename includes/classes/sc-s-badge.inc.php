@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_s_badge"))
 				* @package s2Member\Security_Badges
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_shortcode("s2Member-Security-Badge");``
+				* @attaches-to ``add_shortcode("s2Member-Security-Badge");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields_4bp"))
 				* @package s2Member\Custom_Reg_Fields
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("bp_after_signup_profile_fields");``
+				* @attaches-to ``add_action("bp_after_signup_profile_fields");``
 				*
 				* @return null
 				*
@@ -135,7 +135,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields_4bp"))
 				* @package s2Member\Custom_Reg_Fields
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("bp_after_profile_field_content");``
+				* @attaches-to ``add_action("bp_after_profile_field_content");``
 				*
 				* @return null
 				*/
@@ -212,7 +212,7 @@ if (!class_exists ("c_ws_plugin__s2member_custom_reg_fields_4bp"))
 				* @package s2Member\Custom_Reg_Fields
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("bp_profile_field_item");``
+				* @attaches-to ``add_action("bp_profile_field_item");``
 				*
 				* @return null
 				*/

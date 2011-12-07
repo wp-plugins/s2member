@@ -33,8 +33,8 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @package s2Member\Files
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("init");``
-				* @also-called-by: API Function {@link s2Member\API_Functions\s2member_file_download_url()}, w/ ``$create_file_download_url`` param.
+				* @attaches-to ``add_action("init");``
+				* @also-called-by API Function {@link s2Member\API_Functions\s2member_file_download_url()}, w/ ``$create_file_download_url`` param.
 				*
 				* @param array $create_file_download_url Optional. If this function is called directly, we can pass arguments through this array.
 				* 	Possible array elements: `file_download` *(required)*, `file_download_key`, `file_stream`, `file_inline`, `file_storage`, `file_remote`, `file_ssl`, `file_rewrite`, `file_rewrite_base`, `skip_confirmation`, `url_to_storage_source`, `count_against_user`, `check_user`.
@@ -166,7 +166,7 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 						else /* Otherwise, we use the default ``$salt``, which is VERY restrictive; even to a specific browser. */
 							eval ('$allow_caching = false; $salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;');
 						/**/
-						$key = md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt));
+						$key = md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt, false, false));
 						/**/
 						if ($allow_caching === false) /* Disallow caching? */
 							c_ws_plugin__s2member_no_cache::no_cache_constants (true);

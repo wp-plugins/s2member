@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 				* @package s2Member\Translations
 				* @since 110815
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null
 				*/
@@ -60,7 +60,7 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 				* @package s2Member\Translations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("gettext");``
+				* @attaches-to ``add_filter("gettext");``
 				*
 				* @param str $translated Expects already-translated string passed in by Filter.
 				* @param str $original Expects original text string passed in by Filter.

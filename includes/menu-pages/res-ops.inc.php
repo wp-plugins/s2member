@@ -76,7 +76,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_posts" id="ws-plugin--s2member-level' . $n . '-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_posts" id="ws-plugin--s2member-level' . $n . '-posts" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]) . '" /><br />' . "\n";
 										echo 'Post IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.<br />' . "\n";
 										echo 'You can also include all Post IDs of a specific <a href="http://codex.wordpress.org/Post_Types" target="_blank" rel="external">Post Type</a>. Ex: <code>1,2,3,34,all-newspapers</code>.<br />' . "\n";
 										echo '<em>( which protects several Post IDs, and <code>all</code> Posts of type: <code>newspaper</code> )</em>' . "\n";
@@ -123,7 +123,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_pages" id="ws-plugin--s2member-level' . $n . '-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_pages" id="ws-plugin--s2member-level' . $n . '-pages" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]) . '" /><br />' . "\n";
 										echo 'Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
 										echo '</td>' . "\n";
 										/**/
@@ -168,7 +168,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_ptags" id="ws-plugin--s2member-level' . $n . '-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_ptags" id="ws-plugin--s2member-level' . $n . '-ptags" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]) . '" /><br />' . "\n";
 										echo 'Tags in comma-delimited format. Example: ' . (($n === 0) ? '<code>free,subscribers only</code>' : '<code>members,members only</code>') . ' — or you can type: <code>all</code>.' . "\n";
 										echo '</td>' . "\n";
 										/**/
@@ -213,7 +213,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_catgs" id="ws-plugin--s2member-level' . $n . '-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_catgs" id="ws-plugin--s2member-level' . $n . '-catgs" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"]) . '" /><br />' . "\n";
 										echo 'Category IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> — or you can type: <code>all</code>.' . "\n";
 										echo '</td>' . "\n";
 										/**/
@@ -353,7 +353,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_res_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_specific_ids" id="ws-plugin--s2member-specific-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_specific_ids" id="ws-plugin--s2member-specific-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["specific_ids"]) . '" /><br />' . "\n";
 								echo 'Post/Page IDs in comma-delimited format. Example: <code>1,2,3,34,8,21</code> * Note... the word <code>all</code> does NOT work here. Also, please be careful not to create a conflict with other Access Restrictions. If you are going to sell Specific Post/Page Access, you should enter specific Post/Page IDs here; and <strong>make SURE that you\'ve NOT already protected any of these Posts/Pages with Member Level Access Restrictions</strong>. In other words, if you configure s2Member, in such as a way, that a Post/Page requires Membership Level Access, you cannot sell that same Post/Page through Specific Post/Page Access. Doing so, would create a conflict. Customers that purchased Specific Post/Page Access, would be unable to access the Post/Page - without also having a Membership. Not good. So please be careful.' . "\n";
 								echo '</td>' . "\n";
 								/**/

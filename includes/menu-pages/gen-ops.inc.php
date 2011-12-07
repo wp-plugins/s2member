@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 	{
@@ -114,7 +114,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_sec_encryption_key" id="ws-plugin--s2member-sec-encryption-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) . '" maxlength="256" autocomplete="off"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) ? ' disabled="disabled"' : '') . ' />' . "\n";
+								echo '<input type="text" maxlength="256" autocomplete="off" name="ws_plugin__s2member_sec_encryption_key" id="ws-plugin--s2member-sec-encryption-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) . '"' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) ? ' disabled="disabled"' : '') . ' />' . "\n";
 								echo (!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) ? '<br />This may contain letters, numbers, spaces; even punctuation. Up to 256 characters.<br /><em>Ex: <code>' . esc_html (strtoupper (c_ws_plugin__s2member_utils_strings::random_str_gen (64))) . '</code></em>' . "\n" : '';
 								echo (count ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key_history"]) > 1) ? '<br /><a href="#" onclick="ws_plugin__s2member_securityKeyHistory(); return false;">Click here</a> for a history of your last 10 Encryption Keys.<div id="ws-plugin--s2member-sec-encryption-key-history" style="display:none;"><code>' . implode ('</code><br /><code>', $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key_history"]) . '</code></div>' . "\n" : '';
 								echo '</td>' . "\n";
@@ -236,7 +236,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_reg_email_from_name" id="ws-plugin--s2member-reg-email-from-name" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_reg_email_from_name" id="ws-plugin--s2member-reg-email-from-name" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . '" /><br />' . "\n";
 								echo 'We recommend that you use the name of your site here.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -253,7 +253,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_reg_email_from_email" id="ws-plugin--s2member-reg-email-from-email" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_reg_email_from_email" id="ws-plugin--s2member-reg-email-from-email" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"]) . '" /><br />' . "\n";
 								echo 'Example: support@your-domain.com. <em class="ws-menu-page-hilite">Please read <a href="#" onclick="alert(\'Running WordPress® with an SMTP mail plugin?\\n\\nPlease be advised. If you run an SMTP mail plugin with WordPress®, be sure to configure s2Member with a valid `From:` address ( i.e. one matching your SMTP configuration perhaps ). Most free SMTP servers, such as Gmail® and Yahoo®, require that your `From:` header match the email address associated with your account. Please check with your SMTP service provider before attempting to configure plugins like s2Member to use a different `From:` address when sending email messages.\'); return false;">this IMPORTANT note</a></em>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -270,7 +270,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_reg_email_support_link" id="ws-plugin--s2member-reg-email-support-link" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_support_link"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_reg_email_support_link" id="ws-plugin--s2member-reg-email-support-link" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_support_link"]) . '" /><br />' . "\n";
 								echo 'Ex: <code>mailto:support@your-domain.com</code> ( <em>mailto link</em> ).<br />' . "\n";
 								echo 'Or: <code>' . esc_html (site_url ("/contact-us/")) . '</code>.' . "\n";
 								echo '</td>' . "\n";
@@ -325,7 +325,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_new_user_email_subject" id="ws-plugin--s2member-new-user-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_subject"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_new_user_email_subject" id="ws-plugin--s2member-new-user-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_email_subject"]) . '" /><br />' . "\n";
 								echo 'Subject Line used in the email sent to new Users/Members.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -402,7 +402,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_new_user_admin_email_recipients" id="ws-plugin--s2member-new-user-admin-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_new_user_admin_email_recipients" id="ws-plugin--s2member-new-user-admin-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"Name" &lt;user@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -420,7 +420,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_new_user_admin_email_subject" id="ws-plugin--s2member-new-user-admin-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_subject"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_new_user_admin_email_subject" id="ws-plugin--s2member-new-user-admin-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["new_user_admin_email_subject"]) . '" /><br />' . "\n";
 								echo 'Subject Line used in the email notification sent to Administrator.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -571,7 +571,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_label" id="ws-plugin--s2member-level' . $n . '-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_label" id="ws-plugin--s2member-level' . $n . '-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_label"]) . '" /><br />' . "\n";
 										echo 'This is the Label for Level #' . $n . (($n === 0) ? ' ( Free Subscribers )' : ' Members') . '.<br />' . "\n";
 										echo '</td>' . "\n";
 										/**/
@@ -652,7 +652,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_font_size" id="ws-plugin--s2member-login-reg-font-size" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_size"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_font_size" id="ws-plugin--s2member-login-reg-font-size" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_size"]) . '" /><br />' . "\n";
 								echo 'Set this to a numeric value, calculated in pixels.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -669,7 +669,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_font_family" id="ws-plugin--s2member-login-reg-font-family" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_family"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_font_family" id="ws-plugin--s2member-login-reg-font-family" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_family"]) . '" /><br />' . "\n";
 								echo 'Set this to a web-safe font family.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -686,7 +686,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_font_field_size" id="ws-plugin--s2member-login-reg-font-field-size" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_field_size"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_font_field_size" id="ws-plugin--s2member-login-reg-font-field-size" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_field_size"]) . '" /><br />' . "\n";
 								echo 'Set this to a numeric value, calculated in pixels.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -718,7 +718,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_background_color" id="ws-plugin--s2member-login-reg-background-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_color"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_background_color" id="ws-plugin--s2member-login-reg-background-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_color"]) . '" /><br />' . "\n";
 								echo 'Set this to a 6-digit hex color code.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -735,7 +735,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_background_image" id="ws-plugin--s2member-login-reg-background-image" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_image"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_background_image" id="ws-plugin--s2member-login-reg-background-image" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_image"]) . '" /><br />' . "\n";
 								echo '<input type="button" id="ws-plugin--s2member-login-reg-background-image-media-btn" value="Open Media Library" class="ws-menu-page-media-btn" rel="ws-plugin--s2member-login-reg-background-image" />' . "\n";
 								echo 'Set this to the URL of your Background Image. ( this is optional )<br />';
 								echo 'If supplied, your Background Image will be tiled.' . "\n";
@@ -776,7 +776,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_background_text_color" id="ws-plugin--s2member-login-reg-background-text-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_color"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_background_text_color" id="ws-plugin--s2member-login-reg-background-text-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_color"]) . '" /><br />' . "\n";
 								echo 'Set this to a 6-digit hex color code.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -793,7 +793,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_background_text_shadow_color" id="ws-plugin--s2member-login-reg-background-text-shadow-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_shadow_color"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_background_text_shadow_color" id="ws-plugin--s2member-login-reg-background-text-shadow-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_text_shadow_color"]) . '" /><br />' . "\n";
 								echo 'Set this to a 6-digit hex color code.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -810,7 +810,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_background_box_shadow_color" id="ws-plugin--s2member-login-reg-background-box-shadow-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_background_box_shadow_color" id="ws-plugin--s2member-login-reg-background-box-shadow-color" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"]) . '" /><br />' . "\n";
 								echo 'Set this to a 6-digit hex color code.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -842,7 +842,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_logo_src" id="ws-plugin--s2member-login-reg-logo-src" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_logo_src" id="ws-plugin--s2member-login-reg-logo-src" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"]) . '" /><br />' . "\n";
 								echo '<input type="button" id="ws-plugin--s2member-login-reg-logo-src-media-btn" value="Open Media Library" class="ws-menu-page-media-btn" rel="ws-plugin--s2member-login-reg-logo-src" />' . "\n";
 								echo 'Set this to the URL of your Logo Image.<br />' . "\n";
 								echo 'Suggested size is around 500 x 100.' . "\n";
@@ -861,7 +861,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_logo_src_width" id="ws-plugin--s2member-login-reg-logo-src-width" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_width"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_logo_src_width" id="ws-plugin--s2member-login-reg-logo-src-width" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_width"]) . '" /><br />' . "\n";
 								echo 'The pixel Width of your Logo Image. <em>* This ALSO affects the overall width of your Login/Registration forms. If you want wider form fields, use a wider Logo.</em>' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -878,7 +878,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_logo_src_height" id="ws-plugin--s2member-login-reg-logo-src-height" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_height"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_logo_src_height" id="ws-plugin--s2member-login-reg-logo-src-height" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_height"]) . '" /><br />' . "\n";
 								echo 'The pixel Height of your Logo Image.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -895,7 +895,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_logo_url" id="ws-plugin--s2member-login-reg-logo-url" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_url"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_logo_url" id="ws-plugin--s2member-login-reg-logo-url" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_url"]) . '" /><br />' . "\n";
 								echo 'Set this to the Click URL for your Logo Image.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -912,7 +912,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_reg_logo_title" id="ws-plugin--s2member-login-reg-logo-title" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_title"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_reg_logo_title" id="ws-plugin--s2member-login-reg-logo-title" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_title"]) . '" /><br />' . "\n";
 								echo 'Used as the <code>title=""</code> attribute for your Logo Image.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -1072,7 +1072,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_custom_reg_force_personal_emails" id="ws-plugin--s2member-custom-reg-force-personal-emails" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_force_personal_emails"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_custom_reg_force_personal_emails" id="ws-plugin--s2member-custom-reg-force-personal-emails" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_force_personal_emails"]) . '" /><br />' . "\n";
 								echo 'To force personal email addresses, provide a comma-delimited list of email users to reject. <a href="#" onclick="alert(\'s2Member will reject [user]@ ( based on your configuration here ). A JavaScript alert message will be issued, asking the User to, `please use a personal email address`.\'); return false;" tabindex="-1">[?]</a><br />' . "\n";
 								echo 'Ex: <code>info,help,admin,webmaster,hostmaster,sales,support,spam</code><br />' . "\n";
 								echo 'See: <a href="http://kb.mailchimp.com/article/what-role-addresses-does-mailchimp-specifically-block-from-bulk-importing/" target="_blank" rel="external">this article</a> for a more complete list.' . "\n";
@@ -1144,7 +1144,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '</select><br />' . "\n";
 								echo 'Please choose a Page to be used as the first page Members will see after logging in. This Page can contain anything you like. We recommend the following title: <code>Welcome To Our Members Area</code>.<br /><br />' . "\n";
 								echo '&darr; Or, you may configure a Special Redirection URL, if you prefer. You\'ll need to type in the full URL, starting with: <code>http://</code>. <em>A few <a href="#" onclick="alert(\'Replacement Codes:\\n\\n%%current_user_login%% = The current User\\\'s Username, lowercase.\\n%%current_user_id%% = The current User\\\'s ID.\\n%%current_user_level%% = The current User\\\'s s2Member Level.\\n%%current_user_role%% = The current User\\\'s WordPress® Role.' . ((!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()) ? '\\n%%current_user_ccaps%% = The current User\\\'s Custom Capabilities.' : '') . '\\n%%current_user_logins%% = Number of times the current User has logged in.\\n\\nFor example, if you\\\'re using BuddyPress, and you want to redirect Members to their BuddyPress Profile page after logging in, you would setup a Special Redirection URL, like this: ' . site_url ("/members/%%current_user_login%%/profile/") . '\\n\\nOr ... using %%current_user_level%%, you could have a separate Login Welcome Page for each Membership Level that you plan to offer. BuddyPress not required.\'); return false;">Replacement Codes</a> are also supported here.</em>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_login_redirection_override" id="ws-plugin--s2member-login-redirection-override" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_redirection_override" id="ws-plugin--s2member-login-redirection-override" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"]) . '" /><br />' . "\n";
 								echo '</td>' . "\n";
 								/**/
 								echo '</tr>' . "\n";
@@ -1246,10 +1246,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 								/**/
 								echo '<p><strong>Shortcode ( copy/paste )</strong>, for an Inline Profile Modification Form:<br />' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" autocomplete="off" value="' . format_to_edit ('[s2Member-Profile /]') . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								/**/
 								echo '<p style="margin-top:20px;"><strong>Stand-Alone ( copy/paste )</strong>, for popup window:</p>' . "\n";
-								echo '<p><input type="text" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.x-php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
+								echo '<p><input type="text" autocomplete="off" value="' . format_to_edit (preg_replace ("/\<\?php echo S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL; \?\>/", c_ws_plugin__s2member_utils_strings::esc_ds (site_url ("/?s2member_profile=1")), file_get_contents (dirname (__FILE__) . "/code-samples/current-user-profile-modification-page-url-2-ops.x-php"))) . '" style="font-size:90%; font-family:Consolas, monospace; width:99%;" onclick="this.select ();" /></p>' . "\n";
 								echo '</div>' . "\n";
 								/**/
 								echo '</div>' . "\n";
@@ -1301,7 +1301,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_gen_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_default_custom_str_url_shortener" id="ws-plugin--s2member-default-custom-str-url-shortener" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_custom_str_url_shortener"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_default_custom_str_url_shortener" id="ws-plugin--s2member-default-custom-str-url-shortener" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_custom_str_url_shortener"]) . '" /><br />' . "\n";
 								echo 'Your own custom URL <code>( i.e. GET request )</code>, with <code>%%s2_long_url%%</code> Replacement Code. [ <a href="#" onclick="alert(\'s2Member makes it possible for advanced site owners to use a custom URL shortening service they prefer, over the ones currently pre-integrated with s2Member. In order for this to work, your URL shortening service MUST support basic GET requests through its API ( sometimes referred to as a REST or NVP API ). In addition, your URL shortening service MUST be capable of returning a simple URL in the response that s2Member receives, as a result of s2Member processing the GET request you formulate. See example below.\\n\\nBitly example GET request with format=txt:\nhttp://api.bitly.com/v3/shorten?login=demo&apiKey=2d71bf07&format=txt&longUrl=%%s2_long_url%%\\n( s2Member expects a shortened URL in the response from Bitly )\\n\\n* If you configure s2Member to use your own custom URL shortening service, s2Member will try your configuration first, and if anything fails, it will fall back on its own pre-integrated backups. When configuring your URL for the GET request, s2Member makes two Replacement Codes available:\\n\\n%%s2_long_url%% = The full URL that needs to be shortened ( raw URL-encoded ).\\n%%s2_long_url_md5%% = An MD5 hash of the full URL ( might be useful in some APIs ).\\n\\n* If you have any trouble getting your URL shortening service integrated with s2Member in this way, you might take a look at this WordPress® Filter ( `ws_plugin__s2member_url_shorten` ), which s2Member makes available for advanced circumstances. Search s2Member\\\'s source code for `ws_plugin__s2member_url_shorten`.\'); return false;" tabindex="-1">click for details</a> ]<br />' . "\n";
 								echo '</td>' . "\n";
 								/**/

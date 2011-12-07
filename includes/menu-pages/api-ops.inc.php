@@ -123,7 +123,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_signup_notification_recipients" id="ws-plugin--s2member-signup-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_signup_notification_recipients" id="ws-plugin--s2member-signup-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -221,7 +221,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_registration_notification_recipients" id="ws-plugin--s2member-registration-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["registration_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_registration_notification_recipients" id="ws-plugin--s2member-registration-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["registration_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -326,7 +326,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_payment_notification_recipients" id="ws-plugin--s2member-payment-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["payment_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_payment_notification_recipients" id="ws-plugin--s2member-payment-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["payment_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -434,7 +434,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_modification_notification_recipients" id="ws-plugin--s2member-modification-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["modification_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_modification_notification_recipients" id="ws-plugin--s2member-modification-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["modification_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -532,7 +532,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_cancellation_notification_recipients" id="ws-plugin--s2member-cancellation-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["cancellation_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_cancellation_notification_recipients" id="ws-plugin--s2member-cancellation-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["cancellation_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -632,7 +632,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_eot_del_notification_recipients" id="ws-plugin--s2member-eot-del-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["eot_del_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_eot_del_notification_recipients" id="ws-plugin--s2member-eot-del-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["eot_del_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -733,7 +733,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_ref_rev_notification_recipients" id="ws-plugin--s2member-ref-rev-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["ref_rev_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_ref_rev_notification_recipients" id="ws-plugin--s2member-ref-rev-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["ref_rev_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -824,7 +824,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_sp_sale_notification_recipients" id="ws-plugin--s2member-sp-sale-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_sp_sale_notification_recipients" id="ws-plugin--s2member-sp-sale-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_sale_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -914,7 +914,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_api_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_sp_ref_rev_notification_recipients" id="ws-plugin--s2member-sp-ref-rev-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_ref_rev_notification_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_sp_ref_rev_notification_recipients" id="ws-plugin--s2member-sp-ref-rev-notification-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_ref_rev_notification_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"John" &lt;john@example.com&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";

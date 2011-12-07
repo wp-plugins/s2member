@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 	{
@@ -41,14 +41,14 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 					{
 						do_action ("ws_plugin__s2member_before_admin_lockouts", get_defined_vars ());
 						/**/
-						if ((!defined ("DOING_AJAX") || !DOING_AJAX) && !current_user_can ("edit_posts") /* Give Filters a chance here too. */)
+						if (is_admin () && (!defined ("DOING_AJAX") || !DOING_AJAX) && !current_user_can ("edit_posts") /* Give Filters a chance here too. */)
 							if (apply_filters ("ws_plugin__s2member_admin_lockout", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["force_admin_lockouts"], get_defined_vars ()))
 								{
 									if ($redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ())
-										wp_redirect($redirection_url) . exit (); /* Special Redirection. */
+										wp_redirect ($redirection_url) . exit (); /* Special Redirection. */
 									/**/
 									else /* Else we use the Login Welcome Page configured for s2Member. */
-										wp_redirect(get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . exit ();
+										wp_redirect (get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"])) . exit ();
 								}
 						/**/
 						do_action ("ws_plugin__s2member_after_admin_lockouts", get_defined_vars ());
@@ -68,29 +68,35 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 				*/
 				public static function filter_admin_menu_bar (&$wp_admin_bar = FALSE)
 					{
-						global $current_site, $current_blog; /* In support of Multisite Networking. */
-						/**/
 						do_action ("ws_plugin__s2member_before_filter_admin_menu_bar", get_defined_vars ());
+						/**/
+						$uses_nodes = (version_compare (get_bloginfo ("version"), "3.3-RC1", ">=")) ? true : false;
 						/**/
 						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts") /* Always for Users/Members. */)
 							{
-								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"wp-logo"}))
-									unset /* Ditch this. */($wp_admin_bar->menu->{"wp-logo"});
+								if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("site-name"))
+									{
+										$id = /* Give this a special/unique ID. */ "s2-site-name";
+										$title = wp_html_excerpt /* A brief excerpt. */ (get_bloginfo ("name"), 42);
+										$title = ($title !== get_bloginfo ("name")) ? trim ($title) . "&hellip;" : $title;
+										$href = /* Change to front page. */ site_url ("/");
+										/**/
+										$wp_admin_bar->add_node (array ("id" => $id, "title" => $title, "href" => $href));
+										$wp_admin_bar->remove_node /* Ditch now, replacing this. */ ("site-name");
+										/**/
+										unset /* A little housekeeping. */ ($id, $title, $href);
+									}
+								if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("wp-logo"))
+									$wp_admin_bar->remove_node /* Ditch this node. */ ("wp-logo");
+								/* ------- */
+								if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"dashboard"}))
+									unset /* Ditch this item. */ ($wp_admin_bar->menu->{"dashboard"});
 								/**/
-								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"site-name"}["href"]))
-									$wp_admin_bar->menu->{"site-name"}["href"] = /* Modify this to. */ site_url ("/");
-								/**/
-								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"site-name"}["children"]))
-									unset /* Ditch this. */($wp_admin_bar->menu->{"site-name"}["children"]);
-								/**/
-								if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"dashboard"}))
-									unset /* Ditch this. */($wp_admin_bar->menu->{"dashboard"});
-								/**/
-								if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-sites"}))
-									unset /* Ditch this. */($wp_admin_bar->menu->{"my-sites"});
-								/**/
-								if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-blogs"}))
-									unset /* Ditch this. */($wp_admin_bar->menu->{"my-blogs"});
+								if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-blogs"}))
+									unset /* Ditch this item. */ ($wp_admin_bar->menu->{"my-blogs"});
+								/* ------- */
+								if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("my-sites"))
+									$wp_admin_bar->remove_node /* Ditch this node. */ ("my-sites");
 							}
 						/**/
 						if (is_object ($wp_admin_bar) && !current_user_can ("edit_posts") /* If locking Users/Members out of `/wp-admin/` areas. */)
@@ -99,17 +105,32 @@ if (!class_exists ("c_ws_plugin__s2member_admin_lockouts"))
 									$lwp = c_ws_plugin__s2member_login_redirects::login_redirection_url ();
 									$lwp = (!$lwp) ? get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]) : $lwp;
 									/**/
-									if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-account"}["href"]))
-										$wp_admin_bar->menu->{"my-account"}["href"] = /* Modify this to. */ $lwp;
+									if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("my-account"))
+										$wp_admin_bar->add_node /* Update this node. */ (array ("id" => "my-account", "href" => $lwp));
 									/**/
-									if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]))
-										$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = /* Modify this to. */ $lwp;
+									if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("user-info"))
+										$wp_admin_bar->add_node /* Update this node. */ (array ("id" => "user-info", "href" => $lwp));
 									/**/
-									if (isset /* Does it have this? */ ($wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"]))
-										$wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"] = /* Modify this to. */ $lwp;
+									if ($uses_nodes && $wp_admin_bar->get_node /* We have this node? */ ("edit-profile"))
+										$wp_admin_bar->add_node /* Update this node. */ (array ("id" => "edit-profile", "href" => $lwp));
+									/* ------- */
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account"}["href"]))
+										$wp_admin_bar->menu->{"my-account"}["href"] = /* Update this item. */ $lwp;
 									/**/
-									if (isset /* Before WordPress® 3.3-beta2. */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"]))
-										$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"] = /* Modify this to. */ $lwp;
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"]))
+										$wp_admin_bar->menu->{"my-account"}["children"]->{"edit-profile"}["href"] = /* Update this item. */ $lwp;
+									/**/
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account"}["children"]->{"user-info"}["href"]))
+										$wp_admin_bar->menu->{"my-account"}["children"]->{"user-info"}["href"] = /* Update this item. */ $lwp;
+									/* ------- */
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["href"]))
+										$wp_admin_bar->menu->{"my-account-with-avatar"}["href"] = /* Update this item. */ $lwp;
+									/**/
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"user-info"}["href"]))
+										$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"user-info"}["href"] = /* Update this item. */ $lwp;
+									/**/
+									if (!$uses_nodes && isset /* Have this item? */ ($wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"]))
+										$wp_admin_bar->menu->{"my-account-with-avatar"}["children"]->{"edit-profile"}["href"] = /* Update this item. */ $lwp;
 								}
 						/**/
 						do_action ("ws_plugin__s2member_after_filter_admin_menu_bar", get_defined_vars ());

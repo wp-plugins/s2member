@@ -139,6 +139,19 @@ table.ws-menu-page-table
 		border: 0;
 		width: 100%;
 	}
+table.ws-menu-page-table ul,
+table.ws-menu-page-table ol
+	{
+		margin: 10px 0 10px 20px;
+	}
+table.ws-menu-page-table ul > li
+	{
+		list-style: disc outside;
+	}
+table.ws-menu-page-table ol > li
+	{
+		list-style: decimal outside;
+	}
 table.ws-menu-page-table > tbody > tr
 	{
 		vertical-align: top;
@@ -304,14 +317,14 @@ table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > 
 		padding: 10px 10px 0 0;
 		font-family: 'Georgia', serif;
 	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > th.ws-menu-page-th-side
-	{
-		width: 200px;
-	}
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td
 	{
 		width: auto;
 		padding: 8px 10px 8px 0;
+	}
+table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > th.ws-menu-page-th-side
+	{
+		width: 200px;
 	}
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > input[type = "text"],
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > input[type = "password"],
@@ -325,6 +338,14 @@ table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > 
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
+table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > select
+	{
+		width: 99.5% !ie<8; /* Required in IE < 8. */
+	}
+table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > textarea
+	{
+		font-family: 'Courier New', monospace;
+	}
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > input[type = "checkbox"],
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > input[type = "radio"]
 	{
@@ -335,27 +356,6 @@ table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > 
 	{
 		float: left;
 		margin: 5px 25px 0 0;
-	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > textarea
-	{
-		font-family: 'Courier New', monospace;
-	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > select
-	{
-		width: 99.5% !ie<8; /* Required in IE < 8. */
-	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > ul,
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > ol
-	{
-		margin: 10px 0 10px 20px;
-	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > ul > li
-	{
-		list-style: disc outside;
-	}
-table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > ol > li
-	{
-		list-style: decimal outside;
 	}
 table.ws-menu-page-table div.ws-menu-page-group table.form-table > tbody > tr > td > div.ws-menu-page-scrollbox
 	{
@@ -406,7 +406,7 @@ Specifically for the right sidebar panel.
 These CSS selectors address common layout styles.
 */
 td.ws-menu-page-table-r div.ws-menu-page-js-c-w,
-td.ws-menu-page-table-r div.ws-menu-page-mlist,
+td.ws-menu-page-table-r div.ws-menu-page-updates,
 td.ws-menu-page-table-r div.ws-menu-page-installation,
 td.ws-menu-page-table-r div.ws-menu-page-tools,
 td.ws-menu-page-table-r div.ws-menu-page-videos,
@@ -441,15 +441,15 @@ td.ws-menu-page-table-r div.ws-menu-page-js-c-w
 	}
 /*
 Specifically for the right sidebar panel.
-- Specifically for the mailing list box.
+- Specifically for the updates box.
 These CSS selectors address common layout styles.
 */
-div.ws-menu-page-mlist ul
+div.ws-menu-page-updates ul
 	{
 		padding: 0;
 		margin: 0 0 0 12px;
 	}
-div.ws-menu-page-mlist ul > li
+div.ws-menu-page-updates ul > li
 	{
 		padding: 0;
 		margin: 5px 0 5px 0;
@@ -458,37 +458,41 @@ div.ws-menu-page-mlist ul > li
 		-webkit-user-select: none;
 		user-select: none;
 	}
-div.ws-menu-page-mlist ul > li:first-child
+div.ws-menu-page-updates ul > li:first-child
 	{
 		margin-top: 0;
 	}
-div.ws-menu-page-mlist a[target = "_blank"]
+div.ws-menu-page-updates a[target = "_blank"]
 	{
 		padding-right: 18px;
 		background: url('<?php echo $i; ?>/brand-xlink.png') no-repeat center right;
 	}
-div.ws-menu-page-mlist div#creditfooter
+div.ws-menu-page-updates div#creditfooter
 	{
 		display: none;
 	}
-div.ws-menu-page-mlist div#ws-mlist-div-fname,
-div.ws-menu-page-mlist div#ws-mlist-div-lname,
-div.ws-menu-page-mlist div#ws-mlist-div-email,
-div.ws-menu-page-mlist div#ws-mlist-div-groups,
-div.ws-menu-page-mlist div#ws-mlist-div-subs,
-div.ws-menu-page-mlist div#ws-mlist-div-priv
+div.ws-menu-page-updates div#ws-updates-div-fname,
+div.ws-menu-page-updates div#ws-updates-div-lname,
+div.ws-menu-page-updates div#ws-updates-div-email,
+div.ws-menu-page-updates div#ws-updates-div-subs,
+div.ws-menu-page-updates div#ws-updates-div-priv
 	{
 		margin: 0 0 10px 0;
 	}
-div.ws-menu-page-mlist div#ws-mlist-div-subs
+div.ws-menu-page-updates div#ws-updates-div-subs
 	{
 		margin: 15px 0 0 0;
 	}
-div.ws-menu-page-mlist input[type = "text"],
-div.ws-menu-page-mlist input[type = "password"],
-div.ws-menu-page-mlist input[type = "submit"],
-div.ws-menu-page-mlist textarea,
-div.ws-menu-page-mlist select
+div.ws-menu-page-updates div#ws-updates-div-priv
+	{
+		font-size: 80%;
+		margin: 0 0 5px 0;
+	}
+div.ws-menu-page-updates input[type = "text"],
+div.ws-menu-page-updates input[type = "password"],
+div.ws-menu-page-updates input[type = "submit"],
+div.ws-menu-page-updates textarea,
+div.ws-menu-page-updates select
 	{
 		width: 100%; /* 100% does not work across all browsers. */
 		width: 98% !ie<8; /* 100% does not work in IE browsers < 8. */
@@ -497,29 +501,17 @@ div.ws-menu-page-mlist select
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-div.ws-menu-page-mlist input[type = "checkbox"],
-div.ws-menu-page-mlist input[type = "radio"]
+div.ws-menu-page-updates input[type = "checkbox"],
+div.ws-menu-page-updates input[type = "radio"]
 	{
 		margin-right: 3px;
 		vertical-align: middle;
 	}
-div.ws-menu-page-mlist input[type = "submit"]
+div.ws-menu-page-updates input[type = "submit"]
 	{
 		width: 100% !ie<8; /* This width required in IE < 8. */
 	}
-div.ws-menu-page-mlist select
+div.ws-menu-page-updates select
 	{
 		width: 99.5% !ie<8; /* Required in IE < 8. */
-	}
-div.ws-menu-page-mlist div#ws-mlist-div-groups > ul,
-div.ws-menu-page-mlist div#ws-mlist-div-groups > ul > li
-	{
-		margin: 0;
-		font-size: 90%;
-		list-style: none;
-	}
-div.ws-menu-page-mlist div#ws-mlist-div-priv
-	{
-		font-size: 80%;
-		margin: 0 0 5px 0;
 	}

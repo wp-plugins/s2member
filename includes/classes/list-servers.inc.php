@@ -312,8 +312,8 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 				* @package s2Member\List_Servers
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("ws_plugin__s2member_during_collective_mods");``
-				* @attaches-to: ``add_action("ws_plugin__s2member_during_collective_eots");``
+				* @attaches-to ``add_action("ws_plugin__s2member_during_collective_mods");``
+				* @attaches-to ``add_action("ws_plugin__s2member_during_collective_eots");``
 				*
 				* @param int|str $user_id Required. A WordPress® User ID, numeric string or integer.
 				* @param array $vars Required. An array of defined variables passed by the calling Hook.

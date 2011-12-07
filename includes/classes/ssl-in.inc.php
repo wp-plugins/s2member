@@ -37,8 +37,8 @@ if (!class_exists ("c_ws_plugin__s2member_ssl_in"))
 				* @package s2Member\SSL
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
-				* @also-attaches-to: ``add_action("wp");``
+				* @attaches-to ``add_action("init");``
+				* @also-attaches-to ``add_action("wp");``
 				*
 				* @return null Possibly exiting script execution after redirection to SSL variation.
 				*

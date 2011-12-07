@@ -35,7 +35,7 @@ if (!class_exists ("c_ws_plugin__s2member_user_new"))
 				* @package s2Member\New_Users
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("load-user-new.php");``
+				* @attaches-to ``add_action("load-user-new.php");``
 				*
 				* @return null
 				*/

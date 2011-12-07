@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_dirs"))
 	{
@@ -28,7 +28,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_dirs"))
 		class c_ws_plugin__s2member_utils_dirs
 			{
 				/**
-				* Normalizes directory separators.
+				* Normalizes directory separators in dir/file paths.
 				*
 				* @package s2Member\Utilities
 				* @since 111017
@@ -122,7 +122,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_dirs"))
 												/**/
 												if (($_from_drive_jctn_exists = (is_dir ($_from_drive_jctn)) ? true : false) || c_ws_plugin__s2member_utils_dirs::create_win_jctn ($_jctn, $_to_drive . ":/"))
 													{
-														array_shift /* Shift drive off and use junction now. */($to);
+														array_shift /* Shift drive off and use junction now. */ ($to);
 														foreach (array_reverse (preg_split ("/\//", (($_from_drive_jctn_exists) ? $_from_drive_jctn : $_jctn))) as $_jctn_dir)
 															array_unshift ($to, $_jctn_dir);
 													}
@@ -140,7 +140,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_dirs"))
 								foreach (array_keys ($from) as $_depth) /* Each ``$from`` directory ``$_depth``. */
 									{
 										if (isset ($from[$_depth], $to[$_depth]) && $from[$_depth] === $to[$_depth])
-											array_shift($rel_path);
+											array_shift ($rel_path);
 										/**/
 										else if (($_remaining = count ($from) - $_depth) > 1)
 											{
@@ -177,7 +177,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_dirs"))
 								/**/
 								else if ( /* Possible? */function_exists ("shell_exec") && ($esa = "escapeshellarg"))
 									{
-										@shell_exec("mklink /J " . $esa ($jctn) . " " . $esa ($target));
+										@shell_exec ("mklink /J " . $esa ($jctn) . " " . $esa ($target));
 										/**/
 										clearstatcache (); /* Clear ``stat()`` cache now. */
 										if (is_dir ($jctn)) /* Created successfully? */

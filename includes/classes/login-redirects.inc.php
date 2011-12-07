@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects"))
 				* @package s2Member\Login_Redirects
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_login");``
+				* @attaches-to ``add_action("wp_login");``
 				*
 				* @param str $username Expects Username to be passed in by the Action Hook.
 				* @return null Or exits script execution after a redirection takes place.

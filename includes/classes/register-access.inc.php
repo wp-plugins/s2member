@@ -64,7 +64,7 @@ if (!class_exists ("c_ws_plugin__s2member_register_access"))
 				* @package s2Member\Registrations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_reg_access_link_via_ajax");``
+				* @attaches-to ``add_action("wp_ajax_ws_plugin__s2member_reg_access_link_via_ajax");``
 				*
 				* @return null Exits script execution after output is generated for AJAX caller.
 				*/

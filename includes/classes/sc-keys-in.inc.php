@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_keys_in"))
 				* @package s2Member\s2Key
 				* @since 110912
 				*
-				* @attaches-to: ``add_shortcode("s2Key");``
+				* @attaches-to ``add_shortcode("s2Key");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

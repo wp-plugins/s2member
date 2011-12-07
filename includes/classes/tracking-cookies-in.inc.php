@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 				* @package s2Member\Tracking
 				* @since 110815
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after deleting Cookie.
 				*/
@@ -65,7 +65,7 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies_in"))
 				* @package s2Member\Tracking
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after deleting Cookie.
 				*/

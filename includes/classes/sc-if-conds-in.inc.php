@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 	{
@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 				* @package s2Member\s2If
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2If")`` + _s2If, __s2If, ___s2If for nesting.
+				* @attaches-to ``add_shortcode("s2If")`` + _s2If, __s2If, ___s2If for nesting.
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
@@ -56,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 				*/
 				public static function sc_if_conditionals ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_if_conditionals", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -71,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 								{ /* Stick with AND/OR. Ampersands are corrupted by the Visual Editor. */
 									/**/
 									$logicals[] = strtolower ($attr_value); /* Place all logicals into an array here. */
-									unset ($attr[$attr_key]); /* ^ Detect logic here. We'll use the first key #0. */
+									unset($attr[$attr_key]); /* ^ Detect logic here. We'll use the first key #0. */
 									/**/
 									if (preg_match ("/^[\!\=\<\>]+$/i", $attr_value)) /* Error on these operators. */
 										{
@@ -88,7 +88,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 						/**/
 						$conditional_logic = (is_array ($logicals) && !empty ($logicals) && preg_match ("/^(\|\||OR)$/i", $logicals[0])) ? "OR" : "AND";
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_if_conditionals_after_conditional_logic", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -98,7 +98,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 									{
 										if (preg_match ("/^(\!?)(.+?)(\()(.*?)(\))$/", $attr_value, $m) && ($exclamation = $m[1]) !== "nill" && ($conditional = $m[2]) && ($attr_args = preg_replace ("/[\r\n\t\s ]/", "", $m[4])) !== "nill")
 											{
-												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site () || !preg_match ("/[\(\)]/", $attr_args)) /* Disallow functions as arguments on a Multisite Blog Farm. */
+												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site () || !(preg_match ("/[\$\(\)]/", $attr_args) || preg_match ("/new[\r\n\t\s]/i", $attr_args)))
 													{
 														if (is_array ($args = preg_split ("/[;,]+/", $attr_args, 0, PREG_SPLIT_NO_EMPTY))) /* Convert all arguments into an array. And take note; possibly into an empty array. */
 															{
@@ -181,7 +181,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_if_conds_in"))
 									{
 										if (preg_match ("/^(\!?)(.+?)(\()(.*?)(\))$/", $attr_value, $m) && ($exclamation = $m[1]) !== "nill" && ($conditional = $m[2]) && ($attr_args = preg_replace ("/[\r\n\t\s ]/", "", $m[4])) !== "nill")
 											{
-												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site () || !preg_match ("/[\(\)]/", $attr_args)) /* Disallow functions as arguments on a Multisite Blog Farm. */
+												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site () || !(preg_match ("/[\$\(\)]/", $attr_args) || preg_match ("/new[\r\n\t\s]/i", $attr_args)))
 													{
 														if (is_array ($args = preg_split ("/[;,]+/", $attr_args, 0, PREG_SPLIT_NO_EMPTY))) /* Convert all arguments into an array. And take note; possibly into an empty array. */
 															{

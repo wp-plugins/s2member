@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 	{
@@ -65,18 +65,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 							{
 								foreach ($array as $value)
 									{
-										if (is_array ($value)) /* Recursive function call? */
+										if (is_array ($value) /* Recursive function call? */)
 											{
 												if (c_ws_plugin__s2member_utils_arrays::regex_in_array ($regex, $value))
 													return true;
 											}
-										else if (is_string ($value)) /* Must be a string. */
+										else if (is_string ($value) /* Must be a string. */)
 											{
 												if (@preg_match ($regex, $value))
 													return true;
 											}
 									}
-								/**/
 								return false;
 							}
 						else /* False. */
@@ -98,18 +97,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 							{
 								foreach ($array as $value)
 									{
-										if (is_array ($value)) /* Recursive function call. */
+										if (is_array ($value) /* Recursive function call. */)
 											{
 												if (c_ws_plugin__s2member_utils_arrays::in_regex_array ($string, $value))
 													return true;
 											}
-										else if (is_string ($value)) /* Must be a string. */
+										else if (is_string ($value) /* Must be a string. */)
 											{
 												if (@preg_match ($value, $string))
 													return true;
 											}
 									}
-								/**/
 								return false;
 							}
 						else /* False. */
@@ -130,11 +128,11 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						/**/
 						foreach ($array as $key => &$value)
 							{
-								if (is_array ($value)) /* Recursive function call here. */
+								if (is_array ($value) /* Recursive function call here. */)
 									$value = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
 								/**/
-								else if (is_null ($value)) /* Is it null? */
-									unset ($array[$key]);
+								else if (is_null ($value) /* Is it null? */)
+									unset($array[$key]);
 							}
 						return $array;
 					}
@@ -153,10 +151,10 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						/**/
 						foreach ($array as &$value)
 							{
-								if (is_array ($value)) /* Recursive function call here. */
+								if (is_array ($value) /* Recursive function call here. */)
 									$value = c_ws_plugin__s2member_utils_arrays::force_strings ($value);
 								/**/
-								else if (!is_string ($value)) /* String? */
+								else if (!is_string ($value) /* String? */)
 									$value = (string)$value;
 							}
 						return $array;
@@ -176,13 +174,35 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						/**/
 						foreach ($array as &$value)
 							{
-								if (is_array ($value)) /* Recursive function call here. */
+								if (is_array ($value) /* Recursive function call here. */)
 									$value = c_ws_plugin__s2member_utils_arrays::force_integers ($value);
 								/**/
-								else if (!is_integer ($value)) /* Integer? */
+								else if (!is_integer ($value) /* Integer? */)
 									$value = (int)$value;
 							}
 						return $array;
+					}
+				/**
+				* Sorts arrays *( also supports multi-dimensional arrays )* by key, low to high.
+				*
+				* @package s2Member\Utilities
+				* @since 111205
+				*
+				* @param array $array An input array.
+				* @param int $flags Optional. Can be used to modify the sorting behavior.
+				* 	See: {@link http://www.php.net/manual/en/function.ksort.php}
+				* @return Unlike PHP's ``ksort()``, this function returns the array, and does NOT work on a reference.
+				*/
+				function ksort_deep ($array = FALSE, $flags = SORT_REGULAR)
+					{
+						$array = (array)$array;
+						ksort /* Sort by key. */ ($array, $flags);
+						/**/
+						foreach ($array as &$value)
+							if (is_array ($value) /* Recursive function call here. */)
+								$value = c_ws_plugin__s2member_utils_arrays::ksort_deep ($value, $flags);
+						/**/
+						return /* Now return the array. */ $array;
 					}
 			}
 	}

@@ -36,7 +36,7 @@ if (!class_exists ("c_ws_plugin__s2member_mo_page"))
 				* @package s2Member\Membership_Options_Page
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/

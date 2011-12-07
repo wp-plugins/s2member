@@ -33,8 +33,8 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 				* @package s2Member\Users_List
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("edit_user_profile");``
-				* @attaches-to: ``add_action("show_user_profile");``
+				* @attaches-to ``add_action("edit_user_profile");``
+				* @attaches-to ``add_action("show_user_profile");``
 				*
 				* @param obj $user Expects a `WP_User` object passed in by the Action Hook.
 				* @return inner Return-value of inner routine.
@@ -49,8 +49,8 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 				* @package s2Member\Users_List
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("edit_user_profile_update");``
-				* @attaches-to: ``add_action("personal_options_update");``
+				* @attaches-to ``add_action("edit_user_profile_update");``
+				* @attaches-to ``add_action("personal_options_update");``
 				*
 				* @param int|str $user_id Expects a numeric WordPress® User ID passed in by the Action Hook.
 				* @return inner Return-value of inner routine.
@@ -67,7 +67,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 				* @package s2Member\Users_List
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("pre_user_query");``
+				* @attaches-to ``add_action("pre_user_query");``
 				*
 				* @param obj $query Expects a `WP_User_Query` object, by reference.
 				* @return null After possibly modifying the ``$query`` object.
@@ -110,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 				* @package s2Member\Users_List
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter ("manage_users_columns");``
+				* @attaches-to ``add_filter ("manage_users_columns");``
 				*
 				* @param array $columns Expects an array of columns to be passed through by the Filter.
 				* @return array Array of columns, merged with columns introduced by this routine.
@@ -155,7 +155,7 @@ if (!class_exists ("c_ws_plugin__s2member_users_list"))
 				* @package s2Member\Users_List
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter ("manage_users_custom_column");``
+				* @attaches-to ``add_filter ("manage_users_custom_column");``
 				*
 				* @param str $val A value for this column, passed through by the Filter.
 				* @param str $col The name of the column for which we might need to supply data for.

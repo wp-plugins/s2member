@@ -44,9 +44,9 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 						/**/
 						if (/**/(/**/(!empty ($paypal["txn_type"]) && preg_match ("/^(subscr_eot|recurring_payment_expired|recurring_payment_suspended_due_to_max_failed_payment)$/i", $paypal["txn_type"]) && ($recurring = true))/**/
 						|| (!empty ($paypal["txn_type"]) && preg_match ("/^recurring_payment_profile_cancel$/i", $paypal["txn_type"]) && !empty ($paypal["initial_payment_status"]) && preg_match ("/^failed$/i", $paypal["initial_payment_status"]) && ($recurring = true))/**/
-						|| (!empty ($paypal["txn_type"]) && preg_match ("/^new_case$/i", $paypal["txn_type"]) && !empty ($paypal["case_type"]) && preg_match ("/^chargeback$/i", $paypal["case_type"]) && !($recurring = false)) /* Seek this for future compatibility. */
-						|| (!empty ($paypal["payment_status"]) && preg_match ("/^(refunded|reversed|reversal)$/i", $paypal["payment_status"]) && !($recurring = false))/**/) /* The "txn_type" is irrelevant in all of these payment statuses: refunded|reversed|reversal. */
-						&& (!empty ($paypal["subscr_id"]) || ($paypal["subscr_id"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_subscr_id ($paypal)) || (!empty ($paypal["parent_txn_id"]) && ($paypal["subscr_id"] = $paypal["parent_txn_id"]))) /* Or `parent_txn_id`? */
+						|| (!empty ($paypal["txn_type"]) && preg_match ("/^new_case$/i", $paypal["txn_type"]) && !empty ($paypal["case_type"]) && preg_match ("/^chargeback$/i", $paypal["case_type"]) && !($recurring = false)) /* Seeking this for future compatibility. */
+						|| (!empty ($paypal["payment_status"]) && preg_match ("/^(refunded|reversed|reversal)$/i", $paypal["payment_status"]) && !($recurring = false))/**/) /* The `txn_type` is irrelevant in all of these payment statuses: `refunded|reversed|reversal`. */
+						&& (!empty ($paypal["subscr_id"]) || ($paypal["subscr_id"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_subscr_id ($paypal)) || (!empty ($paypal["parent_txn_id"]) && ($paypal["subscr_id"] = $paypal["parent_txn_id"]))) /* Other MUST haves. */
 						&& (!empty ($paypal["period1"]) || ($paypal["period1"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period1 ($paypal, false)) || empty ($recurring) || ($paypal["period1"] = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_var ("period1", false, $paypal["subscr_id"])) || ($paypal["period1"] = "0 D"))/**/
 						&& (!empty ($paypal["period3"]) || ($paypal["period3"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_period3 ($paypal, false)) || empty ($recurring) || ($paypal["period3"] = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_var ("period3", false, $paypal["subscr_id"])) || ($paypal["period3"] = "1 D"))/**/
 						&& ((!empty ($paypal["item_number"]) || ($paypal["item_number"] = c_ws_plugin__s2member_paypal_utilities::paypal_pro_item_number ($paypal)) || ($paypal["item_number"] = c_ws_plugin__s2member_utils_users::get_user_ipn_signup_var ("item_number", false, $paypal["subscr_id"]))) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"], $paypal["item_number"]))/**/
@@ -309,7 +309,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in_subscr_or_rp_eots_w_l
 												$ipn = array ("txn_type" => "subscr_eot"); /* Create a simulated IPN response for txn_type=subscr_eot. */
 												/**/
 												foreach ($paypal as $var => $val)
-													if (in_array ($var, array ("subscr_gateway", "subscr_id", "custom", "invoice", "payer_email", "first_name", "last_name", "item_name", "item_number", "period1", "period3", "option_name1", "option_selection1", "option_name2", "option_selection2")))
+													if (in_array ($var, array ("subscr_gateway", "subscr_id", "custom", "invoice", "payer_email", "first_name", "last_name", "item_name", "item_number", /* Exclude; might be defaults. "period1", "period3", */ "option_name1", "option_selection1", "option_name2", "option_selection2")))
 														$ipn[$var] = $val;
 												/**/
 												$paypal["s2member_log"][] = "Re-generating. This IPN will go into a Transient Queue; and be re-processed during registration.";

@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 	{
@@ -71,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="password" name="ws_plugin__s2member_mailchimp_api_key" id="ws-plugin--s2member-mailchimp-api-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_mailchimp_api_key" id="ws-plugin--s2member-mailchimp-api-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) . '" /><br />' . "\n";
 								echo 'Once you have a MailChimp® account, you\'ll need to <a href="http://www.s2member.com/mailchimp-api-key" target="_blank" rel="external">add an API Key</a>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -91,7 +91,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_mailchimp_list_ids" id="ws-plugin--s2member-level' . $n . '-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_mailchimp_list_ids"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_mailchimp_list_ids" id="ws-plugin--s2member-level' . $n . '-mailchimp-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_mailchimp_list_ids"]) . '" /><br />' . "\n";
 										echo 'New ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' will be subscribed to these List IDs.<br />' . "\n";
 										echo 'Ex: <code>4a44fRio5d, 434ksvviEdf, 8834jsdf923, ee9djfs4jel3</code><br />' . "\n";
 										echo 'Or: <code>4a44fRio5d::Group Title::Group|Another Group</code>' . "\n";
@@ -140,7 +140,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_aweber_list_ids" id="ws-plugin--s2member-level' . $n . '-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_aweber_list_ids"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_aweber_list_ids" id="ws-plugin--s2member-level' . $n . '-aweber-list-ids" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_aweber_list_ids"]) . '" /><br />' . "\n";
 										echo 'New ' . (($n === 0) ? 'Free Subscribers' : 'Level #' . $n . ' Members') . ' will be subscribed to these List IDs.<br />' . "\n";
 										echo 'Ex: <code>mylist, myotherlist, anotherlist</code>' . "\n";
 										echo '</td>' . "\n";
@@ -182,7 +182,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '<tr class="ws-plugin--s2member-custom-reg-opt-in-label-row"' . ((!$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"]) ? ' style="display:none;"' : '') . '>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_custom_reg_opt_in_label" id="ws-plugin--s2member-custom-reg-opt-in-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in_label"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_custom_reg_opt_in_label" id="ws-plugin--s2member-custom-reg-opt-in-label" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in_label"]) . '" /><br />' . "\n";
 								echo 'Example: <code><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_opt_in"] == 1) ? 'checked' : 'unchecked') . '.png" class="ws-plugin--s2member-custom-reg-opt-in-label-prev-img ws-menu-page-img-16" style="vertical-align:middle;" alt="" /> Your Label will appear next to a Checkbox.</code>' . "\n";
 								echo '</td>' . "\n";
 								/**/

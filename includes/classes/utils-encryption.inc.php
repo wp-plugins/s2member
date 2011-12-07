@@ -28,72 +28,88 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 		class c_ws_plugin__s2member_utils_encryption
 			{
 				/**
+				* Determines the proper encryption/decryption Key to use.
+				*
+				* @package s2Member\Utilities
+				* @since 111106
+				*
+				* @param str $key Optional. Attempt to force a specific Key. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+				* @return str Proper encryption/decryption Key. If ``$key`` is passed in, and it validates, we'll return that. Otherwise use a default Key.
+				*/
+				public static function key ($key = FALSE)
+					{
+						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
+						$key = (!is_string ($key) || !strlen ($key)) ? /* Use the installed WordPress® salt. */ wp_salt () : $key;
+						$key = (!is_string ($key) || !strlen ($key)) ? /* Default/backup. */ md5 ($_SERVER["HTTP_HOST"]) : $key;
+						return /* Proper encryption/decryption key. */ $key;
+					}
+				/**
 				* RIJNDAEL 256: two-way encryption/decryption, with a URL-safe base64 wrapper.
 				*
-				* Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				* Falls back on XOR encryption/decryption when/if mcrypt is not possible.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
 				* @param str $string A string of data to encrypt.
-				* @param str $key Optional. Key used for encryption.
-				* 	Defaults to the one configured for s2Member.
-				* 	Short of that, defaults to: ``wp_salt()``.
+				* @param str $key Optional. Key used for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+				* @param bool $w_md5_cs Optional. Defaults to true. When true, an MD5 checksum is used in the encrypted string *( recommended )*.
 				* @return str Encrypted string.
 				*/
-				public static function encrypt ($string = FALSE, $key = FALSE)
+				public static function encrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
 					{
-						$string = (is_string ($string)) ? $string : "";
-						/**/
-						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
-						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
-						/**/
 						if (function_exists ("mcrypt_encrypt") && in_array ("rijndael-256", mcrypt_list_algorithms ()) && in_array ("cbc", mcrypt_list_modes ()))
 							{
-								$string = (strlen ($string)) ? "~r2|" . $string : "";
-								$key = substr ($key, 0, mcrypt_get_key_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
-								$iv = c_ws_plugin__s2member_utils_strings::random_str_gen (mcrypt_get_iv_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), false);
-								$encrypted = mcrypt_encrypt (MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_CBC, $iv);
-								$encrypted = (strlen ($encrypted)) ? "~r2:" . $iv . "|" . $encrypted : "";
+								$string = /* Force a valid string value here. */ (is_string ($string)) ? $string : "";
+								$string = /* Indicating this is an RIJNDAEL 256 encrypted string. */ (strlen ($string)) ? "~r2|" . $string : "";
 								/**/
-								return ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($encrypted));
+								$key = /* Obtain encryption/decryption key. */ c_ws_plugin__s2member_utils_encryption::key ($key);
+								$key = /* Proper key length. */ substr ($key, 0, mcrypt_get_key_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
+								/**/
+								$iv = c_ws_plugin__s2member_utils_strings::random_str_gen (mcrypt_get_iv_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC), false);
+								/**/
+								if (strlen ($string) && is_string ($e = mcrypt_encrypt /* Encrypt the string. */ (MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_CBC, $iv)) && strlen ($e))
+									$e = /* RIJNDAEL 256 encrypted string with IV and checksum built into itself. */ "~r2:" . $iv . (($w_md5_cs) ? ":" . md5 ($e) : "") . "|" . $e;
+								/**/
+								return (isset ($e) && is_string ($e) && strlen ($e)) ? ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($e)) : "";
 							}
 						else /* Fallback on XOR encryption. */
-							return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key);
+							return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key, $w_md5_cs);
 					}
 				/**
 				* RIJNDAEL 256: two-way encryption/decryption, with a URL-safe base64 wrapper.
 				*
-				* Includes a built-in fallback on XOR encryption when mcrypt is not available.
+				* Falls back on XOR encryption/decryption when mcrypt is not available.
 				*
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
 				* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
-				* @param str $key Optional. Key used originally for encryption.
-				* 	Defaults to the one configured for s2Member.
-				* 	Short of that, defaults to: ``wp_salt()``.
+				* @param str $key Optional. Key used originally for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
 				* @return str Decrypted string.
 				*/
 				public static function decrypt ($base64 = FALSE, $key = FALSE)
 					{
-						$base64 = (is_string ($base64)) ? $base64 : "";
+						$base64 = /* Force a valid string value here. */ (is_string ($base64)) ? $base64 : "";
+						$e = (strlen ($base64)) ? c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64) : "";
 						/**/
-						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
-						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
-						/**/
-						$encrypted = c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64);
-						/**/
-						if (function_exists ("mcrypt_decrypt") && in_array ("rijndael-256", mcrypt_list_algorithms ()) && in_array ("cbc", mcrypt_list_modes ()) && preg_match ("/^~r2\:(.+?)\|/", $encrypted, $v1))
+						if (function_exists ("mcrypt_decrypt") && in_array ("rijndael-256", mcrypt_list_algorithms ()) && in_array ("cbc", mcrypt_list_modes ()) #
+						&& strlen ($e) /* And, is this an RIJNDAEL 256 encrypted string? */ && preg_match ("/^~r2\:([a-zA-Z0-9]+)(?:\:([a-zA-Z0-9]+))?\|(.*?)$/s", $e, $iv_md5_e))
 							{
-								$encrypted = preg_replace ("/^~r2\:(.+?)\|/", "", $encrypted);
-								$key = substr ($key, 0, mcrypt_get_key_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
-								$decrypted = mcrypt_decrypt (MCRYPT_RIJNDAEL_256, $key, $encrypted, MCRYPT_MODE_CBC, $v1[1]);
-								$decrypted = preg_replace ("/^~r2\|/", "", $decrypted, 1, $v2);
-								$decrypted = ($v2) ? $decrypted : ""; /* Check validity. */
-								$decrypted = rtrim ($decrypted, "\0\4"); /* Nulls/EOTs. */
+								$key = /* Obtain encryption/decryption key. */ c_ws_plugin__s2member_utils_encryption::key ($key);
+								$key = /* Proper key length. */ substr ($key, 0, mcrypt_get_key_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC));
 								/**/
-								return ($string = $decrypted);
+								if (strlen ($iv_md5_e[3]) && ( /* No checksum? */!$iv_md5_e[2] || /* Or, a matching checksum? */ $iv_md5_e[2] === md5 ($iv_md5_e[3])))
+									$d = /* Decrypt the string. */ mcrypt_decrypt (MCRYPT_RIJNDAEL_256, $key, $iv_md5_e[3], MCRYPT_MODE_CBC, $iv_md5_e[1]);
+								/**/
+								if (isset ($d) && /* Was ``$iv_md5_e[3]`` decrypted successfully? */ is_string ($d) && strlen ($d))
+									/**/
+									if (strlen ($d = preg_replace ("/^~r2\|/", "", $d, 1, $r2)) && $r2)
+										$d = rtrim /* Right-trim NULLS and EOTs. */ ($d, "\0\4");
+									else /* Else we need to empty this out. */
+										$d = /* Empty string. Invalid. */ "";
+								/**/
+								return (isset ($d) && is_string ($d) && strlen ($d)) ? ($string = $d) : "";
 							}
 						else /* Fallback on XOR decryption. */
 							return c_ws_plugin__s2member_utils_encryption::xdecrypt ($base64, $key);
@@ -105,30 +121,26 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 				* @since 3.5
 				*
 				* @param str $string A string of data to encrypt.
-				* @param str $key Optional. Key used for encryption.
-				* 	Defaults to the one configured for s2Member.
-				* 	Short of that, defaults to: ``wp_salt()``.
+				* @param str $key Optional. Key used for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+				* @param bool $w_md5_cs Optional. Defaults to true. When true, an MD5 checksum is used in the encrypted string *( recommended )*.
 				* @return str Encrypted string.
 				*/
-				public static function xencrypt ($string = FALSE, $key = FALSE)
+				public static function xencrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
 					{
-						$string = (is_string ($string)) ? $string : "";
+						$string = /* Force a valid string value here. */ (is_string ($string)) ? $string : "";
+						$string = /* Indicating this is an XOR encrypted string. */ (strlen ($string)) ? "~xe|" . $string : "";
 						/**/
-						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
-						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
+						$key = /* Obtain encryption/decryption key. */ c_ws_plugin__s2member_utils_encryption::key ($key);
 						/**/
-						$string = (strlen ($string)) ? "~xe|" . $string : "";
-						/**/
-						for ($i = 1, $encrypted = ""; $i <= strlen ($string); $i++)
+						for ($i = 1, $e = ""; $i <= /* Will NOT run if ``$string`` has no length. */ strlen ($string); $i++)
 							{
 								$char = substr ($string, $i - 1, 1);
 								$keychar = substr ($key, ($i % strlen ($key)) - 1, 1);
-								$encrypted .= chr (ord ($char) + ord ($keychar));
+								$e .= chr (ord ($char) + ord ($keychar));
 							}
+						$e = /* XOR encrypted? */ (strlen ($e)) ? "~xe" . (($w_md5_cs) ? ":" . md5 ($e) : "") . "|" . $e : "";
 						/**/
-						$encrypted = (strlen ($encrypted)) ? "~xe|" . $encrypted : "";
-						/**/
-						return ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($encrypted));
+						return (strlen ($e)) ? ($base64 = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode ($e)) : "";
 					}
 				/**
 				* XOR two-way encryption/decryption, with a base64 wrapper.
@@ -137,34 +149,37 @@ if (!class_exists ("c_ws_plugin__s2member_utils_encryption"))
 				* @since 3.5
 				*
 				* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
-				* @param str $key Optional. Key used originally for encryption.
-				* 	Defaults to the one configured for s2Member.
-				* 	Short of that, defaults to: ``wp_salt()``.
+				* @param str $key Optional. Key used originally for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
 				* @return str Decrypted string.
 				*/
 				public static function xdecrypt ($base64 = FALSE, $key = FALSE)
 					{
-						$base64 = (is_string ($base64)) ? $base64 : "";
+						$base64 = /* Force a valid string value here. */ (is_string ($base64)) ? $base64 : "";
+						$e = (strlen ($base64)) ? c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64) : "";
 						/**/
-						$key = (!is_string ($key) || !strlen ($key)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"] : $key;
-						$key = (!is_string ($key) || !strlen ($key)) ? wp_salt () : $key;
-						/**/
-						$encrypted = c_ws_plugin__s2member_utils_strings::base64_url_safe_decode ($base64);
-						/**/
-						$encrypted = preg_replace ("/^~xe\|/", "", $encrypted, 1, $v1);
-						$encrypted = ($v1) ? $encrypted : ""; /* Check validity. */
-						/**/
-						for ($i = 1, $decrypted = ""; $i <= strlen ($encrypted); $i++)
+						if (strlen ($e) /* And, is this an XOR encrypted string? */ && preg_match ("/^~xe(?:\:([a-zA-Z0-9]+))?\|(.*?)$/s", $e, $md5_e))
 							{
-								$char = substr ($encrypted, $i - 1, 1);
-								$keychar = substr ($key, ($i % strlen ($key)) - 1, 1);
-								$decrypted .= chr (ord ($char) - ord ($keychar));
+								$key = /* Obtain encryption/decryption key. */ c_ws_plugin__s2member_utils_encryption::key ($key);
+								/**/
+								if (strlen ($md5_e[2]) && ( /* No checksum? */!$md5_e[1] || /* Or a matching checksum? */ $md5_e[1] === md5 ($md5_e[2])))
+									/**/
+									for ($i = 1, $d = ""; $i <= /* Will NOT run if ``$md5_e[2]`` has no length. */ strlen ($md5_e[2]); $i++)
+										{
+											$char = substr ($md5_e[2], $i - 1, 1);
+											$keychar = substr ($key, ($i % strlen ($key)) - 1, 1);
+											$d .= chr (ord ($char) - ord ($keychar));
+										}
+								if (isset ($d) && /* Was ``$md5_e[2]`` decrypted successfully? */ is_string ($d) && strlen ($d))
+									/**/
+									if (strlen ($d = preg_replace ("/^~xe\|/", "", $d, 1, $xe)) && $xe)
+										$d = /* Just re-assign this here. Nothing more to do. */ $d;
+									else /* Else we need to empty this out. */
+										$d = /* Empty string. Invalid. */ "";
+								/**/
+								return (isset ($d) && is_string ($d) && strlen ($d)) ? ($string = $d) : "";
 							}
-						/**/
-						$decrypted = preg_replace ("/^~xe\|/", "", $decrypted, 1, $v2);
-						$decrypted = ($v2) ? $decrypted : ""; /* Check validity. */
-						/**/
-						return ($string = $decrypted);
+						else /* Otherwise we must fail here with an empty string value. */
+							return /* Just return an empty string in this case. */ "";
 					}
 			}
 	}

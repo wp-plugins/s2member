@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 111105
-Stable tag: 111105
+Version: 111206
+Stable tag: 111206
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -38,7 +38,7 @@ ClickBank® Compatible: w/ s2Member Pro
 AliPay® Compatible: w/ s2Member Pro
 ccBill® Compatible: w/ s2Member Pro
 
-Tested up to: 3.3-beta2
+Tested up to: 3.3
 Requires at least: 3.2
 Requires: WordPress® 3.2+, PHP 5.2.3+
 
@@ -66,7 +66,7 @@ Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal
 
 -- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**
 * The installed version of s2Member.
 *
@@ -76,7 +76,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "111105");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "111206");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -106,7 +106,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111105");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111206");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
@@ -117,7 +117,7 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		/*
 		Hook before loaded.
 		*/
-		do_action ("ws_plugin__s2member_before_loaded");
+		do_action("ws_plugin__s2member_before_loaded");
 		/*
 		System configuraton.
 		*/
@@ -129,7 +129,7 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		/*
 		Hook after system config & Hooks are loaded.
 		*/
-		do_action ("ws_plugin__s2member_config_hooks_loaded");
+		do_action("ws_plugin__s2member_config_hooks_loaded");
 		/*
 		Load a possible Pro module, if/when available.
 		*/
@@ -148,9 +148,10 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		*/
 		include_once dirname (__FILE__) . "/includes/codes.inc.php";
 		/*
-		Hook after loaded.
+		Hooks after loaded.
 		*/
-		do_action ("ws_plugin__s2member_after_loaded");
+		do_action("ws_plugin__s2member_loaded");
+		do_action("ws_plugin__s2member_after_loaded");
 	}
 /*
 Else NOT compatible. Do we need admin compatibility errors now?

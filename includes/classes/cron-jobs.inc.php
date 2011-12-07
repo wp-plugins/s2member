@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs"))
 				* @package s2Member\Cron_Jobs
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("cron_schedules");``
+				* @attaches-to ``add_filter("cron_schedules");``
 				*
 				* @param array $schedules Expects an array of WP_Cron schedules passed in by the Filter.
 				* @return inner Return-value of inner routine.
@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs"))
 				* @package s2Member\Cron_Jobs
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/

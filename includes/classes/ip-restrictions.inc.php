@@ -174,7 +174,7 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 				* @package s2Member\IP_Restrictions
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_delete_reset_specific_ip_restrictions_via_ajax");``
+				* @attaches-to ``add_action("wp_ajax_ws_plugin__s2member_delete_reset_specific_ip_restrictions_via_ajax");``
 				*
 				* @return null Exits script execution after returning data for AJAX caller.
 				*/
@@ -230,7 +230,7 @@ if (!class_exists ("c_ws_plugin__s2member_ip_restrictions"))
 				* @package s2Member\IP_Restrictions
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax");``
+				* @attaches-to ``add_action("wp_ajax_ws_plugin__s2member_delete_reset_all_ip_restrictions_via_ajax");``
 				*
 				* @return null Exits script execution after returning data for AJAX caller.
 				*/

@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_op_notices"))
 				* @package s2Member\Option_Notices
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("load-options-general.php");``
+				* @attaches-to ``add_action("load-options-general.php");``
 				*
 				* @return null
 				*/
@@ -66,7 +66,7 @@ if (!class_exists ("c_ws_plugin__s2member_op_notices"))
 				* @package s2Member\Option_Notices
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("load-settings.php");``
+				* @attaches-to ``add_action("load-settings.php");``
 				*
 				* @return null
 				*/
@@ -99,7 +99,7 @@ if (!class_exists ("c_ws_plugin__s2member_op_notices"))
 				* @package s2Member\Option_Notices
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("load-options-reading.php");``
+				* @attaches-to ``add_action("load-options-reading.php");``
 				*
 				* @return null
 				*/

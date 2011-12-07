@@ -2494,4 +2494,142 @@ if (!function_exists ("s2member_shorten_url"))
 				return c_ws_plugin__s2member_utils_urls::shorten ($url, $api_sp, $try_backups);
 			}
 	}
+/**
+* Two-way RIJNDAEL 256 encryption/decryption, with a URL-safe base64 wrapper.
+*
+* Falls back on XOR encryption/decryption when/if mcrypt is not available.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php $encrypted = s2member_encrypt("hello"); !>
+* <!php $decrypted = s2member_decrypt($encrypted); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111106
+*
+* @param str $string A string of data to encrypt.
+* @param str $key Optional. Key used for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+* @param bool $w_md5_cs Optional. Defaults to true. When true, an MD5 checksum is used in the encrypted string *( recommended )*.
+* @return str Encrypted string.
+*
+* @see s2Member\API_Functions\s2member_decrypt()
+* @see s2Member\API_Functions\s2member_xencrypt()
+* @see s2Member\API_Functions\s2member_xdecrypt()
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if (!function_exists ("s2member_encrypt"))
+	{
+		function s2member_encrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
+			{
+				return c_ws_plugin__s2member_utils_encryption::encrypt ($string, $key, $w_md5_cs);
+			}
+	}
+/**
+* Two-way RIJNDAEL 256 encryption/decryption, with a URL-safe base64 wrapper.
+*
+* Falls back on XOR encryption/decryption when/if mcrypt is not available.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php $encrypted = s2member_encrypt("hello"); !>
+* <!php $decrypted = s2member_decrypt($encrypted); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111106
+*
+* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
+* @param str $key Optional. Key used originally for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+* @return str Decrypted string.
+*
+* @see s2Member\API_Functions\s2member_encrypt()
+* @see s2Member\API_Functions\s2member_xencrypt()
+* @see s2Member\API_Functions\s2member_xdecrypt()
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if (!function_exists ("s2member_decrypt"))
+	{
+		function s2member_decrypt ($base64 = FALSE, $key = FALSE)
+			{
+				return c_ws_plugin__s2member_utils_encryption::decrypt ($base64, $key);
+			}
+	}
+/**
+* Two-way XOR encryption/decryption, with a URL-safe base64 wrapper.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php $encrypted = s2member_xencrypt("hello"); !>
+* <!php $decrypted = s2member_xdecrypt($encrypted); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111106
+*
+* @param str $string A string of data to encrypt.
+* @param str $key Optional. Key used for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+* @param bool $w_md5_cs Optional. Defaults to true. When true, an MD5 checksum is used in the encrypted string *( recommended )*.
+* @return str Encrypted string.
+*
+* @see s2Member\API_Functions\s2member_xdecrypt()
+* @see s2Member\API_Functions\s2member_encrypt()
+* @see s2Member\API_Functions\s2member_decrypt()
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if (!function_exists ("s2member_xencrypt"))
+	{
+		function s2member_xencrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
+			{
+				return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key, $w_md5_cs);
+			}
+	}
+/**
+* Two-way XOR encryption/decryption, with a URL-safe base64 wrapper.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php $encrypted = s2member_xencrypt("hello"); !>
+* <!php $decrypted = s2member_xdecrypt($encrypted); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 111106
+*
+* @param str $base64 A string of data to decrypt. Should still be base64 encoded.
+* @param str $key Optional. Key used originally for encryption. Defaults to the one configured for s2Member. Short of that, defaults to: ``wp_salt()``.
+* @return str Decrypted string.
+*
+* @see s2Member\API_Functions\s2member_xencrypt()
+* @see s2Member\API_Functions\s2member_encrypt()
+* @see s2Member\API_Functions\s2member_decrypt()
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if (!function_exists ("s2member_xdecrypt"))
+	{
+		function s2member_xdecrypt ($base64 = FALSE, $key = FALSE)
+			{
+				return c_ws_plugin__s2member_utils_encryption::xdecrypt ($base64, $key);
+			}
+	}
 ?>

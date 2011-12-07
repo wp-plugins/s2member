@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 				* @package s2Member\Login_Customizations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("login_headerurl");``
+				* @attaches-to ``add_filter("login_headerurl");``
 				*
 				* @param str $url Expects a login header URL passed in by the Filter.
 				* @return str A URL based on s2Member's UI configuration.
@@ -52,7 +52,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 				* @package s2Member\Login_Customizations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("login_headertitle");``
+				* @attaches-to ``add_filter("login_headertitle");``
 				*
 				* @param str $title Expects a title passed in by the Filter.
 				* @return str A title based on s2Member's UI configuration.
@@ -71,7 +71,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 				* @package s2Member\Login_Customizations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("login_head");``
+				* @attaches-to ``add_action("login_head");``
 				*
 				* @return void
 				*/
@@ -150,7 +150,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_customizations"))
 				* @package s2Member\Login_Customizations
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("login_footer");``
+				* @attaches-to ``add_action("login_footer");``
 				*
 				* @return void
 				*/

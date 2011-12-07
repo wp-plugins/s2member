@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_mms_patches"))
 				* @package s2Member\Main_Multisite_Patches
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("update_feedback");``
+				* @attaches-to ``add_filter("update_feedback");``
 				*
 				* @param str $message Expects message string passed through by the Filter.
 				* @return str Message after having been Filtered by this routine.

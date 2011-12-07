@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_option_default_role");``
+				* @attaches-to ``add_filter("pre_option_default_role");``
 				*
 				* @param str $default_role Expects a default Role to be passed by the Filter.
 				* @return str Default Role, as configured by s2Member.
@@ -50,7 +50,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_site_option_default_user_role");``
+				* @attaches-to ``add_filter("pre_site_option_default_user_role");``
 				*
 				* @param str $default_role Expects a default Role to be passed by the Filter.
 				* @return str Default Role, as configured by s2Member.
@@ -84,7 +84,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_site_option_add_new_users");``
+				* @attaches-to ``add_filter("pre_site_option_add_new_users");``
 				*
 				* @param int|str $allow Numeric string (`1`) or (`0`), expected by the Filter.
 				* @return str Numeric (`1`) or (`0`) indicating true or false. Forces to (`1`) true.
@@ -101,7 +101,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_site_option_dashboard_blog");``
+				* @attaches-to ``add_filter("pre_site_option_dashboard_blog");``
 				*
 				* @param int|str $dashboard_blog Numeric Dashboard Blog ID passed through by the Filter.
 				* @return int|str Numeric Dashboard Blog ID, as configured by s2Member. Forces to the Main Site.
@@ -122,7 +122,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_option_users_can_register");``
+				* @attaches-to ``add_filter("pre_option_users_can_register");``
 				*
 				* @param int|str $users_can_register Numeric (`1`) or (`0`), indicating true or false; passed through by the Filter.
 				* @return str Numeric value of (`1`) or (`0`), indicating true or false; depending on several factors.
@@ -157,7 +157,7 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("pre_site_option_registration");``
+				* @attaches-to ``add_filter("pre_site_option_registration");``
 				*
 				* @param str $users_can_register Expects *( `none`, `all`, `blog`, `user` )*, passed through by the Filter.
 				* @return str One of `none|all|user`; depending on several factors.
@@ -241,8 +241,8 @@ if (!class_exists ("c_ws_plugin__s2member_option_forces"))
 				* @package s2Member\Option_Forces
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("bp_core_get_root_options");``
-				* @attaches-to: ``add_filter("bp_core_get_site_options");`` **( before BuddyPress v1.5 )**.
+				* @attaches-to ``add_filter("bp_core_get_root_options");``
+				* @attaches-to ``add_filter("bp_core_get_site_options");`` **( before BuddyPress v1.5 )**.
 				*
 				* @param array $site_options Expects array of BuddyPress site options.
 				* @return array Site options array, after having been Filtered by this routine.

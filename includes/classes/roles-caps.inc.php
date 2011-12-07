@@ -132,7 +132,7 @@ if (!class_exists ("c_ws_plugin__s2member_roles_caps"))
 				* @package s2Member\Roles_Caps
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_update_roles_via_ajax");``
+				* @attaches-to ``add_action("wp_ajax_ws_plugin__s2member_update_roles_via_ajax");``
 				*
 				* @return null Exits script execution after output for AJAX caller.
 				*/

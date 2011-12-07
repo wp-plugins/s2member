@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_print_styles");``
+				* @attaches-to ``add_action("wp_print_styles");``
 				*
 				* @return null After enqueuing CSS for theme integration.
 				*/
@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 						/**/
 						if (!is_admin ()) /* Not in the admin. */
 							{
-								$s2o = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"]; /* Loads s2Member only. */
+								$s2o = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"];
 								/**/
 								wp_enqueue_style ("ws-plugin--s2member", $s2o . "?ws_plugin__s2member_css=1&qcABC=1", array (), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
@@ -62,7 +62,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_print_scripts");``
+				* @attaches-to ``add_action("wp_print_scripts");``
 				*
 				* @return null After enqueuing JS for theme integration.
 				*/
@@ -74,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_css_js_themes"))
 						/**/
 						if (!is_admin () || (is_user_admin () && $pagenow === "profile.php" && !current_user_can ("edit_users")))
 							{
-								$s2o = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"]; /* Loads s2Member only. */
+								$s2o = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["s2o_url"];
 								/**/
 								if (is_user_logged_in ()) /* Separate version for logged-in Users/Members. */
 									{

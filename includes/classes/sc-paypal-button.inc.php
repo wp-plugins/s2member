@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button"))
 				* @package s2Member\PayPal
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2Member-PayPal-Button");``
+				* @attaches-to ``add_shortcode("s2Member-PayPal-Button");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

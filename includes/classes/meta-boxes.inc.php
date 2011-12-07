@@ -36,7 +36,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_boxes"))
 				* @package s2Member\Meta_Boxes
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("add_meta_boxes");``
+				* @attaches-to ``add_action("add_meta_boxes");``
 				*
 				* @param str $type String indicating type of Post, or another classification *( i.e. `nav_menu_item` )*.
 				* @return null

@@ -37,8 +37,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				*/
 				public static function pro_is_installed ()
 					{
-						return (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION")
-						/* And loaded? */ && did_action ("ws_plugin__s2member_pro_after_loaded"));
+						return (defined ("WS_PLUGIN__S2MEMBER_PRO_VERSION") && did_action ("ws_plugin__s2member_pro_loaded"));
 					}
 				/**
 				* Determines whether or not BuddyPress is installed.
@@ -67,7 +66,6 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 									if (plugin_basename ($active_plugin) === $buddypress)
 										return true; /* BuddyPress active. */
 							}
-						/**/
 						return false; /* Default return false. */
 					}
 				/**
@@ -104,8 +102,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 								if ($descendants && in_category ($descendants, $post_id))
 									return true;
 							}
-						/**/
-						return false;
+						return false; /* Default return false. */
 					}
 				/**
 				* Checks to see if a URL/URI leads to the site root.
@@ -113,12 +110,12 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				* @package s2Member\Utilities
 				* @since 3.5
 				*
-				* @param str $url_or_uri Either a full URL, or a URI to test against.
+				* @param str $url_uri Either a full URL, or a partial URI to test.
 				* @return bool True if the URL or URI leads to the site root, else false.
 				*/
-				public static function is_site_root ($url_or_uri = FALSE)
+				public static function is_site_root ($url_uri = FALSE)
 					{
-						if (is_array ($parse = c_ws_plugin__s2member_utils_urls::parse_url ($url_or_uri)))
+						if (is_array ($parse = c_ws_plugin__s2member_utils_urls::parse_url ($url_uri)))
 							{
 								$parse["path"] = (!empty ($parse["path"])) ? ((strpos ($parse["path"], "/") === 0) ? $parse["path"] : "/" . $parse["path"]) : "/";
 								/**/
@@ -126,8 +123,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 									if ($parse["path"] === "/" || rtrim ($parse["path"], "/") === rtrim (c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_PATH), "/"))
 										return true;
 							}
-						/**/
-						return false;
+						return false; /* Default return false. */
 					}
 				/**
 				* Checks to see if we're in a localhost environment.
@@ -142,7 +138,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 						if ((defined ("LOCALHOST") && LOCALHOST) || stripos ($_SERVER["HTTP_HOST"], "localhost") !== false || strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") !== false)
 							return true;
 						/**/
-						return false;
+						return false; /* Default return false. */
 					}
 				/**
 				* Checks to see if we're using Amazon® S3.
@@ -163,8 +159,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 								if ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"])
 									return true;
 							}
-						/**/
-						return false;
+						return false; /* Default return false. */
 					}
 				/**
 				* Checks to see if we're using Amazon® CloudFront.
@@ -188,7 +183,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 							if ($cfc["private_key"] && $cfc["private_key_id"] && $cfc["distros_access_id"] && $cfc["distros_s3_access_id"] && $cfc["distro_downloads_id"] && $cfc["distro_downloads_dname"] && $cfc["distro_streaming_id"] && $cfc["distro_streaming_dname"])
 								return true;
 						/**/
-						return false;
+						return false; /* Default return false. */
 					}
 			}
 	}

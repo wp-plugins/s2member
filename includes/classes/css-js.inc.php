@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_css_js"))
 	{
@@ -33,13 +33,13 @@ if (!class_exists ("c_ws_plugin__s2member_css_js"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/
 				public static function css ()
 					{
-						if (!empty ($_GET["ws_plugin__s2member_css"])) /* Call inner routine? */
+						if (!empty ($_GET["ws_plugin__s2member_css"]))
 							{
 								return c_ws_plugin__s2member_css_js_in::css ();
 							}
@@ -50,13 +50,13 @@ if (!class_exists ("c_ws_plugin__s2member_css_js"))
 				* @package s2Member\CSS_JS
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/
 				public static function js_w_globals ()
 					{
-						if (!empty ($_GET["ws_plugin__s2member_js_w_globals"])) /* Call inner routine? */
+						if (!empty ($_GET["ws_plugin__s2member_js_w_globals"]))
 							{
 								return c_ws_plugin__s2member_css_js_in::js_w_globals ();
 							}

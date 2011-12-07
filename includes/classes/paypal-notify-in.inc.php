@@ -43,7 +43,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_notify_in"))
 				* @package s2Member\PayPal
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after handling IPN procesing.
 				*/

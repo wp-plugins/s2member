@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_profile"))
 				* @package s2Member\Profiles
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null|inner Return-value of inner routine.
 				*/

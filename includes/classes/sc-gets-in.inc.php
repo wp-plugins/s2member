@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_gets_in"))
 				* @package s2Member\s2Get
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2Get");``
+				* @attaches-to ``add_shortcode("s2Get");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.

@@ -48,14 +48,14 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_btn_encryption"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"] && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"])
 							{
-								$cache = apply_filters ("ws_plugin__s2member_sc_paypal_button_encryption_cache", true, get_defined_vars ()); /* Are we caching? */
+								$cache = /* Are we caching? */ apply_filters ("ws_plugin__s2member_sc_paypal_button_encryption_cache", true, get_defined_vars ());
 								/**/
-								eval('$_code = $vars["_code"]; $attr = $vars["attr"];'); /* Let's unpack ( i.e. use shorter references ) to these two important data vars. */
+								eval('$_code = $vars["_code"]; $attr = $vars["attr"];'); /* Let's unpack ( i.e. use shorter references ) to these two important vars. */
 								/**/
 								if ($cache && ($transient = "s2m_btn_" . md5 ($code . c_ws_plugin__s2member_utilities::ver_checksum ())) && ($cache = get_transient ($transient)))
-									$code = $cache; /* Great, so we can use the cached version here to save processing time. Notice the MD5 hash uses $code and NOT $_code. */
+									$code = /* Great, so we can use the cached version here to save processing time. The MD5 hash uses ``$code`` and NOT ``$_code``. */ $cache;
 								/**/
-								else if (is_array ($inputs = c_ws_plugin__s2member_utils_forms::form_whips_2_array ($_code)) && !empty ($inputs)) /* Were we able to parse hidden input variables? */
+								else if /* Are we able to parse hidden input variables? */ (is_array ($inputs = c_ws_plugin__s2member_utils_forms::form_whips_2_array ($_code)) && !empty ($inputs))
 									{
 										$paypal = array ("METHOD" => "BMCreateButton", "BUTTONCODE" => "ENCRYPTED", "BUTTONTYPE" => (($attr["sp"] || $attr["rr"] === "BN") ? "BUYNOW" : "SUBSCRIBE"));
 										/**/
@@ -90,7 +90,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_e"))
 							}
 						/* No WordPress® Filters apply here. */
 						/* Instead, use: `ws_plugin__s2member_sc_paypal_button`. */
-						return $code; /* Button Code. Possibly w/ API encryption applied now. */
+						return $code; /* Button Code. Possibly w/ API encryption now. */
 					}
 			}
 	}

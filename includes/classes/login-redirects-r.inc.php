@@ -34,7 +34,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects_r"))
 				* In the case of BuddyPress, it's own Filter against `login_redirect` will deal with empty values. However, since s2Member removes all Filters
 				* against `login_redirect` ( for compatibility ), we NEED this simple routine to check empty values, and default them to ``admin_url()``.
 				*
-				* @attaches-to: ``add_filter("login_redirect");``
+				* @attaches-to ``add_filter("login_redirect");``
 				*
 				* @package s2Member\Login_Redirects
 				* @since 110926
@@ -49,7 +49,7 @@ if (!class_exists ("c_ws_plugin__s2member_login_redirects_r"))
 				/**
 				* Removes all other ``login_redirect`` Filters to prevent conflicts with s2Member.
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @package s2Member\Login_Redirects
 				* @since 3.5

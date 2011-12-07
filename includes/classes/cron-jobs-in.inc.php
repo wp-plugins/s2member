@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs_in"))
 				* @package s2Member\Cron_Jobs
 				* @since 3.5
 				*
-				* @attaches-to: ``add_filter("cron_schedules");``
+				* @attaches-to ``add_filter("cron_schedules");``
 				*
 				* @param array $schedules Expects an array of WP_Cron schedules passed in by the Filter.
 				* @return array Array of WP_Cron schedules after having added a 10 minute cycle.
@@ -54,7 +54,7 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs_in"))
 				* @package s2Member\Cron_Jobs
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Or exits script execution after task completed.
 				*/
@@ -62,15 +62,14 @@ if (!class_exists ("c_ws_plugin__s2member_cron_jobs_in"))
 					{
 						do_action ("ws_plugin__s2member_before_auto_eot_system_via_cron", get_defined_vars ());
 						/**/
-						if (!empty ($_GET["s2member_auto_eot_system_via_cron"])) /* Being called through HTTP? */
+						if (!empty ($_GET["s2member_auto_eot_system_via_cron"])) /* Called through HTTP? */
 							{
 								if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["auto_eot_system_enabled"])
 									{
-										c_ws_plugin__s2member_auto_eots::auto_eot_system (); /* Process Auto EOTs now. */
+										c_ws_plugin__s2member_auto_eots::auto_eot_system (); /* Process. */
 										/**/
 										do_action ("ws_plugin__s2member_during_auto_eot_system_via_cron", get_defined_vars ());
 									}
-								/**/
 								exit (); /* Clean exit. */
 							}
 						/**/

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 	{
@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 				* @package s2Member\PayPal
 				* @since 3.5
 				*
-				* @attaches-to: ``add_shortcode("s2Member-PayPal-Button");``
+				* @attaches-to ``add_shortcode("s2Member-PayPal-Button");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
@@ -42,33 +42,32 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 				*/
 				public static function sc_paypal_button ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_paypal_button", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						c_ws_plugin__s2member_no_cache::no_cache_constants (true); /* No caching on pages that contain this Payment Button. */
+						c_ws_plugin__s2member_no_cache::no_cache_constants /* No caching on pages that contain this Payment Button. */ (true);
 						/**/
-						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr); /* Force array; trim quote entities. */
+						$attr = /* Force array. Trim quote entities. */ c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr);
 						/**/
 						$attr = shortcode_atts (apply_filters ("ws_plugin__s2member_sc_paypal_button_default_attrs", array ("ids" => "0", "exp" => "72", "level" => "1", "ccaps" => "", "desc" => "", "ps" => "paypal", "lc" => "", "cc" => "USD", "dg" => "0", "ns" => "1", "custom" => $_SERVER["HTTP_HOST"], "ta" => "0", "tp" => "0", "tt" => "D", "ra" => "0.01", "rp" => "1", "rt" => "M", "rr" => "1", "rrt" => "", "rra" => "1", "modify" => "0", "cancel" => "0", "sp" => "0", "image" => "default", "output" => "button"), get_defined_vars ()), $attr);
 						/**/
-						/* Automatically adjust to `modify="0"` ( when an Initial/Trial Period is configured ), and a User is either NOT logged-in, or has nothing to modify. */
 						$attr["modify"] = ($attr["modify"] === "1" && (!is_user_logged_in () || !get_user_option ("s2member_subscr_id")) && $attr["tp"]) ? "0" : $attr["modify"];
 						/**/
-						$attr["lc"] = strtoupper ($attr["lc"]); /* Locale code absolutely must be provided in upper-case format. Only after running shortcode_atts(). */
-						$attr["tt"] = strtoupper ($attr["tt"]); /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */
-						$attr["rt"] = strtoupper ($attr["rt"]); /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */
-						$attr["rr"] = strtoupper ($attr["rr"]); /* Must be provided in upper-case format. Numerical, or BN value. Only after running shortcode_atts(). */
-						$attr["ccaps"] = strtolower ($attr["ccaps"]); /* Custom Capabilities must be typed in lower-case format. Only after running shortcode_atts(). */
-						$attr["rr"] = ($attr["rt"] === "L") ? "BN" : $attr["rr"]; /* Lifetime Subscriptions require Buy Now. Only after running shortcode_atts(). */
-						$attr["rr"] = ($attr["level"] === "*") ? "BN" : $attr["rr"]; /* Independent Ccaps require Buy Now. Only after running shortcode_atts(). */
-						$attr["ns"] = ($attr["dg"] === "1") ? "1" : $attr["ns"]; /* No shipping directive must be 1 for digital items. After shortcode_atts(). */
+						$attr["lc"] = /* Locale code absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["lc"]);
+						$attr["tt"] = /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["tt"]);
+						$attr["rt"] = /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["rt"]);
+						$attr["rr"] = /* Must be provided in upper-case format. Numerical, or BN value. Only after running shortcode_atts(). */ strtoupper ($attr["rr"]);
+						$attr["ccaps"] = /* Custom Capabilities must be typed in lower-case format. Only after running shortcode_atts(). */ strtolower ($attr["ccaps"]);
+						$attr["rr"] = /* Lifetime Subscriptions require Buy Now. Only after running shortcode_atts(). */ ($attr["rt"] === "L") ? "BN" : $attr["rr"];
+						$attr["rr"] = /* Independent Ccaps require Buy Now. Only after running shortcode_atts(). */ ($attr["level"] === "*") ? "BN" : $attr["rr"];
+						$attr["ns"] = /* No shipping directive must be 1 for digital items. After shortcode_atts(). */ ($attr["dg"] === "1") ? "1" : $attr["ns"];
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_sc_paypal_button_after_shortcode_atts", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($attr["cancel"]) /* This is a special routine for Cancellation Buttons. */
+						if /* Cancellation Buttons. */ ($attr["cancel"])
 							{
 								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_unsubscribe_LG.gif";
 								/**/
@@ -81,29 +80,31 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								/**/
 								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 								/**/
-								$code = ($attr["output"] === "anchor") ? $code : $code; /* Cancellation Buttons are already in anchor format; Button format is not used in Cancellations. */
-								$code = ($attr["output"] === "url") ? "https://" . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com") . "/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"]) : $code;
+								$code = ($attr["output"] === "anchor") ? /* Already in anchor format; `button` format is not used in Cancellations. */ $code : $code;
+								if ($attr["output"] === "url" && preg_match ('/ href\="(.*?)"/', $code, $m) && ($href = $m[1]))
+									$code = ($url = c_ws_plugin__s2member_utils_urls::n_amps ($href));
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								unset /* Just a little housekeeping */ ($href, $url, $m);
+								/**/
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_cancellation_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
-						/**/
-						else if ($attr["sp"]) /* This is a special routine for Specific Post/Page Buttons. */
+						else if /* Specific Post/Page Buttons. */ ($attr["sp"])
 							{
 								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 								/**/
-								$paypal_on1_input_value = "Customer IP Address"; /* Identifies the Customer's IP Address for tracking purposes. */
-								$paypal_os1_input_value = $_SERVER["REMOTE_ADDR"]; /* Current User's IP Address for tracking purposes. */
+								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
+								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
 								/**/
-								$paypal_invoice_input_value = uniqid () . "~" . $_SERVER["REMOTE_ADDR"]; /* s2Member's Unique Code~IP combo. */
+								$paypal_invoice_input_value = /* s2Member's Unique Code~IP combo. */ uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
 								/**/
-								$attr["sp_ids_exp"] = "sp:" . $attr["ids"] . ":" . $attr["exp"]; /* Combined "sp:ids:expiration hours". */
+								$attr["sp_ids_exp"] = /* Combined "sp:ids:expiration hours". */ "sp:" . $attr["ids"] . ":" . $attr["exp"];
 								/**/
-								$success_return_url = site_url ("/?s2member_paypal_return=1"); /* s2Member handles this all by itself. However, it can be Filtered. */
+								$success_return_url = /* s2Member handles this all by itself. However, it can be Filtered. */ site_url ("/?s2member_paypal_return=1");
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
 								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-sp-checkout-button.php")));
@@ -139,26 +140,26 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_sp_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
-						else if ($attr["level"] === "*") /* This is a special routine for Independent Custom Capabilities. */
+						else if /* Independent Custom Capabilities. */ ($attr["level"] === "*")
 							{
 								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 								/**/
-								$paypal_on1_input_value = "Customer IP Address"; /* Identifies the Customer's IP Address for tracking purposes. */
-								$paypal_os1_input_value = $_SERVER["REMOTE_ADDR"]; /* Current User's IP Address for tracking purposes. */
+								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
+								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
 								/**/
-								$paypal_invoice_input_value = uniqid () . "~" . $_SERVER["REMOTE_ADDR"]; /* s2Member's Unique Code~IP combo. */
+								$paypal_invoice_input_value = /* s2Member's Unique Code~IP combo. */ uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
 								/**/
 								$attr["level_ccaps_eotper"] = ($attr["rr"] === "BN" && $attr["rt"] !== "L") ? $attr["level"] . ":" . $attr["ccaps"] . ":" . $attr["rp"] . " " . $attr["rt"] : $attr["level"] . ":" . $attr["ccaps"];
-								$attr["level_ccaps_eotper"] = rtrim ($attr["level_ccaps_eotper"], ":"); /* Clean any trailing separators from this string. */
+								$attr["level_ccaps_eotper"] = /* Clean any trailing separators from this string. */ rtrim ($attr["level_ccaps_eotper"], ":");
 								/**/
-								$success_return_url = site_url ("/?s2member_paypal_return=1"); /* s2Member handles this all by itself. However, it can be Filtered. */
+								$success_return_url = /* s2Member handles this all by itself. However, it can be Filtered. */ site_url ("/?s2member_paypal_return=1");
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
 								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/buttons/paypal-ccaps-checkout-button.php")));
@@ -194,30 +195,30 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_sc_paypal_ccaps_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
-						else /* Otherwise, we'll process this Button normally, using the Membership routines. */
+						else /* Otherwise, we'll process this Button normally, using Membership routines. */
 							{
 								$default_image = "https://www.paypal.com/" . _x ("en_US", "s2member-front paypal-button-lang-code", "s2member") . "/i/btn/btn_xpressCheckout.gif";
 								/**/
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = ($referencing) ? $referencing : $_SERVER["HTTP_HOST"]; /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 								/**/
-								$paypal_on1_input_value = "Customer IP Address"; /* Identifies the Customer's IP Address for tracking purposes. */
-								$paypal_os1_input_value = $_SERVER["REMOTE_ADDR"]; /* Current User's IP Address for tracking purposes. */
+								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
+								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
 								/**/
-								$paypal_invoice_input_value = uniqid () . "~" . $_SERVER["REMOTE_ADDR"]; /* s2Member's Unique Code~IP combo. */
+								$paypal_invoice_input_value = /* s2Member's Unique Code~IP combo. */ uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
 								/**/
 								$attr["desc"] = (!$attr["desc"]) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $attr["level"] . "_label"] : $attr["desc"];
 								/**/
 								$attr["level_ccaps_eotper"] = ($attr["rr"] === "BN" && $attr["rt"] !== "L") ? $attr["level"] . ":" . $attr["ccaps"] . ":" . $attr["rp"] . " " . $attr["rt"] : $attr["level"] . ":" . $attr["ccaps"];
-								$attr["level_ccaps_eotper"] = rtrim ($attr["level_ccaps_eotper"], ":"); /* Clean any trailing separators from this string. */
+								$attr["level_ccaps_eotper"] = /* Clean any trailing separators from this string. */ rtrim ($attr["level_ccaps_eotper"], ":");
 								/**/
 								$success_return_tra = array ("ta" => $attr["ta"], "tp" => $attr["tp"], "tt" => $attr["tt"], "ra" => $attr["ra"], "rp" => $attr["rp"], "rt" => $attr["rt"], "rr" => $attr["rr"], "rrt" => $attr["rrt"], "rra" => $attr["rra"], "invoice" => $paypal_invoice_input_value, "checksum" => md5 ($paypal_invoice_input_value . $_SERVER["REMOTE_ADDR"] . $attr["level_ccaps_eotper"]));
 								/**/
-								$success_return_url = site_url ("/?s2member_paypal_return=1"); /* s2Member handles this all by itself. However, it can be Filtered ( see below ). */
+								$success_return_url = /* s2Member handles this all by itself. However, it can be Filtered ( see below ). */ site_url ("/?s2member_paypal_return=1");
 								$success_return_url = add_query_arg ("s2member_paypal_return_tra", urlencode (c_ws_plugin__s2member_utils_encryption::encrypt (serialize ($success_return_tra))), $success_return_url);
 								$success_return_url = apply_filters ("ws_plugin__s2member_during_sc_paypal_button_success_return_url", $success_return_url, get_defined_vars ());
 								/**/
@@ -276,9 +277,8 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								($attr["modify"]) ? do_action ("ws_plugin__s2member_during_sc_paypal_modification_button", get_defined_vars ())/**/
-								: do_action ("ws_plugin__s2member_during_sc_paypal_button", get_defined_vars ()); /* Else, we process normally. */
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								($attr["modify"]) ? do_action ("ws_plugin__s2member_during_sc_paypal_modification_button", get_defined_vars ()) : do_action ("ws_plugin__s2member_during_sc_paypal_button", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
 						/**/

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 	{
@@ -48,7 +48,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 					{
 						$updated_all_options = false; /* Initialize this to a value of false. Initializing this variable here makes it an available reference-variable to Hooks/Filters. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -70,7 +70,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								/**/
 								unset ($key, $value); /* Unset these utility variables now. This prevents bleeding vars into Hooks/Filters that are of no use. */
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -110,7 +110,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$updated_all_options = true; /* Flag indicating this routine was processed successfully; and that all s2Member options have been updated successfully.*/
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -122,7 +122,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* @package s2Member\Menu_Pages
 				* @since 3.5
 				* 
-				* @attaches-to: ``add_action("admin_menu");``
+				* @attaches-to ``add_action("admin_menu");``
 				*
 				* @return null
 				*/
@@ -146,7 +146,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 									add_submenu_page ($menu, "s2Member Quick-Start Guide", "Quick-Start Guide", "create_users", "ws-plugin--s2member-start", "c_ws_plugin__s2member_menu_pages::start_page");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_1", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_mms_ops_page", (!is_multisite () || is_main_site ()), get_defined_vars ()))
 									add_submenu_page ($menu, "s2Member Multisite Configuration", "Multisite (Config)", "create_users", "ws-plugin--s2member-mms-ops", "c_ws_plugin__s2member_menu_pages::mms_ops_page");
@@ -161,7 +161,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 									add_submenu_page ($menu, "s2Member Download Options", "Download Options", "create_users", "ws-plugin--s2member-down-ops", "c_ws_plugin__s2member_menu_pages::down_ops_page");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_2", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_new_user_page", true, get_defined_vars ())) /* Shortcut. */
 									add_submenu_page ($menu, "s2Member / Add A Member", "Add A Member", "create_users", "user-new.php");
@@ -170,7 +170,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 									add_submenu_page ($menu, "s2Member / Browse Members", "Browse Members", "create_users", "users.php");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_3", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_paypal_ops_page", true, get_defined_vars ()))
 									add_submenu_page ($menu, "s2Member PayPal Options", "PayPal® Options", "create_users", "ws-plugin--s2member-paypal-ops", "c_ws_plugin__s2member_menu_pages::paypal_ops_page");
@@ -179,7 +179,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 									add_submenu_page ($menu, "s2Member PayPal® Buttons", "PayPal® Buttons", "create_users", "ws-plugin--s2member-paypal-buttons", "c_ws_plugin__s2member_menu_pages::paypal_buttons_page");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_4", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_trk_ops_page", true, get_defined_vars ()))
 									add_submenu_page ($menu, "s2Member API / Tracking", "API / Tracking", "create_users", "ws-plugin--s2member-trk-ops", "c_ws_plugin__s2member_menu_pages::trk_ops_page");
@@ -194,13 +194,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 									add_submenu_page ($menu, "s2Member API / Scripting", "API / Scripting", "create_users", "ws-plugin--s2member-scripting", "c_ws_plugin__s2member_menu_pages::scripting_page");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_5", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_integrations_page", (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()), get_defined_vars ()))
 									add_submenu_page ($menu, "s2Member / Other Integrations", "Other Integrations", "create_users", "ws-plugin--s2member-integrations", "c_ws_plugin__s2member_menu_pages::integrations_page");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_divider_6", true, get_defined_vars ())) /* Divider. */
-									add_submenu_page ($menu, "-", '<div style="margin:1px 0 1px -5px; height:1px; line-height:1px; background:#CCCCCC;"></div>', "create_users", "#");
+									add_submenu_page ($menu, "", '<span style="display:block; margin:1px 0 1px -5px; padding:0; height:1px; line-height:1px; background:#CCCCCC;"></span>', "create_users", "#");
 								/**/
 								if (apply_filters ("ws_plugin__s2member_during_add_admin_options_add_info_page", (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ()), get_defined_vars ()))
 									add_submenu_page ($menu, "s2Member Information", "s2Member Info", "create_users", "ws-plugin--s2member-info", "c_ws_plugin__s2member_menu_pages::info_page");
@@ -218,7 +218,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* @package s2Member\Menu_Pages
 				* @since 3.5
 				* 
-				* @attaches-to: ``add_action("network_admin_menu");``
+				* @attaches-to ``add_action("network_admin_menu");``
 				*
 				* @return null
 				*/
@@ -253,7 +253,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* @package s2Member\Menu_Pages
 				* @since 3.5
 				* 
-				* @attaches-to: ``add_filter("plugin_action_links");``
+				* @attaches-to ``add_filter("plugin_action_links");``
 				*
 				* @param array $actions Expects an existing array of actions links, passed in by the Filter.
 				* @param str $plugin_file Expects path to a plugin file. We need to test against this for s2Member.
@@ -261,7 +261,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				*/
 				public static function _add_settings_link ($actions = FALSE, $plugin_file = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -270,7 +270,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
 								array_unshift ($actions, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
 								/**/
-								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("_ws_plugin__s2member_during_add_settings_link", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
@@ -283,7 +283,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* @package s2Member\Menu_Pages
 				* @since 3.5
 				* 
-				* @attaches-to: ``add_action("admin_print_scripts");``
+				* @attaches-to ``add_action("admin_print_scripts");``
 				*
 				* @return null
 				*/
@@ -293,10 +293,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_script("jquery");
-								wp_enqueue_script("thickbox");
-								wp_enqueue_script("media-upload");
-								wp_enqueue_script("jquery-ui-core");
+								wp_enqueue_script ("jquery");
+								wp_enqueue_script ("thickbox");
+								wp_enqueue_script ("media-upload");
+								wp_enqueue_script ("jquery-ui-core");
 								wp_enqueue_script ("jquery-sprintf", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.sprintf/jquery.sprintf-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.json-ps/jquery.json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.ui-effects/jquery.ui-effects-min.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
@@ -315,7 +315,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				* @package s2Member\Menu_Pages
 				* @since 3.5
 				* 
-				* @attaches-to: ``add_action("admin_print_styles");``
+				* @attaches-to ``add_action("admin_print_styles");``
 				*
 				* @return null
 				*/
@@ -325,7 +325,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_style("thickbox");
+								wp_enqueue_style ("thickbox");
 								wp_enqueue_style ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_css=" . urlencode (mt_rand ())), array ("thickbox"), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
 								do_action ("ws_plugin__s2member_during_add_admin_styles", get_defined_vars ());

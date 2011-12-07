@@ -33,7 +33,7 @@ if (!class_exists ("c_ws_plugin__s2member_s_badge_status_in"))
 				* @package s2Member\Security_Badges
 				* @since 110524RC
 				*
-				* @attaches-to: ``add_action("init");``
+				* @attaches-to ``add_action("init");``
 				*
 				* @return null Exits script execution after status output.
 				*/

@@ -62,7 +62,7 @@ if (!class_exists ("c_ws_plugin__s2member_sp_access"))
 				* @package s2Member\SP_Access
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("wp_ajax_ws_plugin__s2member_sp_access_link_via_ajax");``
+				* @attaches-to ``add_action("wp_ajax_ws_plugin__s2member_sp_access_link_via_ajax");``
 				*
 				* @return null Exits script execution after returning data for AJAX caller.
 				*/

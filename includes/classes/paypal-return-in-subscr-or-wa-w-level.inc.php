@@ -15,7 +15,7 @@
 * @since 110720
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"))
 	{
@@ -40,14 +40,14 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 				*/
 				public static function cp ($vars = array ()) /* Conditional phase for ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 					{
-						extract ($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
+						extract($vars); /* Extract all vars passed in from: ``c_ws_plugin__s2member_paypal_notify_in::paypal_notify()``. */
 						/**/
 						if (/**/(!empty ($paypal["txn_type"]) && preg_match ("/^(web_accept|subscr_signup|subscr_payment)$/i", $paypal["txn_type"]))/**/
 						&& (!empty ($paypal["item_number"]) && preg_match ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["membership_item_number_w_level_regex"], $paypal["item_number"]))/**/
 						&& (!empty ($paypal["subscr_id"]) || (!empty ($paypal["txn_id"]) && ($paypal["subscr_id"] = $paypal["txn_id"])))/**/
 						&& (empty ($paypal["payment_status"]) || empty ($payment_status_issues) || !preg_match ($payment_status_issues, $paypal["payment_status"]))/**/)
 							{
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -81,6 +81,8 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 												$paypal["regular"] = $paypal["mc_amount3"]; /* This is the Regular Payment Amount that is charged to the Customer. Always required by PayPal®. */
 												$paypal["regular_term"] = $paypal["period3"]; /* This is just set to keep a standard; this way both initial_term & regular_term are available. */
 												$paypal["recurring"] = ($paypal["recurring"]) ? $paypal["mc_amount3"] : "0"; /* If non-recurring, this should be zero, otherwise Regular. */
+												/**/
+												eval('$ipn_signup_vars = $paypal; unset($ipn_signup_vars["s2member_log"]);'); /* Create array of wouldbe IPN signup vars w/o s2member_log. */
 											}
 										else if (preg_match ("/^(web_accept|subscr_signup)$/i", $paypal["txn_type"]))
 											{
@@ -100,13 +102,15 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 												$paypal["regular"] = $paypal["mc_amount3"]; /* This is the Regular Payment Amount that is charged to the Customer. Always required by PayPal®. */
 												$paypal["regular_term"] = $paypal["period3"]; /* This is just set to keep a standard; this way both initial_term & regular_term are available. */
 												$paypal["recurring"] = ($paypal["recurring"]) ? $paypal["mc_amount3"] : "0"; /* If non-recurring, this should be zero, otherwise Regular. */
+												/**/
+												eval('$ipn_signup_vars = $paypal; unset($ipn_signup_vars["s2member_log"]);'); /* Create array of wouldbe IPN signup vars w/o s2member_log. */
 											}
 										/*
 										New Subscription with advanced update vars ( option_name1, option_selection1 )? Used in Subscr. Modifications.
 										*/
 										if (preg_match ("/(referenc|associat|updat|upgrad)/i", $paypal["option_name1"]) && $paypal["option_selection1"])
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_w_update_vars", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -125,7 +129,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																/**/
 																if (is_multisite () && !is_user_member_of_blog ($user_id)) /* Must have a Role on this Blog. */
 																	{
-																		add_existing_user_to_blog (array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
+																		add_existing_user_to_blog(array ("user_id" => $user_id, "role" => "s2member_level" . $paypal["level"]));
 																		$user = new WP_User ($user_id);
 																	}
 																/**/
@@ -150,6 +154,9 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																/**/
 																if (!get_user_option ("s2member_registration_ip", $user_id))
 																	update_user_option ($user_id, "s2member_registration_ip", $paypal["ip"]);
+																/**/
+																if ( /* We should have these from the routines above. */!empty ($ipn_signup_vars))
+																	update_user_option ($user_id, "s2member_ipn_signup_vars", $ipn_signup_vars);
 																/**/
 																delete_user_option ($user_id, "s2member_file_download_access_log");
 																/**/
@@ -207,7 +214,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																									}
 																	}
 																/**/
-																eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+																eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 																do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_w_update_vars", get_defined_vars ());
 																unset ($__refs, $__v); /* Unset defined __refs, __v. */
 																/**/
@@ -215,7 +222,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																	{
 																		$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after modification: " . $redirection_url_after_modification;
 																		/**/
-																		wp_redirect ($redirection_url_after_modification);
+																		wp_redirect($redirection_url_after_modification);
 																	}
 																else /* Else, use standard/default handling in this scenario. Have the Customer log in again. */
 																	{
@@ -248,7 +255,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 														_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 													}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_w_update_vars", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
@@ -257,7 +264,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 										*/
 										else /* Else this is a normal Subscription signup, we are not updating an existing Subscription. */
 											{
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_before_subscr_signup_wo_update_vars", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -294,7 +301,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 																							}
 													}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_during_subscr_signup_wo_update_vars", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 												/**/
@@ -304,13 +311,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 															{
 																$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after signup: " . $redirection_url_after_mms_farm_signup;
 																/**/
-																wp_redirect ($redirection_url_after_mms_farm_signup);
+																wp_redirect($redirection_url_after_mms_farm_signup);
 															}
 														else if ($custom_success_redirection) /* Using a custom success redirection URL? */
 															{
 																$paypal["s2member_log"][] = "Redirecting Customer to a custom URL on success: " . $custom_success_redirection;
 																/**/
-																wp_redirect ($custom_success_redirection);
+																wp_redirect($custom_success_redirection);
 															}
 														else /* Else use the default return URL in this scenario, which is the Signup Page. */
 															{
@@ -327,13 +334,13 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 															{
 																$paypal["s2member_log"][] = "Redirecting Customer to a custom URL after signup: " . $redirection_url_after_signup;
 																/**/
-																wp_redirect ($redirection_url_after_signup);
+																wp_redirect($redirection_url_after_signup);
 															}
 														else if ($custom_success_redirection) /* Using a custom success redirection URL? */
 															{
 																$paypal["s2member_log"][] = "Redirecting Customer to a custom URL on success: " . $custom_success_redirection;
 																/**/
-																wp_redirect ($custom_success_redirection);
+																wp_redirect($custom_success_redirection);
 															}
 														else /* Else use the default return URL in this scenario, which is the Registration Page. */
 															{
@@ -345,7 +352,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 															}
 													}
 												/**/
-												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup_wo_update_vars", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
@@ -361,7 +368,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in_subscr_or_wa_w_level"
 										_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 									}
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_paypal_return_after_subscr_signup", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/

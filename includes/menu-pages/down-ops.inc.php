@@ -88,7 +88,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td>' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]) . '" style="width:200px;" maxlength="9" /> every <input type="text" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed_days" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]) . '" style="width:200px;" maxlength="3" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> day(s).<br />' . "\n";
+										echo '<input type="text" maxlength="9" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]) . '" style="width:200px;" /> every <input type="text" maxlength="3" autocomplete="off" name="ws_plugin__s2member_level' . $n . '_file_downloads_allowed_days" id="ws-plugin--s2member-level' . $n . '-file-downloads-allowed-days" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]) . '" style="width:200px;" onkeyup="if(this.value > 365){ alert(\'( 365 days is the maximum ).\\nThis keeps the logs optimized.\'); this.value = 365; }" /> day(s).<br />' . "\n";
 										echo 'Only this many unique downloads will be permitted every X day(s), at ' . (($n === $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]) ? 'highest Level #' . $n : 'Level #' . $n . ' or higher') . '.<br />' . "\n";
 										echo '<em>* To allow UNLIMITED downloads, use: <code>999999999</code> ( i.e. <code>999999999</code> = unlimited ).</em>' . "\n";
 										echo '</td>' . "\n";
@@ -212,7 +212,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_file_download_inline_extensions" id="ws-plugin--s2member-file-download-inline-extensions" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_inline_extensions"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_file_download_inline_extensions" id="ws-plugin--s2member-file-download-inline-extensions" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_inline_extensions"]) . '" /><br />' . "\n";
 								echo 'Inline extensions, comma-delimited. Ex: <code>htm,html,pdf,jpg,jpeg,jpe,gif,png,mp3,mp4,flv,ogg,webm</code>' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -281,7 +281,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_amazon_s3_files_bucket" id="ws-plugin--s2member-amazon-s3-files-bucket" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_bucket" id="ws-plugin--s2member-amazon-s3-files-bucket" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"]) . '" /><br />' . "\n";
 								echo 'Your Amazon® S3 Bucket will be used, instead of the <code>/' . esc_html (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])) . '/</code> directory.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -298,7 +298,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_amazon_s3_files_access_key" id="ws-plugin--s2member-amazon-s3-files-access-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_access_key" id="ws-plugin--s2member-amazon-s3-files-access-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"]) . '" /><br />' . "\n";
 								echo 'See: <code>Amazon® Web Services Account -> Security Credentials -> Access Credentials</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -315,7 +315,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="password" name="ws_plugin__s2member_amazon_s3_files_secret_key" id="ws-plugin--s2member-amazon-s3-files-secret-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_secret_key" id="ws-plugin--s2member-amazon-s3-files-secret-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"]) . '" /><br />' . "\n";
 								echo 'See: <code>Amazon® Web Services Account -> Security Credentials -> Access Credentials</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -374,7 +374,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_amazon_cf_files_private_key_id" id="ws-plugin--s2member-amazon-cf-files-private-key-id" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key_id"]) . '" data-s-prev-config-value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key_id"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_cf_files_private_key_id" id="ws-plugin--s2member-amazon-cf-files-private-key-id" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key_id"]) . '" data-s-prev-config-value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_private_key_id"]) . '" /><br />' . "\n";
 								echo 'See: <code>Amazon® Web Services Account -> Security Credentials -> Key Pairs</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -441,7 +441,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_amazon_cf_files_distro_downloads_cname" id="ws-plugin--s2member-amazon-cf-files-downloads-distro-cname" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_downloads_cname"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_cf_files_distro_downloads_cname" id="ws-plugin--s2member-amazon-cf-files-downloads-distro-cname" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_downloads_cname"]) . '" /><br />' . "\n";
 								echo 'Example: <code>s2-file-downloads.' . esc_html (c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_HOST)) . '</code>.<br />' . "\n";
 								echo '<em>* Optional, do NOT fill this in unless you know what you\'re doing. This requires DNS changes.</em>' . "\n";
 								echo '</td>' . "\n";
@@ -459,7 +459,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_amazon_cf_files_distro_streaming_cname" id="ws-plugin--s2member-amazon-cf-files-streaming-distro-cname" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_streaming_cname"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_cf_files_distro_streaming_cname" id="ws-plugin--s2member-amazon-cf-files-streaming-distro-cname" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_streaming_cname"]) . '" /><br />' . "\n";
 								echo 'Example: <code>s2-streaming-files.' . esc_html (c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_HOST)) . '</code>.<br />' . "\n";
 								echo '<em>* Optional, do NOT fill this in unless you know what you\'re doing. This requires DNS changes.</em>' . "\n";
 								echo '</td>' . "\n";

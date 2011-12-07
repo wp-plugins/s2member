@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_querys"))
 	{
@@ -52,13 +52,13 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 				*/
 				public static function force_query_level_access (&$wp_query = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_force_query_level_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						c_ws_plugin__s2member_querys::query_level_access ($wp_query, true);
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_force_query_level_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -82,6 +82,8 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 				*
 				* @todo For improved reliability, modify other query vars associated with exclusions/inclusions. Like `tag_slug__in`?
 				* 	See: {@link http://codex.wordpress.org/Class_Reference/WP_Query#Parameters WP_Query#Parameters}
+				* @todo Make it possible to force filtering, even when used in combination with Query Conditionals and ``get_posts()``, which auto-supresses.
+				* 	Or, perhaps strengthen the existing ``$force`` parameter in this regard.
 				*/
 				public static function query_level_access (&$wp_query = FALSE, $force = FALSE)
 					{
@@ -89,7 +91,7 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 						static $initial_query = true; /* Tracks the initial query. */
 						c_ws_plugin__s2member_querys::$current_wp_query = &$wp_query;
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_query_level_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -117,124 +119,128 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 													if (in_array ("wp_get_nav_menu_items", ($callers = (isset ($callers) ? $callers : c_ws_plugin__s2member_utilities::callers ()))))
 														add_filter ("wp_get_nav_menu_items", "c_ws_plugin__s2member_querys::_query_level_access_navs", 100);
 												/**/
-												if ((is_user_logged_in () && is_object ($user = wp_get_current_user ()) && ($user_id = $user->ID)) || !($user = false))
+												if ((is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID) && ($user_id = $user->ID)) || !($user = false))
 													{
-														if (!$user && ($lwp = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]))
+														if (!$user && ($_lwp = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]))
 															{
-																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), array ($lwp))));
-																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), array ($lwp))));
+																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), array ($_lwp))));
+																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), array ($_lwp))));
 															}
 														/**/
-														if (!$user && ($dep = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"]))
+														if (!$user && ($_dep = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"]))
 															{
-																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), array ($dep))));
-																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), array ($dep))));
+																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), array ($_dep))));
+																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), array ($_dep))));
 															}
 														/**/
-														if (is_array ($ccaps = c_ws_plugin__s2member_utils_gets::get_unavailable_singular_ids_with_ccaps ($user)) && !empty ($ccaps))
+														if (is_array ($_ccaps = c_ws_plugin__s2member_utils_gets::get_unavailable_singular_ids_with_ccaps ($user)) && !empty ($_ccaps))
 															{
-																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $ccaps)));
-																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $ccaps)));
+																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_ccaps)));
+																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_ccaps)));
 															}
 														/**/
-														if (is_array ($sps = c_ws_plugin__s2member_utils_gets::get_unavailable_singular_ids_with_sp ()) && !empty ($sps))
+														if (is_array ($_sps = c_ws_plugin__s2member_utils_gets::get_unavailable_singular_ids_with_sp ()) && !empty ($_sps))
 															{
-																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $sps)));
-																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $sps)));
+																$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_sps)));
+																$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_sps)));
 															}
+														unset /* A little housekeeping here. Ditch these temporary variables. */ ($_lwp, $_dep, $_ccaps, $_sps);
 														/**/
 														for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Category Level Restrictions. */
 															{
 																if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] === "all" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
 																		$wp_query->set ("category__in", array ()); /* Include no other Categories. */
-																		$wp_query->set ("category__not_in", ($catgs = c_ws_plugin__s2member_utils_gets::get_all_category_ids ()));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($catgs)))));
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $singulars)));
+																		$wp_query->set ("category__not_in", ($_catgs = c_ws_plugin__s2member_utils_gets::get_all_category_ids ()));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($_singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($_catgs)))));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_singulars)));
 																		break; /* All Categories will be locked down. */
 																	}
 																else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"] && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		foreach (($catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"])) as $catg)
-																			$catgs = array_merge ($catgs, c_ws_plugin__s2member_utils_gets::get_all_child_category_ids ($catg));
+																		foreach (($_catgs = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_catgs"])) as $_catg)
+																			$_catgs = array_merge ($_catgs, c_ws_plugin__s2member_utils_gets::get_all_child_category_ids ($_catg));
 																		/**/
-																		$wp_query->set ("category__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("category__in")), $catgs)));
-																		$wp_query->set ("category__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("category__not_in")), $catgs)));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($catgs)))));
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $singulars)));
+																		$wp_query->set ("category__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("category__in")), $_catgs)));
+																		$wp_query->set ("category__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("category__not_in")), $_catgs)));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($_singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($_catgs)))));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_singulars)));
 																	}
 															}
+														unset /* A little housekeeping here. Ditch these temporary variables. */ ($_catgs, $_catg, $_singulars);
 														/**/
 														for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Tag Level Restrictions. */
 															{
 																if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] === "all" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
 																		$wp_query->set ("tag__in", array ()); /* Include no other Tags. */
-																		$wp_query->set ("tag__not_in", ($tags = c_ws_plugin__s2member_utils_gets::get_all_tag_ids ()));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($tags)))));
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $singulars)));
+																		$wp_query->set ("tag__not_in", ($_tags = c_ws_plugin__s2member_utils_gets::get_all_tag_ids ()));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($_singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($_tags)))));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_singulars)));
 																		break; /* ALL Tags will be locked down. */
 																	}
 																else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"] && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		$tags = c_ws_plugin__s2member_utils_gets::get_tags_converted_to_ids ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]);
+																		$_tags = c_ws_plugin__s2member_utils_gets::get_tags_converted_to_ids ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_ptags"]);
 																		/**/
-																		$wp_query->set ("tag__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("tag__in")), $tags)));
-																		$wp_query->set ("tag__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("tag__not_in")), $tags)));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($tags)))));
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $singulars)));
+																		$wp_query->set ("tag__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("tag__in")), $_tags)));
+																		$wp_query->set ("tag__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("tag__not_in")), $_tags)));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), ($_singulars = c_ws_plugin__s2member_utils_gets::get_singular_ids_in_terms ($_tags)))));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_singulars)));
 																	}
 															}
+														unset /* A little housekeeping here. Ditch these temporary variables. */ ($_tags, $_tag, $_singulars);
 														/**/
 														for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Post Level Restrictions. */
 															{
 																if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] === "all" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		$wp_query->set ("post__in", array ()); /* Include no other Posts. */
-																		$wp_query->set ("post__not_in", c_ws_plugin__s2member_utils_gets::get_all_post_ids ());
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), ($_posts = c_ws_plugin__s2member_utils_gets::get_all_post_ids ()))));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_posts)));
 																		break; /* ALL Posts will be locked down. */
 																	}
 																else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		foreach (($posts = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) as $p)
-																			if (strpos ($p, "all-") === 0 && preg_match ("/^all-(.+)$/", $p, $m) /* Protecting `all-` of a specific Post Type? */)
-																				if (is_array ($p_of_type = c_ws_plugin__s2member_utils_gets::get_all_post_ids ($m[1])) && !empty ($p_of_type))
-																					$posts = array_merge /* Merge all Posts of this Post Type. */ ($posts, $p_of_type);
-																		unset /* A little housekeeping here. */ ($p, $m, $p_of_type);
+																		foreach (($_posts = preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) as $_p)
+																			if (strpos ($_p, "all-") === 0 && preg_match ("/^all-(.+)$/", $_p, $_m) /* Protecting `all-` of a specific Post Type? */)
+																				if (is_array ($_p_of_type = c_ws_plugin__s2member_utils_gets::get_all_post_ids ($_m[1])) && !empty ($_p_of_type))
+																					$_posts = array_merge /* Merge all Posts of this Post Type. */ ($_posts, $_p_of_type);
 																		/**/
-																		$posts = array_unique ( /* Force integers. */c_ws_plugin__s2member_utils_arrays::force_integers ($posts));
+																		$_posts = array_unique ( /* Force integers. */c_ws_plugin__s2member_utils_arrays::force_integers ($_posts));
 																		/**/
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $posts)));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $posts)));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_posts)));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_posts)));
 																	}
 															}
+														unset /* A little housekeeping here. Ditch these temporary variables. */ ($_posts, $_p, $_m, $_p_of_type);
 														/**/
 														for ($n = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n >= 0; $n--) /* Page Level Restrictions. */
 															{
 																if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"] === "all" && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		$wp_query->set ("post__in", array ()); /* Include no other Posts. */
-																		$wp_query->set ("post__not_in", c_ws_plugin__s2member_utils_gets::get_all_page_ids ());
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), ($_pages = c_ws_plugin__s2member_utils_gets::get_all_page_ids ()))));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_pages)));
 																		break; /* ALL Pages will be locked down. */
 																	}
 																else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"] && (!$user || !current_user_can ("access_s2member_level" . $n)))
 																	{
-																		$pages = c_ws_plugin__s2member_utils_arrays::force_integers (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
+																		$_pages = c_ws_plugin__s2member_utils_arrays::force_integers (preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_pages"]));
 																		/**/
-																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $pages)));
-																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $pages)));
+																		$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $_pages)));
+																		$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $_pages)));
 																	}
 															}
+														unset /* A little housekeeping here. Ditch these temporary variables. */ ($_pages);
 													}
 												/**/
-												eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+												eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 												do_action ("ws_plugin__s2member_during_query_level_access", get_defined_vars ());
 												unset ($__refs, $__v); /* Unset defined __refs, __v. */
 											}
 									}
 							}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_query_level_access", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -258,7 +264,7 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 					{
 						global $wpdb; /* Need this global DB object reference here. */
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_query_level_access_sys", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -271,12 +277,12 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 									$wp_query->set ("post__not_in", array_unique (array_merge (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__not_in")), $s)));
 									$wp_query->set ("post__in", array_unique (array_diff (c_ws_plugin__s2member_utils_arrays::force_integers ((array)$wp_query->get ("post__in")), $s)));
 									/**/
-									eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+									eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 									do_action ("_ws_plugin__s2member_during_query_level_access_sys", get_defined_vars ());
 									unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								}
 						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_after_query_level_access_sys", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -309,8 +315,8 @@ if (!class_exists ("c_ws_plugin__s2member_querys"))
 											{
 												foreach ($items as $child_key => $child_item /* Loop back through all ``$items``, looking for children. */)
 													if (!empty ($child_item->menu_item_parent) && (int)$child_item->menu_item_parent === (int)$item->ID)
-														unset /* Remove this ``$child_item``, belonging to an excluded parent. */($items[$child_key]);
-												unset /* Exclude the parent ``$item`` now. */($items[$key]);
+														unset /* Remove this ``$child_item``, belonging to an excluded parent. */ ($items[$child_key]);
+												unset /* Exclude the parent ``$item`` now. */ ($items[$key]);
 											}
 							}
 						remove_filter ("wp_get_nav_menu_items", "c_ws_plugin__s2member_querys::_query_level_access_navs", 100);

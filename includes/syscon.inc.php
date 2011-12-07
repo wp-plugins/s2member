@@ -76,13 +76,13 @@ Configure the directory for logs protected by s2Member.
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters ("ws_plugin__s2member_logs_dir", dirname (dirname (__FILE__)) . "-logs" . ((stripos (PHP_OS, "win") === 0 && stripos ($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : ""));
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"] = dirname (__FILE__) . "/templates/cfg-files/s2member-logs.php";
 /*
-Configure the global reCaptcha for ( www.s2-all-domains.com ). These public/private keys work on any installation.
+Configure the global reCaptcha ( www.websharks-inc.net / or any domain ). These public/private keys work on any installation.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"] = array ("public_key" => "6LdxxcESAAAAANL7vrhz2glFIhmLGY58hXOhGkE0", "private_key" => "6LdxxcESAAAAAOlXATQTR75735n0eSIcOnp4GeNd", "lang" => _x ("en", "s2member-front recaptcha-lang-code", "s2member"));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["recaptcha"] = array ("public_key" => "6LeEOsoSAAAAALTKvUpMQMONdBOwG1UVXiFon96F", "private_key" => "6LeEOsoSAAAAAF8gycva4_0cpVr2KHlnnGzAfocd", "lang" => _x ("en", "s2member-front recaptcha-lang-code", "s2member"));
 /*
 Configure the right menu options panel for s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"] = array ("mlist" => true, "upsell-pro" => true, "installation" => false, "tools" => false, "videos" => true, "support" => true, "donations" => true);
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"] = array ("updates" => true, "upsell-pro" => true, "installation" => false, "tools" => false, "videos" => true, "support" => true, "donations" => true);
 /*
 Check if s2Member has been configured *should be set after the first config via options panel*.
 */

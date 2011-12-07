@@ -33,8 +33,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				* @package s2Member\Files
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("init");``
-				* @also-called-by: API Function {@link s2Member\API_Functions\s2member_file_download_url()}, w/ ``$create_file_download_url`` param.
+				* @attaches-to ``add_action("init");``
+				* @also-called-by API Function {@link s2Member\API_Functions\s2member_file_download_url()}, w/ ``$create_file_download_url`` param.
 				*
 				* @param array $create_file_download_url Optional. If this function is called directly, we can pass arguments through this array.
 				* 	Possible array elements: `file_download` *(required)*, `file_download_key`, `file_stream`, `file_inline`, `file_storage`, `file_remote`, `file_ssl`, `file_rewrite`, `file_rewrite_base`, `skip_confirmation`, `url_to_storage_source`, `count_against_user`, `check_user`.
@@ -455,7 +455,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				* @package s2Member\Files
 				* @since 110926
 				*
-				* @attaches-to: ``add_filter("ws_plugin__s2member_check_file_download_access_user");``
+				* @attaches-to ``add_filter("ws_plugin__s2member_check_file_download_access_user");``
 				*
 				* @param obj $user Expects a WP_User object passed in by the Filter.
 				* @return obj A `WP_User` object, possibly obtained through Header Authorization.

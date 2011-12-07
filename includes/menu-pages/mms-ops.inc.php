@@ -15,7 +15,7 @@
 * @since 3.0
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 	{
@@ -251,7 +251,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 										echo '<tr>' . "\n";
 										/**/
 										echo '<td style="padding-bottom:0;">' . "\n";
-										echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level0" id="ws-plugin--s2member-mms-registration-blogs-level0" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level0"]) . '" /><br />' . "\n";
+										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_mms_registration_blogs_level0" id="ws-plugin--s2member-mms-registration-blogs-level0" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level0"]) . '" /><br />' . "\n";
 										echo 'How many blogs can a Free Subscriber create?' . "\n";
 										echo '</td>' . "\n";
 										/**/
@@ -278,7 +278,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_mms_ops"))
 												echo '<tr>' . "\n";
 												/**/
 												echo '<td>' . "\n";
-												echo '<input type="text" name="ws_plugin__s2member_mms_registration_blogs_level' . $n . '" id="ws-plugin--s2member-mms-registration-blogs-level' . $n . '" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $n]) . '" /><br />' . "\n";
+												echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_mms_registration_blogs_level' . $n . '" id="ws-plugin--s2member-mms-registration-blogs-level' . $n . '" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mms_registration_blogs_level" . $n]) . '" /><br />' . "\n";
 												echo 'How many blogs can a Member ( at Level #' . $n . ' ) create?' . "\n";
 												echo '</td>' . "\n";
 												/**/

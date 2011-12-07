@@ -43,9 +43,9 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 				* @package s2Member\Tracking
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("login_footer");``
-				* @attaches-to: ``add_action("wp_footer");``
-				* @also-called-by: {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
+				* @attaches-to ``add_action("login_footer");``
+				* @attaches-to ``add_action("wp_footer");``
+				* @also-called-by {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
 				*
 				* @return null After displaying possible Tracking Code(s).
 				*/
@@ -95,9 +95,9 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 				* @package s2Member\Tracking
 				* @since 110815
 				*
-				* @attaches-to: ``add_action("login_footer");``
-				* @attaches-to: ``add_action("wp_footer");``
-				* @also-called-by: {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
+				* @attaches-to ``add_action("login_footer");``
+				* @attaches-to ``add_action("wp_footer");``
+				* @also-called-by {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
 				*
 				* @return null After displaying possible Tracking Code(s).
 				*/
@@ -147,9 +147,9 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 				* @package s2Member\Tracking
 				* @since 110815
 				*
-				* @attaches-to: ``add_action("login_footer");``
-				* @attaches-to: ``add_action("wp_footer");``
-				* @also-called-by: {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
+				* @attaches-to ``add_action("login_footer");``
+				* @attaches-to ``add_action("wp_footer");``
+				* @also-called-by {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
 				*
 				* @return null After displaying possible Tracking Code(s).
 				*/
@@ -195,9 +195,9 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_codes"))
 				* @package s2Member\Tracking
 				* @since 3.5
 				*
-				* @attaches-to: ``add_action("login_footer");``
-				* @attaches-to: ``add_action("wp_footer");``
-				* @also-called-by: {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
+				* @attaches-to ``add_action("login_footer");``
+				* @attaches-to ``add_action("wp_footer");``
+				* @also-called-by {@link s2Member\Tracking\c_ws_plugin__s2member_tracking_codes::generate_all_tracking_codes()}
 				*
 				* @return null After displaying possible Tracking Code(s).
 				*/

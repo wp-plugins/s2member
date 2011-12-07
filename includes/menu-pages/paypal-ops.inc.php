@@ -72,7 +72,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_paypal_business" id="ws-plugin--s2member-paypal-business" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_paypal_business" id="ws-plugin--s2member-paypal-business" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"]) . '" /><br />' . "\n";
 								echo 'Enter the email address you\'ve associated with your PayPal® Business account.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -89,7 +89,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_paypal_api_username" id="ws-plugin--s2member-paypal-api-username" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_paypal_api_username" id="ws-plugin--s2member-paypal-api-username" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"]) . '" /><br />' . "\n";
 								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -106,7 +106,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="password" name="ws_plugin__s2member_paypal_api_password" id="ws-plugin--s2member-paypal-api-password" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_paypal_api_password" id="ws-plugin--s2member-paypal-api-password" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"]) . '" /><br />' . "\n";
 								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -123,7 +123,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="password" name="ws_plugin__s2member_paypal_api_signature" id="ws-plugin--s2member-paypal-api-signature" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_paypal_api_signature" id="ws-plugin--s2member-paypal-api-signature" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"]) . '" /><br />' . "\n";
 								echo 'At PayPal®, see: <code>Profile -> API Access (or Request API Credentials)</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -231,7 +231,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<h3>IPN w/ Proxy Key ( <a href="#" onclick="jQuery(\'div#ws-plugin--s2member-paypal-ipn-proxy-details\').toggle(); return false;" class="ws-dotted-link">optional, for 3rd-party integrations</a> )</h3>' . "\n";
 								echo '<div id="ws-plugin--s2member-paypal-ipn-proxy-details" style="display:none;">' . "\n";
 								echo '<p>If you\'re using a 3rd-party application that needs to POST simulated IPN transactions to your s2Member installation, you can use this alternate IPN URL, which includes a Proxy Key. This encrypted Proxy Key verifies incoming data being received by s2Member\'s IPN processor. You can change <em>[proxy-gateway]</em> to whatever you like. The <em>[proxy-gateway]</em> value is required. It will be stored by s2Member as the Customer\'s Paid Subscr. Gateway. Your [proxy-gateway] value will also be reflected in s2Member\'s IPN log.</p>' . "\n";
-								echo '<input type="text" value="' . format_to_edit (site_url ("/?s2member_paypal_notify=1&s2member_paypal_proxy=[proxy-gateway]&s2member_paypal_proxy_verification=" . urlencode (c_ws_plugin__s2member_paypal_utilities::paypal_proxy_key_gen ()))) . '" style="width:99%;" />' . "\n";
+								echo '<input type="text" autocomplete="off" value="' . format_to_edit (site_url ("/?s2member_paypal_notify=1&s2member_paypal_proxy=[proxy-gateway]&s2member_paypal_proxy_verification=" . urlencode (c_ws_plugin__s2member_paypal_utilities::paypal_proxy_key_gen ()))) . '" style="width:99%;" />' . "\n";
 								echo '<p><em>Any 3rd-party application that is sending IPN transactions to your s2Member installation, must ALWAYS include the <code>custom</code> POST variable, and that variable must always start with your installation domain ( i.e. custom=<code>' . esc_html ($_SERVER["HTTP_HOST"]) . '</code> ). In addition, the <code>item_number</code> variable, must always match a format that s2Member looks for. Generally speaking, the <code>item_number</code> should be <code>1, 2, 3, or 4</code>, indicating a specific s2Member Level #. However, s2Member also uses some advanced formats in this field. Just to be sure, we suggest creating a PayPal® Button with the s2Member Button Generator, and then taking a look at the Full Button Code to see how s2Member expects <code>item_number</code> to be formatted. Other than the aforementioned exceptions; all other POST variables should follow PayPal® standards. Please see: <a href="http://www.s2member.com/paypal-ipn-pdt-vars" target="_blank" rel="external">PayPal\'s IPN/PDT reference guide</a> for full documentation.</em></p>' . "\n";
 								do_action ("ws_plugin__s2member_during_paypal_ops_page_during_left_sections_during_paypal_ipn_after_proxy", get_defined_vars ());
 								echo '</div>' . "\n";
@@ -270,7 +270,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="password" name="ws_plugin__s2member_paypal_identity_token" id="ws-plugin--s2member-paypal-identity-token" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_identity_token"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_paypal_identity_token" id="ws-plugin--s2member-paypal-identity-token" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_identity_token"]) . '" /><br />' . "\n";
 								echo 'Your PDT Identity Token will appear under <em>Profile -> Website Payment Preferences</em> in your PayPal® account.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -320,7 +320,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_signup_email_recipients" id="ws-plugin--s2member-signup-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_email_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_signup_email_recipients" id="ws-plugin--s2member-signup-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_email_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"%%full_name%%" &lt;%%payer_email%%&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -338,7 +338,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_signup_email_subject" id="ws-plugin--s2member-signup-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_email_subject"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_signup_email_subject" id="ws-plugin--s2member-signup-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["signup_email_subject"]) . '" /><br />' . "\n";
 								echo 'Subject Line used in the email sent to a Customer after a successful signup has occurred through PayPal®.' . "\n";
 								echo '</td>' . "\n";
 								/**/
@@ -424,7 +424,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_sp_email_recipients" id="ws-plugin--s2member-sp-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_email_recipients"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_sp_email_recipients" id="ws-plugin--s2member-sp-email-recipients" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_email_recipients"]) . '" /><br />' . "\n";
 								echo 'This is a semicolon ( ; ) delimited list of Recipients. Here is an example:<br />' . "\n";
 								echo '<code>"%%full_name%%" &lt;%%payer_email%%&gt;; admin@example.com; "Webmaster" &lt;webmaster@example.com&gt;</code>' . "\n";
 								echo '</td>' . "\n";
@@ -442,7 +442,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_paypal_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" name="ws_plugin__s2member_sp_email_subject" id="ws-plugin--s2member-sp-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_email_subject"]) . '" /><br />' . "\n";
+								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_sp_email_subject" id="ws-plugin--s2member-sp-email-subject" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sp_email_subject"]) . '" /><br />' . "\n";
 								echo 'Subject Line used in the email sent to a Customer after a successful purchase has occurred through PayPal®, for Specific Post/Page Access.' . "\n";
 								echo '</td>' . "\n";
 								/**/

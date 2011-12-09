@@ -50,8 +50,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$_g = !empty ($_GET) ? $_GET : array ();
 						$_g = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_g));
 						/**/
-						$creating = (is_array ($create = $create_file_download_url)) ? true : false; /* Creating URL? */
-						$serving = (!$creating) ? true : false; /* If NOT creating a File Download URL, we're serving one. */
+						$creating = /* Creating URL? */ (is_array ($create = $create_file_download_url)) ? true : false;
+						$serving = /* If NOT creating a File Download URL, we're serving one. */ (!$creating) ? true : false;
 						/**/
 						$req["file_download"] = ($creating) ? @$create["file_download"] : @$_g["s2member_file_download"];
 						$req["file_download_key"] = ($creating) ? @$create["file_download_key"] : @$_g["s2member_file_download_key"];
@@ -75,18 +75,18 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								{
 									$using_amazon_s3_storage = ((!$req["file_storage"] || strcasecmp ((string)$req["file_storage"], "s3") === 0) && c_ws_plugin__s2member_utils_conds::using_amazon_s3_storage ()) ? true : false;
 									$using_amazon_cf_storage = ((!$req["file_storage"] || strcasecmp ((string)$req["file_storage"], "cf") === 0) && c_ws_plugin__s2member_utils_conds::using_amazon_cf_storage ()) ? true : false;
-									$using_amazon_storage = ($using_amazon_s3_storage || $using_amazon_cf_storage) ? true : false; /* Either/or? */
+									$using_amazon_storage = /* Either/or? */ ($using_amazon_s3_storage || $using_amazon_cf_storage) ? true : false;
 									/**/
 									$excluded = apply_filters ("ws_plugin__s2member_check_file_download_access_excluded", false, get_defined_vars ());
 									$valid_file_download_key = ($req["file_download_key"] && is_string ($req["file_download_key"])) ? c_ws_plugin__s2member_files_in::check_file_download_key ($req["file_download"], $req["file_download_key"]) : false;
 									$checking_user = ($excluded || $valid_file_download_key || ($creating && (!isset ($req["check_user"]) || !filter_var ($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset ($req["count_against_user"]) || !filter_var ($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
 									$updating_user_counter = (!$checking_user || ($creating && (!isset ($req["count_against_user"]) || !filter_var ($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
 									/**/
-									if (($serving || $creating) && $checking_user) /* In either case, the following routines apply whenever we ARE ``$checking_user``. */
+									if ( /* In either case, the following routines apply whenever we ARE ``$checking_user``. */($serving || $creating) && $checking_user)
 										{
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
-													if ($serving) /* We only need this section when/if we're actually serving. */
+													if /* We only need this section when/if we're actually serving. */ ($serving)
 														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
@@ -96,7 +96,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											else if ($req["file_download_key"] && is_string ($req["file_download_key"]) && !$valid_file_download_key)
 												{
-													if ($serving) /* We only need this section when/if we're actually serving. */
+													if /* We only need this section when/if we're actually serving. */ ($serving)
 														status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>503 ( Invalid Key ):</strong> Sorry, your access to this file has expired. Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
@@ -106,17 +106,17 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"] || ($file_downloads_enabled_by_site_owner = $min_level_4_downloads = c_ws_plugin__s2member_files::min_level_4_downloads ()) === false)
 												{
-													if ($serving) /* We only need remote functionality when/if we're actually serving. */
+													if /* We only need remote functionality when/if we're actually serving. */ ($serving)
 														if (!has_filter ("ws_plugin__s2member_check_file_download_access_user", "c_ws_plugin__s2member_files_in::check_file_remote_authorization"))
 															add_filter ("ws_plugin__s2member_check_file_download_access_user", "c_ws_plugin__s2member_files_in::check_file_remote_authorization", 10, 2);
 													/**/
-													if ($creating) /* We only need remote functionality when/if we're actually serving. */
+													if /* We only need remote functionality when/if we're actually serving. */ ($creating)
 														if (has_filter ("ws_plugin__s2member_check_file_download_access_user", "c_ws_plugin__s2member_files_in::check_file_remote_authorization"))
 															remove_filter ("ws_plugin__s2member_check_file_download_access_user", "c_ws_plugin__s2member_files_in::check_file_remote_authorization", 10, 2);
 													/**/
 													if ((isset ($file_downloads_enabled_by_site_owner, $min_level_4_downloads) && $file_downloads_enabled_by_site_owner === false) || ($file_downloads_enabled_by_site_owner = $min_level_4_downloads = c_ws_plugin__s2member_files::min_level_4_downloads ()) === false)
 														{
-															if ($serving) /* We only need this section when/if we're actually serving. */
+															if /* We only need this section when/if we're actually serving. */ ($serving)
 																status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 																. exit (_x ('<strong>503: Basic File Downloads are NOT enabled yet.</strong> Please contact Support for assistance. If you are the site owner, please configure: <code>s2Member -> Download Options -> Basic Download Restrictions</code>.', "s2member-front", "s2member"));
 															/**/
@@ -128,7 +128,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 														{
 															if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_level" . $req_level)))
 																{
-																	if ($serving) /* We only need this section when/if we're actually serving. */
+																	if /* We only need this section when/if we're actually serving. */ ($serving)
 																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
 																	/**/
 																	else /* Else return false. */
@@ -137,14 +137,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															/**/
 															else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_ccap_" . $req_ccap)))
 																{
-																	if ($serving) /* We only need this section when/if we're actually serving. */
+																	if /* We only need this section when/if we're actually serving. */ ($serving)
 																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();
 																	/**/
 																	else /* Else return false. */
 																		return false;
 																}
 															/**/
-															else if ($serving) /* We only need this section when/if we're actually serving. */
+															else if /* We only need this section when/if we're actually serving. */ ($serving)
 																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $min_level_4_downloads, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
@@ -153,7 +153,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													/**/
 													else if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && !$user->has_cap ("access_s2member_level" . $req_level))
 														{
-															if ($serving) /* We only need this section when/if we're actually serving. */
+															if /* We only need this section when/if we're actually serving. */ ($serving)
 																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
@@ -162,16 +162,16 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													/**/
 													else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && !$user->has_cap ("access_s2member_ccap_" . $req_ccap))
 														{
-															if ($serving) /* We only need this section when/if we're actually serving. */
+															if /* We only need this section when/if we're actually serving. */ ($serving)
 																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();
 															/**/
 															else /* Else return false. */
 																return false;
 														}
 													/**/
-													else if ($serving || $creating) /* In either case, the following routines apply. */
+													else if /* In either case, the following routines apply. */ ($serving || $creating)
 														{
-															$user_previous_file_downloads = 0; /* Downloads the User has already; in current period/cycle. */
+															$user_previous_file_downloads = /* Downloads the User has already; in current period/cycle. */ 0;
 															$user_already_downloaded_this_file = $user_already_downloaded_a_streaming_variation_of_this_file = false;
 															/**/
 															$user_file_download_access_log = (is_array ($user_file_download_access_log = get_user_option ("s2member_file_download_access_log", $user_id))) ? $user_file_download_access_log : array ();
@@ -186,18 +186,18 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																		{
 																			if (strtotime ($user_file_download_access_log_entry["date"]) < strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
 																				{
-																					unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove it from the `log`. */
-																					$user_file_download_access_arc[] = $user_file_download_access_log_entry; /* Move `log` entry to the `archive` now. */
+																					unset /* Remove it from the `log`. */ ($user_file_download_access_log[$user_file_download_access_log_entry_key]);
+																					$user_file_download_access_arc[] = /* Move `log` entry to the `archive` now. */ $user_file_download_access_log_entry;
 																				}
 																			else if (strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $user_file_downloads["allowed_days"] . " days"))
 																				{
-																					$user_previous_file_downloads++; /* Previous files always count against this User/Member; it's already in the `log`. */
+																					$user_previous_file_downloads++; /* Previous files always count against this User/Member. */
 																					/**/
 																					$_user_file_download_access_log_entry = &$user_file_download_access_log[$user_file_download_access_log_entry_key];
 																					$_user_already_downloaded_this_file = $_user_already_downloaded_a_streaming_variation_of_this_file = false;
 																					/**/
-																					if ($user_file_download_access_log_entry["file"] === $req["file_download"]) /* Already downloaded this file? If yes, mark this flag as true. */
-																						$user_already_downloaded_this_file = $_user_already_downloaded_this_file = true; /* Already downloaded this file? If yes, mark as true. */
+																					if /* Already downloaded this file? If yes, mark this flag as true. */ ($user_file_download_access_log_entry["file"] === $req["file_download"])
+																						$user_already_downloaded_this_file = $_user_already_downloaded_this_file = /* Already downloaded this file? If yes, mark as true. */ true;
 																					/**/
 																					else if (preg_replace ($streaming_variations, "", $user_file_download_access_log_entry["file"]) === preg_replace ($streaming_variations, "", $req["file_download"]))
 																						$user_already_downloaded_this_file = $_user_already_downloaded_this_file = $user_already_downloaded_a_streaming_variation_of_this_file = $_user_already_downloaded_a_streaming_variation_of_this_file = true;
@@ -213,21 +213,21 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																						}
 																				}
 																		}
-																	else /* Weed out empty log entries. Some older versions of s2Member may have corrupt/empty log entries by mistake. */
-																		unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove from `log`. */
+																	else /* Weed out empty log entries. Some older versions of s2Member may have corrupt/empty log entries. */
+																		unset ($user_file_download_access_log[$user_file_download_access_log_entry_key]); /* Remove. */
 																}
 															if ( /* Updating counter? */$updating_user_counter && /* Do we need a new log entry for this file? */ !$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file)
 																$user_file_download_access_log[] = array ("date" => date ("Y-m-d"), "time" => time (), "ltime" => time (), "file" => $req["file_download"], "counter" => 1);
 															/**/
 															if ($user_previous_file_downloads >= $user_file_downloads["allowed"] && !$user_already_downloaded_this_file && !$user_already_downloaded_a_streaming_variation_of_this_file && !$user->has_cap ("administrator"))
 																{
-																	if ($serving) /* We only need this section when/if we're actually serving. */
+																	if /* We only need this section when/if we're actually serving. */ ($serving)
 																		wp_redirect (add_query_arg (urlencode_deep (array ("_s2member_seeking" => array ("type" => "file", "file" => $req["file_download"], "_uri" => base64_encode ($_SERVER["REQUEST_URI"])), "s2member_seeking" => "file-" . $req["file_download"])), get_page_link ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"])), apply_filters ("ws_plugin__s2member_content_redirect_status", 301, get_defined_vars ())) . exit ();
 																	/**/
 																	else /* Else return false. */
 																		return false;
 																}
-															else if /* Save/update counter? */ ($updating_user_counter) /* By default, we do NOT update the counter when a URL is simply being created for access. */
+															else if /* Save/update counter? By default, we do NOT update the counter when a URL is simply being created for access. */ ($updating_user_counter)
 																update_user_option ($user_id, "s2member_file_download_access_log", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_log)) . update_user_option ($user_id, "s2member_file_download_access_arc", c_ws_plugin__s2member_utils_arrays::array_unique ($user_file_download_access_arc));
 														}
 												}
@@ -236,7 +236,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										{
 											if (!$using_amazon_storage && !file_exists ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] . "/" . $req["file_download"]))
 												{
-													if ($serving) /* We only need this section when/if we're actually serving. */
+													if /* We only need this section when/if we're actually serving. */ ($serving)
 														status_header (404) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 														. exit (_x ('<strong>404: Sorry, file not found.</strong> Please contact Support for assistance.', "s2member-front", "s2member"));
 													/**/
@@ -245,7 +245,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 												}
 										}
 									/**/
-									if ($serving || $creating) /* In either case, the following routines apply. */
+									if /* In either case, the following routines apply. */ ($serving || $creating)
 										{
 											$basename = basename ($req["file_download"]);
 											$mimetypes = parse_ini_file (dirname (dirname (dirname (__FILE__))) . "/includes/mime-types.ini");
@@ -276,7 +276,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											if ($using_amazon_s3_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
-													if ($serving) /* We only need this section when/if we're actually serving. */
+													if /* We only need this section when/if we're actually serving. */ ($serving)
 														wp_redirect (c_ws_plugin__s2member_files_in::amazon_s3_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
@@ -285,14 +285,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											/**/
 											else if ($using_amazon_cf_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
-													if ($serving) /* We only need this section when/if we're actually serving. */
+													if /* We only need this section when/if we're actually serving. */ ($serving)
 														wp_redirect (c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)) . exit ();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters ("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_cf_url ($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars ());
 												}
 											/**/
-											else if ($creating && $rewriting) /* Creating a rewrite URL, pointing to local storage. */
+											else if /* Creating a rewrite URL, pointing to local storage. */ ($creating && $rewriting)
 												{
 													$url = ($rewrite_base) ? rtrim ($rewrite_base, "/") : rtrim ($rewrite_base_guess, "/");
 													$url .= (isset ($req["file_download_key"])) ? (($key) ? "/s2member-file-download-key-" . $key : "") : "";
@@ -302,15 +302,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													$url .= (isset ($req["file_remote"])) ? (($remote) ? "/s2member-file-remote" : "/s2member-file-remote-no") : "";
 													$url .= (isset ($req["skip_confirmation"])) ? (($skip_confirmation) ? "/s2member-skip-confirmation" : "/s2member-skip-confirmation-no") : "";
 													/**/
-													$url = $url . "/" . $req["file_download"]; /* File Download Access URL via `mod_rewrite` functionality. */
+													$url = /* File Download Access URL via `mod_rewrite` functionality. */ $url . "/" . $req["file_download"];
 													$url = ($ssl) ? preg_replace ("/^https?/", "https", $url) : preg_replace ("/^https?/", "http", $url);
 													/**/
 													return apply_filters ("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars ());
 												}
 											/**/
-											else if ($creating) /* Else we're creating a URL w/ a query-string; w/ local storage. */
-												{
-													/* * Note: we don't URL encode unreserved chars. Improves media player compatibility. */
+											else if /* Else we're creating a URL w/ a query-string; w/ local storage. */ ($creating)
+												{ /* Note: we don't URL encode unreserved chars. Improves media player compatibility. */
 													$_url_e_key = ($key) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($key)) : "";
 													$_url_e_storage = ($storage) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($storage)) : "";
 													$_url_e_file = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode ($req["file_download"]));
@@ -328,11 +327,11 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													return apply_filters ("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars ());
 												}
 											/**/
-											else /* Else, ``if ($serving)`` , use local storage option (default). */
+											else /* Else, ``if ($serving)``, use local storage option. */
 												{
 													@set_time_limit (0) . @ini_set ("zlib.output_compression", 0);
 													/**/
-													status_header (200); /* 200 OK status header. */
+													status_header /* 200 OK status header. */ (200);
 													/**/
 													header ("Accept-Ranges: none");
 													header ("Content-Encoding: none");
@@ -345,7 +344,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													/**/
 													header ('Content-Disposition: ' . (($inline) ? "inline" : "attachment") . '; filename="' . $basename . '"');
 													/**/
-													eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist already. Prep for content delivery. */
+													eval /* End/clean any output buffers that may exist already. Prep for content delivery. */ ('while (@ob_end_clean ());');
 													/**/
 													$_chunk_file = ($_SERVER["SERVER_PROTOCOL"] === "HTTP/1.1" && preg_match ("/apache/i", $_SERVER["SERVER_SOFTWARE"])) ? true : false;
 													/**/
@@ -356,7 +355,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 															if (apply_filters ("ws_plugin__s2member_chunk_file_downloads_w_content_length", true, get_defined_vars ()))
 																header ("Content-Length: " . $length);
 															/**/
-															header ("Transfer-Encoding: chunked"); /* `Transfer-Encoding: chunked` conserves memory. */
+															header /* `Transfer-Encoding: chunked` conserves memory. */ ("Transfer-Encoding: chunked");
 															/**/
 															while (!feof ($resource) && ($chunk_size = strlen ($data = fread ($resource, $_chunk_size))))
 																eval ('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
@@ -371,11 +370,11 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																header ("Content-Length: " . $length);
 															/**/
 															while (!feof ($resource) && ($flush_size = strlen ($data = fread ($resource, $_flush_size))))
-																eval ('echo $data; @flush ();'); /* Conserves memory. */
+																eval /* Conserves memory. */ ('echo $data; @flush ();');
 														}
-													else if ($length) /* Else, use: ``file_get_contents()``. */
+													else if /* Else, use: ``file_get_contents()``. */ ($length)
 														{
-															@ini_set ("memory_limit", WP_MAX_MEMORY_LIMIT); /* RAM/memory. */
+															@ini_set /* RAM/memory. */ ("memory_limit", WP_MAX_MEMORY_LIMIT);
 															header ("Content-Length: " . $length) . exit (file_get_contents ($file));
 														}
 													else /* Else, we have an empty file with no length. */
@@ -386,16 +385,16 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 										}
 								}
 							/**/
-							else if ($serving && $req["file_download"]) /* We only need this section when/if we're actually serving. */
+							else if /* We only need this section when/if we're actually serving. */ ($serving && $req["file_download"])
 								status_header (503) . header ("Content-Type: text/html; charset=utf-8") . eval ('while (@ob_end_clean ());') #
 								. exit (_x ('<strong>503: Access denied.</strong> Invalid File Download specs.', "s2member-front", "s2member"));
 							/**/
-							else if ($creating) /* We only need this section when/if we're creating a URL. */
+							else if /* We only need this section when/if we're creating a URL. */ ($creating)
 								return false;
 						/**/
 						do_action ("ws_plugin__s2member_after_file_download_access", get_defined_vars ());
 						/**/
-						return ($creating) ? false : null; /* If creating, false. */
+						return ($creating) ? /* If creating, false. */ false : null;
 					}
 				/**
 				* Generates a File Download URL for access to a file protected by s2Member.
@@ -413,10 +412,10 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				public static function create_file_download_url ($config = FALSE, $get_streamer_array = FALSE)
 					{
 						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_before_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
+						do_action ("ws_plugin__s2member_before_create_file_download_url", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$config = (is_array ($config)) ? $config : array (); /* This absolutely MUST be an array. */
+						$config = (is_array ($config)) ? $config : /* This absolutely MUST be an array. */ array ();
 						/**/
 						$config["file_download"] = (isset ($config["file_download"]) && is_string ($config["file_download"])) ? trim ($config["file_download"], "/") : @$config["file_download"];
 						$config["file_download_key"] = (isset ($config["file_download"]) && is_string ($config["file_download"]) && !empty ($config["file_download_key"])) ? c_ws_plugin__s2member_files::file_download_key ($config["file_download"], ((in_array ($config["file_download_key"], array ("ip-forever", "universal", "cache-compatible"))) ? $config["file_download_key"] : false)) : @$config["file_download_key"];
@@ -424,10 +423,10 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$config["url_to_storage_source"] = /* Force a streaming URL here via ``$get_streamer_array``? */ ($get_streamer_array) ? true : @$config["url_to_storage_source"];
 						$config["file_stream"] = /* Force a streaming URL here via ``$get_streamer_array``? */ ($get_streamer_array) ? true : @$config["file_stream"];
 						/**/
-						if (($_url = c_ws_plugin__s2member_files_in::check_file_download_access (($create_file_download_url = $config))) /* Successfully created a URL to the file? */)
+						if (($_url = c_ws_plugin__s2member_files_in::check_file_download_access /* Successfully created a URL to the file? */ (($create_file_download_url = $config))))
 							{
 								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-								do_action ("ws_plugin__s2member_during_create_file_download_url", get_defined_vars ()); /* Be VERY careful, if you use this Hook. */
+								do_action ("ws_plugin__s2member_during_create_file_download_url", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
 								$extension = strtolower (substr ($config["file_download"], strrpos ($config["file_download"], ".") + 1));
@@ -440,11 +439,11 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								else if ($get_streamer_array && $streaming && is_array ($ups = c_ws_plugin__s2member_utils_urls::parse_url ($_url)) && isset ($ups["scheme"], $ups["host"]) && ($streamer = $ups["scheme"] . "://" . $ups["host"] . ((!empty ($ups["port"])) ? ":" . $ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access (array_merge ($config, array ("file_stream" => false, "check_user" => false, "count_against_user" => false)))))
 									$return = array ("streamer" => $streamer, "file" => preg_replace ("/^" . preg_quote ($streamer, "/") . "\//", "", $_url), "url" => preg_replace ("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
-								else if ($get_streamer_array) /* Else, we MUST return false here, unable to acquire streamer/file. */
-									$return = false; /* We MUST return false here, unable to acquire streamer. */
+								else if /* If streamer, we MUST return false here; unable to acquire streamer/file. */ ($get_streamer_array)
+									$return = /* We MUST return false here, unable to acquire streamer/file. */ false;
 								/**/
 								else /* Else return URL string ( ``$get_streamer_array`` is false ). */
-									$return = $_url; /* Else return URL string. */
+									$return = /* Else return URL string. */ $_url;
 							}
 						/**/
 						return apply_filters ("ws_plugin__s2member_create_file_download_url", ((isset ($return)) ? $return : false), get_defined_vars ());
@@ -476,18 +475,17 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 									{
 										header ('WWW-Authenticate: Basic realm="' . c_ws_plugin__s2member_utils_strings::esc_dq (strip_tags (_x ("Members Only", "s2member-front", "s2member"))) . '"');
 										/**/
-										status_header (401); /* Send an unauthorized 401 status header now. */
-										header ("Content-Type: text/html; charset=utf-8"); /* Content-Type with UTF-8. */
-										eval ('while (@ob_end_clean ());'); /* End/clean any output buffers that may exist. */
+										status_header /* Send an unauthorized 401 status header now. */ (401);
+										header /* Content-Type with UTF-8. */ ("Content-Type: text/html; charset=utf-8");
+										eval /* End/clean any output buffers that may exist. */ ('while (@ob_end_clean ());');
 										/**/
 										exit (_x ('<strong>401:</strong> Sorry, access denied.', "s2member-front", "s2member"));
 									}
 								else if (is_object ($_user = new WP_User ($_SERVER["PHP_AUTH_USER"])) && !empty ($_user->ID))
-									$user = $_user; /* Now assign ``$user``. */
+									$user = /* Now assign ``$user``. */ $_user;
 								/**/
 								do_action ("ws_plugin__s2member_during_check_file_remote_authorization_after", get_defined_vars ());
 							}
-						/**/
 						return apply_filters ("ws_plugin__s2member_check_file_remote_authorization", $user, get_defined_vars ());
 					}
 				/**
@@ -506,16 +504,15 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						do_action ("_ws_plugin__s2member_before_check_file_download_key", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						if ($file && is_string ($file) && ($file = trim ($file, "/")) && $key && is_string ($key)) /* Requirements to properly validate. */
+						if ($file && is_string ($file) && ($file = trim ($file, "/")) && $key && is_string ($key))
 							{
 								if ($key === c_ws_plugin__s2member_files::file_download_key ($file) || $key === c_ws_plugin__s2member_files::file_download_key ("/" . $file))
-									$valid = true; /* File Download Key is valid. */
+									$valid = /* File Download Key is valid. */ true;
 								else if ($key === c_ws_plugin__s2member_files::file_download_key ($file, "ip-forever") || $key === c_ws_plugin__s2member_files::file_download_key ("/" . $file, "ip-forever"))
-									$valid = true; /* File Download Key is valid. */
+									$valid = /* File Download Key is valid. */ true;
 								else if ($key === c_ws_plugin__s2member_files::file_download_key ($file, "universal") || $key === c_ws_plugin__s2member_files::file_download_key ("/" . $file, "universal"))
-									$valid = true; /* File Download Key is valid. */
+									$valid = /* File Download Key is valid. */ true;
 							}
-						/**/
 						return apply_filters ("ws_plugin__s2member_check_file_download_key", ((isset ($valid) && $valid) ? true : false), get_defined_vars ());
 					}
 				/**
@@ -549,7 +546,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function amazon_s3_url ($file = FALSE, $stream = FALSE, $inline = FALSE, $ssl = FALSE, $basename = FALSE, $mimetype = FALSE)
 					{
-						$file = trim ((string)$file, "/"); /* Trim / force string. */
+						$file = /* Trim / force string. */ trim ((string)$file, "/");
 						/**/
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if (preg_match ("/^amazon_s3_files_/", $option) && ($option = preg_replace ("/^amazon_s3_files_/", "", $option)))
@@ -562,6 +559,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$s3_signature = base64_encode (c_ws_plugin__s2member_files_in::amazon_s3_sign ("GET\n\n\n" . $s3c["expires"] . "\n" . "/" . $s3c["bucket"] . $s3_raw_file));
 						/**/
 						$s3_url = ((strtolower ($s3c["bucket"]) !== $s3c["bucket"])) ? "http" . (($ssl) ? "s" : "") . "://s3.amazonaws.com/" . $s3c["bucket"] . $s3_file : "http" . (($ssl) ? "s" : "") . "://" . $s3c["bucket"] . ".s3.amazonaws.com" . $s3_file;
+						/**/
 						return add_query_arg (c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep /* Don't encode unreserved chars. Maximizes media player compatibility. */
 						(urlencode_deep (array ("AWSAccessKeyId" => $s3c["access_key"], "Expires" => $s3c["expires"], "Signature" => $s3_signature))), $s3_url);
 					}
@@ -582,7 +580,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						/**/
 						$cfc["distros_s3_access_id"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distros_s3_access_id"];
 						/**/
-						if ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"]) /* Must have Amazon® S3 Bucket/Keys. */
+						if /* Must have Amazon® S3 Bucket/Keys. */ ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"])
 							{
 								$s3_date = gmdate ("D, d M Y H:i:s") . " GMT";
 								$s3_location = ((strtolower ($s3c["bucket"]) !== $s3c["bucket"])) ? "/" . $s3c["bucket"] . "/?acl" : "/?acl";
@@ -602,7 +600,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 												if (($s3_response = c_ws_plugin__s2member_utils_urls::remote ("https://" . $s3_domain . $s3_location, false, array_merge ($s3_args, array ("timeout" => 20)), "array")) && $s3_response["code"] === 200)
 													{
 														$s3_location = ((strtolower ($s3c["bucket"]) !== $s3c["bucket"])) ? "/" . $s3c["bucket"] . "/?policy" : "/?policy";
-														$s3_policy_json = '{"Version":"2008-10-17","Id":"' . md5 ("s2Member/CloudFront") . '","Statement":[{"Sid":"s2Member/CloudFront","Effect":"Allow","Principal":{"CanonicalUser":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($cfc["distros_s3_access_id"]) . '"},"Action":"s3:GetObject","Resource":"arn:aws:s3:::' . c_ws_plugin__s2member_utils_strings::esc_dq ($s3c["bucket"]) . '/*"}]}';
+														($s3_policy_id = md5 (uniqid ("s2Member/CloudFront:", true))) . ($s3_policy_sid = md5 (uniqid ("s2Member/CloudFront:", true)));
+														$s3_policy_json = '{"Version":"2008-10-17","Id":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($s3_policy_id) . '","Statement":[{"Sid":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($s3_policy_sid) . '","Effect":"Allow","Principal":{"CanonicalUser":"' . c_ws_plugin__s2member_utils_strings::esc_dq ($cfc["distros_s3_access_id"]) . '"},"Action":"s3:GetObject","Resource":"arn:aws:s3:::' . c_ws_plugin__s2member_utils_strings::esc_dq ($s3c["bucket"]) . '/*"}]}';
 														$s3_signature = base64_encode (c_ws_plugin__s2member_files_in::amazon_s3_sign ("PUT\n\napplication/json\n" . $s3_date . "\n/" . $s3c["bucket"] . "/?policy"));
 														$s3_args = array ("method" => "PUT", "body" => $s3_policy_json, "headers" => array ("Host" => $s3_domain, "Content-Type" => "application/json", "Date" => $s3_date, "Authorization" => "AWS " . $s3c["access_key"] . ":" . $s3_signature));
 														/**/
@@ -614,7 +613,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																$s3_args = array ("method" => "PUT", "body" => $s3_policy_xml, "headers" => array ("Host" => $s3_domain, "Content-Type" => "text/xml", "Date" => $s3_date, "X-Amz-Acl" => "public-read", "Authorization" => "AWS " . $s3c["access_key"] . ":" . $s3_signature));
 																/**/
 																if (($s3_response = c_ws_plugin__s2member_utils_urls::remote ("https://" . $s3_domain . $s3_location, false, array_merge ($s3_args, array ("timeout" => 20)), "array")) && $s3_response["code"] === 200)
-																	return array ("success" => true, "code" => null, "message" => null); /* Successfully configured Amazon® S3 Bucket ACLs and Policy. */
+																	return /* Successfully configured Amazon® S3 Bucket ACLs and Policy. */ array ("success" => true, "code" => null, "message" => null);
 																/**/
 																else if (isset ($s3_response["code"], $s3_response["message"]))
 																	/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® S3 API call. Feel free to exclude `%s` if you like. */
@@ -699,7 +698,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function amazon_cf_url ($file = FALSE, $stream = FALSE, $inline = FALSE, $ssl = FALSE, $basename = FALSE, $mimetype = FALSE)
 					{
-						$file = trim ((string)$file, "/"); /* Trim / force string. */
+						$file = /* Trim / force string. */ trim ((string)$file, "/");
 						/**/
 						foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if (preg_match ("/^amazon_cf_files_/", $option) && ($option = preg_replace ("/^amazon_cf_files_/", "", $option)))
@@ -707,8 +706,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						/**/
 						$cfc["expires"] = strtotime ("+" . apply_filters ("ws_plugin__s2member_amazon_cf_file_expires_time", "24 hours", get_defined_vars ()));
 						/**/
-						$cf_extn = strtolower (substr ($file, strrpos ($file, ".") + 1)); /* Parses the file extension out so we can scan it in some special scenarios. */
-						$cf_ip_res = (c_ws_plugin__s2member_utils_conds::is_localhost ()) ? false : true; /* Do NOT restrict access to a particular IP during `localhost` development. The IP may NOT be the same one Amazon® CloudFront sees. */
+						$cf_extn = /* Parses the file extension out so we can scan it in some special scenarios. */ strtolower (substr ($file, strrpos ($file, ".") + 1));
+						$cf_ip_res = /* Do NOT restrict access to a particular IP during `localhost` development. The IP may NOT be the same one Amazon® CloudFront sees. */ (c_ws_plugin__s2member_utils_conds::is_localhost ()) ? false : true;
 						$cf_stream_extn_resource_exclusions = array_unique ((array)apply_filters ("ws_plugin__s2member_amazon_cf_file_streaming_extension_resource_exclusions", array ("mp3" /* MP3 files should NOT include an extension in their resource reference. */), get_defined_vars ()));
 						$cf_resource = ($stream) ? ((in_array ($cf_extn, $cf_stream_extn_resource_exclusions)) ? substr ($file, 0, strrpos ($file, ".")) : $file) : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
 						$cf_url = ($stream) ? "rtmp" . (($ssl) ? "e" : "") . "://" . (($cfc["distro_streaming_cname"]) ? $cfc["distro_streaming_cname"] : $cfc["distro_streaming_dname"]) . "/cfx/st/" . $file : "http" . (($ssl) ? "s" : "") . "://" . (($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"]) . "/" . $file;
@@ -740,63 +739,63 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 						$cfc["access_key"] = $s3c["access_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"];
 						$cfc["secret_key"] = $s3c["secret_key"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_secret_key"];
 						/**/
-						if ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"]) /* We MUST have an Amazon® S3 Bucket and Keys. */
+						if /* We MUST have an Amazon® S3 Bucket and Keys. */ ($s3c["bucket"] && $s3c["access_key"] && $s3c["secret_key"])
 							{
-								if ($cfc["private_key"] && $cfc["private_key_id"]) /* We MUST have Amazon® CloudFront Keys in order to auto-configure. */
+								if /* We MUST have Amazon® CloudFront Keys in order to auto-configure. */ ($cfc["private_key"] && $cfc["private_key_id"])
 									{
 										if (!$cfc["distro_downloads_id"] || ($cfc["distro_downloads_id"] && ($cf_get_response = c_ws_plugin__s2member_files_in::amazon_cf_get_distro ($cfc["distro_downloads_id"], "downloads")) && ($cf_get_response["success"] || $cf_get_response["code"] === 404)))
 											{
 												if (!$cfc["distro_downloads_id"] || ($cfc["distro_downloads_id"] && $cf_get_response && !$cf_get_response["success"] && $cf_get_response["code"] === 404))
-													$cf_distro_downloads_clear = true; /* Clear, ready for a new one. */
+													$cf_distro_downloads_clear = /* Clear, ready for a new one. */ true;
 												/**/
 												else if ($cfc["distro_downloads_id"] && $cf_get_response && $cf_get_response["success"] && !$cf_get_response["deployed"])
 													return array ("success" => false, "code" => -86, "message" => _x ("Unable to delete existing Amazon® CloudFront Downloads Distro. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again.", "s2member-admin", "s2member"));
 												/**/
 												else if ($cfc["distro_downloads_id"] && $cf_get_response && $cf_get_response["success"] && $cf_get_response["deployed"] && ($cf_del_response = c_ws_plugin__s2member_files_in::amazon_cf_del_distro ($cfc["distro_downloads_id"], $cf_get_response["etag"], $cf_get_response["xml"])) && $cf_del_response["success"])
-													$cf_distro_downloads_clear = true; /* Clear, ready for a new one. */
+													$cf_distro_downloads_clear = /* Clear, ready for a new one. */ true;
 												/**/
 												else if (isset ($cf_del_response["code"], $cf_del_response["message"]))
 													/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
 													return array ("success" => false, "code" => $cf_del_response["code"], "message" => sprintf (_x ("Unable to delete existing Amazon® CloudFront Downloads Distro. %s", "s2member-admin", "s2member"), $cf_del_response["message"]));
 												/**/
-												if (isset ($cf_distro_downloads_clear) && $cf_distro_downloads_clear) /* Successfully cleared? Ready for a new one? */
+												if /* Successfully cleared? Ready for a new one? */ (isset ($cf_distro_downloads_clear) && $cf_distro_downloads_clear)
 													{
-														unset ($cf_get_response, $cf_del_response); /* Unset these before processing additional routines. Prevents problems in error reporting. */
+														unset /* Unset these before processing additional routines. Prevents problems in error reporting. */ ($cf_get_response, $cf_del_response);
 														/**/
 														if (!$cfc["distro_streaming_id"] || ($cfc["distro_streaming_id"] && ($cf_get_response = c_ws_plugin__s2member_files_in::amazon_cf_get_distro ($cfc["distro_streaming_id"], "streaming")) && ($cf_get_response["success"] || $cf_get_response["code"] === 404)))
 															{
 																if (!$cfc["distro_streaming_id"] || ($cfc["distro_streaming_id"] && $cf_get_response && !$cf_get_response["success"] && $cf_get_response["code"] === 404))
-																	$cf_distro_streaming_clear = true; /* Clear, ready for a new one. */
+																	$cf_distro_streaming_clear = /* Clear, ready for a new one. */ true;
 																/**/
 																else if ($cfc["distro_streaming_id"] && $cf_get_response && $cf_get_response["success"] && !$cf_get_response["deployed"])
 																	return array ("success" => false, "code" => -87, "message" => _x ("Unable to delete existing Amazon® CloudFront Streaming Distro. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again.", "s2member-admin", "s2member"));
 																/**/
 																else if ($cfc["distro_streaming_id"] && $cf_get_response && $cf_get_response["success"] && $cf_get_response["deployed"] && ($cf_del_response = c_ws_plugin__s2member_files_in::amazon_cf_del_distro ($cfc["distro_streaming_id"], $cf_get_response["etag"], $cf_get_response["xml"])) && $cf_del_response["success"])
-																	$cf_distro_streaming_clear = true; /* Clear, ready for a new one. */
+																	$cf_distro_streaming_clear = /* Clear, ready for a new one. */ true;
 																/**/
 																else if (isset ($cf_del_response["code"], $cf_del_response["message"]))
 																	/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
 																	return array ("success" => false, "code" => $cf_del_response["code"], "message" => sprintf (_x ("Unable to delete existing Amazon® CloudFront Streaming Distro. %s", "s2member-admin", "s2member"), $cf_del_response["message"]));
 																/**/
-																if (isset ($cf_distro_streaming_clear) && $cf_distro_streaming_clear) /* Successfully cleared? Ready for a new one? */
+																if /* Successfully cleared? Ready for a new one? */ (isset ($cf_distro_streaming_clear) && $cf_distro_streaming_clear)
 																	{
-																		unset ($cf_get_response, $cf_del_response); /* Unset these before processing additional routines. Prevents problems in error reporting. */
+																		unset /* Unset these before processing additional routines. Prevents problems in error reporting. */ ($cf_get_response, $cf_del_response);
 																		/**/
 																		if (!$cfc["distros_access_id"] || ($cfc["distros_access_id"] && ($cf_get_response = c_ws_plugin__s2member_files_in::amazon_cf_get_access_origin_identity ($cfc["distros_access_id"])) && ($cf_get_response["success"] || $cf_get_response["code"] === 404)))
 																			{
 																				if (!$cfc["distros_access_id"] || ($cfc["distros_access_id"] && $cf_get_response && !$cf_get_response["success"] && $cf_get_response["code"] === 404))
-																					$cf_distros_access_clear = true; /* Clear, ready for a new one. */
+																					$cf_distros_access_clear = /* Clear, ready for a new one. */ true;
 																				/**/
 																				else if ($cfc["distros_access_id"] && $cf_get_response && $cf_get_response["success"] && ($cf_del_response = c_ws_plugin__s2member_files_in::amazon_cf_del_access_origin_identity ($cfc["distros_access_id"], $cf_get_response["etag"], $cf_get_response["xml"])) && $cf_del_response["success"])
-																					$cf_distros_access_clear = true; /* Clear, ready for a new one. */
+																					$cf_distros_access_clear = /* Clear, ready for a new one. */ true;
 																				/**/
 																				else if (isset ($cf_del_response["code"], $cf_del_response["message"]))
 																					/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
 																					return array ("success" => false, "code" => $cf_del_response["code"], "message" => sprintf (_x ("Unable to delete existing Amazon® CloudFront Origin Access Identity. %s", "s2member-admin", "s2member"), $cf_del_response["message"]));
 																				/**/
-																				if (isset ($cf_distros_access_clear) && $cf_distros_access_clear) /* Successfully cleared? Ready for a new one? */
+																				if /* Successfully cleared? Ready for a new one? */ (isset ($cf_distros_access_clear) && $cf_distros_access_clear)
 																					{
-																						unset ($cf_get_response, $cf_del_response); /* Unset these before processing additional routines. Prevents problems in error reporting. */
+																						unset /* Unset these before processing additional routines. Prevents problems in error reporting. */ ($cf_get_response, $cf_del_response);
 																						/**/
 																						$cfc = array_merge ($cfc, array ("distros_access_id" => "", "distros_s3_access_id" => "", "distro_downloads_id" => "", "distro_downloads_dname" => "", "distro_streaming_id" => "", "distro_streaming_dname" => "", "distros_auto_config_status" => ""));
 																						$cf_options = array ("ws_plugin__s2member_amazon_cf_files_distros_access_id" => "", "ws_plugin__s2member_amazon_cf_files_distros_s3_access_id" => "", "ws_plugin__s2member_amazon_cf_files_distro_downloads_id" => "", "ws_plugin__s2member_amazon_cf_files_distro_downloads_dname" => "", "ws_plugin__s2member_amazon_cf_files_distro_streaming_id" => "", "ws_plugin__s2member_amazon_cf_files_distro_streaming_dname" => "", "ws_plugin__s2member_amazon_cf_files_distros_auto_config_status" => "");
@@ -820,16 +819,18 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																												$cf_options = array ("ws_plugin__s2member_amazon_cf_files_distro_streaming_id" => $cf_response["distro_streaming_id"], "ws_plugin__s2member_amazon_cf_files_distro_streaming_dname" => $cf_response["distro_streaming_dname"]);
 																												c_ws_plugin__s2member_menu_pages::update_all_options ($cf_options, true, false, false, false, false);
 																												/**/
-																												if (($s3_response = c_ws_plugin__s2member_files_in::amazon_s3_auto_configure_acls ()) && $s3_response["success"])
-																													{
-																														$cfc = array_merge ($cfc, array ("distros_auto_config_status" => "success"));
-																														$cf_options = array ("ws_plugin__s2member_amazon_cf_files_distros_auto_config_status" => "configured");
-																														c_ws_plugin__s2member_menu_pages::update_all_options ( /* Now configured! */$cf_options, true, false, false, false, false);
-																														/**/
-																														return array ("success" => true, "code" => null, "message" => null); /* Successfully configured Amazon® S3/CloudFront distros. */
-																													}
-																												/**/
-																												else if (isset ($s3_response["code"], $s3_response["message"]))
+																												for ($a = 1, $attempts = 4, $sleep = 2, sleep ($sleep); $a <= $attempts; $a++, (($a <= $attempts) ? sleep ($sleep) : null))
+																													/* Allow a generous propagation time here. Amazon's high-availability services do NOT guarantee real-time updates.
+																														Since we DO need a fully propagated Origin Access Identity now, we need to make several attempts at success.
+																														For further details, please see this thread: <https://forums.aws.amazon.com/message.jspa?messageID=42875>. */
+																													if (($s3_response = c_ws_plugin__s2member_files_in::amazon_s3_auto_configure_acls ()) && $s3_response["success"])
+																														{
+																															$cfc = array_merge ($cfc, array ("distros_auto_config_status" => "configured"));
+																															$cf_options = array ("ws_plugin__s2member_amazon_cf_files_distros_auto_config_status" => "configured");
+																															c_ws_plugin__s2member_menu_pages::update_all_options ( /* Now configured! */$cf_options, true, false, false, false, false);
+																															return /* Successfully configured Amazon® S3/CloudFront distros. */ array ("success" => true, "code" => null, "message" => null);
+																														}
+																												if (isset ($s3_response["code"], $s3_response["message"]))
 																													/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® S3 API call. Feel free to exclude `%s` if you like. */
 																													return array ("success" => false, "code" => $s3_response["code"], "message" => sprintf (_x ("Unable to update existing Amazon® S3 ACLs. %s", "s2member-admin", "s2member"), $s3_response["message"]));
 																												/**/
@@ -905,7 +906,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function amazon_cf_get_access_origin_identity ($access_id = FALSE)
 					{
-						if ($access_id && is_string ($access_id)) /* Valid parameters? */
+						if /* Valid parameters? */ ($access_id && is_string ($access_id))
 							{
 								foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 									if (preg_match ("/^amazon_cf_files_/", $option) && ($option = preg_replace ("/^amazon_cf_files_/", "", $option)))
@@ -970,7 +971,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								$cf_args = array ("method" => "DELETE", "headers" => array ("Host" => $cf_domain, "Date" => $cf_date, "If-Match" => $access_id_etag, "Authorization" => "AWS " . $cfc["access_key"] . ":" . $cf_signature));
 								/**/
 								if (($cf_response = c_ws_plugin__s2member_utils_urls::remote ("https://" . $cf_domain . $cf_location, false, array_merge ($cf_args, array ("timeout" => 20)), "array")) && ($cf_response["code"] === 200 || $cf_response["code"] === 204 /* Deleted. */))
-									return array ("success" => true, "code" => null, "message" => null); /* Deleted successfully. */
+									return /* Deleted successfully. */ array ("success" => true, "code" => null, "message" => null);
 								/**/
 								else if (isset ($cf_response["code"], $cf_response["message"]))
 									/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
@@ -1085,13 +1086,11 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function amazon_cf_disable_distro ($distro_id = FALSE, $distro_id_etag = FALSE, $distro_id_xml = FALSE)
 					{
-						if ($distro_id && is_string ($distro_id) && $distro_id_etag && is_string ($distro_id_etag) && $distro_id_xml && is_string ($distro_id_xml) /* Parse type/reference too. */
-						&& ($distro_id_type = (stripos ($distro_id_xml, "<StreamingDistribution") !== false) ? "streaming" : ((stripos ($distro_id_xml, "<Distribution") !== false) ? "downloads" : false)) #
-						&& preg_match ("/\<CallerReference\>(.+?)\<\/CallerReference\>/is", $distro_id_xml, $distro_id_reference_tag) && ($distro_id_reference = $distro_id_reference_tag[1]))
+						if ($distro_id && is_string ($distro_id) && $distro_id_etag && is_string ($distro_id_etag) && $distro_id_xml && is_string ($distro_id_xml) && ($distro_id_type = (stripos ($distro_id_xml, "<StreamingDistribution") !== false) ? "streaming" : ((stripos ($distro_id_xml, "<Distribution") !== false) ? "downloads" : false)) && preg_match ("/\<CallerReference\>(.+?)\<\/CallerReference\>/is", $distro_id_xml, $distro_id_reference_tag) && ($distro_id_reference = $distro_id_reference_tag[1]))
 							{
-								if (stripos ($distro_id_xml, "<Enabled>false</Enabled>") === false) /* Only if it has NOT already been disabled. We do NOT need to do it again. */
+								if /* Only if it has NOT already been disabled. We do NOT need to do it again. */ (stripos ($distro_id_xml, "<Enabled>false</Enabled>") === false)
 									{
-										if (stripos ($distro_id_xml, "<Status>Deployed</Status>") !== false) /* Check distro status before we even begin processing. */
+										if /* Check distro status before we even begin processing. */ (stripos ($distro_id_xml, "<Status>Deployed</Status>") !== false)
 											{
 												foreach ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 													if (preg_match ("/^amazon_cf_files_/", $option) && ($option = preg_replace ("/^amazon_cf_files_/", "", $option)))
@@ -1141,11 +1140,9 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 				*/
 				public static function amazon_cf_del_distro ($distro_id = FALSE, $distro_id_etag = FALSE, $distro_id_xml = FALSE)
 					{
-						if ($distro_id && is_string ($distro_id) && $distro_id_etag && is_string ($distro_id_etag) && $distro_id_xml && is_string ($distro_id_xml) /* Parse type/reference too. */
-						&& ($distro_id_type = (stripos ($distro_id_xml, "<StreamingDistribution") !== false) ? "streaming" : ((stripos ($distro_id_xml, "<Distribution") !== false) ? "downloads" : false)) #
-						&& preg_match ("/\<CallerReference\>(.+?)\<\/CallerReference\>/is", $distro_id_xml, $distro_id_reference_tag) && ($distro_id_reference = $distro_id_reference_tag[1]))
+						if ($distro_id && is_string ($distro_id) && $distro_id_etag && is_string ($distro_id_etag) && $distro_id_xml && is_string ($distro_id_xml) && ($distro_id_type = (stripos ($distro_id_xml, "<StreamingDistribution") !== false) ? "streaming" : ((stripos ($distro_id_xml, "<Distribution") !== false) ? "downloads" : false)) && preg_match ("/\<CallerReference\>(.+?)\<\/CallerReference\>/is", $distro_id_xml, $distro_id_reference_tag) && ($distro_id_reference = $distro_id_reference_tag[1]))
 							{
-								if (stripos ($distro_id_xml, "<Status>Deployed</Status>") !== false) /* Check distro status before we even begin processing this deletion. */
+								if /* Check distro status before we even begin processing this deletion. */ (stripos ($distro_id_xml, "<Status>Deployed</Status>") !== false)
 									{
 										if (($cf_response = c_ws_plugin__s2member_files_in::amazon_cf_disable_distro ($distro_id, $distro_id_etag, $distro_id_xml)) && $cf_response["success"])
 											{
@@ -1166,7 +1163,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 														$cf_args = array ("method" => "DELETE", "headers" => array ("Host" => $cf_domain, "Date" => $cf_date, "If-Match" => $cf_response["etag"], "Authorization" => "AWS " . $cfc["access_key"] . ":" . $cf_signature));
 														/**/
 														if (($cf_response = c_ws_plugin__s2member_utils_urls::remote ("https://" . $cf_domain . $cf_location, false, array_merge ($cf_args, array ("timeout" => 20)), "array")) && ($cf_response["code"] === 200 || $cf_response["code"] === 204 /* Deleted. */))
-															return array ("success" => true, "code" => null, "message" => null); /* Deleted successfully. */
+															return /* Deleted successfully. */ array ("success" => true, "code" => null, "message" => null);
 														/**/
 														else if (isset ($cf_response["code"], $cf_response["message"]))
 															/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
@@ -1225,9 +1222,9 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 								$cf_date = gmdate ("D, d M Y H:i:s") . " GMT";
 								$cf_signature = base64_encode (c_ws_plugin__s2member_files_in::amazon_cf_sign ($cf_date));
 								/**/
-								if ($distro_type === "downloads") /* Create a `downloads` Distro? This uses a different XML schema. */
+								if /* Create a `downloads` Distro? This uses a different XML schema. */ ($distro_type === "downloads")
 									{
-										$cf_location = "/2010-11-01/distribution"; /* Create distro. */
+										$cf_location = /* Create distro. */ "/2010-11-01/distribution";
 										$cf_distro_downloads_reference = time () . "." . md5 ("downloads" . $s3c["bucket"] . $s3c["access_key"] . $s3c["secret_key"] . $cfc["private_key"] . $cfc["private_key_id"] . $cfc["distro_downloads_cname"]);
 										$cf_distro_downloads_xml = '<?xml version="1.0" encoding="UTF-8"?><DistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2010-11-01/"><S3Origin><DNSName>' . esc_html ($s3c["bucket"]) . '.s3.amazonaws.com</DNSName><OriginAccessIdentity>origin-access-identity/cloudfront/' . esc_html ($cfc["distros_access_id"]) . '</OriginAccessIdentity></S3Origin><CallerReference>' . esc_html ($cf_distro_downloads_reference) . '</CallerReference>' . (($cfc["distro_downloads_cname"]) ? '<CNAME>' . esc_html ($cfc["distro_downloads_cname"]) . '</CNAME>' : '') . '<Comment>' . esc_html (sprintf (_x ("Created by s2Member, for S3 Bucket: %s.", "s2member-admin", "s2member"), $s3c["bucket"])) . '</Comment><Enabled>true</Enabled><DefaultRootObject>index.html</DefaultRootObject><TrustedSigners><Self/></TrustedSigners></DistributionConfig>';
 										$cf_args = array ("method" => "POST", "body" => $cf_distro_downloads_xml, "headers" => array ("Host" => $cf_domain, "Content-Type" => "application/xml", "Date" => $cf_date, "Authorization" => "AWS " . $cfc["access_key"] . ":" . $cf_signature));
@@ -1236,19 +1233,21 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											{
 												if (preg_match ("/\<Distribution.*?\>(.+?)\<\/Distribution\>/is", $cf_response["body"], $cf_distro_downloads_tag) && preg_match ("/\<Id\>(.+?)\<\/Id\>/is", $cf_distro_downloads_tag[1], $cf_distro_downloads_id_tag) && preg_match ("/\<DomainName\>(.+?)\<\/DomainName\>/is", $cf_distro_downloads_tag[1], $cf_distro_downloads_dname_tag))
 													return array ("success" => true, "code" => null, "message" => null, "distro_downloads_id" => trim ($cf_distro_downloads_id_tag[1]), "distro_downloads_dname" => trim ($cf_distro_downloads_dname_tag[1]));
+												/**/
 												else /* Else, we use a default error code and message. */
 													return array ("success" => false, "code" => -97, "message" => _x ("Unable to create/read Amazon® CloudFront Downloads Distro. Unexpected response.", "s2member-admin", "s2member"));
 											}
 										else if (isset ($cf_response["code"], $cf_response["message"]))
 											/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
 											return array ("success" => false, "code" => $cf_response["code"], "message" => sprintf (_x ("Unable to create Amazon® CloudFront Downloads Distro. %s", "s2member-admin", "s2member"), $cf_response["message"]));
+										/**/
 										else /* Else, we use a default error code and message. */
 											return array ("success" => false, "code" => -98, "message" => _x ("Unable to create Amazon® CloudFront Downloads Distro. Connection failed.", "s2member-admin", "s2member"));
 									}
 								/**/
-								else if ($distro_type === "streaming") /* Create a `streaming` Distro? A different XML schema. */
+								else if /* Create a `streaming` Distro? A different XML schema. */ ($distro_type === "streaming")
 									{
-										$cf_location = "/2010-11-01/streaming-distribution"; /* Create streaming distro. */
+										$cf_location = /* Create streaming distro. */ "/2010-11-01/streaming-distribution";
 										$cf_distro_streaming_reference = time () . "." . md5 ("streaming" . $s3c["bucket"] . $s3c["access_key"] . $s3c["secret_key"] . $cfc["private_key"] . $cfc["private_key_id"] . $cfc["distro_streaming_cname"]);
 										$cf_distro_streaming_xml = '<?xml version="1.0" encoding="UTF-8"?><StreamingDistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2010-11-01/"><S3Origin><DNSName>' . esc_html ($s3c["bucket"]) . '.s3.amazonaws.com</DNSName><OriginAccessIdentity>origin-access-identity/cloudfront/' . esc_html ($cfc["distros_access_id"]) . '</OriginAccessIdentity></S3Origin><CallerReference>' . esc_html ($cf_distro_streaming_reference) . '</CallerReference>' . (($cfc["distro_streaming_cname"]) ? '<CNAME>' . esc_html ($cfc["distro_streaming_cname"]) . '</CNAME>' : '') . '<Comment>' . esc_html (sprintf (_x ("Created by s2Member, for S3 Bucket: %s.", "s2member-admin", "s2member"), $s3c["bucket"])) . '</Comment><Enabled>true</Enabled><DefaultRootObject>index.html</DefaultRootObject><TrustedSigners><Self/></TrustedSigners></StreamingDistributionConfig>';
 										$cf_args = array ("method" => "POST", "body" => $cf_distro_streaming_xml, "headers" => array ("Host" => $cf_domain, "Content-Type" => "application/xml", "Date" => $cf_date, "Authorization" => "AWS " . $cfc["access_key"] . ":" . $cf_signature));
@@ -1257,12 +1256,14 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 											{
 												if (preg_match ("/\<StreamingDistribution.*?\>(.+?)\<\/StreamingDistribution\>/is", $cf_response["body"], $cf_distro_streaming_tag) && preg_match ("/\<Id\>(.+?)\<\/Id\>/is", $cf_distro_streaming_tag[1], $cf_distro_streaming_id_tag) && preg_match ("/\<DomainName\>(.+?)\<\/DomainName\>/is", $cf_distro_streaming_tag[1], $cf_distro_streaming_dname_tag))
 													return array ("success" => true, "code" => null, "message" => null, "distro_streaming_id" => trim ($cf_distro_streaming_id_tag[1]), "distro_streaming_dname" => trim ($cf_distro_streaming_dname_tag[1]));
+												/**/
 												else /* Else, we use a default error code and message. */
 													return array ("success" => false, "code" => -97, "message" => _x ("Unable to create/read Amazon® CloudFront Streaming Distro. Unexpected response.", "s2member-admin", "s2member"));
 											}
 										else if (isset ($cf_response["code"], $cf_response["message"]))
 											/* translators: In this translation, `%s` may be filled with an English message, which comes from the Amazon® CloudFront API call. Feel free to exclude `%s` if you like. */
 											return array ("success" => false, "code" => $cf_response["code"], "message" => sprintf (_x ("Unable to create Amazon® CloudFront Streaming Distro. %s", "s2member-admin", "s2member"), $cf_response["message"]));
+										/**/
 										else /* Else, we use a default error code and message. */
 											return array ("success" => false, "code" => -98, "message" => _x ("Unable to create Amazon® CloudFront Streaming Distro. Connection failed.", "s2member-admin", "s2member"));
 									}

@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 	{
@@ -64,7 +64,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						if ( /* If BuddyPress is installed. */c_ws_plugin__s2member_utils_conds::bp_is_installed ())
 							return site_url (((function_exists ("bp_get_signup_slug")) ? bp_get_signup_slug () . "/" : BP_REGISTER_SLUG . "/"));
 						/**/
-						return false; /* Default return false. */
+						return /* Default return false. */ false;
 					}
 				/**
 				* Filters content redirection status *( uses 302s for browsers )*.
@@ -161,12 +161,12 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						/**/
 						if (is_string ($url_uri) && /* And, there is a query string? */ strpos ($url_uri, "?") !== false)
 							{
-								list ($_, $query) = preg_split ("/\?/", $url_uri, 2); /* Split @ query string marker. */
+								list ($_, $query) = preg_split /* Split @ query string marker. */ ("/\?/", $url_uri, 2);
 								$query = /* See: <https://bugs.php.net/bug.php?id=38143>. */ str_replace ("://", urlencode ("://"), $query);
 								$url_uri = /* Put it all back together again, after the above modifications. */ $_ . "?" . $query;
 								unset /* A little housekeeping here. Unset these vars. */ ($_, $query);
 							}
-						$parse = /* Let PHP work its magic via ``parse_url()``. */ @parse_url ($url_uri, $component);
+						$parse = @parse_url /* Let PHP work its magic via ``parse_url()``. */ ($url_uri, $component);
 						/**/
 						if ($clean_path && isset ($parse["path"]) && is_string ($parse["path"]) && !empty ($parse["path"]))
 							$parse["path"] = /* Clean up the path now. */ preg_replace ("/\/+/", "/", $parse["path"]);
@@ -184,23 +184,29 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 				* @param str $url Full URL with possible query string parameters.
 				* @param str|array $post_vars Optional. Either a string of POST vars, or an array.
 				* @param array $args Optional. An array of additional arguments used by ``wp_remote_request()``.
-				* @param bool $return Optional. One of: `body|array`. Defaults to `body`. If `array`, an array with the following elements:
-				* 	`code` *(http response code)*, `message` *(http response message)*, `headers` *(an array of lowercase headers)*, `body` *(the response body string)*, `response` *(response array)*.
-				* @return str|array|bool Requested response data from the remote location *(see ``$return`` parameter )*, else false on failure.
+				* @param bool $return_array Optional. If true, instead of a string, we return an array with elements:
+				* 	`code` *(http response code)*, `message` *(http response message)*, `headers` *(an array of lowercase headers)*, `body` *(the response body string)*, `response` *(full response array)*.
+				* @return str|array|bool Requested response str|array from remote location *(see ``$return_array`` parameter )*; else (bool)`false` on failure.
 				*/
-				public static function remote ($url = FALSE, $post_vars = FALSE, $args = FALSE, $return = FALSE)
+				public static function remote ($url = FALSE, $post_vars = FALSE, $args = FALSE, $return_array = FALSE)
 					{
-						if ($url && is_string ($url) /* We MUST have a valid full URL (string) before we do anything in this routine. */)
+						if ($url && /* We MUST have a valid full URL (string) before we do anything in this routine. */ is_string ($url))
 							{
-								$args = (!is_array ($args)) ? array (): $args; /* Force array, and disable SSL verification. */
+								$args = /* Force array, and disable SSL verification. */ (!is_array ($args)) ? array (): $args;
 								$args["sslverify"] = (!isset ($args["sslverify"])) ? /* Off. */ false : $args["sslverify"];
 								/**/
 								if ((is_array ($post_vars) || is_string ($post_vars)) && !empty ($post_vars))
 									$args = array_merge ($args, array ("method" => "POST", "body" => $post_vars));
 								/**/
-								$response = wp_remote_request ($url, $args); /* Process the remote request now. */
+								if (!empty ($args["method"]) && strcasecmp ((string)$args["method"], "DELETE") === 0)
+									/* WordPress® v3.3 and prior, does NOT support `DELETE` via cURL unfortunately. */
+									add_filter ("use_curl_transport", "__return_false", /* ID via priority. */ 111209554);
 								/**/
-								if (strcasecmp ((string)$return, "array") === 0 && !is_wp_error ($response) && is_array ($response))
+								$response = /* Process remote request via ``wp_remote_request()``. */ wp_remote_request ($url, $args);
+								/**/
+								remove_filter /* Remove this Filter now. */ ("use_curl_transport", "__return_false", 111209554);
+								/**/
+								if ($return_array && !is_wp_error ($response) && is_array ($response))
 									{
 										$a = array ("code" => (int)wp_remote_retrieve_response_code ($response));
 										$a = array_merge ($a, array ("message" => wp_remote_retrieve_response_message ($response)));
@@ -238,23 +244,23 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						$default_url_shortener = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_url_shortener"];
 						$default_custom_str_url_shortener = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["default_custom_str_url_shortener"];
 						/**/
-						$apis = array ("tiny_url", "goo_gl"); /* The shortening APIs currently pre-integrated in this release of s2Member. */
+						$apis = /* The shortening APIs currently pre-integrated in this release of s2Member. */ array ("tiny_url", "goo_gl");
 						/**/
 						if ($url && ($api = /* If specific, use it. Otherwise, use the default shortening API. */ ($api_sp) ? $api_sp : $default_url_shortener))
 							{
 								if (!$api_sp && ($custom_url = trim (apply_filters ("ws_plugin__s2member_url_shorten", false, get_defined_vars ()))) && stripos ($custom_url, "http") === 0)
-									return ($shorter_url = $custom_url); /* Using whatever other shortener API you prefer, over the ones available by default with s2Member. */
+									return /* Using whatever other shortener API you prefer, over the ones available by default with s2Member. */ ($shorter_url = $custom_url);
 								/**/
 								else if (!$api_sp && stripos ($default_custom_str_url_shortener, "http") === 0 && ($custom_url = trim (c_ws_plugin__s2member_utils_urls::remote (str_ireplace (array ("%%s2_long_url%%", "%%s2_long_url_md5%%"), array (rawurlencode ($url), urlencode (md5 ($url))), $default_custom_str_url_shortener)))) && stripos ($custom_url, "http") === 0)
-									return ($shorter_url = $custom_url); /* Using whatever other shortener API that a site owner prefers, over the ones available by default with s2Member. */
+									return /* Using whatever other shortener API that a site owner prefers, over the ones available by default with s2Member. */ ($shorter_url = $custom_url);
 								/**/
 								else if ($api === "tiny_url" && ($tiny_url = trim (c_ws_plugin__s2member_utils_urls::remote ("http://tinyurl.com/api-create.php?url=" . rawurlencode ($url)))) && stripos ($tiny_url, "http") === 0)
-									return ($shorter_url = $tiny_url); /* The default tinyURL API: <http://tinyurl.com/api-create.php?url=http://www.example.com/>.
+									return /* The default tinyURL API: <http://tinyurl.com/api-create.php?url=http://www.example.com/>. */ ($shorter_url = $tiny_url);
 								/**/
 								else if ($api === "goo_gl" && ($goo_gl = json_decode (trim (c_ws_plugin__s2member_utils_urls::remote ("https://www.googleapis.com/urlshortener/v1/url" . ((($goo_gl_key = apply_filters ("ws_plugin__s2member_url_shorten_api_goo_gl_key", false))) ? "?key=" . urlencode ($goo_gl_key) : ""), json_encode (array ("longUrl" => $url)), array ("headers" => array ("Content-Type" => "application/json")))), true)) && !empty ($goo_gl["id"]) && is_string ($goo_gl_url = $goo_gl["id"]) && stripos ($goo_gl_url, "http") === 0)
-									return ($shorter_url = $goo_gl_url); /* Google® API: <http://code.google.com/apis/urlshortener/v1/getting_started.html>.
+									return /* Google® API: <http://code.google.com/apis/urlshortener/v1/getting_started.html>. */ ($shorter_url = $goo_gl_url);
 								/**/
-								else if ($try_backups && count ($apis) > 1) /* Try backups? This way we can still shorten the URL with a backup. */
+								else if /* Try backups? This way we can still shorten the URL with a backup. */ ($try_backups && count ($apis) > 1)
 									/**/
 									foreach /* Try other backup APIs now. */ (array_diff ($apis, array ($api)) as $backup)
 										if (($backup = c_ws_plugin__s2member_utils_urls::shorten ($url, $backup, false)))

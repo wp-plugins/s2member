@@ -20,7 +20,7 @@ jQuery(document).ready (function($)
 				return String(str).replace (/"/g, '&quot;').replace (/\</g, '&lt;').replace (/\>/g, '&gt;');
 			};
 		/**/
-		if (location.href.match /* Any/all s2Member® pages. */ (/page\=ws-plugin--s2member/))
+		if (location.href.match /* Any & all s2Member® pages. */ (/page\=ws-plugin--s2member/))
 			{
 				$('input.ws-plugin--s2member-update-roles-button, input.ws-plugin--s2member-reset-roles-button').click (function()
 					{

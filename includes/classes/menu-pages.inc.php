@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 	{
@@ -27,6 +27,15 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 		*/
 		class c_ws_plugin__s2member_menu_pages
 			{
+				/**
+				* Pre-display errors.
+				*
+				* @package s2Member\Menu_Pages
+				* @since 111209
+				*
+				* @var array
+				*/
+				public static $pre_display_errors = array ();
 				/**
 				* Saves all options from any menu page.
 				* 
@@ -48,7 +57,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 					{
 						$updated_all_options = false; /* Initialize this to a value of false. Initializing this variable here makes it an available reference-variable to Hooks/Filters. */
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -70,7 +79,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								/**/
 								unset ($key, $value); /* Unset these utility variables now. This prevents bleeding vars into Hooks/Filters that are of no use. */
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("ws_plugin__s2member_during_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 								/**/
@@ -110,7 +119,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$updated_all_options = true; /* Flag indicating this routine was processed successfully; and that all s2Member options have been updated successfully.*/
 							}
 						/**/
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_after_update_all_options", get_defined_vars ()); /* If you use this Hook, be sure to use ``wp_verify_nonce()``. */
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -261,7 +270,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 				*/
 				public static function _add_settings_link ($actions = FALSE, $plugin_file = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("_ws_plugin__s2member_before_add_settings_link", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -270,7 +279,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 								$settings = '<a href="' . esc_attr (admin_url ("/admin.php?page=ws-plugin--s2member-gen-ops")) . '">Settings</a>';
 								array_unshift ($actions, apply_filters ("ws_plugin__s2member_add_settings_link", $settings, get_defined_vars ()));
 								/**/
-								eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 								do_action ("_ws_plugin__s2member_during_add_settings_link", get_defined_vars ());
 								unset ($__refs, $__v); /* Unset defined __refs, __v. */
 							}
@@ -293,10 +302,10 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_script ("jquery");
-								wp_enqueue_script ("thickbox");
-								wp_enqueue_script ("media-upload");
-								wp_enqueue_script ("jquery-ui-core");
+								wp_enqueue_script("jquery");
+								wp_enqueue_script("thickbox");
+								wp_enqueue_script("media-upload");
+								wp_enqueue_script("jquery-ui-core");
 								wp_enqueue_script ("jquery-sprintf", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.sprintf/jquery.sprintf-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-json-ps", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.json-ps/jquery.json-ps-min.js", array ("jquery"), c_ws_plugin__s2member_utilities::ver_checksum ());
 								wp_enqueue_script ("jquery-ui-effects", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"] . "/includes/jquery/jquery.ui-effects/jquery.ui-effects-min.js", array ("jquery", "jquery-ui-core"), c_ws_plugin__s2member_utilities::ver_checksum ());
@@ -325,7 +334,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 						/**/
 						if (!empty ($_GET["page"]) && preg_match ("/ws-plugin--s2member-/", $_GET["page"]))
 							{
-								wp_enqueue_style ("thickbox");
+								wp_enqueue_style("thickbox");
 								wp_enqueue_style ("ws-plugin--s2member-menu-pages", site_url ("/?ws_plugin__s2member_menu_pages_css=" . urlencode (mt_rand ())), array ("thickbox"), c_ws_plugin__s2member_utilities::ver_checksum (), "all");
 								/**/
 								do_action ("ws_plugin__s2member_during_add_admin_styles", get_defined_vars ());
@@ -495,12 +504,16 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages"))
 							c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unprotected. The .htaccess protection file ( <code>' . esc_html (c_ws_plugin__s2member_utils_dirs::doc_root_path ($htaccess)) . '</code> ) does not contain <code>deny from all</code>. Inside your .htaccess file, add this:<br /><pre>' . esc_html ($htaccess_contents) . '</pre>', true);
 						/**/
 						if (!empty ($_POST["ws_plugin__s2member_amazon_cf_files_auto_configure_distros"]) && ($nonce = $_POST["ws_plugin__s2member_amazon_cf_files_auto_configure_distros"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-amazon-cf-files-auto-configure-distros"))
-							/**/
-							if (($amazon_cf_auto_configure_distros = c_ws_plugin__s2member_files_in::amazon_cf_auto_configure_distros ()) && $amazon_cf_auto_configure_distros["success"]) /* CNAME instructions here too. */
+							if (($amazon_cf_auto_configure_distros = c_ws_plugin__s2member_files_in::amazon_cf_auto_configure_distros ()) && $amazon_cf_auto_configure_distros["success"])
 								c_ws_plugin__s2member_admin_notices::display_admin_notice ('Amazon® CloudFront Distributions auto-configured successfully. Please allow 30 minutes for propagation.' . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_downloads_cname"]) ? '<br /><em>Downloads Distribution CNAME: <code>' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_downloads_cname"]) . ' &mdash;&raquo; ' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_downloads_dname"]) . '</code></em>' : '') . (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_streaming_cname"]) ? '<br /><em>Streaming Distribution CNAME: <code>' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_streaming_cname"]) . ' &mdash;&raquo; ' . esc_html ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_cf_files_distro_streaming_dname"]) . '</code></em>' : ''));
-							/**/
 							else /* Else there was an error. We need to report this back to the site owner so they can understand what's going on. */
-								($GLOBALS["ws_plugin__s2member_cf_auto_configure_distros_error"] = true) . c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unable to auto-configure Amazon® CloudFront Distributions.<br />Error code: <code>' . esc_html ($amazon_cf_auto_configure_distros["code"]) . '</code>. Error Message: <code>' . esc_html ($amazon_cf_auto_configure_distros["message"]) . '</code>', true);
+								(c_ws_plugin__s2member_menu_pages::$pre_display_errors["cf_files_auto_configure_distros"] = true) . c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unable to auto-configure Amazon® CloudFront Distributions.<br />Error code: <code>' . esc_html ($amazon_cf_auto_configure_distros["code"]) . '</code>. Error Message: <code>' . esc_html ($amazon_cf_auto_configure_distros["message"]) . '</code>', true);
+						/**/
+						if (!empty ($_POST["ws_plugin__s2member_amazon_s3_files_auto_configure_acls"]) && ($nonce = $_POST["ws_plugin__s2member_amazon_s3_files_auto_configure_acls"]) && wp_verify_nonce ($nonce, "ws-plugin--s2member-amazon-s3-files-auto-configure-acls"))
+							if (($amazon_s3_auto_configure_acls = c_ws_plugin__s2member_files_in::amazon_s3_auto_configure_acls ()) && $amazon_s3_auto_configure_acls["success"])
+								c_ws_plugin__s2member_admin_notices::display_admin_notice ('Amazon® S3 ACLs auto-configured successfully.');
+							else /* Else there was an error. We need to report this back to the site owner so they can understand what's going on. */
+								(c_ws_plugin__s2member_menu_pages::$pre_display_errors["s3_files_auto_configure_acls"] = true) . c_ws_plugin__s2member_admin_notices::display_admin_notice ('Unable to auto-configure Amazon® S3 ACLs.<br />Error code: <code>' . esc_html ($amazon_s3_auto_configure_acls["code"]) . '</code>. Error Message: <code>' . esc_html ($amazon_s3_auto_configure_acls["message"]) . '</code>', true);
 						/**/
 						include_once dirname (dirname (__FILE__)) . "/menu-pages/down-ops.inc.php";
 						/**/

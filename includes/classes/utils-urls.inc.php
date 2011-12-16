@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 	{
@@ -310,7 +310,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 						if ($url_uri_query && is_string /* We DO allow empty query strings. So we can sign a URL without one. */ ($query))
 							{
 								wp_parse_str /* Parse the query string into an array of ``$vars``. Then sort & serialize them into a string. */ ($query, $vars);
-								$vars = serialize (c_ws_plugin__s2member_utils_arrays::ksort_deep (c_ws_plugin__s2member_utils_strings::trim_deep ($vars)));
+								$vars = c_ws_plugin__s2member_utils_arrays::remove_0b_strings (c_ws_plugin__s2member_utils_strings::trim_deep ($vars));
+								$vars = serialize (c_ws_plugin__s2member_utils_arrays::ksort_deep ($vars));
 								/**/
 								$sig = /* The s2Member-generated signature. */ ($time = time ()) . "-" . md5 ($key . $time . $vars);
 								/**/
@@ -347,7 +348,8 @@ if (!class_exists ("c_ws_plugin__s2member_utils_urls"))
 								$query = /* Remove existing s2Member-generated signatures. */ c_ws_plugin__s2member_utils_urls::remove_s2member_sigs ($query, $sig_var);
 								/**/
 								wp_parse_str /* Parse the query string into an array of ``$vars``. Then sort & serialize them into a string. */ ($query, $vars);
-								$vars = serialize (c_ws_plugin__s2member_utils_arrays::ksort_deep (c_ws_plugin__s2member_utils_strings::trim_deep ($vars)));
+								$vars = c_ws_plugin__s2member_utils_arrays::remove_0b_strings (c_ws_plugin__s2member_utils_strings::trim_deep ($vars));
+								$vars = serialize (c_ws_plugin__s2member_utils_arrays::ksort_deep ($vars));
 								/**/
 								($time = $sigs[1][($i = count ($sigs[1]) - 1)]) . ($sig = $sigs[2][$i]) . ($valid_sig = md5 ($key . $time . $vars));
 								/**/

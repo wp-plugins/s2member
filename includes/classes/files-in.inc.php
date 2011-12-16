@@ -333,8 +333,8 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													/**/
 													status_header /* 200 OK status header. */ (200);
 													/**/
+													header ("Content-Encoding:");
 													header ("Accept-Ranges: none");
-													header ("Content-Encoding: none");
 													header ("Content-Type: " . $mimetype);
 													header ("Expires: " . gmdate ("D, d M Y H:i:s", strtotime ("-1 week")) . " GMT");
 													header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");

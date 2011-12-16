@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 	{
@@ -114,13 +114,13 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 							return false;
 					}
 				/**
-				* Removes all null-value array keys from an array *( or even a multi-dimensional array )*.
+				* Removes all null values from an array *( or even a multi-dimensional array )*.
 				*
 				* @package s2Member\Utilities
 				* @since 111101
 				*
 				* @param array $array An input array.
-				* @return array Returns the ``$array`` after having reduced it to a non-null set of values.
+				* @return array Returns the ``$array`` after having reduced its set of values.
 				*/
 				public static function remove_nulls ($array = FALSE)
 					{
@@ -129,10 +129,33 @@ if (!class_exists ("c_ws_plugin__s2member_utils_arrays"))
 						foreach ($array as $key => &$value)
 							{
 								if (is_array ($value) /* Recursive function call here. */)
-									$value = c_ws_plugin__s2member_utils_arrays::remove_null_keys ($value);
+									$value = c_ws_plugin__s2member_utils_arrays::remove_nulls ($value);
 								/**/
-								else if (is_null ($value) /* Is it null? */)
-									unset($array[$key]);
+								else if (is_null /* Is it null? */ ($value))
+									unset ($array[$key]);
+							}
+						return $array;
+					}
+				/**
+				* Removes all 0-byte strings from an array *( or even a multi-dimensional array )*.
+				*
+				* @package s2Member\Utilities
+				* @since 111216
+				*
+				* @param array $array An input array.
+				* @return array Returns the ``$array`` after having reduced its set of values.
+				*/
+				public static function remove_0b_strings ($array = FALSE)
+					{
+						$array = (array)$array;
+						/**/
+						foreach ($array as $key => &$value)
+							{
+								if (is_array ($value) /* Recursive function call here. */)
+									$value = c_ws_plugin__s2member_utils_arrays::remove_0b_strings ($value);
+								/**/
+								else if (is_string ($value) && !strlen ($value))
+									unset ($array[$key]);
 							}
 						return $array;
 					}

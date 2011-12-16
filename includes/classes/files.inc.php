@@ -157,19 +157,16 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 						/**/
 						$file = ($file && is_string ($file) && ($file = trim ($file, "/"))) ? $file : "";
 						/**/
-						if ($directive === "ip-forever") /* Current IP forever. */
-							eval ('$allow_caching = false; $salt = $file . $_SERVER["REMOTE_ADDR"];');
+						if ($directive === "ip-forever" && c_ws_plugin__s2member_no_cache::no_cache_constants (true))
+							$salt = $file . $_SERVER["REMOTE_ADDR"];
 						/**/
 						else if ($directive === "universal" || $directive === "cache-compatible" || $directive)
-							eval ('$allow_caching = true; $salt = $file;');
+							$salt = /* Just the file name. This IS cachable. */ $file;
 						/**/
-						else /* Otherwise, we use the default ``$salt``, which is VERY restrictive; even to a specific browser. */
-							eval ('$allow_caching = false; $salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;');
+						else if (c_ws_plugin__s2member_no_cache::no_cache_constants (true))
+							$salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;
 						/**/
-						$key = md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt, false, false));
-						/**/
-						if ($allow_caching === false) /* Disallow caching? */
-							c_ws_plugin__s2member_no_cache::no_cache_constants (true);
+						$key = (!empty ($salt)) ? md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt, false, false)) : "";
 						/**/
 						return apply_filters ("ws_plugin__s2member_file_download_key", $key, get_defined_vars ());
 					}

@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 111206
-Stable tag: 111206
+Version: 111216
+Stable tag: 111216
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -31,12 +31,12 @@ WP Multisite Compatible: yes
 Multisite Blog Farm Compatible: yes
 
 PayPal® Standard Compatible: yes
-PayPal® Pro Compatible: w/ s2Member Pro
-Google® Checkout Compatible: w/ s2Member Pro
-Authorize.Net® Compatible: w/ s2Member Pro
-ClickBank® Compatible: w/ s2Member Pro
-AliPay® Compatible: w/ s2Member Pro
-ccBill® Compatible: w/ s2Member Pro
+PayPal® Pro Compatible: yes w/ s2Member Pro
+Google® Checkout Compatible: yes w/ s2Member Pro
+Authorize.Net® Compatible: yes w/ s2Member Pro
+ClickBank® Compatible: yes w/ s2Member Pro
+AliPay® Compatible: yes w/ s2Member Pro
+ccBill® Compatible: yes w/ s2Member Pro
 
 Tested up to: 3.3
 Requires at least: 3.2
@@ -76,7 +76,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "111206");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "111216");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -106,7 +106,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111206");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111216");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

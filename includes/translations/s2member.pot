@@ -1,10 +1,10 @@
-# Copyright (C) 2010 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2010 s2Member
+# This file is distributed under the same license as the s2Member package.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: s2Member 111216\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/.__s2member\n"
-"POT-Creation-Date: 2011-12-06 11:47:21+00:00\n"
+"POT-Creation-Date: 2011-12-16 07:13:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -92,17 +92,17 @@ msgctxt "s2member-front"
 msgid "<strong>503: Basic File Downloads are NOT enabled yet.</strong> Please contact Support for assistance. If you are the site owner, please configure: <code>s2Member -> Download Options -> Basic Download Restrictions</code>."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:391
+#: s2member/includes/classes/files-in.inc.php:390
 msgctxt "s2member-front"
 msgid "<strong>503: Access denied.</strong> Invalid File Download specs."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:477
+#: s2member/includes/classes/files-in.inc.php:476
 msgctxt "s2member-front"
 msgid "Members Only"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:483
+#: s2member/includes/classes/files-in.inc.php:482
 msgctxt "s2member-front"
 msgid "<strong>401:</strong> Sorry, access denied."
 msgstr ""
@@ -111,12 +111,12 @@ msgstr ""
 #. message, which comes from the Amazon® S3 API call. Feel free to exclude
 #. `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:621
+#: s2member/includes/classes/files-in.inc.php:620
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Cross-Domain Policy. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:624
+#: s2member/includes/classes/files-in.inc.php:623
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Cross-Domain Policy. Connection failed."
 msgstr ""
@@ -125,12 +125,12 @@ msgstr ""
 #. message, which comes from the Amazon® S3 API call. Feel free to exclude
 #. `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:628
+#: s2member/includes/classes/files-in.inc.php:627
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Bucket Policy. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:631
+#: s2member/includes/classes/files-in.inc.php:630
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Bucket Policy. Connection failed."
 msgstr ""
@@ -139,17 +139,17 @@ msgstr ""
 #. message, which comes from the Amazon® S3 API call. Feel free to exclude
 #. `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:635
+#: s2member/includes/classes/files-in.inc.php:634
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Bucket ACLs. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:638
+#: s2member/includes/classes/files-in.inc.php:637
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 Bucket ACLs. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:641
+#: s2member/includes/classes/files-in.inc.php:640
 msgctxt "s2member-admin"
 msgid "Unable to acquire/read existing Amazon® S3 Bucket ACLs. Unexpected response."
 msgstr ""
@@ -158,22 +158,22 @@ msgstr ""
 #. message, which comes from the Amazon® S3 API call. Feel free to exclude
 #. `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:645
+#: s2member/includes/classes/files-in.inc.php:644
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® S3 Bucket ACLs. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:648
+#: s2member/includes/classes/files-in.inc.php:647
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® S3 Bucket ACLs. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:651
+#: s2member/includes/classes/files-in.inc.php:650
 msgctxt "s2member-admin"
 msgid "Unable to auto-configure existing Amazon® S3 Bucket ACLs. Incomplete Amazon® S3 configuration options. Missing one of: Amazon® S3 Bucket, Access Key, or Secret Key."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:753
+#: s2member/includes/classes/files-in.inc.php:752
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Downloads Distro. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again."
 msgstr ""
@@ -182,12 +182,12 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:760
+#: s2member/includes/classes/files-in.inc.php:759
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Downloads Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:772
+#: s2member/includes/classes/files-in.inc.php:771
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Streaming Distro. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again."
 msgstr ""
@@ -196,7 +196,7 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:779
+#: s2member/includes/classes/files-in.inc.php:778
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Streaming Distro. %s"
 msgstr ""
@@ -205,8 +205,8 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:795
-#: s2member/includes/classes/files-in.inc.php:977
+#: s2member/includes/classes/files-in.inc.php:794
+#: s2member/includes/classes/files-in.inc.php:978
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Origin Access Identity. %s"
 msgstr ""
@@ -215,12 +215,12 @@ msgstr ""
 #. message, which comes from the Amazon® S3 API call. Feel free to exclude
 #. `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:834
+#: s2member/includes/classes/files-in.inc.php:835
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 ACLs. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:837
+#: s2member/includes/classes/files-in.inc.php:838
 msgctxt "s2member-admin"
 msgid "Unable to update existing Amazon® S3 ACLs. Connection failed."
 msgstr ""
@@ -229,14 +229,14 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:841
+#: s2member/includes/classes/files-in.inc.php:842
 #: s2member/includes/classes/files-in.inc.php:1265
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Streaming Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:844
-#: s2member/includes/classes/files-in.inc.php:1267
+#: s2member/includes/classes/files-in.inc.php:845
+#: s2member/includes/classes/files-in.inc.php:1268
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Streaming Distro. Connection failed."
 msgstr ""
@@ -245,14 +245,14 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:848
-#: s2member/includes/classes/files-in.inc.php:1244
+#: s2member/includes/classes/files-in.inc.php:849
+#: s2member/includes/classes/files-in.inc.php:1242
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Downloads Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:851
-#: s2member/includes/classes/files-in.inc.php:1246
+#: s2member/includes/classes/files-in.inc.php:852
+#: s2member/includes/classes/files-in.inc.php:1245
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Downloads Distro. Connection failed."
 msgstr ""
@@ -261,19 +261,19 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:855
-#: s2member/includes/classes/files-in.inc.php:1022
+#: s2member/includes/classes/files-in.inc.php:856
+#: s2member/includes/classes/files-in.inc.php:1023
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Origin Access Identity. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:858
-#: s2member/includes/classes/files-in.inc.php:1025
+#: s2member/includes/classes/files-in.inc.php:859
+#: s2member/includes/classes/files-in.inc.php:1026
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Origin Access Identity. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:861
+#: s2member/includes/classes/files-in.inc.php:862
 msgctxt "s2member-admin"
 msgid "Unable to clear existing Amazon® CloudFront Origin Access Identity."
 msgstr ""
@@ -282,19 +282,19 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:865
-#: s2member/includes/classes/files-in.inc.php:934
+#: s2member/includes/classes/files-in.inc.php:866
+#: s2member/includes/classes/files-in.inc.php:935
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Origin Access Identity. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:868
-#: s2member/includes/classes/files-in.inc.php:937
+#: s2member/includes/classes/files-in.inc.php:869
+#: s2member/includes/classes/files-in.inc.php:938
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Origin Access Identity. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:871
+#: s2member/includes/classes/files-in.inc.php:872
 msgctxt "s2member-admin"
 msgid "Unable to clear existing Amazon® CloudFront Streaming Distro."
 msgstr ""
@@ -303,17 +303,17 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:875
+#: s2member/includes/classes/files-in.inc.php:876
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Streaming Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:878
+#: s2member/includes/classes/files-in.inc.php:879
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Streaming Distro. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:881
+#: s2member/includes/classes/files-in.inc.php:882
 msgctxt "s2member-admin"
 msgid "Unable to clear existing Amazon® CloudFront Downloads Distro."
 msgstr ""
@@ -322,22 +322,22 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:885
+#: s2member/includes/classes/files-in.inc.php:886
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Downloads Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:888
+#: s2member/includes/classes/files-in.inc.php:889
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Downloads Distro. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:891
+#: s2member/includes/classes/files-in.inc.php:892
 msgctxt "s2member-admin"
 msgid "Unable to auto-configure Amazon® CloudFront Distros. Incomplete Amazon® CloudFront configuration options. Missing of one: Amazon® CloudFront Private Key-Pair-ID, or Private Key file contents."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:894
+#: s2member/includes/classes/files-in.inc.php:895
 msgctxt "s2member-admin"
 msgid "Unable to auto-configure Amazon® S3/CloudFront Distros. Incomplete Amazon® S3 configuration options. Missing one of: Amazon® S3 Bucket, Access Key, or Secret Key. You must provide s2Member with an Amazon® S3 configuration before enabling CloudFront."
 msgstr ""
@@ -346,34 +346,34 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:930
+#: s2member/includes/classes/files-in.inc.php:931
 msgctxt "s2member-admin"
 msgid "Existing Amazon® CloudFront Origin Access Identity NOT found. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:940
+#: s2member/includes/classes/files-in.inc.php:941
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Origin Access Identity. Invalid Access ID."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:980
+#: s2member/includes/classes/files-in.inc.php:981
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Origin Access Identity. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:983
+#: s2member/includes/classes/files-in.inc.php:984
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Origin Access Identity. Invalid Access ID, ETag, or XML config."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1009
-#: s2member/includes/classes/files-in.inc.php:1232
-#: s2member/includes/classes/files-in.inc.php:1253
+#: s2member/includes/classes/files-in.inc.php:1010
+#: s2member/includes/classes/files-in.inc.php:1229
+#: s2member/includes/classes/files-in.inc.php:1252
 msgctxt "s2member-admin"
 msgid "Created by s2Member, for S3 Bucket: %s."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1018
+#: s2member/includes/classes/files-in.inc.php:1019
 msgctxt "s2member-admin"
 msgid "Unable to create/read Amazon® CloudFront Origin Access Identity. Unexpected response."
 msgstr ""
@@ -382,7 +382,7 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1062
+#: s2member/includes/classes/files-in.inc.php:1063
 msgctxt "s2member-admin"
 msgid "Existing Amazon® CloudFront Distro NOT found. %s"
 msgstr ""
@@ -391,17 +391,17 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1066
+#: s2member/includes/classes/files-in.inc.php:1067
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1069
+#: s2member/includes/classes/files-in.inc.php:1070
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Distro. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1072
+#: s2member/includes/classes/files-in.inc.php:1073
 msgctxt "s2member-admin"
 msgid "Unable to acquire existing Amazon® CloudFront Distro. Invalid Distro ID and/or Distro type."
 msgstr ""
@@ -410,24 +410,24 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1116
-#: s2member/includes/classes/files-in.inc.php:1191
+#: s2member/includes/classes/files-in.inc.php:1115
+#: s2member/includes/classes/files-in.inc.php:1188
 msgctxt "s2member-admin"
 msgid "Unable to disable existing Amazon® CloudFront Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1119
-#: s2member/includes/classes/files-in.inc.php:1194
+#: s2member/includes/classes/files-in.inc.php:1118
+#: s2member/includes/classes/files-in.inc.php:1191
 msgctxt "s2member-admin"
 msgid "Unable to disable existing Amazon® CloudFront Distro. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1122
+#: s2member/includes/classes/files-in.inc.php:1121
 msgctxt "s2member-admin"
 msgid "Existing Amazon® CloudFront Distro cannot be disabled at this time. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1128
+#: s2member/includes/classes/files-in.inc.php:1127
 msgctxt "s2member-admin"
 msgid "Unable to disable existing Amazon® CloudFront Distro. Invalid Distro ID, ETag, or XML config."
 msgstr ""
@@ -436,12 +436,12 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1173
+#: s2member/includes/classes/files-in.inc.php:1170
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1176
+#: s2member/includes/classes/files-in.inc.php:1173
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Distro. Connection failed."
 msgstr ""
@@ -450,7 +450,7 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1180
+#: s2member/includes/classes/files-in.inc.php:1177
 msgctxt "s2member-admin"
 msgid "Existing Amazon® CloudFront Distro cannot be deleted at this time. Still in a `pending` state after having been disabled by s2Member. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again."
 msgstr ""
@@ -459,27 +459,27 @@ msgstr ""
 #. message, which comes from the Amazon® CloudFront API call. Feel free to
 #. exclude `%s` if you like.
 
-#: s2member/includes/classes/files-in.inc.php:1184
+#: s2member/includes/classes/files-in.inc.php:1181
 msgctxt "s2member-admin"
 msgid "Unable to check status of existing Amazon® CloudFront Distro. %s"
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1187
+#: s2member/includes/classes/files-in.inc.php:1184
 msgctxt "s2member-admin"
 msgid "Unable to check status of existing Amazon® CloudFront Distro. Connection failed."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1197
+#: s2member/includes/classes/files-in.inc.php:1194
 msgctxt "s2member-admin"
 msgid "Existing Amazon® CloudFront Distro cannot be deleted at this time. Still in a `pending` state. Please wait 15 minutes, then try again. There is a certain process that s2Member must strictly adhere to when re-configuring your Amazon® CloudFront Distros. You may have to tick the auto-configure checkbox again, and re-run s2Member's auto-configuration routine many times, because s2Member will likely run into several `pending` challenges, as it works to completely re-configure your Amazon® CloudFront Distros for you. Thanks for your patience. Please wait 15 minutes, then try again."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1200
+#: s2member/includes/classes/files-in.inc.php:1197
 msgctxt "s2member-admin"
 msgid "Unable to delete existing Amazon® CloudFront Distro. Invalid Distro ID or ETag."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1240
+#: s2member/includes/classes/files-in.inc.php:1238
 msgctxt "s2member-admin"
 msgid "Unable to create/read Amazon® CloudFront Downloads Distro. Unexpected response."
 msgstr ""
@@ -489,7 +489,7 @@ msgctxt "s2member-admin"
 msgid "Unable to create/read Amazon® CloudFront Streaming Distro. Unexpected response."
 msgstr ""
 
-#: s2member/includes/classes/files-in.inc.php:1271
+#: s2member/includes/classes/files-in.inc.php:1272
 msgctxt "s2member-admin"
 msgid "Unable to create Amazon® CloudFront Distro. Invalid Distro type."
 msgstr ""
@@ -3387,7 +3387,7 @@ msgctxt "s2member-front"
 msgid "<div>Sorry, your Coupon is N/A, invalid or expired.</div>"
 msgstr ""
 
-#: s2member-pro/includes/classes/gateways/clickbank/clickbank-return-in.inc.php:182
+#: s2member-pro/includes/classes/gateways/clickbank/clickbank-return-in.inc.php:181
 msgctxt "s2member-front"
 msgid ""
 "ERROR: Unexpected txnType. Please contact Support for assistance.\n"
@@ -3395,7 +3395,7 @@ msgid ""
 "The ClickBank® txnType did not match a required action."
 msgstr ""
 
-#: s2member-pro/includes/classes/gateways/clickbank/clickbank-return-in.inc.php:217
+#: s2member-pro/includes/classes/gateways/clickbank/clickbank-return-in.inc.php:216
 msgctxt "s2member-front"
 msgid ""
 "ERROR: Unable to verify POST vars. Please contact Support for assistance.\n"

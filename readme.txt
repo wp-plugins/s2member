@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111206
-Stable tag: 111206
+Version: 111216
+Stable tag: 111216
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -178,6 +178,11 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111216 =
+* (s2Member/s2Member Pro) **Bug fix**. ClickBank® not passing all s2 Vars after return from a non-recurring transaction. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=16256#p56649).
+* (s2Member) **Bug fix**. Amazon® S3/CloudFront issues with ACLs upon auto-configuration routine. Leading to a 400 error code. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15853&p=56158#p56159).
+* (s2Member/s2Member Pro) **WordPress® v3.3 / v3.4**. Updates for compatibility with WordPress® v3.3, and initial compatibility scans against WordPress® v3.4-alpha. Everything looks good. This release of s2Member also remains compatible with the WordPress® v3.2.x series.
 
 = v111206 =
 * (s2Member/s2Member Pro) **WordPress® v3.3**. Updates for compatibility with WordPress® v3.3. This release of s2Member also remains compatible with the WordPress® v3.2.x series.

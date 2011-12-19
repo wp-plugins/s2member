@@ -15,7 +15,7 @@
 * @since 3.5
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+	exit("Do not access this file directly.");
 /**/
 if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 	{
@@ -38,7 +38,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 				*/
 				public static function security_meta_box ($post = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
 						do_action ("ws_plugin__s2member_before_security_meta_box", get_defined_vars ());
 						unset ($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
@@ -69,7 +69,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts of this type )</option>' . "\n")/**/
 													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Pages )</option>' . "\n";
 												/**/
-												echo '</select><br /><small>* see: <code>General Options -> Page Level Access</code></small>' . "\n";
+												echo '</select><br /><small>* see: <code>Restriction Options -> Page Level Access</code></small>' . "\n";
 												/**/
 												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ())
 													/* ^ Will change once Custom Capabilities are compatible with a Blog Farm. */
@@ -115,7 +115,7 @@ if (!class_exists ("c_ws_plugin__s2member_meta_box_security"))
 													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts of this type )</option>' . "\n")/**/
 													: '<option value="" disabled="disabled">Level #' . $n . ' ( already protects "all" Posts )</option>' . "\n";
 												/**/
-												echo '</select><br /><small>* see: <code>General Options -> Post Level Access</code></small>' . "\n";
+												echo '</select><br /><small>* see: <code>Restriction Options -> Post Level Access</code></small>' . "\n";
 												/**/
 												if (!is_multisite () || !c_ws_plugin__s2member_utils_conds::is_multisite_farm () || is_main_site ())
 													/* ^ Will change once Custom Capabilities are compatible with a Blog Farm. */

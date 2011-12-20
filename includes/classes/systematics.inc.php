@@ -96,10 +96,6 @@ if (!class_exists ("c_ws_plugin__s2member_systematics"))
 							{
 								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
 							}
-						else if ($_SERVER["REMOTE_ADDR"] === $_SERVER["SERVER_ADDR"] && !c_ws_plugin__s2member_utils_conds::is_localhost ())
-							{
-								return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", true, get_defined_vars ()));
-							}
 						else /* Otherwise, we return false ( it's NOT a WordPress® Systematic Use Page ). */
 							return ($is_wp_systematic = apply_filters ("ws_plugin__s2member_is_wp_systematic_use_page", false, get_defined_vars ()));
 					}

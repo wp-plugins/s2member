@@ -1,7 +1,7 @@
 === s2Member® ( Membership w/ PayPal® ) ===
 
-Version: 111216
-Stable tag: 111216
+Version: 111220
+Stable tag: 111220
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -178,6 +178,11 @@ The [forum](http://www.primothemes.com/forums/viewforum.php?f=4) for s2Member is
 Please visit s2Member.com for [video tutorials](http://www.s2member.com/videos/).
 
 == Changelog ==
+
+= v111220 =
+* (s2Member Pro) **Security fix**. PayPal® Pro and Authorize.Net® Forms were vulnerable to an XSS attack, reproducible with a Coupon Code containing special characters. Discovered by ControlScan™. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=16173#p56982).
+* (s2Member Pro) **Security hardening**. s2Member's Systematics routine hardended against a possible attack coming from a spoofed IP address matching that of the installation server itself. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=16412&p=57044#p57044).
+* (s2Member Pro) **Security hardening**. PayPal® Pro and Authorize.Net® Forms hardended against a possible attack against card types. Discovered by ControlScan™. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=16173#p56982).
 
 = v111216 =
 * (s2Member/s2Member Pro) **Bug fix**. ClickBank® not passing all s2 Vars after return from a non-recurring transaction. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=16256#p56649).

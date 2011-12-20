@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 111216
-Stable tag: 111216
+Version: 111220
+Stable tag: 111220
 Framework: WS-P-110523
 
 SSL Compatible: yes
@@ -66,7 +66,7 @@ Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal
 
 -- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit("Do not access this file directly.");
+	exit ("Do not access this file directly.");
 /**
 * The installed version of s2Member.
 *
@@ -76,7 +76,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "111216");
+	define ("WS_PLUGIN__S2MEMBER_VERSION", "111220");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -106,7 +106,7 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111216");
+	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111220");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
@@ -117,7 +117,7 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		/*
 		Hook before loaded.
 		*/
-		do_action("ws_plugin__s2member_before_loaded");
+		do_action ("ws_plugin__s2member_before_loaded");
 		/*
 		System configuraton.
 		*/
@@ -129,7 +129,7 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		/*
 		Hook after system config & Hooks are loaded.
 		*/
-		do_action("ws_plugin__s2member_config_hooks_loaded");
+		do_action ("ws_plugin__s2member_config_hooks_loaded");
 		/*
 		Load a possible Pro module, if/when available.
 		*/
@@ -150,8 +150,8 @@ if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && 
 		/*
 		Hooks after loaded.
 		*/
-		do_action("ws_plugin__s2member_loaded");
-		do_action("ws_plugin__s2member_after_loaded");
+		do_action ("ws_plugin__s2member_loaded");
+		do_action ("ws_plugin__s2member_after_loaded");
 	}
 /*
 Else NOT compatible. Do we need admin compatibility errors now?

@@ -33,7 +33,7 @@ Donate link: http://www.primothemes.com/donate/
 Text Domain: s2member
 Domain Path: /includes/translations
 
-Plugin Name: s2Member
+Plugin Name: s2Member®
 Video Tutorials: http://www.s2member.com/videos/
 Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/

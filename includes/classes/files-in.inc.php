@@ -126,7 +126,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 													/**/
 													else if (!is_object ($user = apply_filters ("ws_plugin__s2member_check_file_download_access_user", ((is_user_logged_in ()) ? wp_get_current_user () : false), get_defined_vars ())) || empty ($user->ID) || !($user_id = $user->ID) || !is_array ($user_file_downloads = c_ws_plugin__s2member_files::user_downloads ($user)) || (!$user->has_cap ("administrator") && (!$user_file_downloads["allowed"] || !$user_file_downloads["allowed_days"])))
 														{
-															if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_level" . $req_level)))
+															if (preg_match ("/(?:^|\/)access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_level" . $req_level)))
 																{
 																	if /* We only need this section when/if we're actually serving. */ ($serving)
 																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
@@ -135,7 +135,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																		return false;
 																}
 															/**/
-															else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_ccap_" . $req_ccap)))
+															else if (preg_match ("/(?:^|\/)access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && (!is_object ($user) || empty ($user->ID) || !$user->has_cap ("access_s2member_ccap_" . $req_ccap)))
 																{
 																	if /* We only need this section when/if we're actually serving. */ ($serving)
 																		c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();
@@ -151,7 +151,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																return false;
 														}
 													/**/
-													else if (preg_match ("/^access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && !$user->has_cap ("access_s2member_level" . $req_level))
+													else if (preg_match ("/(?:^|\/)access[_\-]s2member[_\-]level([0-9]+)\//", $req["file_download"], $m) && strlen ($req_level = $m[1]) && !$user->has_cap ("access_s2member_level" . $req_level))
 														{
 															if /* We only need this section when/if we're actually serving. */ ($serving)
 																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "level", $req_level, $_SERVER["REQUEST_URI"]) . exit ();
@@ -160,7 +160,7 @@ if (!class_exists ("c_ws_plugin__s2member_files_in"))
 																return false;
 														}
 													/**/
-													else if (preg_match ("/^access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && !$user->has_cap ("access_s2member_ccap_" . $req_ccap))
+													else if (preg_match ("/(?:^|\/)access[_\-]s2member[_\-]ccap[_\-](.+?)\//", $req["file_download"], $m) && strlen ($req_ccap = preg_replace ("/-/", "_", $m[1])) && !$user->has_cap ("access_s2member_ccap_" . $req_ccap))
 														{
 															if /* We only need this section when/if we're actually serving. */ ($serving)
 																c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("file", $req["file_download"], "ccap", $req_ccap, $_SERVER["REQUEST_URI"]) . exit ();

@@ -1,4 +1,4 @@
-=== s2Member® ( Membership w/ PayPal® ) ===
+=== s2Member® Framework ( Membership w/ PayPal® ) ===
 
 Version: 111220
 Stable tag: 111220
@@ -21,7 +21,7 @@ ccBill® Compatible: yes w/ s2Member Pro
 
 Tested up to: 3.3
 Requires at least: 3.2
-Requires: WordPress® 3.2+, PHP 5.2.3+
+Requires: PHP 5.2.3+, WP® 3.2+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -33,7 +33,7 @@ Donate link: http://www.primothemes.com/donate/
 Text Domain: s2member
 Domain Path: /includes/translations
 
-Plugin Name: s2Member®
+Plugin Name: s2Member® Framework
 Video Tutorials: http://www.s2member.com/videos/
 Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/

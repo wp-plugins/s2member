@@ -18,24 +18,25 @@
 */
 jQuery(document).ready (function($)
 	{
-		ws_plugin__s2member_uniqueFilesDownloaded = /* Real-time counts. */ [];
-		/**/
 		var runningBuddyPress = '<?php echo c_ws_plugin__s2member_utils_conds::bp_is_installed ("query-active-plugins") ? "1" : ""; ?>';
+		var filesBaseDir = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])); ?>';
+		var uniqueFilesDownloadedInPage = /* Real-time counts in a single page/instance. */ [];
 		/**/
 		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED)
 			{
-				$('a[href*="s2member_file_download"], a[href*="s2member-file"').click (function()
+				$('a[href*="s2member_file_download="], a[href*="/s2member-files/"], a[href^="s2member-files/"], a[href*="/' + filesBaseDir.replace (/([\:\.\[\]])/g, '\\$1') + '/"], a[href^="' + filesBaseDir.replace (/([\:\.\[\]])/g, '\\$1') + '/"]').click (function()
 					{
-						if (!this.href.match (/s2member_file_download_key\=(.+)/i))
+						if (!this.href.match /* Do NOT prompt on downloads issued with a Key. */ (/s2member[_\-]file[_\-]download[_\-]key[\=\-].+/i))
 							{
 								var c = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("— Confirm File Download —", "s2member-front", "s2member")); ?>' + '\n\n';
 								c += $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`ve downloaded %s protected %s in the last %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY, ((S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("file", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("files", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("24 hours", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("%s days", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS))) + '\n\n';
 								c += (S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to UNLIMITED downloads though ( so, no worries ).", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("You`re entitled to %s unique %s %s.", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED, ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("download", "s2member-front", "s2member")); ?>' : '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("downloads", "s2member-front", "s2member")); ?>'), ((S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS === 1) ? '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("each day", "s2member-front", "s2member")); ?>' : $.sprintf ('<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (_x ("every %s-day period", "s2member-front", "s2member")); ?>', S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS)));
 								/**/
-								if (this.href.match (/s2member[_\-]skip[_\-]confirmation/i) && !this.href.match (/s2member[_\-]skip[_\-]confirmation[\=\-](0|no|false)/i) || confirm(c))
+								if ((this.href.match (/s2member[_\-]skip[_\-]confirmation/i) && !this.href.match (/s2member[_\-]skip[_\-]confirmation[\=\-](0|no|false)/i)) || confirm(c))
 									{
-										if ($.inArray (this.href, ws_plugin__s2member_uniqueFilesDownloaded) === -1)
-											ws_plugin__s2member_uniqueFilesDownloaded.push (this.href), S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY++;
+										if ($.inArray (this.href, uniqueFilesDownloadedInPage) === -1)
+											S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY++, uniqueFilesDownloadedInPage.push (this.href);
+										/**/
 										return /* Allow. */ true;
 									}
 								else /* Disallow. */

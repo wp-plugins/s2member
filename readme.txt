@@ -2,26 +2,24 @@
 
 Version: 111220
 Stable tag: 111220
-Framework: WS-P-110523
 
 SSL Compatible: yes
-bbPress Compatible: yes
-WordPress Compatible: yes
-BuddyPress Compatible: yes
-WP Multisite Compatible: yes
+bbPress® Compatible: yes
+WordPress® Compatible: yes
+BuddyPress® Compatible: yes
+WP® Multisite Compatible: yes
 Multisite Blog Farm Compatible: yes
 
 PayPal® Standard Compatible: yes
-PayPal® Pro Compatible: yes w/ s2Member Pro
-Google® Checkout Compatible: yes w/ s2Member Pro
-Authorize.Net® Compatible: yes w/ s2Member Pro
-ClickBank® Compatible: yes w/ s2Member Pro
-AliPay® Compatible: yes w/ s2Member Pro
-ccBill® Compatible: yes w/ s2Member Pro
+PayPal® Pro Compatible: yes w/s2Member® Pro
+Google® Checkout Compatible: yes w/s2Member® Pro
+Authorize.Net® Compatible: yes w/s2Member® Pro
+ClickBank® Compatible: yes w/s2Member® Pro
+AliPay® Compatible: yes w/s2Member® Pro
+ccBill® Compatible: yes w/s2Member® Pro
 
 Tested up to: 3.3
 Requires at least: 3.2
-Requires: PHP 5.2.3+, WP® 3.2+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License

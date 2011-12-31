@@ -44,7 +44,7 @@ if (!class_exists ("c_ws_plugin__s2member_mo_page_in"))
 				*
 				* @return null Or exits script execution after redirection w/ `301` status.
 				*/
-				public static function /* Real Membership Options Page. */ membership_options_page ()
+				public static function membership_options_page /* Real Membership Options Page. */ ()
 					{
 						do_action ("ws_plugin__s2member_before_membership_options_page", get_defined_vars ());
 						/**/

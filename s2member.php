@@ -21,26 +21,24 @@
 
 Version: 111220
 Stable tag: 111220
-Framework: WS-P-110523
 
 SSL Compatible: yes
-bbPress Compatible: yes
-WordPress Compatible: yes
-BuddyPress Compatible: yes
-WP Multisite Compatible: yes
+bbPress® Compatible: yes
+WordPress® Compatible: yes
+BuddyPress® Compatible: yes
+WP® Multisite Compatible: yes
 Multisite Blog Farm Compatible: yes
 
 PayPal® Standard Compatible: yes
-PayPal® Pro Compatible: yes w/ s2Member Pro
-Google® Checkout Compatible: yes w/ s2Member Pro
-Authorize.Net® Compatible: yes w/ s2Member Pro
-ClickBank® Compatible: yes w/ s2Member Pro
-AliPay® Compatible: yes w/ s2Member Pro
-ccBill® Compatible: yes w/ s2Member Pro
+PayPal® Pro Compatible: yes w/s2Member® Pro
+Google® Checkout Compatible: yes w/s2Member® Pro
+Authorize.Net® Compatible: yes w/s2Member® Pro
+ClickBank® Compatible: yes w/s2Member® Pro
+AliPay® Compatible: yes w/s2Member® Pro
+ccBill® Compatible: yes w/s2Member® Pro
 
 Tested up to: 3.3
 Requires at least: 3.2
-Requires: PHP 5.2.3+, WP® 3.2+
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -65,8 +63,8 @@ Description: s2Member® (Membership w/ PayPal®). Powerful (free) membership cap
 Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal, s2member, authorize.net, google checkout, ccbill, clickbank, alipay, subscriber, members only, buddypress, buddy press, buddy press compatible, shopping cart, checkout, api, options panel included, websharks framework, w3c validated code, includes extensive documentation, highly extensible
 
 -- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
-if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
+	exit("Do not access this file directly.");
 /**
 * The installed version of s2Member.
 *
@@ -75,8 +73,8 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 *
 * @var str
 */
-if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_VERSION", "111220");
+if(!defined("WS_PLUGIN__S2MEMBER_VERSION"))
+	define("WS_PLUGIN__S2MEMBER_VERSION", "111220");
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -85,8 +83,8 @@ if (!defined ("WS_PLUGIN__S2MEMBER_VERSION"))
 *
 * @var str
 */
-if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3");
+if(!defined("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
+	define("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3");
 /**
 * Minimum WordPress® version required to run s2Member.
 *
@@ -95,8 +93,8 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
 *
 * @var str
 */
-if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.2");
+if(!defined("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
+	define("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.2");
 /**
 * Minimum Pro version required by the Framework.
 *
@@ -105,66 +103,66 @@ if (!defined ("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 *
 * @var str
 */
-if (!defined ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define ("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111220");
+if(!defined("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
+	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111220");
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
 */
-if (version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && version_compare (get_bloginfo ("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">=") && !isset ($GLOBALS["WS_PLUGIN__"]["s2member"]))
+if(version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && version_compare(get_bloginfo("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">=") && !isset($GLOBALS["WS_PLUGIN__"]["s2member"]))
 	{
 		$GLOBALS["WS_PLUGIN__"]["s2member"]["l"] = __FILE__;
 		/*
 		Hook before loaded.
 		*/
-		do_action ("ws_plugin__s2member_before_loaded");
+		do_action("ws_plugin__s2member_before_loaded");
 		/*
 		System configuraton.
 		*/
-		include_once dirname (__FILE__) . "/includes/syscon.inc.php";
+		include_once dirname(__FILE__)."/includes/syscon.inc.php";
 		/*
 		Hooks and Filters.
 		*/
-		include_once dirname (__FILE__) . "/includes/hooks.inc.php";
+		include_once dirname(__FILE__)."/includes/hooks.inc.php";
 		/*
 		Hook after system config & Hooks are loaded.
 		*/
-		do_action ("ws_plugin__s2member_config_hooks_loaded");
+		do_action("ws_plugin__s2member_config_hooks_loaded");
 		/*
 		Load a possible Pro module, if/when available.
 		*/
-		if (apply_filters ("ws_plugin__s2member_load_pro", true) && file_exists (dirname (__FILE__) . "-pro/pro-module.php"))
-			include_once dirname (__FILE__) . "-pro/pro-module.php";
+		if(apply_filters("ws_plugin__s2member_load_pro", true) && file_exists(dirname(__FILE__)."-pro/pro-module.php"))
+			include_once dirname(__FILE__)."-pro/pro-module.php";
 		/*
 		Configure options and their defaults.
 		*/
-		ws_plugin__s2member_configure_options_and_their_defaults ();
+		ws_plugin__s2member_configure_options_and_their_defaults();
 		/*
 		Function includes.
 		*/
-		include_once dirname (__FILE__) . "/includes/funcs.inc.php";
+		include_once dirname(__FILE__)."/includes/funcs.inc.php";
 		/*
 		Include Shortcodes.
 		*/
-		include_once dirname (__FILE__) . "/includes/codes.inc.php";
+		include_once dirname(__FILE__)."/includes/codes.inc.php";
 		/*
 		Hooks after loaded.
 		*/
-		do_action ("ws_plugin__s2member_loaded");
-		do_action ("ws_plugin__s2member_after_loaded");
+		do_action("ws_plugin__s2member_loaded");
+		do_action("ws_plugin__s2member_after_loaded");
 	}
 /*
 Else NOT compatible. Do we need admin compatibility errors now?
 */
-else if (is_admin ()) /* Admin compatibility errors. */
+else if(is_admin()) /* Admin compatibility errors. */
 	{
-		if (!version_compare (PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">="))
+		if(!version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">="))
 			{
-				add_action ("all_admin_notices", create_function ('', 'echo \'<div class="error fade"><p>You need PHP v\' . WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
+				add_action("all_admin_notices", create_function('', 'echo \'<div class="error fade"><p>You need PHP v\' . WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
 			}
-		else if (!version_compare (get_bloginfo ("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">="))
+		else if(!version_compare(get_bloginfo("version"), WS_PLUGIN__S2MEMBER_MIN_WP_VERSION, ">="))
 			{
-				add_action ("all_admin_notices", create_function ('', 'echo \'<div class="error fade"><p>You need WordPress® v\' . WS_PLUGIN__S2MEMBER_MIN_WP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
+				add_action("all_admin_notices", create_function('', 'echo \'<div class="error fade"><p>You need WordPress® v\' . WS_PLUGIN__S2MEMBER_MIN_WP_VERSION . \'+ to use the s2Member plugin.</p></div>\';'));
 			}
 	}
 ?>

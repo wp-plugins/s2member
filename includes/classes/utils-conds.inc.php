@@ -99,9 +99,11 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 						foreach ((array)$cats as $cat)
 							{
 								$descendants = get_term_children ((int)$cat, "category");
+
 								if ($descendants && in_category ($descendants, $post_id))
 									return true;
 							}
+
 						return false; /* Default return false. */
 					}
 				/**
@@ -123,6 +125,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 									if ($parse["path"] === "/" || rtrim ($parse["path"], "/") === rtrim (c_ws_plugin__s2member_utils_urls::parse_url (site_url (), PHP_URL_PATH), "/"))
 										return true;
 							}
+
 						return false; /* Default return false. */
 					}
 				/**
@@ -133,7 +136,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_conds"))
 				*
 				* @return bool True if we're in a localhost environment, else false.
 				*/
-				public static function /* Checks to see if we're in a localhost environment. */ is_localhost ()
+				public static function is_localhost ()
 					{
 						if ((defined ("LOCALHOST") && LOCALHOST) || stripos ($_SERVER["HTTP_HOST"], "localhost") !== false || strpos ($_SERVER["HTTP_HOST"], "127.0.0.1") !== false)
 							return true;

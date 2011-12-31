@@ -20,9 +20,10 @@ jQuery(document).ready (function($)
 	{
 		var runningBuddyPress = '<?php echo c_ws_plugin__s2member_utils_conds::bp_is_installed ("query-active-plugins") ? "1" : ""; ?>';
 		var filesBaseDir = '<?php echo c_ws_plugin__s2member_utils_strings::esc_js_sq (c_ws_plugin__s2member_utils_dirs::basename_dir_app_data ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])); ?>';
+		var skipAllFileConfirmations = ( typeof ws_plugin__s2member_skip_all_file_confirmations !== 'undefined' && ws_plugin__s2member_skip_all_file_confirmations) ? true : false;
 		var uniqueFilesDownloadedInPage = /* Real-time counts in a single page/instance. */ [];
 		/**/
-		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED)
+		if (S2MEMBER_CURRENT_USER_IS_LOGGED_IN && S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY < S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED && !skipAllFileConfirmations)
 			{
 				$('a[href*="s2member_file_download="], a[href*="/s2member-files/"], a[href^="s2member-files/"], a[href*="/' + filesBaseDir.replace (/([\:\.\[\]])/g, '\\$1') + '/"], a[href^="' + filesBaseDir.replace (/([\:\.\[\]])/g, '\\$1') + '/"]').click (function()
 					{

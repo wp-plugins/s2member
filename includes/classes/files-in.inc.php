@@ -259,9 +259,11 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 											$storage = ($req["file_storage"] && is_string($req["file_storage"])) ? strtolower($req["file_storage"]) : false;
 											$remote = (isset($req["file_remote"])) ? filter_var($req["file_remote"], FILTER_VALIDATE_BOOLEAN) : false;
 											/**/
-											$rewrite_base_guess = dirname($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"])."/".c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]);
+											$_basename_dir_app_data = c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]);
+											$rewrite_base_guess = (is_dir(dirname($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir"])."/".$_basename_dir_app_data)) ? dirname($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"])."/".$_basename_dir_app_data : content_url("/".$_basename_dir_app_data);
 											$rewrite_base = ($req["file_rewrite_base"] && is_string($req["file_rewrite_base"])) ? $req["file_rewrite_base"] : false;
 											$rewrite = $rewriting = (!$rewrite_base && isset($req["file_rewrite"])) ? filter_var($req["file_rewrite"], FILTER_VALIDATE_BOOLEAN) : (($rewrite_base) ? true : false);
+											unset /* A little housekeeping here. */($_basename_dir_app_data);
 											/**/
 											$skip_confirmation = (isset($req["skip_confirmation"])) ? filter_var($req["skip_confirmation"], FILTER_VALIDATE_BOOLEAN) : false;
 											$url_to_storage_source = (isset($req["url_to_storage_source"])) ? filter_var($req["url_to_storage_source"], FILTER_VALIDATE_BOOLEAN) : false;
@@ -329,8 +331,21 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 											/**/
 											else /* Else, ``if ($serving)``, use local storage option. */
 												{
-													@set_time_limit(0).@ini_set("zlib.output_compression", 0);
+													@set_time_limit /* Allow time. */(0);
 													/**/
+													@ini_set /* Disable GZIP compression. */("zlib.output_compression", 0);
+													((function_exists("apache_setenv")) ? @apache_setenv("no-gzip", "1") : "");
+													/*
+													It's also a good idea to put this at the top of your WordPress® `/.htaccess` file.
+													The ``apache_setenv()`` function only works when PHP is running as an Apache module.
+													
+													<IfModule mod_rewrite.c>
+														RewriteEngine On
+														RewriteCond %{THE_REQUEST} (?:(?:^|\?|&)s2member_file_download\=.+|(?:^|/)s2member-files/.+)
+														RewriteRule ^(.*)$ - [E=no-gzip]
+													</IfModule>
+													
+													*/
 													status_header /* 200 OK status header. */(200);
 													/**/
 													header("Content-Encoding:");

@@ -41,7 +41,7 @@ See: http://www.primothemes.com/
 div.ws-plugin--s2member-password-strength
 	{
 		padding: 3px;
-		font-color: #000000;
+		color: #000000;
 		background-color: #EEEEEE;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
@@ -85,10 +85,10 @@ div#content > div.mu_register h2
 		padding: 0; /* Get rid of padding. */
 		width: 100%; /* Expand to 100%. */
 	}
-div#content > div.mu_register > form#setupform input[type = "text"],
-div#content > div.mu_register > form#setupform input[type = "email"],
-div#content > div.mu_register > form#setupform input[type = "password"],
-div#content > div.mu_register > form#setupform input[type = "submit"],
+div#content > div.mu_register > form#setupform input[type="text"],
+div#content > div.mu_register > form#setupform input[type="email"],
+div#content > div.mu_register > form#setupform input[type="password"],
+div#content > div.mu_register > form#setupform input[type="submit"],
 div#content > div.mu_register > form#setupform textarea,
 div#content > div.mu_register > form#setupform select
 	{
@@ -101,13 +101,13 @@ div#content > div.mu_register > form#setupform select
 		margin: 5px 0 5px 0;
 		font-size: 16px;
 	}
-div#content > div.mu_register > form#setupform input[type = "checkbox"],
-div#content > div.mu_register > form#setupform input[type = "radio"]
+div#content > div.mu_register > form#setupform input[type="checkbox"],
+div#content > div.mu_register > form#setupform input[type="radio"]
 	{
 		margin: 0 3px 0 0;
 		vertical-align: middle;
 	}
-div#content > div.mu_register > form#setupform input[type = "submit"]
+div#content > div.mu_register > form#setupform input[type="submit"]
 	{
 		width: 100% !ie<8; /* This width required in IE < 8. */
 	}
@@ -285,9 +285,9 @@ form#ws-plugin--s2member-profile table td
 		padding: 7px 0 7px 0;
 		border: 0; /* Tweak 2010 theme. */
 	}
-form#ws-plugin--s2member-profile input[type = "text"],
-form#ws-plugin--s2member-profile input[type = "password"],
-form#ws-plugin--s2member-profile input[type = "submit"],
+form#ws-plugin--s2member-profile input[type="text"],
+form#ws-plugin--s2member-profile input[type="password"],
+form#ws-plugin--s2member-profile input[type="submit"],
 form#ws-plugin--s2member-profile textarea,
 form#ws-plugin--s2member-profile select
 	{
@@ -299,13 +299,13 @@ form#ws-plugin--s2member-profile select
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-form#ws-plugin--s2member-profile input[type = "checkbox"],
-form#ws-plugin--s2member-profile input[type = "radio"]
+form#ws-plugin--s2member-profile input[type="checkbox"],
+form#ws-plugin--s2member-profile input[type="radio"]
 	{
 		margin: 0 3px 0 0;
 		vertical-align: middle;
 	}
-form#ws-plugin--s2member-profile input[type = "submit"]
+form#ws-plugin--s2member-profile input[type="submit"]
 	{
 		width: 100% !ie<8; /* This width required in IE < 8. */
 	}
@@ -386,8 +386,8 @@ body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-container
 	{
 		margin-right: 7.5%;
 	}
-body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type = "text"],
-body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type = "password"],
+body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type="text"],
+body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type="password"],
 body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section textarea,
 body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section select
 	{
@@ -398,8 +398,8 @@ body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section sel
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type = "checkbox"],
-body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type = "radio"]
+body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type="checkbox"],
+body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section input[type="radio"]
 	{
 		margin: 0 3px 0 0;
 		vertical-align: middle;
@@ -442,10 +442,10 @@ If you're using a `PriMo Theme`, you can use:
 	PriMoTheme Options -> Custom CSS
 See: http://www.primothemes.com/
 */
-body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type = "text"],
-body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type = "email"],
-body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "text"],
-body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "password"],
+body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type="text"],
+body.logged-in.profile.profile-edit form#profile-edit-form div.editfield input[type="email"],
+body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type="text"],
+body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type="password"],
 body.logged-in.profile.profile-edit form textarea.ws-plugin--s2member-profile-field-4bp,
 body.logged-in.profile.profile-edit form select.ws-plugin--s2member-profile-field-4bp
 	{
@@ -456,8 +456,8 @@ body.logged-in.profile.profile-edit form select.ws-plugin--s2member-profile-fiel
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "checkbox"],
-body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type = "radio"]
+body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type="checkbox"],
+body.logged-in.profile.profile-edit form input.ws-plugin--s2member-profile-field-4bp[type="radio"]
 	{
 		margin: 0 3px 0 0;
 		vertical-align: middle;

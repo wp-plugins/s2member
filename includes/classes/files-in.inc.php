@@ -78,7 +78,8 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 									$using_amazon_storage = /* Either/or? */ ($using_amazon_s3_storage || $using_amazon_cf_storage) ? true : false;
 									/**/
 									$excluded = apply_filters("ws_plugin__s2member_check_file_download_access_excluded", false, get_defined_vars());
-									$valid_file_download_key = ($req["file_download_key"] && is_string($req["file_download_key"])) ? c_ws_plugin__s2member_files_in::check_file_download_key($req["file_download"], $req["file_download_key"]) : false;
+									$valid_file_download_key = ($req["file_download_key"] && is_string($req["file_download_key"]) && $creating && (!isset($req["check_user"]) || !filter_var($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN))) ? true : false;
+									$valid_file_download_key = (!$valid_file_download_key && $req["file_download_key"] && is_string($req["file_download_key"])) ? c_ws_plugin__s2member_files_in::check_file_download_key($req["file_download"], $req["file_download_key"]) : false;
 									$checking_user = ($excluded || $valid_file_download_key || ($creating && (!isset($req["check_user"]) || !filter_var($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
 									$updating_user_counter = (!$checking_user || ($creating && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
 									/**/
@@ -336,13 +337,13 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 													@ini_set /* Disable GZIP compression. */("zlib.output_compression", 0);
 													((function_exists("apache_setenv")) ? @apache_setenv("no-gzip", "1") : "");
 													/*
-													It's also a good idea to put this at the top of your WordPress® `/.htaccess` file.
-													The ``apache_setenv()`` function only works when PHP is running as an Apache module.
+													Note: ``apache_setenv()`` only works when PHP is running as an Apache module.
+													It's also a good idea to put this at the top of your `/.htaccess` file.
 													
 													<IfModule mod_rewrite.c>
 														RewriteEngine On
-														RewriteCond %{THE_REQUEST} (?:(?:^|\?|&)s2member_file_download\=.+|(?:^|/)s2member-files/.+)
-														RewriteRule ^(.*)$ - [E=no-gzip]
+														RewriteCond %{QUERY_STRING} (?:^|\?|&)s2member_file_download\=.+
+														RewriteRule .* - [E=no-gzip:1]
 													</IfModule>
 													
 													*/

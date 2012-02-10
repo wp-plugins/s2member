@@ -298,7 +298,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_down_ops"))
 								echo '<tr>' . "\n";
 								/**/
 								echo '<td>' . "\n";
-								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_access_key" id="ws-plugin--s2member-amazon-s3-files-access-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"]) . '" /><br />' . "\n";
+								echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_access_key" id="ws-plugin--s2member-amazon-s3-files-access-key" value="' . format_to_edit ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_access_key"]) . '" /><br />' . "\n";
 								echo 'See: <code>Amazon® Web Services Account -> Security Credentials -> Access Credentials</code>.' . "\n";
 								echo '</td>' . "\n";
 								/**/

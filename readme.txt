@@ -71,24 +71,17 @@ s2Member allows you to protect Pages, Posts, Tags, Categories, URIs, URI word fr
 
 You can learn more about s2Member® at [s2Member.com](http://www.s2member.com/).
 
-== Screenshots ==
-
-* Screenshots of s2Member® are available [here](http://www.s2member.com/framework/#!s2_tab_jump=s2-framework-screenshots).
-* Screenshots of s2Member® Pro are available [here](http://www.s2member.com/pro/#!s2_tab_jump=s2-pro-screenshots).
-
 == Frequently Asked Questions ==
 
-Please check the following s2Member® resources:
+= Please check the following s2Member® resources: =
 * s2Member FAQs: http://www.s2member.com/faqs/
 * Knowledge Base: http://www.s2member.com/kb/
 * Video Tutorials: http://www.s2member.com/videos/
 * Support Forums: http://www.s2member.com/forums/
 * Codex: http://www.s2member.com/codex/
 
-== Translations ==
-
-Please see this FAQ entry:
-http://www.s2member.com/faqs/#s2-faqs-translations
+= Translating s2Member® =
+Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 

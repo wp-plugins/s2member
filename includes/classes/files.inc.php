@@ -14,10 +14,10 @@
 * @package s2Member\Files
 * @since 3.5
 */
-if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
+	exit("Do not access this file directly.");
 /**/
-if (!class_exists ("c_ws_plugin__s2member_files"))
+if(!class_exists("c_ws_plugin__s2member_files"))
 	{
 		/**
 		* File Download routines for s2Member.
@@ -41,11 +41,11 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @return null|str If called directly with ``$create_file_download_url``, returns a string with the URL, based on configuration.
 				* 	Else, this function may exit script execution after serving a File Download.
 				*/
-				public static function check_file_download_access ($create_file_download_url = FALSE) /* Calls inner routine. */
+				public static function check_file_download_access($create_file_download_url = FALSE) /* Calls inner routine. */
 					{
-						if (is_array ($create_file_download_url) || !empty ($_GET["s2member_file_download"])) /* Call inner routine? */
+						if(is_array($create_file_download_url) || !empty($_GET["s2member_file_download"])) /* Call inner routine? */
 							{
-								return c_ws_plugin__s2member_files_in::check_file_download_access ($create_file_download_url);
+								return c_ws_plugin__s2member_files_in::check_file_download_access($create_file_download_url);
 							}
 					}
 				/**
@@ -61,9 +61,9 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*
 				* @see s2Member\API_Functions\s2member_file_download_url()
 				*/
-				public static function create_file_download_url ($config = FALSE, $get_streamer_array = FALSE) /* Calls inner routine. */
+				public static function create_file_download_url($config = FALSE, $get_streamer_array = FALSE) /* Calls inner routine. */
 					{
-						return c_ws_plugin__s2member_files_in::create_file_download_url ($config, $get_streamer_array);
+						return c_ws_plugin__s2member_files_in::create_file_download_url($config, $get_streamer_array);
 					}
 				/**
 				* Auto-configures an Amazon® S3 Bucket's ACLs.
@@ -74,9 +74,9 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @return bool|array True on success, else array on failure.
 				* 	Failure array will contain a failure `code`, and a failure `message`.
 				*/
-				public static function amazon_s3_auto_configure_acls () /* Calls inner routine. */
+				public static function amazon_s3_auto_configure_acls() /* Calls inner routine. */
 					{
-						return c_ws_plugin__s2member_files_in::amazon_s3_auto_configure_acls ();
+						return c_ws_plugin__s2member_files_in::amazon_s3_auto_configure_acls();
 					}
 				/**
 				* Auto-configures Amazon® S3/CloudFront distros.
@@ -87,9 +87,9 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @return bool|array True on success, else array on failure.
 				* 	Failure array will contain a failure `code`, and a failure `message`.
 				*/
-				public static function amazon_s3_cf_auto_configure_distros () /* Calls inner routine. */
+				public static function amazon_s3_cf_auto_configure_distros() /* Calls inner routine. */
 					{
-						return c_ws_plugin__s2member_files_in::amazon_s3_cf_auto_configure_distros ();
+						return c_ws_plugin__s2member_files_in::amazon_s3_cf_auto_configure_distros();
 					}
 				/**
 				* Determines the max period ( in days ), for Download Access.
@@ -102,17 +102,17 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*
 				* @deprecated Deprecated in v111029. This function is no longer used by s2Member.
 				*/
-				public static function max_download_period /* No longer used by s2Member. */ ()
+				public static function max_download_period /* No longer used by s2Member. */()
 					{
-						do_action ("ws_plugin__s2member_before_max_download_period", get_defined_vars ());
+						do_action("ws_plugin__s2member_before_max_download_period", get_defined_vars());
 						/**/
-						for ($n = 0, $max = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-							if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
-								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
-									if (($days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
+						for($n = 0, $max = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+							if(!empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed"]))
+								if(!empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed_days"]))
+									if(($days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed_days"]))
 										$max = ($max < $days) ? $days : $max;
 						/**/
-						return apply_filters ("ws_plugin__s2member_max_download_period", (($max > 365) ? 365 : $max), get_defined_vars ());
+						return apply_filters("ws_plugin__s2member_max_download_period", (($max > 365) ? 365 : $max), get_defined_vars());
 					}
 				/**
 				* Determines the minimum Level required for File Download Access.
@@ -122,17 +122,17 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				*
 				* @return bool|int False if no access is allowed, else Level number (int) 0+.
 				*/
-				public static function min_level_4_downloads () /* Multipurpose. False if no access. */
+				public static function min_level_4_downloads() /* Multipurpose. False if no access. */
 					{
-						do_action ("ws_plugin__s2member_before_min_level_4_downloads", get_defined_vars ());
+						do_action("ws_plugin__s2member_before_min_level_4_downloads", get_defined_vars());
 						/**/
-						for ($n = 0, $min = false; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-							if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]))
-								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
-									if (($min = $n) >= 0)
+						for($n = 0, $min = false; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+							if(!empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed"]))
+								if(!empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed_days"]))
+									if(($min = $n) >= 0)
 										break;
 						/**/
-						return apply_filters ("ws_plugin__s2member_min_level_4_downloads", ((is_int ($min)) ? $min : false), get_defined_vars ());
+						return apply_filters("ws_plugin__s2member_min_level_4_downloads", ((is_int($min)) ? $min : false), get_defined_vars());
 					}
 				/**
 				* Creates a File Download Key.
@@ -149,26 +149,26 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* 	`universal` and/or `cache-compatible` = a Download Key which never expires, and is NOT tied to any specific User. Use at your own risk.
 				* @return str A Download Key. MD5 hash, 32 characters, URL-safe.
 				*/
-				public static function file_download_key ($file = FALSE, $directive = FALSE)
+				public static function file_download_key($file = FALSE, $directive = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_before_file_download_key", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						do_action("ws_plugin__s2member_before_file_download_key", get_defined_vars());
+						unset($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
-						$file = ($file && is_string ($file) && ($file = trim ($file, "/"))) ? $file : "";
+						$file = ($file && is_string($file) && ($file = trim($file, "/"))) ? $file : "";
 						/**/
-						if ($directive === "ip-forever" && c_ws_plugin__s2member_no_cache::no_cache_constants (true))
-							$salt = $file . $_SERVER["REMOTE_ADDR"];
+						if($directive === "ip-forever" && c_ws_plugin__s2member_no_cache::no_cache_constants(true))
+							$salt = $file.$_SERVER["REMOTE_ADDR"];
 						/**/
-						else if ($directive === "universal" || $directive === "cache-compatible" || $directive)
+						else if($directive === "universal" || $directive === "cache-compatible" || $directive)
 							$salt = /* Just the file name. This IS cachable. */ $file;
 						/**/
-						else if (c_ws_plugin__s2member_no_cache::no_cache_constants (true))
-							$salt = date ("Y-m-d") . $_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $file;
+						else if(c_ws_plugin__s2member_no_cache::no_cache_constants(true))
+							$salt = date("Y-m-d").$_SERVER["REMOTE_ADDR"].$_SERVER["HTTP_USER_AGENT"].$file;
 						/**/
-						$key = (!empty ($salt)) ? md5 (c_ws_plugin__s2member_utils_encryption::xencrypt ($salt, false, false)) : "";
+						$key = (!empty($salt)) ? md5(c_ws_plugin__s2member_utils_encryption::xencrypt($salt, false, false)) : "";
 						/**/
-						return apply_filters ("ws_plugin__s2member_file_download_key", $key, get_defined_vars ());
+						return apply_filters("ws_plugin__s2member_file_download_key", $key, get_defined_vars());
 					}
 				/**
 				* Download details on a per-User basis.
@@ -186,40 +186,40 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
 				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 				*/
-				public static function user_downloads ($user = FALSE, $not_counting_this_particular_file = FALSE, $user_log = FALSE, $user_arc = FALSE)
+				public static function user_downloads($user = FALSE, $not_counting_this_particular_file = FALSE, $user_log = FALSE, $user_arc = FALSE)
 					{
-						eval ('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
-						do_action ("ws_plugin__s2member_before_user_downloads", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
+						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						do_action("ws_plugin__s2member_before_user_downloads", get_defined_vars());
+						unset($__refs, $__v); /* Unset defined __refs, __v. */
 						/**/
 						$allowed = $allowed_days = $currently = 0; /* Initialize these to zero. */
-						$log = $arc = array (); /* Initialize these to a default empty array value. */
+						$log = $arc = array(); /* Initialize these to a default empty array value. */
 						/**/
-						if ((is_object ($user) || is_object ($user = (is_user_logged_in ()) ? wp_get_current_user () : false)) && !empty ($user->ID) && ($user_id = $user->ID))
+						if((is_object($user) || is_object($user = (is_user_logged_in()) ? wp_get_current_user() : false)) && !empty($user->ID) && ($user_id = $user->ID))
 							{
-								for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
+								for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 									{
-										if ($user->has_cap ("access_s2member_level" . $n)) /* Do they have access? */
+										if($user->has_cap("access_s2member_level".$n)) /* Do they have access? */
 											{
-												if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"]))
+												if(!empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed"]) && !empty($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed_days"]))
 													{
-														$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed"];
-														$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_file_downloads_allowed_days"];
+														$allowed = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed"];
+														$allowed_days = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_file_downloads_allowed_days"];
 													}
-												if ($user->has_cap ("s2member_level" . $n)) /* We can stop now, if this is their Role. */
+												if($user->has_cap("s2member_level".$n)) /* We can stop now, if this is their Role. */
 													break; /* Break now. */
 											}
 									}
-								$log = (is_array ($user_log)) ? $user_log : ((is_array ($log = get_user_option ("s2member_file_download_access_log", $user_id)) && $log !== array (false)) ? $log : array ());
-								$arc = (is_array ($user_arc)) ? $user_arc : ((is_array ($arc = get_user_option ("s2member_file_download_access_arc", $user_id)) && $arc !== array (false)) ? $arc : array ());
+								$log = (is_array($user_log)) ? $user_log : ((is_array($log = get_user_option("s2member_file_download_access_log", $user_id)) && $log !== array(false)) ? $log : array());
+								$arc = (is_array($user_arc)) ? $user_arc : ((is_array($arc = get_user_option("s2member_file_download_access_arc", $user_id)) && $arc !== array(false)) ? $arc : array());
 								/**/
-								foreach (($user_file_download_access_log = $log) as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
-									if (isset ($user_file_download_access_log_entry["date"]) && strtotime ($user_file_download_access_log_entry["date"]) >= strtotime ("-" . $allowed_days . " days"))
-										if (isset ($user_file_download_access_log_entry["file"]) && $user_file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
+								foreach(($user_file_download_access_log = $log) as $user_file_download_access_log_entry_key => $user_file_download_access_log_entry)
+									if(isset($user_file_download_access_log_entry["date"]) && strtotime($user_file_download_access_log_entry["date"]) >= strtotime("-".$allowed_days." days"))
+										if(isset($user_file_download_access_log_entry["file"]) && $user_file_download_access_log_entry["file"] !== $not_counting_this_particular_file)
 											$currently = $currently + 1;
 							}
 						/**/
-						return apply_filters ("ws_plugin__s2member_user_downloads", array ("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently, "log" => $log, "archive" => $arc), get_defined_vars ());
+						return apply_filters("ws_plugin__s2member_user_downloads", array("allowed" => $allowed, "allowed_days" => $allowed_days, "currently" => $currently, "log" => $log, "archive" => $arc), get_defined_vars());
 					}
 				/**
 				* Total downloads of a particular file; possibly by a particular User.
@@ -235,26 +235,26 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
 				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 				*/
-				public static function total_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+				public static function total_downloads_of($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
 					{
 						global $wpdb; /* Global database object reference. */
 						/**/
-						if ($file && is_string ($file)) /* Was ``$file`` passed in properly? */
+						if($file && is_string($file)) /* Was ``$file`` passed in properly? */
 							{
-								if (is_array ($results = $wpdb->get_results ("SELECT `meta_key`, `meta_value` FROM `" . $wpdb->usermeta . "` WHERE " . ((is_numeric ($user_id)) ? "`user_id` = '" . esc_sql ($user_id) . "' AND " : "") . "(`meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_log'" . (($check_archives_too) ? " OR `meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_arc'" : "") . ") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"" . esc_sql ($file) . "\".*'")))
+								if(is_array($results = $wpdb->get_results("SELECT `meta_key`, `meta_value` FROM `".$wpdb->usermeta."` WHERE ".((is_numeric($user_id)) ? "`user_id` = '".esc_sql($user_id)."' AND " : "")."(`meta_key` = '".$wpdb->prefix."s2member_file_download_access_log'".(($check_archives_too) ? " OR `meta_key` = '".$wpdb->prefix."s2member_file_download_access_arc'" : "").") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"".esc_sql($file)."\".*'")))
 									{
-										foreach ($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
-											if (is_array ($la_entries = /* Unserialize the array. */ maybe_unserialize ($r->meta_value)) && !empty ($la_entries))
+										foreach($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
+											if(is_array($la_entries = /* Unserialize the array. */ maybe_unserialize($r->meta_value)) && !empty($la_entries))
 												/**/
-												foreach ($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
-													if (!empty ($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty ($la_entry["counter"]) || ($la_entry["counter"] = 1)))
+												foreach($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
+													if(!empty($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty($la_entry["counter"]) || ($la_entry["counter"] = 1)))
 														{
-															$total = (!empty ($total)) ? $total + (int)$la_entry["counter"] : (int)$la_entry["counter"];
+															$total = (!empty($total)) ? $total + (int)$la_entry["counter"] : (int)$la_entry["counter"];
 															break; /* Break now. No need to continue looping; ``$file`` found in these entries. */
 														}
 									}
 							}
-						return (!empty ($total)) ? $total : /* Else return zero by default. */ 0;
+						return (!empty($total)) ? $total : /* Else return zero by default. */ 0;
 					}
 				/**
 				* Total unique downloads of a particular file; possibly by a particular User.
@@ -270,26 +270,107 @@ if (!class_exists ("c_ws_plugin__s2member_files"))
 				* @note Calculations returned by this function do NOT include File Downloads that were accessed with an Advanced File Download Key.
 				* @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 				*/
-				public static function total_unique_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+				public static function total_unique_downloads_of($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
 					{
 						global $wpdb; /* Global database object reference. */
 						/**/
-						if ($file && is_string ($file)) /* Was ``$file`` passed in properly? */
+						if($file && is_string($file)) /* Was ``$file`` passed in properly? */
 							{
-								if (is_array ($results = $wpdb->get_results ("SELECT `meta_key`, `meta_value` FROM `" . $wpdb->usermeta . "` WHERE " . ((is_numeric ($user_id)) ? "`user_id` = '" . esc_sql ($user_id) . "' AND " : "") . "(`meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_log'" . (($check_archives_too) ? " OR `meta_key` = '" . $wpdb->prefix . "s2member_file_download_access_arc'" : "") . ") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"" . esc_sql ($file) . "\".*'")))
+								if(is_array($results = $wpdb->get_results("SELECT `meta_key`, `meta_value` FROM `".$wpdb->usermeta."` WHERE ".((is_numeric($user_id)) ? "`user_id` = '".esc_sql($user_id)."' AND " : "")."(`meta_key` = '".$wpdb->prefix."s2member_file_download_access_log'".(($check_archives_too) ? " OR `meta_key` = '".$wpdb->prefix."s2member_file_download_access_arc'" : "").") AND `meta_value` REGEXP '.*\"file\";s:[0-9]+:\"".esc_sql($file)."\".*'")))
 									{
-										foreach ($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
-											if (is_array ($la_entries = /* Unserialize the array. */ maybe_unserialize ($r->meta_value)) && !empty ($la_entries))
+										foreach($results as $r /* Go through the entire array of results found in the `REGEXP` database query above. */)
+											if(is_array($la_entries = /* Unserialize the array. */ maybe_unserialize($r->meta_value)) && !empty($la_entries))
 												/**/
-												foreach ($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
-													if (!empty ($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty ($la_entry["counter"]) || ($la_entry["counter"] = 1)))
+												foreach($la_entries as $la_entry /* Go through all of the entries in each result ``$r``; collecting `counter` values. */)
+													if(!empty($la_entry["file"]) && $la_entry["file"] === $file && /* Back compatibility. Is `counter` even set? */ (!empty($la_entry["counter"]) || ($la_entry["counter"] = 1)))
 														{
-															$total = (!empty ($total)) ? /* Only count `1` here ( i.e. unique downloads ). */ $total + 1 : 1;
+															$total = (!empty($total)) ? /* Only count `1` here ( i.e. unique downloads ). */ $total + 1 : 1;
 															break; /* Break now. No need to continue looping; ``$file`` found in these entries. */
 														}
 									}
 							}
-						return (!empty ($total)) ? $total : /* Else return zero by default. */ 0;
+						return (!empty($total)) ? $total : /* Else return zero by default. */ 0;
+					}
+				/**
+				* Checks for GZIP rules in root `.htaccess` file.
+				*
+				* @package s2Member\Files
+				* @since 120212
+				*
+				* @return bool True if rules exist, else false.
+				*/
+				public static function no_gzip_rules_in_root_htaccess()
+					{
+						$start_line = /* Beginning line for this entry. */ "# BEGIN s2Member GZIP exclusions";
+						$end_line = /* Identifying end line for this entry. */ "# END s2Member GZIP exclusions";
+						$htaccess = /* Location of this `.htaccess` file. */ ABSPATH.".htaccess";
+						/**/
+						if(file_exists($htaccess) && is_readable($htaccess) && ($htaccess_contents = file_get_contents($htaccess)) !== false && is_string($htaccess_contents = trim($htaccess_contents)))
+							return preg_match("/".preg_quote($start_line, "/")."[\r\n]+.*?[\r\n]+".preg_quote($end_line, "/")."[\r\n]{0,2}/is", $htaccess_contents);
+						/**/
+						return /* Default return `false`. */ false;
+					}
+				/**
+				* Writes no GZIP rules into root `.htaccess` file.
+				*
+				* @package s2Member\Files
+				* @since 120212
+				*
+				* @return bool True if successfull, else false on any type of failure.
+				*/
+				public static function write_no_gzip_into_root_htaccess()
+					{
+						if(c_ws_plugin__s2member_files::remove_no_gzip_from_root_htaccess() /* Must first be able to remove any existing entry. */)
+							{
+								$start_line = /* Beginning line for this entry. */ "# BEGIN s2Member GZIP exclusions";
+								$end_line = /* Identifying end line for this entry. */ "# END s2Member GZIP exclusions";
+								$htaccess = /* Location of this `.htaccess` file we need to write in. */ ABSPATH.".htaccess";
+								$ideally_position_before = /* Ideally, we can position before this entry. */ "# BEGIN WordPress";
+								/**/
+								$no_gzip = $start_line."\n".trim(c_ws_plugin__s2member_utilities::evl(file_get_contents($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_no_gzip_htaccess"])))."\n".$end_line;
+								/**/
+								if(file_exists($htaccess) && is_readable($htaccess) && is_writable($htaccess) && ($htaccess_contents = file_get_contents($htaccess)) !== false && is_string($htaccess_contents = trim($htaccess_contents)))
+									{
+										if(stripos /* If we can position in the ideal location, that's awesome. Let's do that now. */($htaccess_contents, $ideally_position_before) !== false)
+											$htaccess_contents = trim(str_ireplace($ideally_position_before, $no_gzip."\n\n".$ideally_position_before, $htaccess_contents));
+										/**/
+										else /* Else, let's put it at the very top of the file by default. */
+											$htaccess_contents = trim($no_gzip."\n\n".$htaccess_contents);
+										/**/
+										return file_put_contents($htaccess, $htaccess_contents);
+									}
+								else if(!file_exists($htaccess) && is_writable(dirname($htaccess)))
+									{
+										return file_put_contents($htaccess, $no_gzip);
+									}
+							}
+						return /* Default return `false`. */ false;
+					}
+				/**
+				* Removes no GZIP rules in root `.htaccess` file.
+				*
+				* @package s2Member\Files
+				* @since 120212
+				*
+				* @return bool True if successfull, else false on any type of failure.
+				*/
+				public static function remove_no_gzip_from_root_htaccess()
+					{
+						$start_line = /* Beginning line for this entry. */ "# BEGIN s2Member GZIP exclusions";
+						$end_line = /* Identifying end line for this entry. */ "# END s2Member GZIP exclusions";
+						$htaccess = /* Location of this `.htaccess` file we need to write in. */ ABSPATH.".htaccess";
+						/**/
+						if(file_exists($htaccess) && is_readable($htaccess) && is_writable($htaccess) && ($htaccess_contents = file_get_contents($htaccess)) !== false && is_string($htaccess_contents = trim($htaccess_contents)))
+							{
+								$htaccess_contents = trim(preg_replace("/".preg_quote($start_line, "/")."[\r\n]+.*?[\r\n]+".preg_quote($end_line, "/")."[\r\n]{0,2}/is", "", $htaccess_contents));
+								/**/
+								return /* Check for `false`, because this could return `0` if the file is now empty. */ (file_put_contents($htaccess, $htaccess_contents) !== false);
+							}
+						else if(!file_exists($htaccess) /* Return `true` here, we're OK. */)
+							{
+								return true;
+							}
+						return /* Default return `false`. */ false;
 					}
 			}
 	}

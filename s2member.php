@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 111220
-Stable tag: 111220
+Version: 120213
+Stable tag: 120213
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -31,36 +31,37 @@ Multisite Blog Farm Compatible: yes
 
 PayPal® Standard Compatible: yes
 PayPal® Pro Compatible: yes w/s2Member® Pro
-Google® Checkout Compatible: yes w/s2Member® Pro
 Authorize.Net® Compatible: yes w/s2Member® Pro
+Google® Checkout Compatible: yes w/s2Member® Pro
 ClickBank® Compatible: yes w/s2Member® Pro
-AliPay® Compatible: yes w/s2Member® Pro
-ccBill® Compatible: yes w/s2Member® Pro
 
-Tested up to: 3.3
+Tested up to: 3.3.1
 Requires at least: 3.2
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
-Contributors: WebSharks, PriMoThemes
-Author URI: http://www.primothemes.com/
-Author: PriMoThemes.com / WebSharks, Inc.
-Donate link: http://www.primothemes.com/donate/
+Contributors: WebSharks
+
+Author: s2Member® / WebSharks, Inc.
+Author URI: http://www.s2member.com/
+Donate link: http://www.s2member.com/donate/
 
 Text Domain: s2member
 Domain Path: /includes/translations
 
 Plugin Name: s2Member® Framework
+Forum URI: http://www.s2member.com/forums/
+Plugin URI: http://www.s2member.com/framework/
+Privacy URI: http://www.s2member.com/privacy/
 Video Tutorials: http://www.s2member.com/videos/
 Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/
-Forum URI: http://www.primothemes.com/forums/viewforum.php?f=4
-Privacy URI: http://www.primothemes.com/about/privacy-policy/
-PayPal Pro Integration: http://www.primothemes.com/forums/viewtopic.php?f=4&t=304
+Pro Module / Auto-Update URL: http://www.s2member.com/
+PayPal Pro Integration: http://www.s2member.com/videos/ED70D90C6749DA3D/
 Professional Installation URI: http://www.s2member.com/professional-installation/
-Plugin URI: http://www.primothemes.com/post/product/s2member-membership-plugin-with-paypal/
-Description: s2Member® (Membership w/ PayPal®). Powerful (free) membership capabilities. Protect/secure members only content w/ roles/capabilities for members.
-Tags: membership, members, member, register, signup, paypal, paypal pro, pay pal, s2member, authorize.net, google checkout, ccbill, clickbank, alipay, subscriber, members only, buddypress, buddy press, buddy press compatible, shopping cart, checkout, api, options panel included, websharks framework, w3c validated code, includes extensive documentation, highly extensible
+
+Description: s2Member®, a powerful (free) membership plugin for WordPress®. Protect/secure members only content with roles/capabilities.
+Tags: s2, s2member, s2 member, membership, users, user, members, member, subscribers, subscriber, members only, roles, capabilities, capability, register, signup, paypal, paypal pro, pay pal, authorize, authorize.net, google checkout, clickbank, click bank, buddypress, buddy press, bbpress, bb press, shopping cart, cart, checkout, ecommerce
 
 -- end section for WordPress® parsing. ------------------------------------------------------------------------------- */
 if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
@@ -74,7 +75,7 @@ if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_VERSION", "111220");
+	define("WS_PLUGIN__S2MEMBER_VERSION", "120213" /* !#distro-version#! */);
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -84,7 +85,7 @@ if(!defined("WS_PLUGIN__S2MEMBER_VERSION"))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3");
+	define("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION", "5.2.3" /* !#php-requires-at-least-version#! */);
 /**
 * Minimum WordPress® version required to run s2Member.
 *
@@ -94,7 +95,7 @@ if(!defined("WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION"))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.2");
+	define("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION", "3.2" /* !#wp-requires-at-least-version#! */);
 /**
 * Minimum Pro version required by the Framework.
 *
@@ -104,7 +105,7 @@ if(!defined("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "111220");
+	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "120213" /* !#distro-version#! */);
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

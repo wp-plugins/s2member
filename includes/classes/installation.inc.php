@@ -53,6 +53,8 @@ if(!class_exists("c_ws_plugin__s2member_installation"))
 							if(!file_exists($htaccess = $files_dir."/.htaccess") || !apply_filters("ws_plugin__s2member_preserve_files_dir_htaccess", false, get_defined_vars()))
 								file_put_contents($htaccess, trim(c_ws_plugin__s2member_utilities::evl(file_get_contents($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"]))));
 						/**/
+						c_ws_plugin__s2member_files::write_no_gzip_into_root_htaccess /* Handle the root `.htaccess` file as well now, for GZIP exclusions. */();
+						/**/
 						if(!is_dir($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 							if(is_writable(dirname(c_ws_plugin__s2member_utils_dirs::strip_dir_app_data($logs_dir))))
 								mkdir($logs_dir, 0777, true);
@@ -156,6 +158,8 @@ if(!class_exists("c_ws_plugin__s2member_installation"))
 						if($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["run_deactivation_routines"])
 							{
 								c_ws_plugin__s2member_roles_caps::unlink_roles(); /* Unlink Roles/Caps. */
+								/**/
+								c_ws_plugin__s2member_files::remove_no_gzip_from_root_htaccess /* Remove GZIP exclusions. */();
 								/**/
 								if(is_dir($files_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]))
 									{

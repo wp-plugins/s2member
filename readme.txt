@@ -61,7 +61,7 @@ Yes. s2Member and s2Member Pro, are also both compatible with Multisite Networki
 
 == Description ==
 
-[youtube http://www.youtube.com/watch?v=FyA8Qmm2DHY /]
+[youtube http://www.youtube.com/watch?v=neGsNjWhOBs /]
 
 The s2Member® Framework (free) integrates with PayPal® Website Payments Standard (also free), and fully supports recurring billing. s2Member supports custom Pages for registration (including Custom Registration/Profile Fields), account access, and a lot more. s2Member is compatible with Multisite Networking too, and even with BuddyPress and bbPress. With the s2Member® Pro add-on (an optional paid upgrade), you can add support for unlimited Membership Levels, PayPal® Website Payments Pro (w/ Pro Forms to facilitate on-site credit card processing), Authorize.Net® (also with Pro Forms), Google® Checkout, ClickBank®, advanced User Import/Export tools, the ability to use Coupon Codes, and many other enhancements. Videos available at: [s2Member.com / Videos](http://www.s2member.com/videos/).
 

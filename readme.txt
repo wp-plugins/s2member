@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120213
-Stable tag: 120213
+Version: 120219
+Stable tag: 120219
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -85,10 +85,20 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120213 =
-Optimization and a few bug fixes. Upgrade immediately.
+= v120219 =
+Link updates and a compatibility fix. Upgrade immediately.
 
 == Changelog ==
+
+= v120219 =
+* (s2Member) **File downloads**. s2Member\'s `.htaccess` rules updated to also support older versions of the Apache 1.x series. However, we still recommend that you run s2Member® with Apache 2.0 or higher. Or, with another modern web server that's Apache-compatible, such as [LiteSpeed](http://litespeedtech.com/).
+* (s2Member) **Link updates**. Some of the documentation built into the s2Member® plugin contained links which were outdated after our recent move to the new [s2Member.com](http://www.s2member.com/). These links have now been updated within the plugin.
+* (s2Member) **New video tutorial**. [s2Member® Intros, Framework and Pro](http://www.s2member.com/videos/85E41C40550808C2/)
+* (s2Member) **New video tutorial**. [s2Member® File Downloads, Complete Series / From Basics On Up](http://www.s2member.com/videos/7547A199A4385310/)
+* (s2Member) **New video tutorial**. [s2Member® File Downloads, Amazon S3/CloudFront/JW Player](http://www.s2member.com/videos/BD496E5F2CCAB12A/)
+* (s2Member) **New video tutorial**. [s2Member® File Downloads, Remote Auth/Podcasting](http://www.s2member.com/videos/71F49478D6983A9C/)
+* (s2Member) **New video tutorial**. [s2Member® File Downloads, GZIP Conflicts?](http://www.s2member.com/videos/038A4033A8D2A2EB/)
+* (s2Member) **New video tutorial**. [s2Member®, Using The PayPal Sandbox](http://www.s2member.com/videos/A7AEF89D281A75A0/)
 
 = v120213 =
 * (s2Member) **File downloads**. GZIP conflicts can now been resolved for file downloads. s2Member now introduces an `.htaccess` rewrite rule, which is automatically installed during activation and/or a future upgrade of the s2Member® Framework plugin. These rewrite rules are installed into your root `.htaccess` file for WordPress (if it's writable). If your `.htaccess` file is not writable, you will get a warning in your `s2Member -> Download Options` panel.
@@ -144,7 +154,7 @@ Optimization and a few bug fixes. Upgrade immediately.
 * (s2Member Pro) **Bug fix**. Automatic upgrader failing on `copy` command when running at HostGator. Fixed in this release.
 * (s2Member/s2Member Pro) **Security fix**. The `/s2member-files/` directory *(with newly updated Mod Rewrite rules in its .htaccess file)* was allowing directory indexing inadvertently, on some servers. This was a low-level vulnerability, because although directory indexing was possible, protected file access was not. Fixed in this release. For further details, please see [this thread](http://www.primothemes.com/forums/viewtopic.php?f=4&t=15665&p=48984&hilit=next+release#p48984).
 * (s2Member/s2Member Pro) **Bug fix**. A bug related to the `init()` Hook firing an early call to `c_ws_plugin__s2member_systematics::is_wp_systematic_use_page()` was identified. Fixed in this release. One symptom of this bug was for Users/Members to have trouble accessing a BuddyPress registration form after having paid for Membership, under the right scenario.
-* (s2Member/s2Member Pro) **New API Functions**. New API Functions: `s2member_shorten_url()`, `s2member_user_downloads()`, `s2member_total_downloads_of()`, and `s2member_total_unique_downloads_of()`. For further details, please check the [s2Member Codex](http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455).
+* (s2Member/s2Member Pro) **New API Functions**. New API Functions: `s2member_shorten_url()`, `s2member_user_downloads()`, `s2member_total_downloads_of()`, and `s2member_total_unique_downloads_of()`. For further details, please check the [s2Member Codex](http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/).
 * (s2Member/s2Member Pro) **Routine maintenance**. Some code optimization, some cleanup, and some organizational improvements in preparation for new features in a coming release.
 * (s2Member/s2Member Pro) **WordPress® 3.3-beta2**. Compatibility updates. CSS tweaks, JavaScript tweaks and other considerations for the coming release of WordPress® 3.3.
 
@@ -234,7 +244,7 @@ Optimization and a few bug fixes. Upgrade immediately.
 * (s2Member) **PayPal® ( Bug fix )**. s2Member was incorrectly handling delayed EOT Times under a specific scenario, as [reported here](http://www.primothemes.com/forums/viewtopic.php?f=4&t=14876&p=34414#p34414). Corrected in this release.
 * (s2Member) **JavaScript/CSS Optimization**. s2Member now loads its dynamic JavaScript/CSS libraries through a new optimized file called `/s2member-o.php`, designed to increase the speed at which your installation of WordPress® can load these resources. The new optimized `/s2member-o.php` file loads only the core WordPress® framework and the s2Member JavaScript and/or CSS file, depending on which is being requested. This new file will eliminate a potential bottleneck on some WordPress® installations, which may have MANY other plugins running in concert with s2Member. It also works to further reduce CPU and memory consumption for all site owners. For further details about why this optimization is beneficial, please see [this article](http://www.primothemes.com/forums/viewtopic.php?f=4&t=14359&p=33441#p33441).
 * (s2Member Pro) **PayPal® Express Checkout / Pre-Population**. s2Member now pre-populates everything it can through PayPal® Express Checkout integration. If a Customer does NOT already have a PayPal® account when they arrive at Express Checkout, the Account Creation Form at PayPal® will be pre-populated with a minimum of their Name and Email Address. Street address information will ONLY be pre-populated, when/if s2Member collects it for tax purposes. Otherwise, the address information will NOT be pre-populated, because only PayPal® will ask for those details anyway *( i.e. s2Member doesn't ask for address details when Express Checkout is used; not unless you're collecting taxes: `s2Member -> PayPal® Options -> Tax Calculations` ).
-* (s2Member) **New API Function**. This version of s2Member includes a new API Function `get_s2member_custom_fields()`, designed to provide more information about Custom Registration/Profile Field configuration and values for a specific User. The API function `get_user_field()` remains available as well. For further details, please see [this article](http://www.primothemes.com/forums/viewtopic.php?f=40&t=12455) in the s2Member Codex.
+* (s2Member) **New API Function**. This version of s2Member includes a new API Function `get_s2member_custom_fields()`, designed to provide more information about Custom Registration/Profile Field configuration and values for a specific User. The API function `get_user_field()` remains available as well. For further details, please see [this article](http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/) in the s2Member Codex.
 * (s2Member Pro) **Pro Login Widget**. This version of s2Member improves the `%%automatic%%` setting for the Signup URL in Pro Login Widgets. When/if a Customer has already paid for their Membership, the Signup URL presented in the Pro Login Widget will change dynamically, pointing a Customer to the Registration Form, instead of to your Membership Options Page. Of course, this behavior could be overridden by changing the Signup URL to something other than `%%automatic%%`, if you prefer.
 
 = v110815 =

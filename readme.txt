@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120219
-Stable tag: 120219
+Version: 120301
+Stable tag: 120301
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -85,13 +85,17 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120219 =
-Link updates and a compatibility fix. Upgrade immediately.
+= v120301 =
+Two bug fixes. Upgrade immediately.
 
 == Changelog ==
 
+= v120301 =
+* (s2Member Pro) **ClickBank**. Bug fix in call to `http_build_query()` related to `arg_separator`. This affected installations of PHP with something other than a default INI value for argument separators. Fixed in this release for better compatibility.
+* (s2Member/s2Member Pro) **File downloads**. Bug fix in s2Member's handling of the `"file_storage"` parameter to API Function `s2member_file_download_url()`. Fixed in this release.
+
 = v120219 =
-* (s2Member) **File downloads**. s2Member\'s `.htaccess` rules updated to also support older versions of the Apache 1.x series. However, we still recommend that you run s2Member® with Apache 2.0 or higher. Or, with another modern web server that's Apache-compatible, such as [LiteSpeed](http://litespeedtech.com/).
+* (s2Member) **File downloads**. s2Member's `.htaccess` rules updated to also support older versions of the Apache 1.x series. However, we still recommend that you run s2Member® with Apache 2.0 or higher. Or, with another modern web server that's Apache-compatible, such as [LiteSpeed](http://litespeedtech.com/).
 * (s2Member) **Link updates**. Some of the documentation built into the s2Member® plugin contained links which were outdated after our recent move to the new [s2Member.com](http://www.s2member.com/). These links have now been updated within the plugin.
 * (s2Member) **New video tutorial**. [s2Member® Intros, Framework and Pro](http://www.s2member.com/videos/85E41C40550808C2/)
 * (s2Member) **New video tutorial**. [s2Member® File Downloads, Complete Series / From Basics On Up](http://www.s2member.com/videos/7547A199A4385310/)

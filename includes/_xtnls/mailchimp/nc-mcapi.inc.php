@@ -2416,7 +2416,7 @@ class NC_MCAPI {
         $this->errorCode = "";
         $error = false;
 
-        $post_vars = http_build_query($params);
+        $post_vars = http_build_query($params, null, "&");
 
         $s2_ags = array("user-agent" => "MCAPI/" . $this->version, "timeout" => $this->timeout);
         $s2_url = $host . $this->apiUrl["path"] . "?" . $this->apiUrl["query"] . "&method=" . $method;

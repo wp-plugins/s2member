@@ -73,9 +73,9 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 						if($req["file_download"] && is_string($req["file_download"]) && ($req["file_download"] = trim($req["file_download"], "/")))
 							if(strpos($req["file_download"], "..") === false && strpos(basename($req["file_download"]), ".") !== 0)
 								{
-									$using_amazon_s3_storage = ((!$req["file_storage"] || strcasecmp((string)$req["file_storage"], "s3") === 0) && c_ws_plugin__s2member_utils_conds::using_amazon_s3_storage()) ? true : false;
 									$using_amazon_cf_storage = ((!$req["file_storage"] || strcasecmp((string)$req["file_storage"], "cf") === 0) && c_ws_plugin__s2member_utils_conds::using_amazon_cf_storage()) ? true : false;
-									$using_amazon_storage = /* Either/or? */ ($using_amazon_s3_storage || $using_amazon_cf_storage) ? true : false;
+									$using_amazon_s3_storage = ((!$req["file_storage"] || strcasecmp((string)$req["file_storage"], "s3") === 0) && c_ws_plugin__s2member_utils_conds::using_amazon_s3_storage()) ? true : false;
+									$using_amazon_storage = /* Either? */ ($using_amazon_cf_storage || $using_amazon_s3_storage) ? true : false;
 									/**/
 									$excluded = apply_filters("ws_plugin__s2member_check_file_download_access_excluded", false, get_defined_vars());
 									$valid_file_download_key = ($req["file_download_key"] && is_string($req["file_download_key"]) && $creating && (!isset($req["check_user"]) || !filter_var($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN))) ? true : false;
@@ -277,22 +277,22 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 											do_action("ws_plugin__s2member_during_file_download_access", get_defined_vars());
 											unset($__refs, $__v); /* Unset defined __refs, __v. */
 											/**/
-											if($using_amazon_s3_storage && ($serving || ($creating && $url_to_storage_source)))
-												{
-													if /* We only need this section when/if we're actually serving. */($serving)
-														wp_redirect(c_ws_plugin__s2member_files_in::amazon_s3_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)).exit();
-													/**/
-													else /* Else return File Download URL. */
-														return apply_filters("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_s3_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars());
-												}
-											/**/
-											else if($using_amazon_cf_storage && ($serving || ($creating && $url_to_storage_source)))
+											if($using_amazon_storage && $using_amazon_cf_storage && ($serving || ($creating && $url_to_storage_source)))
 												{
 													if /* We only need this section when/if we're actually serving. */($serving)
 														wp_redirect(c_ws_plugin__s2member_files_in::amazon_cf_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)).exit();
 													/**/
 													else /* Else return File Download URL. */
 														return apply_filters("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_cf_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars());
+												}
+											/**/
+											else if($using_amazon_storage && $using_amazon_s3_storage && ($serving || ($creating && $url_to_storage_source)))
+												{
+													if /* We only need this section when/if we're actually serving. */($serving)
+														wp_redirect(c_ws_plugin__s2member_files_in::amazon_s3_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype)).exit();
+													/**/
+													else /* Else return File Download URL. */
+														return apply_filters("ws_plugin__s2member_file_download_access_url", c_ws_plugin__s2member_files_in::amazon_s3_url($req["file_download"], $stream, $inline, $ssl, $basename, $mimetype), get_defined_vars());
 												}
 											/**/
 											else if /* Creating a rewrite URL, pointing to local storage. */($creating && $rewriting)

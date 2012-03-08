@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120301
-Stable tag: 120301
+Version: 120308
+Stable tag: 120308
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -85,10 +85,15 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120301 =
-Two bug fixes. Upgrade immediately.
+= v120308 =
+Upgrade immediately.
 
 == Changelog ==
+
+= v120308 =
+* (s2Member/s2Member Pro) **Custom Registration/Profile Fields**. Now possible to create a Custom Field that's always hidden, during both registration and any future Profile edits (e.g. for administrative purposes only).
+* (s2Member/s2Member Pro) **Compatibility**. Minor updates for compatibility with the coming release of WordPress® v3.4.
+* (s2Member Pro) **Bug fix**. Broken link in UI leading to: `s2m-pro-extras.zip`. Corrected in this release.
 
 = v120301 =
 * (s2Member Pro) **ClickBank**. Bug fix in call to `http_build_query()` related to `arg_separator`. This affected installations of PHP with something other than a default INI value for argument separators. Fixed in this release for better compatibility.

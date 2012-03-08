@@ -70,7 +70,7 @@ if(!class_exists("c_ws_plugin__s2member_custom_reg_fields"))
 								$common .= ((!empty($field["required"]) && $field["required"] === "yes") ? ' aria-required="true"' : '');
 								$common .= ((strlen($_tabindex)) ? ' tabindex="'.esc_attr($_tabindex).'"' : /* No tabindex if empty. */ '');
 								$common .= (( /* Certain data expected? */!empty($field["expected"])) ? ' data-expected="'.esc_attr($field["expected"]).'"' : '');
-								$common .= (($_editable_context === "profile-view" || (!empty($field["editable"]) && strpos($field["editable"], "no") === 0 && $_editable_context === "profile")) ? ' disabled="disabled"' : '');
+								$common .= (($_editable_context === "profile-view" || ($_editable_context === "profile" && !empty($field["editable"]) && strpos($field["editable"], "no") === 0)) ? ' disabled="disabled"' : '');
 								$common .= (($_classes || !empty($field["classes"])) ? ' class="'.esc_attr(trim($_classes.((!empty($field["classes"])) ? ' '.$field["classes"] : ''))).'"' : '');
 								$common .= (($_styles || !empty($field["styles"])) ? ' style="'.esc_attr(trim($_styles.((!empty($field["styles"])) ? ' '.$field["styles"] : ''))).'"' : '');
 								$common .= (($_attrs || !empty($field["attrs"])) ? ' '.trim($_attrs.((!empty($field["attrs"])) ? ' '.$field["attrs"] : '')) : '');
@@ -293,8 +293,8 @@ if(!class_exists("c_ws_plugin__s2member_custom_reg_fields"))
 							{
 								foreach(json_decode($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 									if($level === "any" || $field["levels"] === "all" || in_array($level, preg_split("/[;,]+/", preg_replace("/[^0-9;,]/", "", $field["levels"]))))
-										if(empty($_editable_context) || $_editable_context === "administrative" || ($_editable_context === "registration" && $field["editable"] !== "yes-invisible") || (($_editable_context === "profile" || $_editable_context === "profile-view") && $field["editable"] !== "no-invisible"))
-											$configured[] = $field["id"]; /* Add this to the array. */
+										if(empty($_editable_context) || $_editable_context === "administrative" || ($_editable_context === "registration" && $field["editable"] !== "no-always-invisible" && $field["editable"] !== "yes-invisible") || (($_editable_context === "profile" || $_editable_context === "profile-view") && $field["editable"] !== "no-invisible" && $field["editable"] !== "no-always-invisible"))
+											$configured[] = /* Add this to the array. */ $field["id"];
 							}
 						/**/
 						return apply_filters("ws_plugin__s2member_custom_fields_configured_at_level", ((!empty($configured)) ? $configured : array()), get_defined_vars());

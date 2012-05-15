@@ -203,8 +203,7 @@ jQuery(document).ready(function($)
 								/**/
 								ws_plugin__s2member_customRegFieldCreate = function()
 									{
-										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {
-										};
+										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
 										/**/
 										$(':input[property]', $table).each( /* Go through each property value. */function()
 											{
@@ -228,8 +227,7 @@ jQuery(document).ready(function($)
 								/**/
 								ws_plugin__s2member_customRegFieldUpdate = function(index)
 									{
-										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {
-										};
+										var $table = $('table#ws-plugin--s2member-custom-reg-field-configuration-tools-form'), field = {};
 										/**/
 										$(':input[property]', $table).each( /* Go through each property value. */function()
 											{
@@ -355,7 +353,7 @@ jQuery(document).ready(function($)
 								/**/
 								var fieldId2Var = /* Convert ids to variables. */ function(fieldId)
 									{
-										return( typeof fieldId === 'string') ? $.trim(fieldId).toLowerCase().replace(/[^a-z0-9]/g, '_') : '';
+										return ( typeof fieldId === 'string') ? $.trim(fieldId).toLowerCase().replace(/[^a-z0-9]/g, '_') : '';
 									};
 								/**/
 								var fieldTypeDesc = function(type)
@@ -942,8 +940,7 @@ jQuery(document).ready(function($)
 				/**/
 				ws_plugin__s2member_paypalButtonGenerate = /* Handles PayPal® Button Generation. */ function(button)
 					{
-						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '', labels = {
-						};
+						var shortCodeTemplate = '[s2Member-PayPal-Button %%attrs%% image="default" output="button" /]', shortCodeTemplateAttrs = '', labels = {};
 						/**/
 						eval("<?php echo c_ws_plugin__s2member_utils_strings::esc_dq($labels); ?>");
 						/**/
@@ -988,9 +985,9 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nMaximum Trial Amount is: 10000.00');
 								return false;
 							}
-						else if(trialTerm === 'D' && /* Some validation on the Trial Period. Max days: 7. */ trialPeriod > 7)
+						else if(trialTerm === 'D' && /* Some validation on the Trial Period. Max days: 90. */ trialPeriod > 90)
 							{
-								alert('— Oops, a slight problem: —\n\nMaximum Trial Days is: 7.\nIf you want to offer more than 7 days, please choose Weeks or Months from the drop-down.');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Days is: 90.\nIf you want to offer more than 90 days, please choose Weeks or Months from the drop-down.');
 								return false;
 							}
 						else if(trialTerm === 'W' && /* Some validation on the Trial Period. 52 max. */ trialPeriod > 52)
@@ -998,14 +995,14 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nMaximum Trial Weeks is: 52.\nIf you want to offer more than 52 weeks, please choose Months from the drop-down.');
 								return false;
 							}
-						else if(trialTerm === 'M' && /* Some validation on the Trial Period. 12 max. */ trialPeriod > 12)
+						else if(trialTerm === 'M' && /* Some validation on the Trial Period. 24 max. */ trialPeriod > 24)
 							{
-								alert('— Oops, a slight problem: —\n\nMaximum Trial Months is: 12.\nIf you want to offer more than 12 months, please choose Years from the drop-down.');
+								alert('— Oops, a slight problem: —\n\nMaximum Trial Months is: 24.\nIf you want to offer more than 24 months, please choose Years from the drop-down.');
 								return false;
 							}
-						else if(trialTerm === 'Y' && /* 1 year max. */ trialPeriod > 1)
+						else if(trialTerm === 'Y' && /* 5 years max. */ trialPeriod > 5)
 							{
-								alert('— Oops, a slight problem: —\n\nMax Trial Period Years is: 1.');
+								alert('— Oops, a slight problem: —\n\nMax Trial Period Years is: 5.');
 								return false;
 							}
 						else if(!regAmount || isNaN(regAmount) || regAmount < 0.01)

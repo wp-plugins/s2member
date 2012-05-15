@@ -273,7 +273,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 								/**/
 								echo '<th style="padding-top:0;">'."\n";
 								echo '<label for="ws-plugin--s2member-amazon-s3-files-bucket">'."\n";
-								echo 'Amazon® S3 File Bucket ( where protected files are ):'."\n";
+								echo 'Amazon® S3 File Bucket Name ( where protected files are ):'."\n";
 								echo '</label>'."\n";
 								echo '</th>'."\n";
 								/**/
@@ -282,7 +282,8 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 								/**/
 								echo '<td>'."\n";
 								echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_files_bucket" id="ws-plugin--s2member-amazon-s3-files-bucket" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket"]).'" /><br />'."\n";
-								echo 'Your Amazon® S3 Bucket will be used, instead of the <code>/'.esc_html(c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])).'/</code> directory.'."\n";
+								echo 'Your Amazon® S3 Bucket will be used, instead of the <code>/'.esc_html(c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])).'/</code> directory.<br />'."\n";
+								echo 'Please type the name of your Bucket. Ex: <code>mys3bucket</code>'."\n";
 								echo '</td>'."\n";
 								/**/
 								echo '</tr>'."\n";

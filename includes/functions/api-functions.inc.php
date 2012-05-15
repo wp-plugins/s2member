@@ -242,10 +242,10 @@ if (!function_exists ("user_is_not"))
 *
 * ———— Shortcode Conditional Equivalent ————
 * ```
-* [s2If curent_user_is(subscriber)]
+* [s2If current_user_is(subscriber)]
 * 	You ARE a Free Subscriber at Level #0.
 * [/s2If]
-* [s2If curent_user_is(s2member_level1)]
+* [s2If current_user_is(s2member_level1)]
 * 	You ARE a Member at Level #1.
 * [/s2If]
 * [s2If current_user_can(access_s2member_level2)]

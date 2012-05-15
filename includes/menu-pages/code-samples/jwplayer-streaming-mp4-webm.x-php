@@ -1,9 +1,17 @@
+<?php
+// Configuration.
+$config["jwplayer"] = "/jwplayer/"; // Relative URL path to JW Player files directory.
+$config["mp4_video_file_name"] = "video.mp4"; // Name of your MP4 test file.
+$config["webm_video_file_name"] = "video.webm"; // Name of your WEBM test file.
+// Don't edit anything else below unless you know what you're doing.
+?>
+
 <div id="jw-container">JW Player® appears here.</div>
-<script type="text/javascript" src="/jwplayer/jwplayer.js"></script>
+<script type="text/javascript" src="<?php echo $config["jwplayer"]; ?>jwplayer.js"></script>
 
 <?php /* A direct URL to the RTMP source; counting the file against the current User in real-time. */
-$mp4_cfg = array ("file_download" => "video.mp4", "url_to_storage_source" => true, "count_against_user" => true);
-$webm_cfg = array ("file_download" => "video.webm", "url_to_storage_source" => true /* Don't count variations. */); ?>
+$mp4_cfg = array ("file_download" => $config["mp4_video_file_name"], "url_to_storage_source" => true, "count_against_user" => true);
+$webm_cfg = array ("file_download" => $config["webm_video_file_name"], "url_to_storage_source" => true /* Don't count variations. */); ?>
 
 <?php /* API Function `s2member_file_download_url()` returns false if access is denied to the current User. */
 if (($mp4 = s2member_file_download_url ($mp4_cfg, "get-streamer-array")) 
@@ -13,7 +21,7 @@ if (($mp4 = s2member_file_download_url ($mp4_cfg, "get-streamer-array"))
 		jwplayer("jw-container").setup({modes: /* JW Player®. */
 		[
 			/* First try real-time streaming with Flash® player. */
-			{type: "flash", provider: "rtmp", src: "/jwplayer/player.swf",
+			{type: "flash", provider: "rtmp", src: "<?php echo $config["jwplayer"]; ?>player.swf",
 				config: {streamer: "<?php echo $mp4["streamer"]; ?>", file: "<?php echo $mp4["file"]; ?>"}},
 		
 			/* Else, try an HTML5 video tag with the `mp4` file. */

@@ -160,8 +160,7 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				$default_options["mms_auto_patch"] = "1";
 				$default_options["mms_registration_file"] = "wp-login";
 				$default_options["mms_registration_grants"] = "none";
-				for($n = 0, $v = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++, $v = $v + 5)
-					$default_options["mms_registration_blogs_level".$n] = (string)$v;
+				for($n = 0, $v = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++, $v = $v + 5)$default_options["mms_registration_blogs_level".$n] = (string)$v;
 				/**/
 				$default_options["login_welcome_page"] = "";
 				$default_options["login_redirection_override"] = "";
@@ -208,6 +207,11 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				$default_options["paypal_identity_token"] = "";
 				$default_options["paypal_btn_encryption"] = "0";
 				/**/
+				$default_options["paypal_payflow_api_username"] = "";
+				$default_options["paypal_payflow_api_partner"] = "PayPal";
+				$default_options["paypal_payflow_api_vendor"] = "";
+				$default_options["paypal_payflow_api_password"] = "";
+				/**/
 				$default_options["signup_tracking_codes"] = "";
 				$default_options["modification_tracking_codes"] = "";
 				$default_options["ccap_tracking_codes"] = "";
@@ -223,11 +227,9 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				/**/
 				$default_options["mailchimp_api_key"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_mailchimp_list_ids"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_mailchimp_list_ids"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_aweber_list_ids"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_aweber_list_ids"] = "";
 				/**/
 				$default_options["signup_notification_urls"] = "";
 				$default_options["registration_notification_urls"] = "";
@@ -249,16 +251,13 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				$default_options["sp_sale_notification_recipients"] = "";
 				$default_options["sp_ref_rev_notification_recipients"] = "";
 				/**/
-				for($n = 0, $l = array(_x("Free Subscriber", "s2member-front", "s2member"), _x("Bronze Member", "s2member-front", "s2member"), _x("Silver Member", "s2member-front", "s2member"), _x("Gold Member", "s2member-front", "s2member"), _x("Platinum Member", "s2member-front", "s2member")); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_label"] = (!empty($l[$n])) ? $l[$n] : sprintf(_x("Level %s Member", "s2member-front", "s2member"), $n);
+				for($n = 0, $l = array(_x("Free Subscriber", "s2member-front", "s2member"), _x("Bronze Member", "s2member-front", "s2member"), _x("Silver Member", "s2member-front", "s2member"), _x("Gold Member", "s2member-front", "s2member"), _x("Platinum Member", "s2member-front", "s2member")); $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_label"] = (!empty($l[$n])) ? $l[$n] : sprintf(_x("Level %s Member", "s2member-front", "s2member"), $n);
 				/**/
 				$default_options["apply_label_translations"] = "0";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_file_downloads_allowed"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_file_downloads_allowed"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_file_downloads_allowed_days"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_file_downloads_allowed_days"] = "";
 				/**/
 				$default_options["file_download_limit_exceeded_page"] = "";
 				$default_options["file_download_inline_extensions"] = "";
@@ -280,20 +279,15 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				$default_options["amazon_cf_files_distro_streaming_dname"] = "";
 				$default_options["amazon_cf_files_distros_auto_config_status"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_ruris"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_ruris"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_catgs"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_catgs"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_ptags"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_ptags"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_posts"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_posts"] = "";
 				/**/
-				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
-					$default_options["level".$n."_pages"] = "";
+				for($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)$default_options["level".$n."_pages"] = "";
 				/**/
 				$default_options["specific_ids"] = "";
 				/**/
@@ -452,6 +446,9 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 									$value = $default_options[$key];
 								/**/
 								else if(preg_match("/^paypal_(?:business|api_username|api_password|api_signature|identity_token)$/", $key) && (!is_string($value) || !strlen($value)))
+									$value = $default_options[$key];
+								/**/
+								else if(preg_match("/^paypal_payflow(?:api_username|api_partner|api_vendor|api_password)$/", $key) && (!is_string($value) || !strlen($value)))
 									$value = $default_options[$key];
 								/**/
 								else if($key === "paypal_btn_encryption" && (!is_string($value) || !is_numeric($value)))

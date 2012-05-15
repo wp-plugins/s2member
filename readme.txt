@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120309
-Stable tag: 120309
+Version: 120514
+Stable tag: 120514
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -16,7 +16,7 @@ Authorize.Net® Compatible: yes w/s2Member® Pro
 Google® Checkout Compatible: yes w/s2Member® Pro
 ClickBank® Compatible: yes w/s2Member® Pro
 
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 Requires at least: 3.2
 
 Copyright: © 2009 WebSharks, Inc.
@@ -85,10 +85,19 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120309 =
-Upgrade immediately.
+= v120514 =
+Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v120514 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member Pro) **Payflow® API Support**. s2Member® Pro now supports PayPal® Pro accounts operating with the Payflow® edition. It is now possible to process recurring payments through newer PayPal® Pro accounts (e.g. those which may use the new Payflow® API for recurring billing). Please note, this feature should ONLY be used by site owners with a brand new PayPal® Pro account, which has Recurring Billing service enabled under the Payflow® edition. Site owners with existing PayPal® Pro accounts are NOT impacted by this feature, nor should they attempt to use this feature. For further details, please check your Dashboard under: `s2Member® -> PayPal® Options -> Payflow® Account Details`.
+* (s2Member Pro) **Authorize.Net® Shortcode Attribute**. A new Shortcode Attribute `rrt=""`, is available for Authorize.Net® Pro Forms. For further details, please check your Dashboard under: `s2Member® -> Authorize.Net® Forms -> Shortcode Attributes (Explained)`.
+* (s2Member Pro) **Authorize.Net® Bug Fix**. Transactions were sometimes failing due to character length restrictions imposed by the Authorize.Net® API. Fixed in this release. Please see [this thread](http://www.s2member.com/forums/topic/customer-charged-but-not-given-access/#post-13454) for further details.
+* (s2Member/s2Member Pro) **Remote Request Hook**. A few developers requested this. A new WordPress® Hook was added to s2Member's remote connection routine. Search s2Member's source code for Hook name: `ws_plugin__s2member_before_wp_remote_request`.
+* (s2Member Framework) **PayPal® Buttons**. Restrictions limiting the number of days/weeks/months/years allowed in recurring periods for a PayPal® Button have been increased. Max days was increased from `7` to `90`, weeks remains at `52` max, months is up from `12` to `24` max; years increased from `1`, up to `5` years max. This change impacts PayPal® Standard Buttons only, and does NOT affect Pro Forms, which operate on restrictions imposed by the PayPal® Pro API (and these are slightly different).
+* (s2Member/s2Member Pro) **JW Player® Code Samples**. Updated code samples for JW Player®. For further details, please check your Dashboard under: `s2Member® -> Download Options -> JW Player® Code Samples`.
 
 = v120309 =
 * (s2Member Pro) **ccBill® Cancellations**. It's now possible for s2Member to pull ccBill® "cancellation" events, from the ccBill® DataLink Service Suite. For further details and configuration options, please check this section of your Dashboard: `s2Member -> ccBill Options -> DataLink Integration`.

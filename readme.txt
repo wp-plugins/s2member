@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120514
-Stable tag: 120514
+Version: 120517
+Stable tag: 120517
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -89,6 +89,12 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v120517 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member Pro) **PayPal® Pro Forms**. This release removes all limitations on the maximum length of an initial trial/period. It is now possible to offer any number of days/weeks/months/years for free, or at a different initial rate.
+* (s2Member Pro) **Authorize.Net® Bug Fix**. Max length (i.e. `maxlength=""`) adjusted in Pro Forms integrating with Authorize.Net. Transactions were sometimes failing due to character length restrictions imposed by the Authorize.Net® API. Fixed in this release. Please see [this thread](http://www.s2member.com/forums/topic/customer-charged-but-not-given-access/#post-13454) for further details.
+* (s2Member/s2Member Pro) **JW Player® Code Samples**. Updated code samples for JW Player®, to reduce the possibility of a namespace conflict in configuration variables. For further details, please check [this thread](http://www.s2member.com/forums/topic/jw-player-new-code-conflict/#post-13819).
 
 = v120514 =
 * **(Maintenance Release) Upgrade immediately.**

@@ -625,7 +625,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 																$role = (!$role) ? get_option ("default_role") : $role; /* Otherwise default. */
 																/**/
 																$level = (string)@$_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"];
-																$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? "4" : $level;
+																$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"] : $level;
 																$level = (!$level && preg_match ("/^s2member_level[1-9][0-9]*$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
 																$level = (!$level && preg_match ("/^subscriber$/i", $role)) ? "0" : $level;
 																$level = (!$level) ? "0" : $level;
@@ -770,7 +770,7 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 																$role = (!$role) ? get_option ("default_role") : $role; /* Otherwise default. */
 																/**/
 																$level = (string)@$_pmr["ws_plugin__s2member_custom_reg_field_s2member_level"];
-																$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? "4" : $level;
+																$level = (!$level && preg_match ("/^(administrator|editor|author|contributor)$/i", $role)) ? $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"] : $level;
 																$level = (!$level && preg_match ("/^s2member_level[1-9][0-9]*$/i", $role)) ? preg_replace ("/^s2member_level/", "", $role) : $level;
 																$level = (!$level && preg_match ("/^subscriber$/i", $role)) ? "0" : $level;
 																$level = (!$level) ? "0" : $level;

@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120517
-Stable tag: 120517
+Version: 120601
+Stable tag: 120601
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -85,11 +85,16 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120514 =
+= v120601 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
 
+= v120601 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member Pro) **ClickBank® Button Shortcodes**. This release works around a bug that has been discovered on the ClickBank® side of things, when a `+` character appears in the `desc=""` attribute of your ClickBank® Button Shortcode. Resolved in this release. Please see [this thread](http://www.s2member.com/forums/topic/clickbank-output-url/#post-15166) for further details.
+* (s2Member Pro) **Payflow® Daily Recurrence (Limitation)**. PayPal® Pro accounts with the Payflow® Edition API, are NOT capable of charging on a `daily` recurring basis. Previous releases of s2Member® Pro mistakenly documented this as being possible. Resolved in this release. PayPal® Pro accounts operating with the Payflow® Edition (and integrated with s2Member®), are only capable of charging recurring fees on the following schedules: `weekly, bi-weekly, monthly, quarterly, or yearly`. This is in large part, a limitation in the Payflow® API, which we hope will be resolved by PayPal® in a future version. Please feel free to contact PayPal® if you'd like to vote for this feature! This limitation does NOT affect existing PayPal® Pro accounts operating exclusively under the PayPal® Pro API (e.g. without Payflow®).
+* (s2Member Pro) **New ccBill® Shortcodes**. s2Member® Pro now includes two new Shortcode Attributes for ccBill® payment button integrations. These include: `sub_account` and `form`. Making it possible to integrate a single installation of s2Member® Pro with multiple ccBill® sub-accounts, and/or multiple ccBill® forms (as they exist in your ccBill® account). For further details, please read the Shortcode documentation, found in your Dashboard under: `s2Member® -> ccBill® Buttons -> Shortcode Attributes (Explained)`.
 = v120517 =
 * **(Maintenance Release) Upgrade immediately.**
 * (s2Member Pro) **PayPal® Pro Forms**. This release removes all limitations on the maximum length of an initial trial/period. It is now possible to offer any number of days/weeks/months/years for free, or at a different initial rate.

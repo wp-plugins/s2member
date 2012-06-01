@@ -361,8 +361,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 				* @param str $period Expects a numeric value.
 				* @return bool|str A full singular description of the term *( i.e. `DAY|WEEK|BIWK|MONT|QTER|YEAR` )*, else false.
 				*
-				* @note Payflow® unfortunately does NOT support bi-monthly billing.
-				* 	It DOES support semi-monthly billing, but that can be confusing for customers.
+				* @note Payflow® unfortunately does NOT support daily and/or bi-monthly billing.
 				*/
 				public static function paypal_payflow_term($term = FALSE, $period = FALSE)
 					{

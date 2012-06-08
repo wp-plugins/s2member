@@ -48,6 +48,8 @@ s2Member®, a powerful (free) membership plugin for WordPress®. Protect/secure 
 
 == Installation ==
 
+**NOTE:** Please do NOT use the WordPress® forums to seek company support. Support for s2Member® is handled in [our own support forums](http://www.s2member.com/forums/).
+
 = s2Member® is very easy to install (instructions) =
 1. Upload the `/s2member` folder to your `/wp-content/plugins/` directory.
 2. Activate the plugin through the `Plugins` menu in WordPress®.
@@ -61,7 +63,7 @@ Yes. s2Member and s2Member Pro, are also both compatible with Multisite Networki
 
 == Description ==
 
-**Please NOTE:** Please do NOT use the WordPress® forums to seek company support. Support for s2Member® is handled in [our own support forums](http://www.s2member.com/forums/).
+**NOTE:** Please do NOT use the WordPress® forums to seek company support. Support for s2Member® is handled in [our own support forums](http://www.s2member.com/forums/).
 
 [youtube http://www.youtube.com/watch?v=neGsNjWhOBs /]
 
@@ -74,6 +76,8 @@ s2Member allows you to protect Pages, Posts, Tags, Categories, URIs, URI word fr
 You can learn more about s2Member® at [s2Member.com](http://www.s2member.com/).
 
 == Frequently Asked Questions ==
+
+**NOTE:** Please do NOT use the WordPress® forums to seek company support. Support for s2Member® is handled in [our own support forums](http://www.s2member.com/forums/).
 
 = Please check the following s2Member® resources: =
 * s2Member FAQs: http://www.s2member.com/faqs/

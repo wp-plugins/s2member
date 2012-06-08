@@ -97,7 +97,7 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 						$a[] = 'body, body * { font-family:'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_font_family"].$i.'; }';
 						/**/
 						$a[] = 'div#login { width:'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_width"].'px'.$i.'; }';
-						$a[] = 'div#login h1 a { background:url('.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"].') no-repeat top center'.$i.'; }';
+						$a[] = 'div#login h1 a { background:url('.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src"].') no-repeat top center'.$i.'; background-size:auto'.$i.'; }';
 						$a[] = 'div#login h1 a { display:block'.$i.'; width:100%'.$i.'; height:'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_logo_src_height"].'px'.$i.'; }';
 						/**/
 						$a[] = 'div#login form { -moz-box-shadow:1px 1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].', -1px -1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].$i.'; -webkit-box-shadow:1px 1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].', -1px -1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].$i.'; box-shadow:1px 1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].', -1px -1px 5px #'.$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_reg_background_box_shadow_color"].$i.'; }';

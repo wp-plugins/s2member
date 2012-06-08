@@ -257,7 +257,12 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						/**/
 						$input_time = /* Record input/nvp for logging. */ date("D M j, Y g:i:s a T");
 						/**/
-						$nvp = trim(c_ws_plugin__s2member_utils_urls::remote($url, $post_vars, array("timeout" => 20)));
+						$nvp_post_vars = "";
+						foreach($post_vars as $_key => $_value /* A ridiculous `text/namevalue` format. */)
+							$nvp_post_vars .= (($nvp_post_vars) ? "&" : "").$_key."[".strlen($_value)."]=".$_value;
+						unset($_key, $_value);
+						/**/
+						$nvp = trim(c_ws_plugin__s2member_utils_urls::remote($url, $nvp_post_vars, array("timeout" => 20, "headers" => array("Content-Type" => "text/namevalue"))));
 						/**/
 						$output_time = /* Now record after output time. */ date("D M j, Y g:i:s a T");
 						/**/

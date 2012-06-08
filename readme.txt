@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120601
-Stable tag: 120601
+Version: 120608
+Stable tag: 120608
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -16,7 +16,7 @@ Authorize.Net® Compatible: yes w/s2Member® Pro
 Google® Checkout Compatible: yes w/s2Member® Pro
 ClickBank® Compatible: yes w/s2Member® Pro
 
-Tested up to: 3.3.2
+Tested up to: 3.4
 Requires at least: 3.2
 
 Copyright: © 2009 WebSharks, Inc.
@@ -85,16 +85,25 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120601 =
+= v120608 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v120608 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member/s2Member Pro) **WordPress® v3.4**. Updated for compatibility with the coming release of [WordPress® v3.4](http://wordpress.org/news/2012/06/wordpress-3-4-release-candidate-2/).
+* (s2Member/s2Member Pro) **Payflow® Bug Fix**. This release addresses two bugs that existed in s2Member's Payflow® integration. Resolved in this release. Please see [this thread](http://www.s2member.com/forums/topic/transactions-not-going-through/#post-15896) for further details.
+* (s2Member Pro) **PayPal® Express Checkout**. This release enables "PayPal Account Optional" for PayPal® Express Checkout, via s2Member Pro Forms. In other words, this release makes the PayPal® Express Checkout option through Pro Forms, behave more like a standard PayPal® Button; where a customer is not always required to have a PayPal® account during checkout. This functionality is enabled automatically, there's nothing you need to change in your s2Member® integration. However, we do suggest that you turn "PayPal Account Optional" (on) inside your PayPal® account. Please see [this thread](http://www.s2member.com/forums/topic/paypal-express-for-paypal-pro-user/#post-15892) for further details.
+* (s2Member) **Documentation**. Code samples for Content Dripping have been updated in the Dashboard, in order to correct a date comparison snippet, which was WRONG. Please check your Dashboard under: `s2Member® -> API Scripting -> Content Dripping -> Example #2`, for the updated code sample.
 
 = v120601 =
 * **(Maintenance Release) Upgrade immediately.**
 * (s2Member Pro) **ClickBank® Button Shortcodes**. This release works around a bug that has been discovered on the ClickBank® side of things, when a `+` character appears in the `desc=""` attribute of your ClickBank® Button Shortcode. Resolved in this release. Please see [this thread](http://www.s2member.com/forums/topic/clickbank-output-url/#post-15166) for further details.
 * (s2Member Pro) **Payflow® Daily Recurrence (Limitation)**. PayPal® Pro accounts with the Payflow® Edition API, are NOT capable of charging on a `daily` recurring basis. Previous releases of s2Member® Pro mistakenly documented this as being possible. Resolved in this release. PayPal® Pro accounts operating with the Payflow® Edition (and integrated with s2Member®), are only capable of charging recurring fees on the following schedules: `weekly, bi-weekly, monthly, quarterly, or yearly`. This is in large part, a limitation in the Payflow® API, which we hope will be resolved by PayPal® in a future version. Please feel free to contact PayPal® if you'd like to vote for this feature! This limitation does NOT affect existing PayPal® Pro accounts operating exclusively under the PayPal® Pro API (e.g. without Payflow®).
 * (s2Member Pro) **New ccBill® Shortcodes**. s2Member® Pro now includes two new Shortcode Attributes for ccBill® payment button integrations. These include: `sub_account` and `form`. Making it possible to integrate a single installation of s2Member® Pro with multiple ccBill® sub-accounts, and/or multiple ccBill® forms (as they exist in your ccBill® account). For further details, please read the Shortcode documentation, found in your Dashboard under: `s2Member® -> ccBill® Buttons -> Shortcode Attributes (Explained)`.
+* (s2Member/s2Member Pro) **Bug Fix**. A bug related to inaccurate role assignment, under certain scenarios (for administrative accounts). Resolved in this release. Please see [this thread](http://www.s2member.com/forums/topic/inaccurate-role-assignment-in-s2member-pro/#post-14122) for further details.
+
 = v120517 =
 * **(Maintenance Release) Upgrade immediately.**
 * (s2Member Pro) **PayPal® Pro Forms**. This release removes all limitations on the maximum length of an initial trial/period. It is now possible to offer any number of days/weeks/months/years for free, or at a different initial rate.

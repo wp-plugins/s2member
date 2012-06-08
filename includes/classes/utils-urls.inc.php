@@ -198,8 +198,7 @@ if(!class_exists("c_ws_plugin__s2member_utils_urls"))
 								if((is_array($post_vars) || is_string($post_vars)) && !empty($post_vars))
 									$args = array_merge($args, array("method" => "POST", "body" => $post_vars));
 								/**/
-								if(!empty($args["method"]) && strcasecmp((string)$args["method"], "DELETE") === 0)
-									/* WordPress® v3.3 and prior, does NOT support `DELETE` via cURL unfortunately. */
+								if(!empty($args["method"]) && strcasecmp((string)$args["method"], "DELETE") === 0 && version_compare(get_bloginfo("version"), "3.4", "<"))
 									add_filter("use_curl_transport", "__return_false", /* ID via priority. */ 111209554);
 								/**/
 								eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');

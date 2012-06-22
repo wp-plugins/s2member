@@ -14,10 +14,10 @@
 * @package s2Member\Utilities
 * @since 110531
 */
-if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
-	exit ("Do not access this file directly.");
+if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
+	exit("Do not access this file directly.");
 /**/
-if (!class_exists ("c_ws_plugin__s2member_utils_cur"))
+if(!class_exists("c_ws_plugin__s2member_utils_cur"))
 	{
 		/**
 		* Currency utilities.
@@ -43,17 +43,17 @@ if (!class_exists ("c_ws_plugin__s2member_utils_cur"))
 				*
 				* @see http://www.techmug.com/ajax-currency-converter-with-google-api/
 				*/
-				public static function convert ($a = FALSE, $from = FALSE, $to = FALSE)
+				public static function convert($a = FALSE, $from = FALSE, $to = FALSE)
 					{
-						if (is_numeric ($a) && strlen ($from = strtoupper ($from)) === 3 && strlen ($to = strtoupper ($to)) === 3)
+						if(is_numeric($a) && strlen($from = strtoupper($from)) === 3 && strlen($to = strtoupper($to)) === 3)
 							{
-								$q = number_format ($a, 2, ".", "") . $from . "=?" . $to;
-								$api = "http://www.google.com/ig/calculator?hl=en&q=" . urlencode ($q);
+								$q = number_format($a, 2, ".", "").$from."=?".$to;
+								$api = "http://www.google.com/ig/calculator?hl=en&q=".urlencode($q);
 								/**/
-								if (($json = c_ws_plugin__s2member_utils_urls::remote ($api)) && is_array ($json = json_decode ($json, true)) && !empty ($json["icc"]) && isset ($json["rhs"]) && strlen ($json["rhs"]))
+								if(($json = preg_replace('/([{,])\s*([^"]+?)\s*:/', '$1"$2":', c_ws_plugin__s2member_utils_urls::remote($api))) && is_array($json = json_decode($json, true)) && !empty($json["icc"]) && isset($json["rhs"]) && strlen($json["rhs"]))
 									{
-										if (is_numeric ($c_a = preg_replace ("/ .*$/", "", trim ($json["rhs"]))) && $c_a >= 0)
-											return number_format ($c_a, 2, ".", "");
+										if(is_numeric($c_a = preg_replace("/ .*$/", "", trim($json["rhs"]))) && $c_a >= 0)
+											return number_format($c_a, 2, ".", "");
 									}
 							}
 						/**/
@@ -70,7 +70,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_cur"))
 				* @param str $currency Expects a 3 character Currency Code.
 				* @return str A Currency Symbol. Defaults to the `$` sign.
 				*/
-				public static function symbol ($currency = FALSE)
+				public static function symbol($currency = FALSE)
 					{
 						$symbols["AUD"] = "$"; /* Australian Dollar */
 						$symbols["BRL"] = "R$"; /* Brazilian Real */
@@ -96,11 +96,11 @@ if (!class_exists ("c_ws_plugin__s2member_utils_cur"))
 						$symbols["THB"] = "฿"; /* Thai Baht */
 						$symbols["USD"] = "$"; /* U.S. Dollar */
 						/**/
-						if (($currency = strtoupper ($currency)) && !empty ($symbols[$currency]))
+						if(($currency = strtoupper($currency)) && !empty($symbols[$currency]))
 							return $symbols[$currency];
 						/**/
 						else /* Else `$` sign. */
-							return "$";
+						return "$";
 					}
 			}
 	}

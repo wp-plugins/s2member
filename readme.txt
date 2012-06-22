@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120608
-Stable tag: 120608
+Version: 120622
+Stable tag: 120622
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -91,10 +91,17 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120608 =
+= v120622 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v120622 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member/s2Member Pro) **WordPress® v3.4**. Confirmed compatibility with WordPress® v3.4.
+* (s2Member/s2Member Pro) **Currency Conversion**. This release updates s2Member's currency conversion API, which is powered by Google®. Please see [this thread](http://www.s2member.com/forums/topic/paypal-agreecontinue-sends-to-memb-options/#post-16972) for further details.
+* (s2Member/s2Member Pro) **Payflow® Bug Fix**. This release addresses a bug that existed in s2Member's Payflow® integration with Express Checkout. Resolved in this release. Please see [this thread](http://www.s2member.com/forums/topic/cant-do-recurring-billing-via-paypal-payflow/#post-16966) for further details.
+* (s2Member/s2Member Pro) **Character Encoding**. This release fixes a big in s2Member's character encoding conversion, for IPN responses received from PayPal®. This releases also fixes an issue specifically with the pound sterling symbol `£`, which was causing some transient IPN data to become corrupted, under the right scenario.
 
 = v120608 =
 * **(Maintenance Release) Upgrade immediately.**

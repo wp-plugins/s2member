@@ -64,6 +64,11 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 														if(strlen($key = trim($key)) && strlen($value = trim($value)))
 															$postvars[$key] = trim(stripslashes(urldecode($value)));
 													}
+												if(!empty($postvars["charset"]) && function_exists("mb_convert_encoding"))
+													{
+														foreach($postvars as &$value)
+															$value = @mb_convert_encoding($value, "UTF-8", $postvars["charset"]);
+													}
 												/**/
 												return apply_filters("ws_plugin__s2member_paypal_postvars", $postvars, get_defined_vars());
 											}
@@ -80,6 +85,12 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 										$postback["cmd"] = "_notify-validate";
 										/**/
 										$postvars = c_ws_plugin__s2member_utils_strings::trim_deep($postvars);
+										/**/
+										if(!empty($postvars["charset"]) && function_exists("mb_convert_encoding"))
+											{
+												foreach($postvars as &$value)
+													$value = @mb_convert_encoding($value, "UTF-8", $postvars["charset"]);
+											}
 										/**/
 										$endpoint = ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com";
 										/**/

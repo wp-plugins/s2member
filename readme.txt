@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120622
-Stable tag: 120622
+Version: 120703
+Stable tag: 120703
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -91,10 +91,15 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120622 =
+= v120703 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v120703 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member/s2Member Pro) **Payflow® Express Checkout**. An issue related to Express Checkout (when using the Payflow® API), has been corrected in this release. A bug in previous releases, was causing error messages under certain circumstances that read `Field format error: Invalid PayerID`.
+* (s2Member/s2Member Pro) **WordPress® v3.4**. Standards compliance. Routine maintenance. Re-confirmed compatibility with WordPress® v3.4.
 
 = v120622 =
 * **(Maintenance Release) Upgrade immediately.**

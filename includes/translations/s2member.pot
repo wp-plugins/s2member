@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the s2Member® Framework package.
 msgid ""
 msgstr ""
-"Project-Id-Version: s2Member® Framework 120608\n"
+"Project-Id-Version: s2Member® Framework 120622\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/___s2member\n"
-"POT-Creation-Date: 2012-06-22 18:32:29+00:00\n"
+"POT-Creation-Date: 2012-07-03 20:54:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2466,8 +2466,8 @@ msgstr ""
 #: s2member-pro/includes/classes/gateways/authnet/authnet-checkout-in.inc.php:580
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:291
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:614
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:333
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:664
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:334
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:666
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:422
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:850
 msgctxt "s2member-front"
@@ -2478,8 +2478,8 @@ msgstr ""
 #: s2member-pro/includes/classes/gateways/authnet/authnet-checkout-in.inc.php:696
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:453
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:766
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:503
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:816
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:505
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:818
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:684
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:1002
 msgctxt "s2member-front"
@@ -2496,10 +2496,10 @@ msgstr ""
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:483
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:775
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:796
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:512
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:533
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:825
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:846
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:514
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:535
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:827
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:848
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:693
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:714
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:1011
@@ -2514,8 +2514,8 @@ msgstr ""
 #: s2member-pro/includes/classes/gateways/authnet/authnet-checkout-in.inc.php:717
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:474
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:787
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:524
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:837
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:526
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:839
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:705
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:1023
 msgctxt "s2member-front"
@@ -2524,7 +2524,7 @@ msgstr ""
 
 #: s2member-pro/includes/classes/gateways/authnet/authnet-checkout-in.inc.php:737
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:807
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:857
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:859
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:1043
 #: s2member-pro/includes/classes/gateways/paypal/paypal-update-pf-in.inc.php:138
 msgctxt "s2member-front"
@@ -3595,8 +3595,8 @@ msgstr ""
 
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:303
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-in.inc.php:626
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:345
-#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:676
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:346
+#: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-pf-in.inc.php:678
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:439
 #: s2member-pro/includes/classes/gateways/paypal/paypal-checkout-rdp-in.inc.php:862
 msgctxt "s2member-front"

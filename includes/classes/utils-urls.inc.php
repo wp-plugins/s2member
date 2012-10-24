@@ -195,6 +195,8 @@ if(!class_exists("c_ws_plugin__s2member_utils_urls"))
 								$args = /* Force array, and disable SSL verification. */ (!is_array($args)) ? array(): $args;
 								$args["sslverify"] = (!isset($args["sslverify"])) ? /* Off. */ false : $args["sslverify"];
 								/**/
+								$args["httpversion"] = (!isset($args["httpversion"])) ? "1.1" : $args["httpversion"];
+								/**/
 								if((is_array($post_vars) || is_string($post_vars)) && !empty($post_vars))
 									$args = array_merge($args, array("method" => "POST", "body" => $post_vars));
 								/**/

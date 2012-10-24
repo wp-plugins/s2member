@@ -121,7 +121,8 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 								/**/
 								if(empty($parse["host"]) || strcasecmp($parse["host"], c_ws_plugin__s2member_utils_urls::parse_url(site_url(), PHP_URL_HOST)) === 0)
 									if($parse["path"] === "/" || rtrim($parse["path"], "/") === rtrim(c_ws_plugin__s2member_utils_urls::parse_url(site_url(), PHP_URL_PATH), "/"))
-										return true;
+										if(get_option("permalink_structure") || (empty($_GET["post_id"]) && empty($_GET["page_id"]) && empty($_GET["p"])))
+											return true;
 							}
 						return false; /* Default return false. */
 					}

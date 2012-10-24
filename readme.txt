@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 120703
-Stable tag: 120703
+Version: 121023
+Stable tag: 121023
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -16,7 +16,7 @@ Authorize.Net® Compatible: yes w/s2Member® Pro
 Google® Checkout Compatible: yes w/s2Member® Pro
 ClickBank® Compatible: yes w/s2Member® Pro
 
-Tested up to: 3.4
+Tested up to: 3.4.2
 Requires at least: 3.2
 
 Copyright: © 2009 WebSharks, Inc.
@@ -91,10 +91,21 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v120703 =
+= v121023 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v121023 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member / s2Member Pro) **Bug Fix**. A bug related to s2Member's `is_site_root()` method, when fancy permalinks are NOT in use; has been corrected for compatibility with the latest version of WordPress. Please see [this thread](http://www.s2member.com/forums/topic/new-custom-field-default-not-on-old-users/#post-28792) for futher details.
+* (s2Member Pro) **Import/Export Bug Fix**. An issue related to RFC guidelines for escape sequences in CSV files has been addressed in this release. Please see [this thread](http://www.s2member.com/forums/topic/new-custom-field-default-not-on-old-users/#post-28792) for futher details.
+* (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was updated for improved compatibility across multiple ccBill® sub-accounts.
+* (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was updated for improved compatibility w/ ccBill® servers running on MST timezone.
+* (s2Member/s2Member Pro) **API Function**. A new API Function was added. See: ``s2member_login_ips_for($username)``. Please check the [s2Member® Codex](http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/) for documentation. [This thread](http://www.s2member.com/forums/topic/s2member-restriction-options-unique-ip/#post-20562) may also be of some assistance.
+* (s2Member/s2Member Pro) **404 Error (Bug Fix)**. A former dependency on `l10n.js` from the WordPress® core is no longer necessary. This old dependency has been removed to prevent 404 errors in the latest versions of WordPress®. Please check [this thread](http://www.s2member.com/forums/topic/wordpress-i10n-file-404-from-s2member/#post-20567) for further details.
+* (s2Member Pro) **reCAPTCHA® Bug Fix**. A bug sometimes causing failed reCAPTCHA® responses after PayPal® Express Checkout has been corrected in this release. This occurred during certain scenarios, whenever reCAPTCHA® was enabled for checkout forms, and PayPal Express Checkout was selected as the payment method of choice.
+* (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was modified to prevent dates in the future from being requested from the DataLink API. ccBill® was responding to some DataLink requests with a failed authentication, which were caused by dates/times in the future; according to MST on the ccBill® side of things.
 
 = v120703 =
 * **(Maintenance Release) Upgrade immediately.**

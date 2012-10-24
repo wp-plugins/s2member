@@ -14,7 +14,7 @@
 * @package s2Member\API_Functions
 * @since 3.5
 */
-if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
+if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 	exit("Do not access this file directly.");
 /**
 * Conditional to determine if the current User is NOT logged in.
@@ -49,11 +49,11 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 *
 * @see http://codex.wordpress.org/Function_Reference/is_user_logged_in is_user_logged_in()
 */
-if (!function_exists ("is_user_not_logged_in"))
+if(!function_exists("is_user_not_logged_in"))
 	{
-		function is_user_not_logged_in ()
+		function is_user_not_logged_in()
 			{
-				return (!is_user_logged_in ());
+				return (!is_user_logged_in());
 			}
 	}
 /**
@@ -127,19 +127,19 @@ if (!function_exists ("is_user_not_logged_in"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("user_is"))
+if(!function_exists("user_is"))
 	{
-		function user_is ($id = FALSE, $role = FALSE)
+		function user_is($id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace("/^access_/i", "", $role);
 				/**/
-				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ($id))
+				if(($role === "super_administrator" || $role === "administrator") && is_multisite() && is_super_admin($id))
 					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
 				/**/
-				else if (is_multisite () && is_super_admin ($id)) /* Else return false for Super Admins here. */
+				else if(is_multisite() && is_super_admin($id)) /* Else return false for Super Admins here. */
 					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
 				/**/
-				return user_can ($id, $role);
+				return user_can($id, $role);
 			}
 	}
 /**
@@ -212,11 +212,11 @@ if (!function_exists ("user_is"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("user_is_not"))
+if(!function_exists("user_is_not"))
 	{
-		function user_is_not ($id = FALSE, $role = FALSE)
+		function user_is_not($id = FALSE, $role = FALSE)
 			{
-				return (!user_is ($id, $role));
+				return (!user_is($id, $role));
 			}
 	}
 /**
@@ -289,19 +289,19 @@ if (!function_exists ("user_is_not"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_is"))
+if(!function_exists("current_user_is"))
 	{
-		function current_user_is ($role = FALSE)
+		function current_user_is($role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace("/^access_/i", "", $role);
 				/**/
-				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ())
+				if(($role === "super_administrator" || $role === "administrator") && is_multisite() && is_super_admin())
 					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
 				/**/
-				else if (is_multisite () && is_super_admin ()) /* Else return false for Super Admins here. */
+				else if(is_multisite() && is_super_admin()) /* Else return false for Super Admins here. */
 					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
 				/**/
-				return current_user_can ($role);
+				return current_user_can($role);
 			}
 	}
 /**
@@ -373,11 +373,11 @@ if (!function_exists ("current_user_is"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_is_not"))
+if(!function_exists("current_user_is_not"))
 	{
-		function current_user_is_not ($role = FALSE)
+		function current_user_is_not($role = FALSE)
 			{
-				return (!current_user_is ($role));
+				return (!current_user_is($role));
 			}
 	}
 /**
@@ -456,19 +456,19 @@ if (!function_exists ("current_user_is_not"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_is_for_blog"))
+if(!function_exists("current_user_is_for_blog"))
 	{
-		function current_user_is_for_blog ($blog_id = FALSE, $role = FALSE)
+		function current_user_is_for_blog($blog_id = FALSE, $role = FALSE)
 			{
-				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace ("/^access_/i", "", $role);
+				$role = ($role === "s2member_level0") ? "subscriber" : preg_replace("/^access_/i", "", $role);
 				/**/
-				if (($role === "super_administrator" || $role === "administrator") && is_multisite () && is_super_admin ())
+				if(($role === "super_administrator" || $role === "administrator") && is_multisite() && is_super_admin())
 					return true; /* Return true, Super Admins are always considered an Admnistrator, for all Blogs. */
 				/**/
-				else if (is_multisite () && is_super_admin ()) /* Else return false for Super Admins here. */
+				else if(is_multisite() && is_super_admin()) /* Else return false for Super Admins here. */
 					return false; /* Super Admins can access all Capabilities, so the default handling would fail. */
 				/**/
-				return current_user_can_for_blog ($blog_id, $role);
+				return current_user_can_for_blog($blog_id, $role);
 			}
 	}
 /**
@@ -535,11 +535,11 @@ if (!function_exists ("current_user_is_for_blog"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_is_not_for_blog"))
+if(!function_exists("current_user_is_not_for_blog"))
 	{
-		function current_user_is_not_for_blog ($blog_id = FALSE, $role = FALSE)
+		function current_user_is_not_for_blog($blog_id = FALSE, $role = FALSE)
 			{
-				return (!current_user_is_for_blog ($blog_id, $role));
+				return (!current_user_is_for_blog($blog_id, $role));
 			}
 	}
 /**
@@ -604,11 +604,11 @@ if (!function_exists ("current_user_is_not_for_blog"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("user_cannot"))
+if(!function_exists("user_cannot"))
 	{
-		function user_cannot ($id = FALSE, $capability = FALSE)
+		function user_cannot($id = FALSE, $capability = FALSE)
 			{
-				return (!user_can ($id, $capability));
+				return (!user_can($id, $capability));
 			}
 	}
 /**
@@ -673,11 +673,11 @@ if (!function_exists ("user_cannot"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_cannot"))
+if(!function_exists("current_user_cannot"))
 	{
-		function current_user_cannot ($capability = FALSE)
+		function current_user_cannot($capability = FALSE)
 			{
-				return (!current_user_can ($capability));
+				return (!current_user_can($capability));
 			}
 	}
 /**
@@ -743,11 +743,11 @@ if (!function_exists ("current_user_cannot"))
 * @see http://codex.wordpress.org/Function_Reference/current_user_can current_user_can()
 * @see http://codex.wordpress.org/Function_Reference/current_user_can_for_blog current_user_can_for_blog()
 */
-if (!function_exists ("current_user_cannot_for_blog"))
+if(!function_exists("current_user_cannot_for_blog"))
 	{
-		function current_user_cannot_for_blog ($blog_id = FALSE, $capability = FALSE)
+		function current_user_cannot_for_blog($blog_id = FALSE, $capability = FALSE)
 			{
-				return (!current_user_can_for_blog ($blog_id, $capability));
+				return (!current_user_can_for_blog($blog_id, $capability));
 			}
 	}
 /**
@@ -852,28 +852,28 @@ if (!function_exists ("current_user_cannot_for_blog"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_protected_by_s2member"))
+if(!function_exists("is_protected_by_s2member"))
 	{
-		function is_protected_by_s2member ($what = FALSE, $type = FALSE, $check_user = FALSE)
+		function is_protected_by_s2member($what = FALSE, $type = FALSE, $check_user = FALSE)
 			{
 				global $post; /* Global reference to $post in The Loop. */
 				/**/
-				$what = ($what) ? $what : ((is_object ($post) && $post->ID) ? $post->ID : false);
-				$type = ($type) ? strtolower ($type) : "singular";
+				$what = ($what) ? $what : ((is_object($post) && $post->ID) ? $post->ID : false);
+				$type = ($type) ? strtolower($type) : "singular";
 				/**/
-				if ($type === "category" && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($what, $check_user)))
+				if($type === "category" && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
-				else if ($type === "tag" && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($what, $check_user)))
+				else if($type === "tag" && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
-				else if (($type === "post" || $type === "singular") && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($what, $check_user)))
+				else if(($type === "post" || $type === "singular") && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
-				else if (($type === "page" || $type === "singular") && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($what, $check_user)))
+				else if(($type === "page" || $type === "singular") && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
-				else if ($type === "uri" && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($what, $check_user)))
+				else if($type === "uri" && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access($what, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
 				return false;
@@ -974,28 +974,28 @@ if (!function_exists ("is_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_permitted_by_s2member"))
+if(!function_exists("is_permitted_by_s2member"))
 	{
-		function is_permitted_by_s2member ($what = FALSE, $type = FALSE)
+		function is_permitted_by_s2member($what = FALSE, $type = FALSE)
 			{
 				global $post; /* Global reference to $post in The Loop. */
 				/**/
-				$what = ($what) ? $what : ((is_object ($post) && $post->ID) ? $post->ID : false);
-				$type = ($type) ? strtolower ($type) : "singular";
+				$what = ($what) ? $what : ((is_object($post) && $post->ID) ? $post->ID : false);
+				$type = ($type) ? strtolower($type) : "singular";
 				/**/
-				if ($type === "category" && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($what, true))
+				if($type === "category" && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access($what, true))
 					return false;
 				/**/
-				else if ($type === "tag" && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($what, true))
+				else if($type === "tag" && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access($what, true))
 					return false;
 				/**/
-				else if (($type === "post" || $type === "singular") && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($what, true))
+				else if(($type === "post" || $type === "singular") && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access($what, true))
 					return false;
 				/**/
-				else if (($type === "page" || $type === "singular") && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($what, true))
+				else if(($type === "page" || $type === "singular") && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access($what, true))
 					return false;
 				/**/
-				else if ($type === "uri" && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($what, true))
+				else if($type === "uri" && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access($what, true))
 					return false;
 				/**/
 				return true;
@@ -1066,11 +1066,11 @@ if (!function_exists ("is_permitted_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_category_protected_by_s2member"))
+if(!function_exists("is_category_protected_by_s2member"))
 	{
-		function is_category_protected_by_s2member ($cat_id = FALSE, $check_user = FALSE)
+		function is_category_protected_by_s2member($cat_id = FALSE, $check_user = FALSE)
 			{
-				if ($cat_id && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($cat_id, $check_user)))
+				if($cat_id && ($array = c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access($cat_id, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
 				return false;
@@ -1134,11 +1134,11 @@ if (!function_exists ("is_category_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_category_permitted_by_s2member"))
+if(!function_exists("is_category_permitted_by_s2member"))
 	{
-		function is_category_permitted_by_s2member ($cat_id = FALSE)
+		function is_category_permitted_by_s2member($cat_id = FALSE)
 			{
-				if ($cat_id && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access ($cat_id, true))
+				if($cat_id && c_ws_plugin__s2member_catgs_sp::check_specific_catg_level_access($cat_id, true))
 					return false;
 				/**/
 				return true;
@@ -1222,11 +1222,11 @@ if (!function_exists ("is_category_permitted_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_tag_protected_by_s2member"))
+if(!function_exists("is_tag_protected_by_s2member"))
 	{
-		function is_tag_protected_by_s2member ($tag_id_slug_or_name = FALSE, $check_user = FALSE)
+		function is_tag_protected_by_s2member($tag_id_slug_or_name = FALSE, $check_user = FALSE)
 			{
-				if ($tag_id_slug_or_name && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($tag_id_slug_or_name, $check_user)))
+				if($tag_id_slug_or_name && ($array = c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access($tag_id_slug_or_name, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
 				return false;
@@ -1303,11 +1303,11 @@ if (!function_exists ("is_tag_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_tag_permitted_by_s2member"))
+if(!function_exists("is_tag_permitted_by_s2member"))
 	{
-		function is_tag_permitted_by_s2member ($tag_id_slug_or_name = FALSE)
+		function is_tag_permitted_by_s2member($tag_id_slug_or_name = FALSE)
 			{
-				if ($tag_id_slug_or_name && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access ($tag_id_slug_or_name, true))
+				if($tag_id_slug_or_name && c_ws_plugin__s2member_ptags_sp::check_specific_ptag_level_access($tag_id_slug_or_name, true))
 					return false;
 				/**/
 				return true;
@@ -1378,11 +1378,11 @@ if (!function_exists ("is_tag_permitted_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_post_protected_by_s2member"))
+if(!function_exists("is_post_protected_by_s2member"))
 	{
-		function is_post_protected_by_s2member ($post_id = FALSE, $check_user = FALSE)
+		function is_post_protected_by_s2member($post_id = FALSE, $check_user = FALSE)
 			{
-				if ($post_id && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($post_id, $check_user)))
+				if($post_id && ($array = c_ws_plugin__s2member_posts_sp::check_specific_post_level_access($post_id, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
 				return false;
@@ -1446,11 +1446,11 @@ if (!function_exists ("is_post_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_post_permitted_by_s2member"))
+if(!function_exists("is_post_permitted_by_s2member"))
 	{
-		function is_post_permitted_by_s2member ($post_id = FALSE)
+		function is_post_permitted_by_s2member($post_id = FALSE)
 			{
-				if ($post_id && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access ($post_id, true))
+				if($post_id && c_ws_plugin__s2member_posts_sp::check_specific_post_level_access($post_id, true))
 					return false;
 				/**/
 				return true;
@@ -1521,11 +1521,11 @@ if (!function_exists ("is_post_permitted_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_page_protected_by_s2member"))
+if(!function_exists("is_page_protected_by_s2member"))
 	{
-		function is_page_protected_by_s2member ($page_id = FALSE, $check_user = FALSE)
+		function is_page_protected_by_s2member($page_id = FALSE, $check_user = FALSE)
 			{
-				if ($page_id && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($page_id, $check_user)))
+				if($page_id && ($array = c_ws_plugin__s2member_pages_sp::check_specific_page_level_access($page_id, $check_user)))
 					return $array; /* A non-empty array with ["s2member_(level|sp|ccap)_req"]. */
 				/**/
 				return false;
@@ -1589,11 +1589,11 @@ if (!function_exists ("is_page_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_page_permitted_by_s2member"))
+if(!function_exists("is_page_permitted_by_s2member"))
 	{
-		function is_page_permitted_by_s2member ($page_id = FALSE)
+		function is_page_permitted_by_s2member($page_id = FALSE)
 			{
-				if ($page_id && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access ($page_id, true))
+				if($page_id && c_ws_plugin__s2member_pages_sp::check_specific_page_level_access($page_id, true))
 					return false;
 				/**/
 				return true;
@@ -1671,11 +1671,11 @@ if (!function_exists ("is_page_permitted_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_uri_protected_by_s2member"))
+if(!function_exists("is_uri_protected_by_s2member"))
 	{
-		function is_uri_protected_by_s2member ($uri_or_full_url = FALSE, $check_user = FALSE)
+		function is_uri_protected_by_s2member($uri_or_full_url = FALSE, $check_user = FALSE)
 			{
-				if ($uri_or_full_url && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($uri_or_full_url, $check_user)))
+				if($uri_or_full_url && ($array = c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access($uri_or_full_url, $check_user)))
 					return $array; /* A non-empty array with ["s2member_level_req"]. */
 				/**/
 				return false;
@@ -1746,11 +1746,11 @@ if (!function_exists ("is_uri_protected_by_s2member"))
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("is_uri_permitted_by_s2member"))
+if(!function_exists("is_uri_permitted_by_s2member"))
 	{
-		function is_uri_permitted_by_s2member ($uri_or_full_url = FALSE)
+		function is_uri_permitted_by_s2member($uri_or_full_url = FALSE)
 			{
-				if ($uri_or_full_url && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access ($uri_or_full_url, true))
+				if($uri_or_full_url && c_ws_plugin__s2member_ruris_sp::check_specific_ruri_level_access($uri_or_full_url, true))
 					return false;
 				/**/
 				return true;
@@ -1794,12 +1794,12 @@ if (!function_exists ("is_uri_permitted_by_s2member"))
 *
 * @see s2Member\API_Functions\detach_s2member_query_filters()
 */
-if (!function_exists ("attach_s2member_query_filters"))
+if(!function_exists("attach_s2member_query_filters"))
 	{
-		function attach_s2member_query_filters ()
+		function attach_s2member_query_filters()
 			{
-				remove_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
-				add_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
+				remove_action("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
+				add_action("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
 			}
 	}
 /**
@@ -1840,12 +1840,12 @@ if (!function_exists ("attach_s2member_query_filters"))
 *
 * @see s2Member\API_Functions\attach_s2member_query_filters()
 */
-if (!function_exists ("detach_s2member_query_filters"))
+if(!function_exists("detach_s2member_query_filters"))
 	{
-		function detach_s2member_query_filters ()
+		function detach_s2member_query_filters()
 			{
-				remove_action ("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
-				add_action ("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
+				remove_action("pre_get_posts", "c_ws_plugin__s2member_querys::force_query_level_access", 100);
+				add_action("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query", 100);
 			}
 	}
 /**
@@ -1912,11 +1912,11 @@ if (!function_exists ("detach_s2member_query_filters"))
 *
 * @see s2Member\API_Functions\s2member_file_download_key()
 */
-if (!function_exists ("s2member_file_download_url"))
+if(!function_exists("s2member_file_download_url"))
 	{
-		function s2member_file_download_url ($config = FALSE, $get_streamer_array = FALSE)
+		function s2member_file_download_url($config = FALSE, $get_streamer_array = FALSE)
 			{
-				return c_ws_plugin__s2member_files::create_file_download_url ($config, $get_streamer_array);
+				return c_ws_plugin__s2member_files::create_file_download_url($config, $get_streamer_array);
 			}
 	}
 /**
@@ -1964,11 +1964,11 @@ if (!function_exists ("s2member_file_download_url"))
 *
 * @todo Allow custom expiration times.
 */
-if (!function_exists ("s2member_file_download_key"))
+if(!function_exists("s2member_file_download_key"))
 	{
-		function s2member_file_download_key ($file = FALSE, $directive = FALSE)
+		function s2member_file_download_key($file = FALSE, $directive = FALSE)
 			{
-				return c_ws_plugin__s2member_files::file_download_key ($file, $directive);
+				return c_ws_plugin__s2member_files::file_download_key($file, $directive);
 			}
 	}
 /**
@@ -2015,12 +2015,12 @@ if (!function_exists ("s2member_file_download_key"))
 * @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 * @todo Create a Shortcode equivalent.
 */
-if (!function_exists ("s2member_user_downloads"))
+if(!function_exists("s2member_user_downloads"))
 	{
-		function s2member_user_downloads ($user_id = FALSE, $not_counting_this_particular_file = FALSE)
+		function s2member_user_downloads($user_id = FALSE, $not_counting_this_particular_file = FALSE)
 			{
-				$user = ($user_id && is_object ($user = new WP_User ((int)$user_id)) && !empty ($user->ID)) ? $user : false;
-				return c_ws_plugin__s2member_files::user_downloads ($user, $not_counting_this_particular_file);
+				$user = ($user_id && is_object($user = new WP_User((int)$user_id)) && !empty($user->ID)) ? $user : false;
+				return c_ws_plugin__s2member_files::user_downloads($user, $not_counting_this_particular_file);
 			}
 	}
 /**
@@ -2068,11 +2068,11 @@ if (!function_exists ("s2member_user_downloads"))
 * @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 * @todo Create a Shortcode equivalent.
 */
-if (!function_exists ("s2member_total_downloads_of"))
+if(!function_exists("s2member_total_downloads_of"))
 	{
-		function s2member_total_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+		function s2member_total_downloads_of($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
 			{
-				return c_ws_plugin__s2member_files::total_downloads_of ($file, $user_id, $check_archives_too);
+				return c_ws_plugin__s2member_files::total_downloads_of($file, $user_id, $check_archives_too);
 			}
 	}
 /**
@@ -2120,11 +2120,11 @@ if (!function_exists ("s2member_total_downloads_of"))
 * @todo Make it possible for s2Member to keep a count of files downloaded with an Advanced Download Key.
 * @todo Create a Shortcode equivalent.
 */
-if (!function_exists ("s2member_total_unique_downloads_of"))
+if(!function_exists("s2member_total_unique_downloads_of"))
 	{
-		function s2member_total_unique_downloads_of ($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
+		function s2member_total_unique_downloads_of($file = FALSE, $user_id = FALSE, $check_archives_too = TRUE)
 			{
-				return c_ws_plugin__s2member_files::total_unique_downloads_of ($file, $user_id, $check_archives_too);
+				return c_ws_plugin__s2member_files::total_unique_downloads_of($file, $user_id, $check_archives_too);
 			}
 	}
 /**
@@ -2157,11 +2157,11 @@ if (!function_exists ("s2member_total_unique_downloads_of"))
 *
 * @see s2Member\API_Functions\get_user_field()
 */
-if (!function_exists ("s2member_registration_time"))
+if(!function_exists("s2member_registration_time"))
 	{
-		function s2member_registration_time ($user_id = FALSE)
+		function s2member_registration_time($user_id = FALSE)
 			{
-				return c_ws_plugin__s2member_registration_times::registration_time ($user_id);
+				return c_ws_plugin__s2member_registration_times::registration_time($user_id);
 			}
 	}
 /**
@@ -2200,11 +2200,11 @@ if (!function_exists ("s2member_registration_time"))
 *
 * @see s2Member\API_Functions\get_user_field()
 */
-if (!function_exists ("s2member_paid_registration_time"))
+if(!function_exists("s2member_paid_registration_time"))
 	{
-		function s2member_paid_registration_time ($level = FALSE, $user_id = FALSE)
+		function s2member_paid_registration_time($level = FALSE, $user_id = FALSE)
 			{
-				return c_ws_plugin__s2member_registration_times::paid_registration_time ($level, $user_id);
+				return c_ws_plugin__s2member_registration_times::paid_registration_time($level, $user_id);
 			}
 	}
 /**
@@ -2368,11 +2368,11 @@ if (!function_exists ("s2member_paid_registration_time"))
 * @see http://codex.wordpress.org/Function_Reference/update_user_option update_user_option()
 * @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
 */
-if (!function_exists ("get_user_field"))
+if(!function_exists("get_user_field"))
 	{
-		function get_user_field ($field_id = FALSE, $user_id = FALSE)
+		function get_user_field($field_id = FALSE, $user_id = FALSE)
 			{
-				return c_ws_plugin__s2member_utils_users::get_user_field ($field_id, $user_id);
+				return c_ws_plugin__s2member_utils_users::get_user_field($field_id, $user_id);
 			}
 	}
 /**
@@ -2415,20 +2415,20 @@ if (!function_exists ("get_user_field"))
 * @see http://codex.wordpress.org/Function_Reference/update_user_option update_user_option()
 * @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
 */
-if (!function_exists ("get_s2member_custom_fields"))
+if(!function_exists("get_s2member_custom_fields"))
 	{
-		function get_s2member_custom_fields ($user_id = FALSE)
+		function get_s2member_custom_fields($user_id = FALSE)
 			{
-				$fields = ($user_id) ? get_user_option ("s2member_custom_fields", $user_id) : false;
+				$fields = ($user_id) ? get_user_option("s2member_custom_fields", $user_id) : false;
 				/**//**/
-				foreach (json_decode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
+				foreach(json_decode($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], true) as $field)
 					{
-						if ($user_id) /* Should we try to fill the User's value for this Custom Field? */
-							$s2member_custom_fields[$field["id"]]["user_value"] = (isset ($fields[$field["id"]])) ? $fields[$field["id"]] : false;
+						if($user_id) /* Should we try to fill the User's value for this Custom Field? */
+							$s2member_custom_fields[$field["id"]]["user_value"] = (isset($fields[$field["id"]])) ? $fields[$field["id"]] : false;
 						$s2member_custom_fields[$field["id"]]["config"] = $field; /* Copy configuration into config element. */
 					}
 				/**/
-				return (isset ($s2member_custom_fields)) ? (array)$s2member_custom_fields : array ();
+				return (isset($s2member_custom_fields)) ? (array)$s2member_custom_fields : array();
 			}
 	}
 /**
@@ -2456,11 +2456,11 @@ if (!function_exists ("get_s2member_custom_fields"))
 *
 * @todo Create a true Shortcode equivalent function.
 */
-if (!function_exists ("s2member_value_for_pp_inv"))
+if(!function_exists("s2member_value_for_pp_inv"))
 	{
-		function s2member_value_for_pp_inv ()
+		function s2member_value_for_pp_inv()
 			{
-				return uniqid () . "~" . $_SERVER["REMOTE_ADDR"];
+				return uniqid()."~".$_SERVER["REMOTE_ADDR"];
 			}
 	}
 /**
@@ -2487,11 +2487,11 @@ if (!function_exists ("s2member_value_for_pp_inv"))
 *
 * @todo Create a Shortcode equivalent for this function.
 */
-if (!function_exists ("s2member_shorten_url"))
+if(!function_exists("s2member_shorten_url"))
 	{
-		function s2member_shorten_url ($url = FALSE, $api_sp = FALSE, $try_backups = TRUE)
+		function s2member_shorten_url($url = FALSE, $api_sp = FALSE, $try_backups = TRUE)
 			{
-				return c_ws_plugin__s2member_utils_urls::shorten ($url, $api_sp, $try_backups);
+				return c_ws_plugin__s2member_utils_urls::shorten($url, $api_sp, $try_backups);
 			}
 	}
 /**
@@ -2523,11 +2523,11 @@ if (!function_exists ("s2member_shorten_url"))
 *
 * @todo Create a Shortcode equivalent for this function.
 */
-if (!function_exists ("s2member_encrypt"))
+if(!function_exists("s2member_encrypt"))
 	{
-		function s2member_encrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
+		function s2member_encrypt($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
 			{
-				return c_ws_plugin__s2member_utils_encryption::encrypt ($string, $key, $w_md5_cs);
+				return c_ws_plugin__s2member_utils_encryption::encrypt($string, $key, $w_md5_cs);
 			}
 	}
 /**
@@ -2558,11 +2558,11 @@ if (!function_exists ("s2member_encrypt"))
 *
 * @todo Create a Shortcode equivalent for this function.
 */
-if (!function_exists ("s2member_decrypt"))
+if(!function_exists("s2member_decrypt"))
 	{
-		function s2member_decrypt ($base64 = FALSE, $key = FALSE)
+		function s2member_decrypt($base64 = FALSE, $key = FALSE)
 			{
-				return c_ws_plugin__s2member_utils_encryption::decrypt ($base64, $key);
+				return c_ws_plugin__s2member_utils_encryption::decrypt($base64, $key);
 			}
 	}
 /**
@@ -2592,11 +2592,11 @@ if (!function_exists ("s2member_decrypt"))
 *
 * @todo Create a Shortcode equivalent for this function.
 */
-if (!function_exists ("s2member_xencrypt"))
+if(!function_exists("s2member_xencrypt"))
 	{
-		function s2member_xencrypt ($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
+		function s2member_xencrypt($string = FALSE, $key = FALSE, $w_md5_cs = TRUE)
 			{
-				return c_ws_plugin__s2member_utils_encryption::xencrypt ($string, $key, $w_md5_cs);
+				return c_ws_plugin__s2member_utils_encryption::xencrypt($string, $key, $w_md5_cs);
 			}
 	}
 /**
@@ -2625,11 +2625,40 @@ if (!function_exists ("s2member_xencrypt"))
 *
 * @todo Create a Shortcode equivalent for this function.
 */
-if (!function_exists ("s2member_xdecrypt"))
+if(!function_exists("s2member_xdecrypt"))
 	{
-		function s2member_xdecrypt ($base64 = FALSE, $key = FALSE)
+		function s2member_xdecrypt($base64 = FALSE, $key = FALSE)
 			{
-				return c_ws_plugin__s2member_utils_encryption::xdecrypt ($base64, $key);
+				return c_ws_plugin__s2member_utils_encryption::xdecrypt($base64, $key);
+			}
+	}
+/**
+* Gets login IPs for a particular username.
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php print_r($ips = s2member_login_ips_for("johndoe22")); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* There is NO Shortcode equivalent for this ( yet ).
+* ```
+*
+* @package s2Member\API_Functions
+* @since 120728
+*
+* @param str $username A username.
+* @return array An associative array of all IPs associated with a particular username, over the last 30 days.
+* 	Array keys are IP addresses; array values are UTC timestamps.
+*
+* @todo Create a Shortcode equivalent for this function.
+*/
+if(!function_exists("s2member_login_ips_for"))
+	{
+		function s2member_login_ips_for($username)
+			{
+				$ips = get_transient('s2m_ipr_'.md5('s2member_ip_restrictions_'.strtolower($username).'_entries'));
+				return (is_array($ips)) ? $ips : array();
 			}
 	}
 ?>

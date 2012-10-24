@@ -57,13 +57,14 @@ if(!class_exists("c_ws_plugin__s2member_utils_strings"))
 				*
 				* @param str $string Input string.
 				* @param int $times Number of escapes. Defaults to 1.
+				* @param str $escape_char The character to be used in escapes.
 				* @return str Output string after double quotes are escaped.
 				*/
-				public static function esc_dq($string = FALSE, $times = FALSE)
+				public static function esc_dq($string = FALSE, $times = FALSE, $escape_char = "\\")
 					{
 						$times = (is_numeric($times) && $times >= 0) ? (int)$times : 1;
 						/**/
-						return str_replace('"', str_repeat("\\", $times).'"', (string)$string);
+						return str_replace('"', str_repeat($escape_char, $times).'"', (string)$string);
 					}
 				/**
 				* Escapes single quotes.

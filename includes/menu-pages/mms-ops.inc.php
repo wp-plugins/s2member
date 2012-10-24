@@ -56,7 +56,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_mms_ops"))
 										echo '<div class="ws-menu-page-section ws-plugin--s2member-mms-patches-section">'."\n";
 										echo '<img src="'.esc_attr($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]).'/images/small-icon.png" title="s2Member ( a Membership management system for WordPress® )" alt="" style="float:right; margin:0 0 0 25px; border:0;" />'."\n";
 										echo '<h3>Multisite WordPress® Patches ( required for compatiblity )</h3>'."\n";
-										echo '<p>In order for s2Member to function properly in a Multisite environment, you MUST implement four patches. One goes into your <code>/wp-login.php</code> file, one into <code>/wp-includes/load.php</code>, one into <code>/wp-includes/ms-functions.php</code>, and another into <code>/wp-admin/user-new.php</code>. We have TRAC tickets into WordPress® for these changes. However, until the official release of WordPress® includes these updates, you will need to use the automatic patcher below. All you do is check the box &amp; click Save.</p>'."\n";
+										echo '<p>In order for s2Member to function properly in a Multisite environment, you MUST implement four patches. One goes into your <code>/wp-login.php</code> file, one into <code>/wp-includes/load.php</code>, one into <code>/wp-includes/ms-functions.php</code>, and another into <code>/wp-admin/user-new.php</code>. Please use the automatic patcher below. All you do is check the box &amp; click Save.</p>'."\n";
 										do_action("ws_plugin__s2member_during_mms_ops_page_during_left_sections_during_mms_patches", get_defined_vars());
 										/**/
 										echo '<table class="form-table">'."\n";

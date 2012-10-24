@@ -67,13 +67,13 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 												if(!empty($postvars["charset"]) && function_exists("mb_convert_encoding"))
 													{
 														foreach($postvars as &$value)
-															$value = @mb_convert_encoding($value, "UTF-8", $postvars["charset"]);
+															$value = @mb_convert_encoding($value, "UTF-8", (($postvars["charset"] === "gb2312") ? "GBK" : $postvars["charset"]));
 													}
 												/**/
 												return apply_filters("ws_plugin__s2member_paypal_postvars", $postvars, get_defined_vars());
 											}
 										else /* Nope. */
-										return false;
+											return false;
 									}
 								else if(!empty($_REQUEST) && is_array($postvars = stripslashes_deep($_REQUEST)))
 									{
@@ -89,7 +89,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 										if(!empty($postvars["charset"]) && function_exists("mb_convert_encoding"))
 											{
 												foreach($postvars as &$value)
-													$value = @mb_convert_encoding($value, "UTF-8", $postvars["charset"]);
+													$value = @mb_convert_encoding($value, "UTF-8", (($postvars["charset"] === "gb2312") ? "GBK" : $postvars["charset"]));
 											}
 										/**/
 										$endpoint = ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com";
@@ -104,10 +104,10 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 											return apply_filters("ws_plugin__s2member_paypal_postvars", $postvars, get_defined_vars());
 										/**/
 										else /* Nope. */
-										return false;
+											return false;
 									}
 								else /* Nope. */
-								return false;
+									return false;
 							}
 						else /* Else a custom conditional has been applied by Filters. */
 							{
@@ -136,7 +136,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 							$key = md5(c_ws_plugin__s2member_utils_encryption::xencrypt($current_blog->domain.$current_blog->path, false, false));
 						/**/
 						else /* Else it's a standard Proxy Key; not on a Multisite Network, or not on the Main Site anyway. */
-						$key = md5(c_ws_plugin__s2member_utils_encryption::xencrypt(preg_replace("/\:[0-9]+$/", "", $_SERVER["HTTP_HOST"]), false, false));
+							$key = md5(c_ws_plugin__s2member_utils_encryption::xencrypt(preg_replace("/\:[0-9]+$/", "", $_SERVER["HTTP_HOST"]), false, false));
 						/**/
 						return apply_filters("ws_plugin__s2member_paypal_proxy_key_gen", $key, get_defined_vars());
 					}
@@ -186,7 +186,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 									$response["__error"] = sprintf(_x('Error #%1$s. %2$s. %3$s.', "s2member-front", "s2member"), $response["L_ERRORCODE0"], rtrim($response["L_SHORTMESSAGE0"], "."), rtrim($response["L_LONGMESSAGE0"], "."));
 								/**/
 								else /* Else, generate an error messsage - so something is reported back to the Customer. */
-								$response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
+									$response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
 							}
 						/**/
 						$logv = c_ws_plugin__s2member_utilities::ver_details();
@@ -286,7 +286,8 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 									/* translators: Exclude `%2$s`. These are English details returned by PayPal®. Replace `%2$s` with: `Unable to process, please try again`, or something to that affect. Or, if you prefer, you could Filter ``$response["__error"]`` with `ws_plugin__s2member_paypal_payflow_api_response`. */
 									$response["__error"] = sprintf(_x('Error #%1$s. %2$s.', "s2member-front", "s2member"), $response["RESULT"], rtrim($response["RESPMSG"], "."));
 								/**/
-								else $response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
+								else
+									$response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
 							}
 						else if(isset($response["TRXRESULT"]) && $response["TRXRESULT"] !== "0")
 							{
@@ -294,7 +295,8 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 									/* translators: Exclude `%2$s`. These are English details returned by PayPal®. Replace `%2$s` with: `Unable to process, please try again`, or something to that affect. Or, if you prefer, you could Filter ``$response["__error"]`` with `ws_plugin__s2member_paypal_payflow_api_response`. */
 									$response["__error"] = sprintf(_x('Error #%1$s. %2$s.', "s2member-front", "s2member"), $response["TRXRESULT"], rtrim($response["TRXRESPMSG"], "."));
 								/**/
-								else $response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
+								else
+									$response["__error"] = _x("Error. Please contact Support for assistance.", "s2member-front", "s2member");
 							}
 						/**/
 						$logv = c_ws_plugin__s2member_utilities::ver_details();
@@ -565,7 +567,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 								return apply_filters("ws_plugin__s2member_paypal_pro_period1", $period1, get_defined_vars());
 							}
 						else /* Default. */
-						return apply_filters("ws_plugin__s2member_paypal_pro_period1", $default, get_defined_vars());
+							return apply_filters("ws_plugin__s2member_paypal_pro_period1", $default, get_defined_vars());
 					}
 				/**
 				* Get `period3` from either an array with `PROFILEREFERENCE|rp_invoice_id|period3`, or use an existing string.
@@ -621,7 +623,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 								return apply_filters("ws_plugin__s2member_paypal_pro_period3", $period3, get_defined_vars());
 							}
 						else /* Default. */
-						return apply_filters("ws_plugin__s2member_paypal_pro_period3", $default, get_defined_vars());
+							return apply_filters("ws_plugin__s2member_paypal_pro_period3", $default, get_defined_vars());
 					}
 			}
 	}

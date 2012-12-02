@@ -168,6 +168,7 @@ add_action("ws_plugin__s2member_during_collective_eots", "c_ws_plugin__s2member_
 /**/
 add_filter("ws_plugin__s2member_content_redirect_status", "c_ws_plugin__s2member_utils_urls::redirect_browsers_using_302_status");
 /**/
+add_filter("bbp_get_caps_for_role", "c_ws_plugin__s2member_roles_caps::bbp_dynamic_role_caps", 10, 2);
 add_action("bbp_activation", "c_ws_plugin__s2member_roles_caps::config_roles", 11);
 /*
 Register the activation | de-activation routines.

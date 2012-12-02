@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 121023
-Stable tag: 121023
+Version: 121201
+Stable tag: 121201
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -91,10 +91,18 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v121023 =
+= v121201 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v121201 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member / s2Member Pro) **Bug Fix**. Support Rep Cristián Lávaque found a bug in the behavior of s2Member’s Alternative View Restrictions, associated with Category listings in custom menu widgets. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/welcome-page-title-shows-but-no-content/page/2/#post-29802).
+* (s2Member Pro) **Feature Enhancement**. s2Member Pro Forms integrated ONLY with PayPal Express Checkout (`accept="paypal" accept_via_paypal="paypal"`), will no longer display a Billing Method section on the Pro Form, as it's not necessary (there's only one possible option in this case, and it's already depicted by the PayPal button at the bottom of the Pro Form). Many site owners had implemented CSS hacks to hide this section of a Pro Form configured this way, based on [this FAQ article](http://www.s2member.com/faqs/#s2-faqs-paypal-pro-not-required). This hack is no longer necessary - starting with this release.
+* (s2Member Pro) **Bug Fix**. s2Member Pro Forms integrated with Payflow Recurring Billing via PayPal Express Checkout were failing against some accounts with an erroneous error #10422 related to an invalid funding source. With some help from other site owners and the assistance of PayPal technical support, the underlying issue has been fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/paypal-error-36-transaction-failed/page/2/#post-31490).
+* (s2Member Pro) **Compatiblity**. ccBill Buttons can now be generated for amounts exceeding $100.00, so long as prior ccBill approval is obtained from ccBill merchant support. Discussed in [this thread](http://www.s2member.com/forums/topic/cc-bill-button-increase-dollar-amount/#post-31636).
+* (s2Member/s2Member Pro) **Compatiblity**. Updated to support Dynamic Roles introduced in bbPress® v2.2. Discussed in [this thread](http://www.s2member.com/forums/topic/dont-upgrade-to-bbpress-2-2/#post-32523).
 
 = v121023 =
 * **(Maintenance Release) Upgrade immediately.**
@@ -102,7 +110,7 @@ Maintenance release. Upgrade immediately.
 * (s2Member Pro) **Import/Export Bug Fix**. An issue related to RFC guidelines for escape sequences in CSV files has been addressed in this release. Please see [this thread](http://www.s2member.com/forums/topic/new-custom-field-default-not-on-old-users/#post-28792) for futher details.
 * (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was updated for improved compatibility across multiple ccBill® sub-accounts.
 * (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was updated for improved compatibility w/ ccBill® servers running on MST timezone.
-* (s2Member/s2Member Pro) **API Function**. A new API Function was added. See: ``s2member_login_ips_for($username)``. Please check the [s2Member® Codex](http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/) for documentation. [This thread](http://www.s2member.com/forums/topic/s2member-restriction-options-unique-ip/#post-20562) may also be of some assistance.
+* (s2Member/s2Member Pro) **API Function**. A new API Function was added. See: `s2member_login_ips_for($username)`. Please check the [s2Member® Codex](http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/) for documentation. [This thread](http://www.s2member.com/forums/topic/s2member-restriction-options-unique-ip/#post-20562) may also be of some assistance.
 * (s2Member/s2Member Pro) **404 Error (Bug Fix)**. A former dependency on `l10n.js` from the WordPress® core is no longer necessary. This old dependency has been removed to prevent 404 errors in the latest versions of WordPress®. Please check [this thread](http://www.s2member.com/forums/topic/wordpress-i10n-file-404-from-s2member/#post-20567) for further details.
 * (s2Member Pro) **reCAPTCHA® Bug Fix**. A bug sometimes causing failed reCAPTCHA® responses after PayPal® Express Checkout has been corrected in this release. This occurred during certain scenarios, whenever reCAPTCHA® was enabled for checkout forms, and PayPal Express Checkout was selected as the payment method of choice.
 * (s2Member Pro) **ccBill® DataLink Integration**. DataLink integration with ccBill® was modified to prevent dates in the future from being requested from the DataLink API. ccBill® was responding to some DataLink requests with a failed authentication, which were caused by dates/times in the future; according to MST on the ccBill® side of things.

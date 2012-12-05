@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 121201
-Stable tag: 121201
+Version: 121204
+Stable tag: 121204
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -91,10 +91,15 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v121201 =
+= v121204 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v121204 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member / s2Member Pro) **Bug Fix**. An issue with long billing agreement descriptions under PayPal® Pro (Payflow® Edition) accounts, when coupon codes were being used by customers, was addressed in this release. Symptoms of this bug were errors in s2Member® log files from the Payflow® API, with error code: `11581-Profile description is invalid`. Caused by undocumented length requirements for the billing agreement description under the Payflow® API. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/error-generic-processor-error-11581/page/2/#post-33477).
+* (s2Member / s2Member Pro) **Compatibility**. Updated JW Player code samples for compatibility with JW Player v6. Discussed in [this thread](http://www.s2member.com/forums/topic/jw-player-rtmp-streaming-mp4-amazon-s3/page/2/#post-32074).
 
 = v121201 =
 * **(Maintenance Release) Upgrade immediately.**

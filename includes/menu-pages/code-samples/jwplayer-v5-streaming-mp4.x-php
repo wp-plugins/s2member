@@ -15,18 +15,22 @@ $cfg = array ("file_download" => $s2_jw_config["mp4_video_file_name"], "url_to_s
 if (($mp4 = s2member_file_download_url ($cfg, "get-streamer-array"))) { ?>
 
 	<script type="text/javascript">
-		jwplayer('jw-container').setup({
-				playlist:
-					[{
-						sources: /* List all available sources. */
-							[
-								{type: 'rtmp', file: '<?php echo $mp4["streamer"]; ?>/<?php echo $mp4["file"]; ?>'},
-								{type: 'mp4', file: '<?php echo $mp4["url"]; ?>'}
-							]
-					}],
-				primary: 'flash' /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
-				width: 480, height: 270 /* Set video dimensions for all sources. */
-			});
+		jwplayer("jw-container").setup({modes: /* JW Player®. */
+		[
+			/* First try real-time streaming with Flash® player. */
+			{type: "flash", provider: "rtmp", src: "<?php echo $s2_jw_config["jwplayer"]; ?>player.swf",
+				config: {streamer: "<?php echo $mp4["streamer"]; ?>", file: "<?php echo $mp4["file"]; ?>"}},
+		
+			/* Else, try an HTML5 video tag. */
+			{type: "html5", provider: "video",
+				config: {file: "<?php echo $mp4["url"]; ?>"}},
+		
+			/* Else, this is a safe fallback. */
+			{type: "download", /* Download the file. */
+				config: {file: "<?php echo $mp4["url"]; ?>"}}
+		],
+		/* Set video dimensions. */ width: 480, height: 270
+		});
 	</script>
 
 <?php } else /* Access is denied to the current User. */ { ?>

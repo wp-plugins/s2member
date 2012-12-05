@@ -170,6 +170,10 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						$post_vars["PWD"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"];
 						$post_vars["SIGNATURE"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"];
 						/**/
+						foreach($post_vars as $_key => &$_value /* We need to clean these up. */)
+							$_value = c_ws_plugin__s2member_paypal_utilities::paypal_api_nv_cleanup($_key, $_value);
+						unset($_key, $_value);
+						/**/
 						$input_time = /* Record input/nvp for logging. */ date("D M j, Y g:i:s a T");
 						/**/
 						$nvp = trim(c_ws_plugin__s2member_utils_urls::remote($url, $post_vars, array("timeout" => 20)));
@@ -239,6 +243,28 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						return $response; /* Filters already applied with: ``ws_plugin__s2member_paypal_api_response``. */
 					}
 				/**
+				* Cleans up values passed through PayPal® NVP strings.
+				*
+				* @package s2Member\PayPal
+				* @since 121202
+				*
+				* @param string $key Expects a string value.
+				* @param string $value Expects a string value.
+				* @return string Cleaned string value.
+				*/
+				public static function paypal_api_nv_cleanup($key = FALSE, $value = FALSE)
+					{
+						$value = (string)$value;
+						$value = preg_replace('/"/', "'", $value);
+						/**/
+						if(($key === "DESC" || $key === "BA_DESC" #
+						|| preg_match("/^L_NAME[0-9]+$/", $key) || preg_match("/^PAYMENTREQUEST_[0-9]+_DESC$/", $key) || preg_match("/^PAYMENTREQUEST_[0-9]+_NAME[0-9]+$/", $key) #
+						|| preg_match("/^L_BILLINGAGREEMENTDESCRIPTION[0-9]+$/", $key)) && strlen($value) > 60)
+							$value = substr($value, 0, 57)."...";
+						/**/
+						return apply_filters("ws_plugin__s2member_paypal_api_nv_cleanup", $value, get_defined_vars());
+					}
+				/**
 				* Calls upon the PayPal® PayFlow API, and returns the response.
 				*
 				* @package s2Member\PayPal
@@ -260,15 +286,19 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						$post_vars = apply_filters("ws_plugin__s2member_paypal_payflow_api_post_vars", $post_vars, get_defined_vars());
 						$post_vars = (is_array($post_vars)) ? $post_vars : array();
 						/**/
-						$post_vars["VERBOSITY"] = "HIGH";
+						$post_vars["VERBOSITY"] = "MEDIUM";
 						$post_vars["USER"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_payflow_api_username"];
 						$post_vars["PARTNER"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_payflow_api_partner"];
 						$post_vars["VENDOR"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_payflow_api_vendor"];
 						$post_vars["PWD"] = $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_payflow_api_password"];
 						/**/
+						foreach($post_vars as $_key => &$_value /* We need to clean these up. */)
+							$_value = c_ws_plugin__s2member_paypal_utilities::paypal_payflow_api_nv_cleanup($_key, $_value);
+						unset($_key, $_value);
+						/**/
 						$input_time = /* Record input/nvp for logging. */ date("D M j, Y g:i:s a T");
 						/**/
-						$nvp_post_vars = "";
+						$nvp_post_vars = /* Initialize this to an empty string. */ "";
 						foreach($post_vars as $_key => $_value /* A ridiculous `text/namevalue` format. */)
 							$nvp_post_vars .= (($nvp_post_vars) ? "&" : "").$_key."[".strlen($_value)."]=".$_value;
 						unset($_key, $_value);
@@ -311,7 +341,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						if($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 							if(is_dir($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 								if(is_writable($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files())
-									if(($log = "-------- Input vars: ( ".$input_time." ) --------\n".var_export($post_vars, true)."\n"))
+									if(($log = "-------- Input vars: ( ".$input_time." ) --------\n".$nvp_post_vars."\n".var_export($post_vars, true)."\n"))
 										if(($log .= "-------- Output string/vars: ( ".$output_time." ) --------\n".$nvp."\n".var_export($response, true)))
 											file_put_contents($logs_dir."/".$log2, $logv."\n".$logm."\n".$log4."\n".$log."\n\n", FILE_APPEND);
 						/**/
@@ -347,6 +377,28 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 							}
 						/**/
 						return $response; /* Filters already applied with: ``ws_plugin__s2member_paypal_payflow_api_response``. */
+					}
+				/**
+				* Cleans up values passed through PayPal® text/namevalue strings.
+				*
+				* @package s2Member\PayPal
+				* @since 121202
+				*
+				* @param string $key Expects a string value.
+				* @param string $value Expects a string value.
+				* @return string Cleaned string value.
+				*/
+				public static function paypal_payflow_api_nv_cleanup($key = FALSE, $value = FALSE)
+					{
+						$value = (string)$value;
+						$value = preg_replace('/"/', "'", $value);
+						/**/
+						if(($key === "DESC" || $key === "BA_DESC" #
+						|| preg_match("/^L_NAME[0-9]+$/", $key) || preg_match("/^PAYMENTREQUEST_[0-9]+_DESC$/", $key) || preg_match("/^PAYMENTREQUEST_[0-9]+_NAME[0-9]+$/", $key) #
+						|| preg_match("/^L_BILLINGAGREEMENTDESCRIPTION[0-9]+$/", $key)) && strlen($value) > 60)
+							$value = substr($value, 0, 57)."...";
+						/**/
+						return apply_filters("ws_plugin__s2member_paypal_payflow_api_nv_cleanup", $value, get_defined_vars());
 					}
 				/**
 				* Converts a term `D|W|M|Y` into PayPal® Pro format.

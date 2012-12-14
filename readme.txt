@@ -102,7 +102,8 @@ Maintenance release. Upgrade immediately.
 * (s2Member Pro) **Bug Fix**. An issue first introduced in s2Member® Pro v120517 where we fixed problems with the `maxlength` attribute in Authorize.Net Pro Forms, left a remaining problem. The State/Province field in the Billing Address section of a Pro Form, since s2Member® Pro v120517, has only accepted 2 characters when it should have been capable of accepting up to 40 characters. Fixed in this release.
 * (s2Member / s2Member Pro) **Compatibility**. s2Member's Multsite Network patches now support `/wp-login.php` in WordPress® v3.5. Discussed in [this thread](http://www.s2member.com/forums/topic/fyi-wpmu-3-5-wp-login-php-file-not-verified/#post-34457).
 * (s2Member / s2Member Pro) **Compatibility**. s2Member's login customizations for `/wp-login.php` have been tweaked to support WordPress® v3.5.
-* (s2Member / s2Member Pro) **Checksums**. Each copy of s2Member® and s2Member® Pro now include a `checksum.txt` file in their root plugin directory. This file is used by serving-scanning tools provided by WebSharks, Inc. This file simply serves to identify the state of the file structure upon each official release of the software.
+* (s2Member / s2Member Pro) **Checksums**. Each copy of s2Member® and s2Member® Pro now include a `checksum.txt` file in their root plugin directory. This file is used by server-scanning tools provided by WebSharks, Inc. This file simply serves to identify the state of the file structure upon each official release of the software.
+* (s2Member Pro) **Bug Fix**. Free Registration Pro Forms submitted without having payment gateway API credentials configured within s2Member® resulted in an on-site error message when there should NOT be one (because a site owner is dealing with Free Registration only in this scenario). Fixed in this release.
 
 = v121204 =
 * **(Maintenance Release) Upgrade immediately.**

@@ -82,13 +82,13 @@ if (!class_exists ("c_ws_plugin__s2member_admin_notices"))
 						/**/
 						if (is_string ($notice) && $notice && $error) /* Slightly different/special format for errors. */
 							{
-								$notice .= ($dismiss) ? ' [ <a href="' . add_query_arg ("ws-plugin--s2member-dismiss-admin-notice", urlencode (md5 ($notice)), $_SERVER["REQUEST_URI"]) . '">dismiss message</a> ]' : '';
+								$notice .= ($dismiss) ? ' [ <a href="' . esc_attr(add_query_arg ("ws-plugin--s2member-dismiss-admin-notice", urlencode (md5 ($notice)), $_SERVER["REQUEST_URI"])) . '">dismiss message</a> ]' : '';
 								/**/
 								echo '<div class="error fade"><p>' . $notice . '</p></div>'; /* Error. */
 							}
 						else if (is_string ($notice) && $notice)
 							{
-								$notice .= ($dismiss) ? ' [ <a href="' . add_query_arg ("ws-plugin--s2member-dismiss-admin-notice", urlencode (md5 ($notice)), $_SERVER["REQUEST_URI"]) . '">dismiss message</a> ]' : '';
+								$notice .= ($dismiss) ? ' [ <a href="' . esc_attr(add_query_arg ("ws-plugin--s2member-dismiss-admin-notice", urlencode (md5 ($notice)), $_SERVER["REQUEST_URI"])) . '">dismiss message</a> ]' : '';
 								/**/
 								echo '<div class="updated fade"><p>' . $notice . '</p></div>';
 							}

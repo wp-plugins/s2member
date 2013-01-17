@@ -18,6 +18,20 @@ $s2_jw_config["mp4_video_file_name"] = "video.mp4"; // Name of your MP4 test fil
 <script type="text/javascript">
 	if(typeof mp4 === 'object') /* `s2File` returns a null object if access is denied to the current User. */
 		{
+<<<<<<< .mine
+			jwplayer('jw-container').setup({
+					playlist:
+						[{
+							sources: /* List all available sources. */
+								[
+									{type: 'rtmp', file: mp4['streamer'] + '/mp4:' + mp4['file']},
+									{type: 'mp4', file: mp4['url']}
+								]
+						}],
+					primary: 'flash' /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
+					width: 480, height: 270 /* Set video dimensions for all sources. */
+				});
+=======
 			jwplayer('jw-container').setup({
 					playlist:
 						[{
@@ -30,6 +44,7 @@ $s2_jw_config["mp4_video_file_name"] = "video.mp4"; // Name of your MP4 test fil
 					primary: 'flash' /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
 					width: 480, height: 270 /* Set video dimensions for all sources. */
 				});
+>>>>>>> .r654027
 		}
 	else /* Else, `s2File` returned a null object value. */
 		{

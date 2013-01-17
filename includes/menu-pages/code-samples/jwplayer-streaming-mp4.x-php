@@ -15,6 +15,20 @@ $cfg = array ("file_download" => $s2_jw_config["mp4_video_file_name"], "url_to_s
 if (($mp4 = s2member_file_download_url ($cfg, "get-streamer-array"))) { ?>
 
 	<script type="text/javascript">
+<<<<<<< .mine
+		jwplayer('jw-container').setup({
+				playlist:
+					[{
+						sources: /* List all available sources. */
+							[
+								{type: 'rtmp', file: '<?php echo $mp4["streamer"]; ?>/mp4:<?php echo $mp4["file"]; ?>'},
+								{type: 'mp4', file: '<?php echo $mp4["url"]; ?>'}
+							]
+					}],
+				primary: 'flash' /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
+				width: 480, height: 270 /* Set video dimensions for all sources. */
+			});
+=======
 		jwplayer('jw-container').setup({
 				playlist:
 					[{
@@ -27,6 +41,7 @@ if (($mp4 = s2member_file_download_url ($cfg, "get-streamer-array"))) { ?>
 				primary: 'flash' /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
 				width: 480, height: 270 /* Set video dimensions for all sources. */
 			});
+>>>>>>> .r654027
 	</script>
 
 <?php } else /* Access is denied to the current User. */ { ?>

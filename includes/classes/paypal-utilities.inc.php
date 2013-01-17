@@ -429,7 +429,7 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 				*
 				* @param str $term Expects one of `D|W|M|Y`.
 				* @param str $period Expects a numeric value.
-				* @return bool|str A full singular description of the term *( i.e. `DAY|WEEK|BIWK|MONT|QTER|YEAR` )*, else false.
+				* @return bool|str A full singular description of the term *( i.e. `DAY|WEEK|BIWK|MONT|QTER|SMYR|YEAR` )*, else false.
 				*
 				* @note Payflow® unfortunately does NOT support daily and/or bi-monthly billing.
 				*/
@@ -448,6 +448,9 @@ if(!class_exists("c_ws_plugin__s2member_paypal_utilities"))
 						/**/
 						else if($payflow_term === "MONT" && $period === "3")
 							$payflow_term = "QTER";
+						/**/
+						else if($payflow_term === "MONT" && $period === "6")
+							$payflow_term = "SMYR";
 						/**/
 						return apply_filters("ws_plugin__s2member_paypal_payflow_term", $payflow_term, get_defined_vars());
 					}

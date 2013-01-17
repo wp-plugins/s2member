@@ -271,6 +271,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 											/**/
 											$pathinfo = (!$using_amazon_storage) ? pathinfo(($file = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]."/".$req["file_download"])) : array();
 											$mimetype = ($mimetypes[$extension]) ? $mimetypes[$extension] : "application/octet-stream";
+											$disposition = (($inline) ? "inline" : "attachment")."; filename=\"".$basename."\"";
 											$length = (!$using_amazon_storage && $file) ? filesize($file) : -1;
 											/**/
 											eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
@@ -330,71 +331,141 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 													return apply_filters("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars());
 												}
 											/**/
-											else /* Else, ``if ($serving)``, use local storage option. */
+											else /* Else, ``if ($serving)``, use local storage. */
 												{
-													@set_time_limit /* Allow time. */(0);
+													@set_time_limit(0);
 													/**/
-													@ini_set /* Disable GZIP compression. */("zlib.output_compression", 0);
-													((function_exists("apache_setenv")) ? @apache_setenv("no-gzip", "1") : "");
-													/*
-													Note: ``apache_setenv()`` only works when PHP is running as an Apache module.
-													It's also a good idea to put this at the top of your `/.htaccess` file.
-													
-													<IfModule mod_rewrite.c>
-														RewriteEngine On
-														RewriteCond %{QUERY_STRING} (?:^|\?|&)s2member_file_download\=.+
-														RewriteRule .* - [E=no-gzip:1]
-													</IfModule>
-													
-													*/
-													status_header /* 200 OK status header. */(200);
+													@ini_set("zlib.output_compression", 0);
+													if(function_exists("apache_setenv"))
+														@apache_setenv("no-gzip", "1");
+													while /* Cleans existing output buffers. */(@ob_end_clean())
+														;
 													/**/
-													header("Content-Encoding:");
-													header("Accept-Ranges: none");
-													header("Content-Type: ".$mimetype);
-													header("Expires: ".gmdate("D, d M Y H:i:s", strtotime("-1 week"))." GMT");
-													header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-													header("Cache-Control: no-cache, must-revalidate, max-age=0");
-													header("Cache-Control: post-check=0, pre-check=0", false);
-													header("Pragma: no-cache");
+													$range = (string)@$_SERVER["HTTP_RANGE"];
+													if(!$range && function_exists("apache_request_headers"))
+														/* Note: ``apache_request_headers()`` works in FastCGI too, starting w/ PHP v5.4. */
+														foreach((array)apache_request_headers() as $_header => $_value)
+															if(is_string($_header) && strcasecmp($_header, "range") === 0)
+																$range = $_value;
+													unset($_header, $_value);
 													/**/
-													header('Content-Disposition: '.(($inline) ? "inline" : "attachment").'; filename="'.$basename.'"');
-													/**/
-													eval /* End/clean any output buffers that may exist already. Prep for content delivery. */('while (@ob_end_clean ());');
-													/**/
-													if($length && apply_filters("ws_plugin__s2member_chunk_file_downloads", false, get_defined_vars()) && is_resource($resource = fopen($file, "rb")))
+													if /* Requesting a specific byte range? */($range)
 														{
-															$_chunk_size = apply_filters("ws_plugin__s2member_chunk_file_downloads_w_chunk_size", 2097152, get_defined_vars());
+															if /* Invalid range? */(strpos($range, "=") === FALSE)
+																{
+																	status_header(416);
+																	nocache_headers();
+																	header("Content-Encoding:");
+																	header("Accept-Ranges: bytes");
+																	header("Content-Type: ".$mimetype);
+																	header("Content-Length: ".$length);
+																	header("Content-Disposition: ".$disposition);
+																	exit /* Stop here (invalid). */();
+																}
+															list($range_type, $byte_range) = preg_split("/\s*\=\s*/", $range, 2);
 															/**/
-															if(apply_filters("ws_plugin__s2member_chunk_file_downloads_w_content_length", false, get_defined_vars()))
-																header("Content-Length: ".$length);
+															$range_type = strtolower(trim($range_type));
+															$byte_range = trim($byte_range);
 															/**/
-															header /* `Transfer-Encoding: chunked` conserves memory. */("Transfer-Encoding: chunked");
+															if /* Invalid range type? */($range_type !== "bytes")
+																{
+																	status_header(416);
+																	nocache_headers();
+																	header("Content-Encoding:");
+																	header("Accept-Ranges: bytes");
+																	header("Content-Type: ".$mimetype);
+																	header("Content-Length: ".$length);
+																	header("Content-Disposition: ".$disposition);
+																	exit /* Stop here (invalid). */();
+																}
+															$byte_ranges = preg_split("/\s*,\s*/", $byte_range);
 															/**/
-															while(!feof($resource) && ($chunk_size = strlen($data = fread($resource, $_chunk_size))))
-																eval('echo dechex ($chunk_size) . "\r\n". $data . "\r\n"; @flush ();');
+															if /* Invalid byte range? */(strpos($byte_ranges[0], "-") === FALSE)
+																{
+																	status_header(416);
+																	nocache_headers();
+																	header("Content-Encoding:");
+																	header("Accept-Ranges: bytes");
+																	header("Content-Type: ".$mimetype);
+																	header("Content-Length: ".$length);
+																	header("Content-Disposition: ".$disposition);
+																	exit /* Stop here (invalid). */();
+																}
+															/* Only dealing with the first byte range. Others are simply ignored here. */
+															list($byte_range_start, $byte_range_stops) = preg_split("/\s*\-\s*/", $byte_ranges[0], 2);
 															/**/
-															fclose($resource).exit("0\r\n\r\n");
+															$byte_range_start = trim($byte_range_start);
+															$byte_range_stops = trim($byte_range_stops);
+															/**/
+															$byte_range_start = ($byte_range_start === "") ? NULL : (integer)$byte_range_start;
+															$byte_range_stops = ($byte_range_stops === "") ? NULL : (integer)$byte_range_stops;
+															/**/
+															if(!isset($byte_range_start) && $byte_range_stops > 0 && $byte_range_stops <= $length)
+																{
+																	$byte_range_start = $length - $byte_range_stops;
+																	$byte_range_stops = /* The last X number of bytes. */ $length - 1;
+																}
+															else if(!isset($byte_range_stops) && $byte_range_start >= 0 && $byte_range_start < $length - 1)
+																{
+																	$byte_range_stops = /* To the end of the file in this case. */ $length - 1;
+																}
+															else if(isset($byte_range_start, $byte_range_stops) && $byte_range_start >= 0 && $byte_range_start < $length - 1 && $byte_range_stops > $byte_range_start && $byte_range_stops <= $length - 1) {
+															/* Nothing to do in this case, starts/stops already defined properly. */
+															}
+															else /* We have an invalid byte range. */
+																{
+																	status_header(416);
+																	nocache_headers();
+																	header("Content-Encoding:");
+																	header("Accept-Ranges: bytes");
+																	header("Content-Type: ".$mimetype);
+																	header("Content-Length: ".$length);
+																	header("Content-Disposition: ".$disposition);
+																	exit /* Stop here (invalid). */();
+																}
+															/* Range. */
+															status_header(206);
+															nocache_headers();
+															header("Content-Encoding:");
+															header("Accept-Ranges: bytes");
+															header("Content-Type: ".$mimetype);
+															header("Content-Range: bytes ".$byte_range_start."-".$byte_range_stops."/".$length);
+															$byte_range_size = $byte_range_stops - $byte_range_start + 1;
+															header("Content-Length: ".$byte_range_size);
+															header("Content-Disposition: ".$disposition);
 														}
-													else if($length && apply_filters("ws_plugin__s2member_flush_file_downloads", true, get_defined_vars()) && is_resource($resource = fopen($file, "rb")))
+													else /* A normal request (NOT a specific byte range). */
 														{
-															$_flush_size = apply_filters("ws_plugin__s2member_flush_file_downloads_w_flush_size", 2097152, get_defined_vars());
-															/**/
-															if(apply_filters("ws_plugin__s2member_flush_file_downloads_w_content_length", true, get_defined_vars()))
-																header("Content-Length: ".$length);
-															/**/
-															while(!feof($resource) && ($flush_size = strlen($data = fread($resource, $_flush_size))))
-																eval /* Conserves memory. */('echo $data; @flush ();');
+															status_header(200);
+															nocache_headers();
+															header("Content-Encoding:");
+															header("Accept-Ranges: bytes");
+															header("Content-Type: ".$mimetype);
+															header("Content-Length: ".$length);
+															header("Content-Disposition: ".$disposition);
 														}
-													else if /* Else, use: ``file_get_contents()``. */($length)
+													if(is_resource($resource = fopen($file, "rb")))
 														{
-															@ini_set("memory_limit", WP_MAX_MEMORY_LIMIT);
-															header("Content-Length: ".$length).exit(file_get_contents($file));
+															if($range)
+																{
+																	$_bytes_to_read = $byte_range_size;
+																	fseek($resource, $byte_range_start);
+																}
+															else /* Entire file. */
+																$_bytes_to_read = $length;
+															/**/
+															$chunk_size = apply_filters("ws_plugin__s2member_file_downloads_chunk_size", 2097152, get_defined_vars());
+															/**/
+															while /* We have bytes to read here. */($_bytes_to_read)
+																{
+																	$_bytes_to_read -= ($_reading = ($_bytes_to_read > $chunk_size) ? $chunk_size : $_bytes_to_read);
+																	echo /* Serve file in chunks (default chunk size is 2MB). */ fread($resource, $_reading);
+																	flush /* Flush each chunk to the browser as it is served (avoids high memory consumption). */();
+																}
+															fclose /* Close file resource handle. */($resource);
+															unset /* Housekeeping. */($_bytes_to_read, $_reading);
 														}
-													else /* Else, we have an empty file with no length. */
-														{
-															header("Content-Length: 0").exit();
-														}
+													exit /* Stop execution now (the file has been served). */();
 												}
 										}
 								}

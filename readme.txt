@@ -1,12 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-<<<<<<< .mine
 Version: 130116
 Stable tag: 130116
-=======
-Version: 121213
-Stable tag: 121213
->>>>>>> .r654027
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -21,11 +16,7 @@ Authorize.Net® Compatible: yes w/s2Member® Pro
 Google® Checkout Compatible: yes w/s2Member® Pro
 ClickBank® Compatible: yes w/s2Member® Pro
 
-<<<<<<< .mine
 Tested up to: 3.6-alpha
-=======
-Tested up to: 3.5
->>>>>>> .r654027
 Requires at least: 3.2
 
 Copyright: © 2009 WebSharks, Inc.
@@ -100,16 +91,11 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-<<<<<<< .mine
 = v130116 =
-=======
-= v121213 =
->>>>>>> .r654027
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
 
-<<<<<<< .mine
 = v130116 =
 * **(Maintenance Release) Upgrade immediately.**
 * **Compatibility (Issue #39)** Updated codes samples for JW Player®, to include the `mp4:` prefix when implementing RTMP streams against MP4 video files. Discussed in [this thread](http://www.s2member.com/forums/topic/cloudfront-subfolder-streaming-error/#post-35750).
@@ -140,31 +126,6 @@ Maintenance release. Upgrade immediately.
 * (s2Member/s2Member Pro) **Compatiblity**. Updated to support Dynamic Roles introduced in bbPress® v2.2. Discussed in [this thread](http://www.s2member.com/forums/topic/dont-upgrade-to-bbpress-2-2/#post-32523).
 * (s2Member Pro) **Authorize.Net**. True montly billing instead of every 30 days. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/1-month-recurring-billing-instead-of-30-days/#post-30420).
 
-=======
-= v121213 =
-* **(Maintenance Release) Upgrade immediately.**
-* **Updated for compatibility with WordPress® v3.5. Backward compatibility remains for previous versions of WordPress®, as far back as WordPress® v3.2.**
-* (s2Member Pro) **Bug Fix**. An issue first introduced in s2Member® Pro v120517 where we fixed problems with the `maxlength` attribute in Authorize.Net Pro Forms, left a remaining problem. The State/Province field in the Billing Address section of a Pro Form, since s2Member® Pro v120517, has only accepted 2 characters when it should have been capable of accepting up to 40 characters. Fixed in this release.
-* (s2Member / s2Member Pro) **Compatibility**. s2Member's Multsite Network patches now support `/wp-login.php` in WordPress® v3.5. Discussed in [this thread](http://www.s2member.com/forums/topic/fyi-wpmu-3-5-wp-login-php-file-not-verified/#post-34457).
-* (s2Member / s2Member Pro) **Compatibility**. s2Member's login customizations for `/wp-login.php` have been tweaked to support WordPress® v3.5.
-* (s2Member / s2Member Pro) **Checksums**. Each copy of s2Member® and s2Member® Pro now include a `checksum.txt` file in their root plugin directory. This file is used by server-scanning tools provided by WebSharks, Inc. This file simply serves to identify the state of the file structure upon each official release of the software.
-* (s2Member Pro) **Bug Fix**. Free Registration Pro Forms submitted without having payment gateway API credentials configured within s2Member® resulted in an on-site error message when there should NOT be one (because a site owner is dealing with Free Registration only in this scenario). Fixed in this release.
-
-= v121204 =
-* **(Maintenance Release) Upgrade immediately.**
-* (s2Member / s2Member Pro) **Bug Fix**. An issue with long billing agreement descriptions under PayPal® Pro (Payflow® Edition) accounts, when coupon codes were being used by customers, was addressed in this release. Symptoms of this bug were errors in s2Member® log files from the Payflow® API, with error code: `11581-Profile description is invalid`. Caused by undocumented length requirements for the billing agreement description under the Payflow® API. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/error-generic-processor-error-11581/page/2/#post-33477).
-* (s2Member / s2Member Pro) **Compatibility**. Updated JW Player code samples for compatibility with JW Player v6. Discussed in [this thread](http://www.s2member.com/forums/topic/jw-player-rtmp-streaming-mp4-amazon-s3/page/2/#post-32074).
-
-= v121201 =
-* **(Maintenance Release) Upgrade immediately.**
-* (s2Member / s2Member Pro) **Bug Fix**. Support Rep Cristián Lávaque found a bug in the behavior of s2Member’s Alternative View Restrictions, associated with Category listings in custom menu widgets. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/welcome-page-title-shows-but-no-content/page/2/#post-29802).
-* (s2Member Pro) **Feature Enhancement**. s2Member Pro Forms integrated ONLY with PayPal Express Checkout (`accept="paypal" accept_via_paypal="paypal"`), will no longer display a Billing Method section on the Pro Form, as it's not necessary (there's only one possible option in this case, and it's already depicted by the PayPal button at the bottom of the Pro Form). Many site owners had implemented CSS hacks to hide this section of a Pro Form configured this way, based on [this FAQ article](http://www.s2member.com/faqs/#s2-faqs-paypal-pro-not-required). This hack is no longer necessary - starting with this release.
-* (s2Member Pro) **Bug Fix**. s2Member Pro Forms integrated with Payflow Recurring Billing via PayPal Express Checkout were failing against some accounts with an erroneous error #10422 related to an invalid funding source. With some help from other site owners and the assistance of PayPal technical support, the underlying issue has been fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/paypal-error-36-transaction-failed/page/2/#post-31490).
-* (s2Member Pro) **Compatiblity**. ccBill Buttons can now be generated for amounts exceeding $100.00, so long as prior ccBill approval is obtained from ccBill merchant support. Discussed in [this thread](http://www.s2member.com/forums/topic/cc-bill-button-increase-dollar-amount/#post-31636).
-* (s2Member/s2Member Pro) **Compatiblity**. Updated to support Dynamic Roles introduced in bbPress® v2.2. Discussed in [this thread](http://www.s2member.com/forums/topic/dont-upgrade-to-bbpress-2-2/#post-32523).
-* (s2Member Pro) **Authorize.Net**. True montly billing instead of every 30 days. Fixed in this release. Discussed in [this thread](http://www.s2member.com/forums/topic/1-month-recurring-billing-instead-of-30-days/#post-30420).
-
->>>>>>> .r654027
 = v121023 =
 * **(Maintenance Release) Upgrade immediately.**
 * (s2Member / s2Member Pro) **Bug Fix**. A bug related to s2Member's `is_site_root()` method, when fancy permalinks are NOT in use; has been corrected for compatibility with the latest version of WordPress. Please see [this thread](http://www.s2member.com/forums/topic/new-custom-field-default-not-on-old-users/#post-28792) for futher details.

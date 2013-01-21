@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 130116
-Stable tag: 130116
+Version: 130121
+Stable tag: 130121
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -91,10 +91,17 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v130116 =
+= v130121 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v130121 =
+* **(Maintenance Release) Upgrade immediately.**
+* **New Feature** s2Member® now comes with a new Shortcode `[s2Stream file_download="video.mp4" player="jwplayer-v6" ... /]`, making it MUCH easier for site owners to implemement RTMP streams of audio/video content. For further details, please check your Dashboard under: `s2Member® -> Download Options -> JW Player® v6 and RTMP Protocol Examples`. See also: `s2Member® -> Download Options -> Shortcode Attributes (Explained)`.
+* **Compatibility (Issue #75)** Updated s2Member's local file storage engine (for File Downloads via s2Member®), to support special characters in file names. Discussed in [this thread](http://www.s2member.com/forums/topic/problem-with-quotes-in-filename-downloads/#post-38395).
+* **Bug Fix (Issue #71)** A bug first introduced in the previous release of v130116, where we added support for byte-range requests to s2Member's File Download functionality, was causing multiple byte-range requests (processed by s2Member) to count against each User/Member as multiple File Downloads. Fixed in this release.
+* **Compatibility** Updated s2Member's integration with Amazon® S3 to extend the default 30 second connection timeout (which was too conservative for many integrations) up to 24 hours by default, making it match the same as s2Member's Amazon® CloudFront connection timeout. For further details, please check your Dashboard under: `s2Member® -> Download Options -> Amazon® S3/CDN Storage -> Dev Note w/Technical Details`. It is possible to modify this connection timeout through a Filter discussed there.
 
 = v130116 =
 * **(Maintenance Release) Upgrade immediately.**

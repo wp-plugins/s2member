@@ -52,6 +52,19 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 						/**/
 						$creating = /* Creating URL? */ (is_array($create = $create_file_download_url)) ? true : false;
 						$serving = /* If NOT creating a File Download URL, we're serving one. */ (!$creating) ? true : false;
+						$serving_range = $range = /* Default values (so these variables DO get defined at all times). */ false;
+						if /* If we're serving, let's see if we're serving a byte-range request here. */($serving)
+							{
+								$range = (string)@$_SERVER["HTTP_RANGE"];
+								if(!$range && function_exists("apache_request_headers"))
+									/* Note: ``apache_request_headers()`` works in FastCGI too, starting w/ PHP v5.4. */
+									foreach((array)apache_request_headers() as $_header => $_value)
+										if(is_string($_header) && strcasecmp($_header, "range") === 0)
+											$range = $_value;
+								if /* Serving a range? */($range)
+									$serving_range = true;
+								unset($_header, $_value);
+							}
 						/**/
 						$req["file_download"] = ($creating) ? @$create["file_download"] : @$_g["s2member_file_download"];
 						$req["file_download_key"] = ($creating) ? @$create["file_download_key"] : @$_g["s2member_file_download_key"];
@@ -81,7 +94,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 									$valid_file_download_key = ($req["file_download_key"] && is_string($req["file_download_key"]) && $creating && (!isset($req["check_user"]) || !filter_var($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN))) ? true : false;
 									$valid_file_download_key = (!$valid_file_download_key && $req["file_download_key"] && is_string($req["file_download_key"])) ? c_ws_plugin__s2member_files_in::check_file_download_key($req["file_download"], $req["file_download_key"]) : false;
 									$checking_user = ($excluded || $valid_file_download_key || ($creating && (!isset($req["check_user"]) || !filter_var($req["check_user"], FILTER_VALIDATE_BOOLEAN)) && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
-									$updating_user_counter = (!$checking_user || ($creating && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
+									$updating_user_counter = ($serving_range || !$checking_user || ($creating && (!isset($req["count_against_user"]) || !filter_var($req["count_against_user"], FILTER_VALIDATE_BOOLEAN)))) ? false : true;
 									/**/
 									if( /* In either case, the following routines apply whenever we ARE ``$checking_user``. */($serving || $creating) && $checking_user)
 										{
@@ -271,7 +284,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 											/**/
 											$pathinfo = (!$using_amazon_storage) ? pathinfo(($file = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"]."/".$req["file_download"])) : array();
 											$mimetype = ($mimetypes[$extension]) ? $mimetypes[$extension] : "application/octet-stream";
-											$disposition = (($inline) ? "inline" : "attachment")."; filename=\"".$basename."\"";
+											$disposition = (($inline) ? "inline" : "attachment")."; filename=\"".c_ws_plugin__s2member_utils_strings::esc_dq($basename)."\"; filename*=UTF-8''".rawurlencode($basename);
 											$length = (!$using_amazon_storage && $file) ? filesize($file) : -1;
 											/**/
 											eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
@@ -331,23 +344,14 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 													return apply_filters("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars());
 												}
 											/**/
-											else /* Else, ``if ($serving)``, use local storage. */
+											else if /* Else, ``if ($serving)``, use local storage. */($serving)
 												{
 													@set_time_limit(0);
 													/**/
 													@ini_set("zlib.output_compression", 0);
 													if(function_exists("apache_setenv"))
 														@apache_setenv("no-gzip", "1");
-													while /* Cleans existing output buffers. */(@ob_end_clean())
-														;
-													/**/
-													$range = (string)@$_SERVER["HTTP_RANGE"];
-													if(!$range && function_exists("apache_request_headers"))
-														/* Note: ``apache_request_headers()`` works in FastCGI too, starting w/ PHP v5.4. */
-														foreach((array)apache_request_headers() as $_header => $_value)
-															if(is_string($_header) && strcasecmp($_header, "range") === 0)
-																$range = $_value;
-													unset($_header, $_value);
+													while /* Cleans existing output buffers. */(@ob_end_clean());
 													/**/
 													if /* Requesting a specific byte range? */($range)
 														{
@@ -519,10 +523,10 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 								$ssl = (isset($config["file_ssl"])) ? filter_var($config["file_ssl"], FILTER_VALIDATE_BOOLEAN) : ((is_ssl()) ? true : false);
 								/**/
 								if($get_streamer_array && $streaming && ($cfx = "/cfx/st") && ($cfx_pos = strpos($_url, $cfx)) !== false && ($streamer = substr($_url, 0, $cfx_pos + strlen($cfx))) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access(array_merge($config, array("file_stream" => false, "check_user" => false, "count_against_user" => false)))))
-									$return = array("streamer" => $streamer, "file" => preg_replace("/^".preg_quote($streamer, "/")."\//", "", $_url), "url" => preg_replace("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
+									$return = array("streamer" => $streamer, "prefix" => $extension.":", "file" => preg_replace("/^".preg_quote($streamer, "/")."\//", "", $_url), "url" => preg_replace("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
 								else if($get_streamer_array && $streaming && is_array($ups = c_ws_plugin__s2member_utils_urls::parse_url($_url)) && isset($ups["scheme"], $ups["host"]) && ($streamer = $ups["scheme"]."://".$ups["host"].((!empty($ups["port"])) ? ":".$ups["port"] : "")) && ($url = c_ws_plugin__s2member_files_in::check_file_download_access(array_merge($config, array("file_stream" => false, "check_user" => false, "count_against_user" => false)))))
-									$return = array("streamer" => $streamer, "file" => preg_replace("/^".preg_quote($streamer, "/")."\//", "", $_url), "url" => preg_replace("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
+									$return = array("streamer" => $streamer, "prefix" => $extension.":", "file" => preg_replace("/^".preg_quote($streamer, "/")."\//", "", $_url), "url" => preg_replace("/^.+?\:/", (($ssl) ? "https:" : "http:"), $url));
 								/**/
 								else if /* If streamer, we MUST return false here; unable to acquire streamer/file. */($get_streamer_array)
 									$return = /* We MUST return false here, unable to acquire streamer/file. */ false;
@@ -637,7 +641,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 							if(preg_match("/^amazon_s3_files_/", $option) && ($option = preg_replace("/^amazon_s3_files_/", "", $option)))
 								$s3c[$option] = $option_value;
 						/**/
-						$s3c["expires"] = strtotime("+".apply_filters("ws_plugin__s2member_amazon_s3_file_expires_time", "30 seconds", get_defined_vars()));
+						$s3c["expires"] = strtotime("+".apply_filters("ws_plugin__s2member_amazon_s3_file_expires_time", "24 hours", get_defined_vars()));
 						/**/
 						$s3_file = add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode_deep(array("response-cache-control" => ($s3_cache_control = "no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0"), "response-content-disposition" => ($s3_content_disposition = (((bool)$inline) ? "inline" : "attachment").'; filename="'.(string)$basename.'"'), "response-content-type" => ($s3_content_type = (string)$mimetype), "response-expires" => ($s3_expires = gmdate("D, d M Y H:i:s", strtotime("-1 week"))." GMT")))), "/".$file);
 						$s3_raw_file = add_query_arg(array("response-cache-control" => $s3_cache_control, "response-content-disposition" => $s3_content_disposition, "response-content-type" => $s3_content_type, "response-expires" => $s3_expires), "/".$file);

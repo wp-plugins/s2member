@@ -14,10 +14,10 @@
 * @package s2Member\s2File
 * @since 110926
 */
-if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
+if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 	exit("Do not access this file directly.");
 /**/
-if (!class_exists ("c_ws_plugin__s2member_sc_files"))
+if(!class_exists("c_ws_plugin__s2member_sc_files"))
 	{
 		/**
 		* Shortcode `[s2File /]`.
@@ -40,9 +40,26 @@ if (!class_exists ("c_ws_plugin__s2member_sc_files"))
 				* @param str $shortcode The actual Shortcode name itself.
 				* @return str Value of the requested File Download URL, or null on failure.
 				*/
-				public static function sc_get_file ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
+				public static function sc_get_file($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						return c_ws_plugin__s2member_sc_files_in::sc_get_file ($attr, $content, $shortcode);
+						return c_ws_plugin__s2member_sc_files_in::sc_get_file($attr, $content, $shortcode);
+					}
+				/**
+				* Handles the Shortcode for: `[s2Stream /]`.
+				*
+				* @package s2Member\s2File
+				* @since 130119
+				*
+				* @attaches-to ``add_shortcode("s2Stream");``
+				*
+				* @param array $attr An array of Attributes.
+				* @param str $content Content inside the Shortcode.
+				* @param str $shortcode The actual Shortcode name itself.
+				* @return str HTML markup that produces an audio/video stream for a specific player.
+				*/
+				public static function sc_get_stream($attr = FALSE, $content = FALSE, $shortcode = FALSE)
+					{
+						return c_ws_plugin__s2member_sc_files_in::sc_get_stream($attr, $content, $shortcode);
 					}
 			}
 	}

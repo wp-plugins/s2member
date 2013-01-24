@@ -1,7 +1,7 @@
 === s2Member® Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 130121
-Stable tag: 130121
+Version: 130123
+Stable tag: 130123
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -35,6 +35,7 @@ Forum URI: http://www.s2member.com/forums/
 Plugin URI: http://www.s2member.com/framework/
 Privacy URI: http://www.s2member.com/privacy/
 Video Tutorials: http://www.s2member.com/videos/
+Knowledge Base: http://www.s2member.com/kb/
 Pro Module / Home Page: http://www.s2member.com/
 Pro Module / Prices: http://www.s2member.com/prices/
 Pro Module / Auto-Update URL: http://www.s2member.com/
@@ -91,10 +92,18 @@ Please see [this FAQ entry](http://www.s2member.com/faqs/#s2-faqs-translations)
 
 == Upgrade Notice ==
 
-= v130121 =
+= v130123 =
 Maintenance release. Upgrade immediately.
 
 == Changelog ==
+
+= v130123 =
+* **(Maintenance Release) Upgrade immediately.**
+* (s2Member/s2Member Pro) **s2Stream Shortcode (Issue #78)** s2Member® now supports JW Player® license keys using Shortcode Attribute `player_key=""`. See [this KB article](http://www.s2member.com/kb/jwplayer-s2stream-shortcodes/) please. Also discussed in [this thread](http://www.s2member.com/forums/topic/new-jw-player-6-s2-video-audio-shortcodes/#post-38768).
+* (s2Member/s2Member Pro) **s2Stream Shortcode (Issue #79)** s2Member® now supports JW Player® [Advanced Option Blocks](http://www.longtailvideo.com/support/jw-player/28839/embedding-the-player) using Shortcode Attribute `player_option_blocks=""`. Example: `player_option_blocks="sharing:{}"`. See [this KB article](http://www.s2member.com/kb/jwplayer-s2stream-shortcodes/) please. Also discussed in [this thread](http://www.s2member.com/forums/topic/new-jw-player-6-s2-video-audio-shortcodes/#post-38768).
+* (s2Member Pro) **User Exportation (Issue #80)** s2Member® Pro User Exportation now occurs with MySQL `ORDER BY ID`, instead of no `ORDER BY` at all. This helps to prevent confusion and buggy behavior. Discussed in [this thread](http://www.s2member.com/forums/topic/user-export-not-working-properly/#post-39123).
+* (s2Member Pro) **User Exportation (Issue #81)** s2Member Pro's User Exportation now supports the exporation of up to `1000` User/Member table rows at once. Of course it remains possible to export ALL of your Users/Members with s2Member® Pro. All we've done here is bump the default limit from `250` up to `1000` at a time. In addition, there is a new Filter making it possible to extend this limit further on servers that can handle it. Use Filter: `ws_plugin__s2member_pro_export_users_limit` if you would like to export more Users all at once. See also: `Dashboard -› s2Member® Pro -> User/Member Exportation`.
+* (s2Member/s2Member Pro) **KB Articles** Inline documentation updated in some areas, with a few links pointing to helpful/related KB articles.
 
 = v130121 =
 * **(Maintenance Release) Upgrade immediately.**

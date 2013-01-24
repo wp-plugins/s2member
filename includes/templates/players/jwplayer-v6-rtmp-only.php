@@ -6,7 +6,7 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 <div id="%%player_id%%"></div>
 <script type="text/javascript" src="%%player_path%%"></script>
 <script type="text/javascript">
-	jwplayer('%%player_id%%').setup({
+	jwplayer.key = '%%player_key%%', jwplayer('%%player_id%%').setup({
 	
 			playlist:
 				[{
@@ -30,6 +30,8 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 			mute: %%player_mute%%,
 			primary: '%%player_primary%%',
 			repeat: %%player_repeat%%,
-			startparam: '%%player_startparam%%'
+			startparam: '%%player_startparam%%',
+			
+			%%player_option_blocks%%
 		});
 </script>

@@ -75,6 +75,13 @@ if (!class_exists ("c_ws_plugin__s2member_menu_pages_rs"))
 								echo '</div>' . "\n";
 							}
 						/**/
+						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"]["kb"])
+							{
+								echo '<div class="ws-menu-page-kb">' . "\n";
+								echo '<a href="' . esc_attr (c_ws_plugin__s2member_readmes::parse_readme_value ("Knowledge Base")) . '" target="_blank"><img src="' . esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]) . '/images/brand-kb.png" alt="." /></a>' . "\n";
+								echo '</div>' . "\n";
+							}
+						/**/
 						if ($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["menu_pages"]["videos"])
 							{
 								echo '<div class="ws-menu-page-videos">' . "\n";

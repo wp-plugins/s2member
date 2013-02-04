@@ -40,8 +40,6 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 				* @attaches-to ``add_action("init");``
 				*
 				* @return null
-				*
-				* @todo See if it's possible to further optimize this routine?
 				*/
 				public static function constants ()
 					{
@@ -76,7 +74,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_VERSION" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_VERSION);
 						* </script>
@@ -104,7 +102,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_LOGIN_COUNTER" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_LOGIN_COUNTER);
 						* </script>
@@ -139,7 +137,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* [s2If constant(S2MEMBER_CURRENT_USER_IS_LOGGED_IN)]
 						* 	You ARE logged-in.
 						* [/s2If]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	if(S2MEMBER_CURRENT_USER_IS_LOGGED_IN)
 						* 		document.write('You ARE logged-in.');
@@ -175,7 +173,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* [s2If constant(S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER)]
 						* 	You ARE logged in at Level #1 or higher.
 						* [/s2If]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	if(S2MEMBER_CURRENT_USER_IS_LOGGED_IN_AS_MEMBER)
 						* 		document.write('You ARE logged in at Level #1 or higher.');
@@ -226,7 +224,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_ACCESS_LEVEL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_ACCESS_LEVEL);
 						* </script>
@@ -263,7 +261,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_ACCESS_LABEL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_ACCESS_LABEL);
 						* </script>
@@ -297,7 +295,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_SUBSCR_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_SUBSCR_ID);
 						* </script>
@@ -336,7 +334,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID);
 						* </script>
@@ -376,7 +374,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_SUBSCR_GATEWAY);
 						* </script>
@@ -418,7 +416,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_CUSTOM" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_CUSTOM);
 						* </script>
@@ -457,7 +455,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_REGISTRATION_TIME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_REGISTRATION_TIME);
 						* </script>
@@ -505,7 +503,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_PAID_REGISTRATION_TIME);
 						* </script>
@@ -556,7 +554,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS);
 						* </script>
@@ -599,7 +597,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_REGISTRATION_DAYS" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_REGISTRATION_DAYS);
 						* </script>
@@ -640,7 +638,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_DISPLAY_NAME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_DISPLAY_NAME);
 						* </script>
@@ -679,7 +677,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_FIRST_NAME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_FIRST_NAME);
 						* </script>
@@ -718,7 +716,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_LAST_NAME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_LAST_NAME);
 						* </script>
@@ -757,7 +755,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_LOGIN" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_LOGIN);
 						* </script>
@@ -796,7 +794,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_EMAIL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_EMAIL);
 						* </script>
@@ -835,7 +833,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_IP" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_IP);
 						* </script>
@@ -880,7 +878,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_REGISTRATION_IP" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_REGISTRATION_IP);
 						* </script>
@@ -921,7 +919,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_ID);
 						* </script>
@@ -992,7 +990,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* [s2Get user_field="s2member_subscr_gateway" /]
 						* [s2Get user_field="s2member_custom" /]
 						* [s2Get user_field="my_custom_field_id" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_FIELDS.id);
 						* 	document.write(S2MEMBER_CURRENT_USER_FIELDS.display_name);
@@ -1024,7 +1022,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED);
 						* </script>
@@ -1077,7 +1075,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* [s2If constant(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED)]
 						* 	You have access to unlimited downloads.
 						* [/s2If]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	if(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED)
 						* 		document.write('You have access to unlimited downloads.');
@@ -1122,7 +1120,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY);
 						* </script>
@@ -1169,7 +1167,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ```
 						* You are allowed to download [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED" /] files, every [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS" /] days.
 						* You've downloaded [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY" /] files in the last [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS" /] days.
-						* 
+						*
 						* You are allowed to download <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED);</script> files, every <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS);</script> days.
 						* You've downloaded <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY);</script> files in the last <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS);</script> days.
 						* ```
@@ -1212,7 +1210,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID);
 						* </script>
@@ -1267,7 +1265,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID);
 						* </script>
@@ -1307,7 +1305,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LOGIN_WELCOME_PAGE_ID" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LOGIN_WELCOME_PAGE_ID);
 						* </script>
@@ -1347,7 +1345,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL);
 						* </script>
@@ -1386,7 +1384,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL);
 						* </script>
@@ -1441,7 +1439,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL);
 						* </script>
@@ -1481,7 +1479,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LOGIN_WELCOME_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LOGIN_WELCOME_PAGE_URL);
 						* </script>
@@ -1521,7 +1519,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LOGOUT_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LOGOUT_PAGE_URL);
 						* </script>
@@ -1561,7 +1559,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LOGIN_PAGE_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LOGIN_PAGE_URL);
 						* </script>
@@ -1606,7 +1604,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LEVEL0_LABEL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LEVEL0_LABEL);
 						* </script>
@@ -1651,7 +1649,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_LEVEL0_FILE_DOWNLOADS_ALLOWED);
 						* </script>
@@ -1705,7 +1703,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ```
 						* At Level #1, Members are allowed to download [s2Get constant="S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED" /] files, every [s2Get constant="S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED_DAYS" /] days.
 						* You are currently at Membership Level #[s2Get constant="S2MEMBER_CURRENT_USER_ACCESS_LEVEL" /]. You've downloaded [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY" /] files in the last [s2Get constant="S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS" /] days.
-						* 
+						*
 						* At Level #1, Members are allowed to download <script type="text/javascript">document.write(S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED);</script> files, every <script type="text/javascript">document.write(S2MEMBER_LEVEL1_FILE_DOWNLOADS_ALLOWED_DAYS);</script> days.
 						* You are currently at Membership Level #<script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_ACCESS_LEVEL);</script>. You've downloaded <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY);</script> files in the last <script type="text/javascript">document.write(S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS);</script> days.
 						* ```
@@ -1749,7 +1747,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS);
 						* </script>
@@ -1790,7 +1788,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_REG_EMAIL_FROM_NAME" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_REG_EMAIL_FROM_NAME);
 						* </script>
@@ -1817,7 +1815,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_REG_EMAIL_FROM_EMAIL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_REG_EMAIL_FROM_EMAIL);
 						* </script>
@@ -1844,7 +1842,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_NOTIFY_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_PAYPAL_NOTIFY_URL);
 						* </script>
@@ -1872,7 +1870,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_RETURN_URL" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_PAYPAL_RETURN_URL);
 						* </script>
@@ -1900,7 +1898,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_BUSINESS" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_PAYPAL_BUSINESS);
 						* </script>
@@ -1932,7 +1930,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_ENDPOINT" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_PAYPAL_ENDPOINT);
 						* </script>
@@ -1962,7 +1960,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_API_ENDPOINT" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_PAYPAL_API_ENDPOINT);
 						* </script>
@@ -1989,7 +1987,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_API_USERNAME" /]
-						* 
+						*
 						* NOTE: For security purposes,
 						* this API Constant is NOT available as a JavaScript Global.
 						* ```
@@ -2017,7 +2015,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_API_PASSWORD" /]
-						* 
+						*
 						* NOTE: For security purposes,
 						* this API Constant is NOT available as a JavaScript Global.
 						* ```
@@ -2045,7 +2043,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_API_SIGNATURE" /]
-						* 
+						*
 						* NOTE: For security purposes,
 						* this API Constant is NOT available as a JavaScript Global.
 						* ```
@@ -2073,7 +2071,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN" /]
-						* 
+						*
 						* NOTE: For security purposes,
 						* this API Constant is NOT available as a JavaScript Global.
 						* ```
@@ -2133,7 +2131,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_VALUE_FOR_PP_INV" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_VALUE_FOR_PP_INV);
 						* </script>
@@ -2191,7 +2189,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0);
 						* </script>
@@ -2249,7 +2247,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0);
 						* </script>
@@ -2304,7 +2302,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1);
 						* </script>
@@ -2359,7 +2357,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* ———— Shortcode & JavaScript Equivalents ————
 						* ```
 						* [s2Get constant="S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1" /]
-						* 
+						*
 						* <script type="text/javascript">
 						* 	document.write(S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1);
 						* </script>

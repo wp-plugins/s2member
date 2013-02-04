@@ -34,9 +34,6 @@ if(!class_exists("c_ws_plugin__s2member_roles_caps"))
 				* @since 110524RC
 				*
 				* @return null
-				*
-				* @todo Finalize support for unlimited Levels/Roles.
-				* @todo Finalize support for independent Capabilities.
 				*/
 				public static function config_roles()
 					{
@@ -112,7 +109,7 @@ if(!class_exists("c_ws_plugin__s2member_roles_caps"))
 				*
 				* @package s2Member\Roles_Caps
 				* @since 112512
-				* 
+				*
 				* @attaches-to ``add_filter("bbp_get_caps_for_role");``
 				*
 				* @return array

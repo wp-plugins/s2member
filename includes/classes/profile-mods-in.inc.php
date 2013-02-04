@@ -54,12 +54,11 @@ if (!class_exists ("c_ws_plugin__s2member_profile_mods_in"))
 										/**/
 										$_p = c_ws_plugin__s2member_utils_strings::trim_deep (stripslashes_deep ($_POST)); /* Clean ``$_POST`` vars. */
 										/**/
-										$userdata["ID"] = $user_id; /* Needed for database update. */
+										$userdata["ID"] = /* Needed for database update. */ $user_id;
 										/**/
 										if (!empty ($_p["ws_plugin__s2member_profile_email"]))
-											if (is_email ($_p["ws_plugin__s2member_profile_email"]))
-												if (!email_exists ($_p["ws_plugin__s2member_profile_email"]))
-													$userdata["user_email"] = $_p["ws_plugin__s2member_profile_email"];
+											if (is_email ($_p["ws_plugin__s2member_profile_email"]) && !email_exists ($_p["ws_plugin__s2member_profile_email"]))
+												$userdata["user_email"] = $_p["ws_plugin__s2member_profile_email"];
 										/**/
 										if (!empty ($_p["ws_plugin__s2member_profile_password1"]))
 											if ($user->user_login !== "demo") /* No pass change on demo! */

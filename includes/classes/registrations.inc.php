@@ -708,12 +708,12 @@ if (!class_exists ("c_ws_plugin__s2member_registrations"))
 																			wp_update_user (array ("ID" => $user_id, "display_name" => $login));
 																	}
 																/**/
-																if (is_multisite ()) /* Should we handle Main Site permissions and Originating Blog ID#? */
+																if /* Should we handle Main Site permissions and Originating Blog ID#? */(is_multisite ())
 																	{
 																		if (!is_main_site () && strtotime ($user->user_registered) >= strtotime ("-10 seconds"))
-																			remove_user_from_blog ($user_id, $current_site->blog_id); /* No Main Site Role. */
+																			remove_user_from_blog /* No Main Site Role. */($user_id, $current_site->blog_id);
 																		/**/
-																		if (!get_user_meta ($user_id, "s2member_originating_blog", true)) /* Recorded yet? */
+																		if /* Recorded yet? */(!get_user_meta ($user_id, "s2member_originating_blog", true))
 																			update_user_meta ($user_id, "s2member_originating_blog", $current_blog->blog_id);
 																	}
 																/**/

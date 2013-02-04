@@ -6,18 +6,23 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 <div id="%%player_id%%"></div>
 <script type="text/javascript" src="%%player_path%%"></script>
 <script type="text/javascript">
-	jwplayer.key = '%%player_key%%', jwplayer('%%player_id%%').setup({
+
+	if(typeof jwplayer.key !== 'string' || !jwplayer.key)
+		jwplayer.key = '%%player_key%%';
+
+	jwplayer('%%player_id%%').setup({
 	
 			playlist:
 				[{
-					/* List all available sources. */ sources:
+					image: '%%player_image%%',
+					
+					sources: // Available sources.
 						[
 							{file: '%%streamer%%/%%prefix%%%%file%%'},
 							{file: '%%url%%'}
 						]
 				}],
 				
-			image: '%%player_image%%',
 			title: '%%player_title%%',
 			
 			controls: %%player_controls%%,
@@ -35,4 +40,5 @@ if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 			
 			%%player_option_blocks%%
 		});
+
 </script>

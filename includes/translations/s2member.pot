@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the s2Member® Framework package.
 msgid ""
 msgstr ""
-"Project-Id-Version: s2Member® Framework 130116\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/___s2member\n"
-"POT-Creation-Date: 2013-01-24 00:54:01+00:00\n"
+"Project-Id-Version: s2Member® Framework 130123\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/s2member\n"
+"POT-Creation-Date: 2013-02-04 09:18:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -713,7 +713,7 @@ msgstr ""
 
 #: s2member/includes/classes/profile-in.inc.php:78
 #: s2member/includes/classes/sc-profile-in.inc.php:94
-#: s2member-pro/includes/classes/login-widget.inc.php:118
+#: s2member-pro/includes/classes/login-widget.inc.php:121
 msgctxt "s2member-front"
 msgid "Username"
 msgstr ""
@@ -766,9 +766,9 @@ msgctxt "s2member-front"
 msgid "Save All Changes"
 msgstr ""
 
+#: s2member/includes/classes/profile-mods-in.inc.php:132
 #: s2member/includes/classes/profile-mods-in.inc.php:133
 #: s2member/includes/classes/profile-mods-in.inc.php:134
-#: s2member/includes/classes/profile-mods-in.inc.php:135
 #: s2member/includes/classes/sc-profile-in.inc.php:70
 msgctxt "s2member-front"
 msgid "Profile updated successfully."
@@ -3725,57 +3725,57 @@ msgctxt "s2member-front"
 msgid "<strong>No Subscr. ID.</strong> Please contact Support for assistance."
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:123
+#: s2member-pro/includes/classes/login-widget.inc.php:126
 msgctxt "s2member-front"
 msgid "Password"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:129
+#: s2member-pro/includes/classes/login-widget.inc.php:132
 msgctxt "s2member-front"
 msgid "signup now"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:130
+#: s2member-pro/includes/classes/login-widget.inc.php:133
 msgctxt "s2member-front"
 msgid "forgot password?"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:134
+#: s2member-pro/includes/classes/login-widget.inc.php:137
 msgctxt "s2member-front"
 msgid "Remember Me"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:139
+#: s2member-pro/includes/classes/login-widget.inc.php:142
 msgctxt "s2member-front"
 msgid "Log Me In"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:190
+#: s2member-pro/includes/classes/login-widget.inc.php:193
 msgctxt "s2member-front"
 msgid "My Account"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:191
+#: s2member-pro/includes/classes/login-widget.inc.php:194
 msgctxt "s2member-front"
 msgid "Please disable popup blockers and try again!"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:191
+#: s2member-pro/includes/classes/login-widget.inc.php:194
 msgctxt "s2member-front"
 msgid "Edit My Profile"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:192
+#: s2member-pro/includes/classes/login-widget.inc.php:195
 msgctxt "s2member-front"
 msgid "Logout"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:311
+#: s2member-pro/includes/classes/login-widget.inc.php:314
 msgctxt "s2member-front"
 msgid "Membership Login"
 msgstr ""
 
-#: s2member-pro/includes/classes/login-widget.inc.php:311
+#: s2member-pro/includes/classes/login-widget.inc.php:314
 msgctxt "s2member-front"
 msgid "My Profile Summary"
 msgstr ""

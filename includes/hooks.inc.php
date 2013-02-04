@@ -54,12 +54,10 @@ add_action("pre_get_posts", "c_ws_plugin__s2member_security::security_gate_query
 /**/
 add_action("wp", "c_ws_plugin__s2member_ssl::check_force_ssl", 1);
 add_action("wp", "c_ws_plugin__s2member_security::security_gate", 1);
-/* Stay ahead of BuddyPress® at `3` on `wp in `bp-core-hooks.php`. */
-/* Set to `1` so other plugins may come between these. */
 /**/
 add_filter("wp_mail", "c_ws_plugin__s2member_email_configs::email_filter");
 /**/
-add_filter("widget_text", "do_shortcode"); /* Shortcodes in widgets. */
+add_filter /* Shortcodes in widgets. */("widget_text", "do_shortcode");
 /**/
 add_action("wp_print_styles", "c_ws_plugin__s2member_css_js_themes::add_css");
 add_action("wp_print_scripts", "c_ws_plugin__s2member_css_js_themes::add_js_w_globals");

@@ -311,7 +311,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_mms_ops"))
 										echo '<div class="ws-menu-page-hr"></div>'."\n";
 										/**/
 										if(!function_exists("NC_Markdown"))
-											include_once dirname(dirname(__FILE__))."/_xtnls/markdown/nc-markdown.inc.php";
+											include_once dirname(dirname(__FILE__))."/externals/markdown/nc-markdown.inc.php";
 										/**/
 										$ws_plugin__s2member_temp = file_get_contents($ws_plugin__s2member_temp);
 										$ws_plugin__s2member_temp = preg_replace("/(\=)( )(.+?)( )(\=)/", "<h3>$3</h3>", $ws_plugin__s2member_temp);

@@ -980,7 +980,7 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nWhen provided, Trial Amount must be >= 0.00');
 								return false;
 							}
-						else if(trialAmount !== '0' && /* Maximum. */ trialAmount > 10000.00)
+						else if(trialAmount !== '0' && /* Maximum. */ trialAmount > 10000.00 && currencyCode.toUpperCase() === 'USD')
 							{
 								alert('— Oops, a slight problem: —\n\nMaximum Trial Amount is: 10000.00');
 								return false;
@@ -1010,7 +1010,7 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
 								return false;
 							}
-						else if(regAmount > /* $10,000.00 maximum. */ 10000.00)
+						else if(regAmount > /* $10,000.00 maximum. */ 10000.00 && currencyCode.toUpperCase() === 'USD')
 							{
 								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
 								return false;
@@ -1102,7 +1102,7 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
 								return false;
 							}
-						else if /* $10,000.00 maximum. */(regAmount > 10000.00)
+						else if /* $10,000.00 maximum. */(regAmount > 10000.00 && currencyCode.toUpperCase() === 'USD')
 							{
 								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
 								return false;
@@ -1167,7 +1167,7 @@ jQuery(document).ready(function($)
 								alert('— Oops, a slight problem: —\n\nAmount must be >= 0.01');
 								return false;
 							}
-						else if /* $10,000.00 maximum. */(regAmount > 10000.00)
+						else if /* $10,000.00 maximum. */(regAmount > 10000.00 && currencyCode.toUpperCase() === 'USD')
 							{
 								alert('— Oops, a slight problem: —\n\nMaximum Amount is: 10000.00');
 								return false;

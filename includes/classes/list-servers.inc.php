@@ -86,7 +86,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))
 									{
 										if (!class_exists ("NC_MCAPI")) /* Include the MailChimp® API Class here. */
-											include_once dirname (dirname (__FILE__)) . "/_xtnls/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
+											include_once dirname (dirname (__FILE__)) . "/externals/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
 										/**/
 										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"], true); /* MailChimp® API ( no-conflict ). */
 										/**/
@@ -225,7 +225,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 								if (!empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"]) && !empty ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_mailchimp_list_ids"]))
 									{
 										if (!class_exists ("NC_MCAPI")) /* Include the MailChimp® API Class here. */
-											include_once dirname (dirname (__FILE__)) . "/_xtnls/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
+											include_once dirname (dirname (__FILE__)) . "/externals/mailchimp/nc-mcapi.inc.php"; /* MailChimp® API ( no-conflict version ). */
 										/**/
 										$mcapi = new NC_MCAPI ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["mailchimp_api_key"], true); /* MailChimp® API ( no-conflict ). */
 										/**/

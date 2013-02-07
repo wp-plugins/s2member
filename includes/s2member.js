@@ -140,13 +140,13 @@ jQuery(document).ready (function($)
 		/**/
 		if (location.href.match (/\/wp-login\.php/))
 			{
+				$('input#user_login').attr('tabindex', '10'), $('input#user_email').attr('tabindex', '20');
+				$('div#login > form#registerform input#wp-submit').attr ('tabindex', '1000');
+				/**/
 				$('input#ws-plugin--s2member-custom-reg-field-user-pass1, input#ws-plugin--s2member-custom-reg-field-user-pass2').keyup (function()
 					{
 						ws_plugin__s2member_passwordStrength($('input#user_login'), $('input#ws-plugin--s2member-custom-reg-field-user-pass1'), $('input#ws-plugin--s2member-custom-reg-field-user-pass2'), $('div#ws-plugin--s2member-custom-reg-field-user-pass-strength'));
 					});
-				/**/
-				$('div#login > form#registerform input#wp-submit').attr /* Makes plenty of room ( i.e. tab indexes ) for Custom Registration Fields. */ ('tabindex', '1000');
-				/**/
 				$('div#login > form#registerform').submit (function()
 					{
 						var context = this, label = '', error = '', errors = '';

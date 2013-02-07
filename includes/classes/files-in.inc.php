@@ -310,16 +310,20 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 												}
 											/**/
 											else if /* Creating a rewrite URL, pointing to local storage. */($creating && $rewriting)
-												{
+												{/* Note: we don't URL encode unreserved chars. Improves media player compatibility. */
+													$_url_e_key = ($key) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode($key)) : "";
+													$_url_e_storage = ($storage) ? c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode($storage)) : "";
+													$_url_e_file = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode($req["file_download"]));
+													/**/
 													$url = ($rewrite_base) ? rtrim($rewrite_base, "/") : rtrim($rewrite_base_guess, "/");
-													$url .= (isset($req["file_download_key"])) ? (($key) ? "/s2member-file-download-key-".$key : "") : "";
+													$url .= (isset($req["file_download_key"])) ? (($key && $_url_e_key) ? "/s2member-file-download-key-".$_url_e_key : "") : "";
 													$url .= (isset($req["file_stream"])) ? (($stream) ? "/s2member-file-stream" : "/s2member-file-stream-no") : "";
 													$url .= (isset($req["file_inline"])) ? (($inline) ? "/s2member-file-inline" : "/s2member-file-inline-no") : "";
-													$url .= (isset($req["file_storage"])) ? (($storage) ? "/s2member-file-storage-".$storage : "") : "";
+													$url .= (isset($req["file_storage"])) ? (($storage && $_url_e_storage) ? "/s2member-file-storage-".$_url_e_storage : "") : "";
 													$url .= (isset($req["file_remote"])) ? (($remote) ? "/s2member-file-remote" : "/s2member-file-remote-no") : "";
 													$url .= (isset($req["skip_confirmation"])) ? (($skip_confirmation) ? "/s2member-skip-confirmation" : "/s2member-skip-confirmation-no") : "";
 													/**/
-													$url = /* File Download Access URL via `mod_rewrite` functionality. */ $url."/".$req["file_download"];
+													$url = /* File Download Access URL via `mod_rewrite` functionality. */ $url."/".$_url_e_file;
 													$url = ($ssl) ? preg_replace("/^https?/", "https", $url) : preg_replace("/^https?/", "http", $url);
 													/**/
 													return apply_filters("ws_plugin__s2member_file_download_access_url", $url, get_defined_vars());
@@ -636,6 +640,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 				public static function amazon_s3_url($file = FALSE, $stream = FALSE, $inline = FALSE, $ssl = FALSE, $basename = FALSE, $mimetype = FALSE)
 					{
 						$file = /* Trim / force string. */ trim((string)$file, "/");
+						$url_e_file = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode($file));
 						/**/
 						foreach($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if(preg_match("/^amazon_s3_files_/", $option) && ($option = preg_replace("/^amazon_s3_files_/", "", $option)))
@@ -643,14 +648,13 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 						/**/
 						$s3c["expires"] = strtotime("+".apply_filters("ws_plugin__s2member_amazon_s3_file_expires_time", "24 hours", get_defined_vars()));
 						/**/
-						$s3_file = add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode_deep(array("response-cache-control" => ($s3_cache_control = "no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0"), "response-content-disposition" => ($s3_content_disposition = (((bool)$inline) ? "inline" : "attachment").'; filename="'.(string)$basename.'"'), "response-content-type" => ($s3_content_type = (string)$mimetype), "response-expires" => ($s3_expires = gmdate("D, d M Y H:i:s", strtotime("-1 week"))." GMT")))), "/".$file);
-						$s3_raw_file = add_query_arg(array("response-cache-control" => $s3_cache_control, "response-content-disposition" => $s3_content_disposition, "response-content-type" => $s3_content_type, "response-expires" => $s3_expires), "/".$file);
+						$s3_file = add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode_deep(array("response-cache-control" => ($s3_cache_control = "no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0"), "response-content-disposition" => ($s3_content_disposition = (((bool)$inline) ? "inline" : "attachment").'; filename="'.(string)$basename.'"'), "response-content-type" => ($s3_content_type = (string)$mimetype), "response-expires" => ($s3_expires = gmdate("D, d M Y H:i:s", strtotime("-1 week"))." GMT")))), "/".$url_e_file);
+						$s3_raw_file = add_query_arg(array("response-cache-control" => $s3_cache_control, "response-content-disposition" => $s3_content_disposition, "response-content-type" => $s3_content_type, "response-expires" => $s3_expires), "/".$url_e_file);
 						$s3_signature = base64_encode(c_ws_plugin__s2member_files_in::amazon_s3_sign("GET\n\n\n".$s3c["expires"]."\n"."/".$s3c["bucket"].$s3_raw_file));
 						/**/
 						$s3_url = ((strtolower($s3c["bucket"]) !== $s3c["bucket"])) ? "http".(($ssl) ? "s" : "")."://s3.amazonaws.com/".$s3c["bucket"].$s3_file : "http".(($ssl) ? "s" : "")."://".$s3c["bucket"].".s3.amazonaws.com".$s3_file;
 						/**/
-						return add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep /* Don't encode unreserved chars. Maximizes media player compatibility. */
-						(urlencode_deep(array("AWSAccessKeyId" => $s3c["access_key"], "Expires" => $s3c["expires"], "Signature" => $s3_signature))), $s3_url);
+						return add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep (urlencode_deep(array("AWSAccessKeyId" => $s3c["access_key"], "Expires" => $s3c["expires"], "Signature" => $s3_signature))), $s3_url);
 					}
 				/**
 				* Auto-configures an Amazon® S3 Bucket's ACLs.
@@ -788,6 +792,7 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 				public static function amazon_cf_url($file = FALSE, $stream = FALSE, $inline = FALSE, $ssl = FALSE, $basename = FALSE, $mimetype = FALSE)
 					{
 						$file = /* Trim / force string. */ trim((string)$file, "/");
+						$url_e_file = c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode($file));
 						/**/
 						foreach($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if(preg_match("/^amazon_cf_files_/", $option) && ($option = preg_replace("/^amazon_cf_files_/", "", $option)))
@@ -798,16 +803,15 @@ if(!class_exists("c_ws_plugin__s2member_files_in"))
 						$cf_extn = /* Parses the file extension out so we can scan it in some special scenarios. */ strtolower(substr($file, strrpos($file, ".") + 1));
 						$cf_ip_res = /* Do NOT restrict access to a particular IP during `localhost` development. The IP may NOT be the same one Amazon® CloudFront sees. */ (c_ws_plugin__s2member_utils_conds::is_localhost()) ? false : true;
 						$cf_stream_extn_resource_exclusions = array_unique((array)apply_filters("ws_plugin__s2member_amazon_cf_file_streaming_extension_resource_exclusions", array("mp3" /* MP3 files should NOT include an extension in their resource reference. */), get_defined_vars()));
-						$cf_resource = ($stream) ? ((in_array($cf_extn, $cf_stream_extn_resource_exclusions)) ? substr($file, 0, strrpos($file, ".")) : $file) : "http".(($ssl) ? "s" : "")."://".(($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"])."/".$file;
-						$cf_url = ($stream) ? "rtmp".(($ssl) ? "e" : "")."://".(($cfc["distro_streaming_cname"]) ? $cfc["distro_streaming_cname"] : $cfc["distro_streaming_dname"])."/cfx/st/".$file : "http".(($ssl) ? "s" : "")."://".(($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"])."/".$file;
+						$cf_resource = ($stream) ? ((in_array($cf_extn, $cf_stream_extn_resource_exclusions)) ? substr($file, 0, strrpos($file, ".")) : $file) : "http".(($ssl) ? "s" : "")."://".(($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"])."/".$url_e_file;
+						$cf_url = ($stream) ? "rtmp".(($ssl) ? "e" : "")."://".(($cfc["distro_streaming_cname"]) ? $cfc["distro_streaming_cname"] : $cfc["distro_streaming_dname"])."/cfx/st/".$file : "http".(($ssl) ? "s" : "")."://".(($cfc["distro_downloads_cname"]) ? $cfc["distro_downloads_cname"] : $cfc["distro_downloads_dname"])."/".$url_e_file;
 						$cf_policy = '{"Statement":[{"Resource":"'.c_ws_plugin__s2member_utils_strings::esc_dq($cf_resource).'","Condition":{'.(($cf_ip_res) ? '"IpAddress":{"AWS:SourceIp":"'.c_ws_plugin__s2member_utils_strings::esc_dq($_SERVER["REMOTE_ADDR"]).'/32"},' : '').'"DateLessThan":{"AWS:EpochTime":'.(int)$cfc["expires"].'}}}]}';
 						/**/
 						$cf_signature = c_ws_plugin__s2member_files_in::amazon_cf_rsa_sign($cf_policy);
 						$cf_base64_url_safe_policy = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode($cf_policy, array("+", "=", "/"), array("-", "_", "~"), false);
 						$cf_base64_url_safe_signature = c_ws_plugin__s2member_utils_strings::base64_url_safe_encode($cf_signature, array("+", "=", "/"), array("-", "_", "~"), false);
 						/**/
-						return add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep /* Don't encode unreserved chars. Maximizes media player compatibility. */
-						(urlencode_deep(array("Policy" => $cf_base64_url_safe_policy, "Signature" => $cf_base64_url_safe_signature, "Key-Pair-Id" => $cfc["private_key_id"]))), $cf_url);
+						return add_query_arg(c_ws_plugin__s2member_utils_strings::urldecode_ur_chars_deep(urlencode_deep(array("Policy" => $cf_base64_url_safe_policy, "Signature" => $cf_base64_url_safe_signature, "Key-Pair-Id" => $cfc["private_key_id"]))), $cf_url);
 					}
 				/**
 				* Auto-configures Amazon® S3/CloudFront distros.

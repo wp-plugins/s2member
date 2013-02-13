@@ -1,10 +1,10 @@
 <?php
 /**
-* Security Badge Status API ( inner processing routines ).
+* Security Badge Status API (inner processing routines).
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,11 +16,11 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_s_badge_status_in"))
 	{
 		/**
-		* Security Badge Status API ( inner processing routines ).
+		* Security Badge Status API (inner processing routines).
 		*
 		* @package s2Member\Security_Badges
 		* @since 110524RC
@@ -40,13 +40,19 @@ if (!class_exists ("c_ws_plugin__s2member_s_badge_status_in"))
 				public static function s_badge_status ()
 					{
 						do_action ("ws_plugin__s2member_before_s_badge_status", get_defined_vars ());
-						/**/
-						if (!empty ($_GET["s2member_s_badge_status"])) /* Requesting status? */
+
+						if (!empty ($_GET["s2member_s_badge_status"]))
 							{
-								status_header (200); /* Send a 200 OK status header. */
-								header ("Content-Type: text/plain; charset=utf-8"); /* Content-Type with UTF-8. */
-								eval ('while (@ob_end_clean ());'); /* End/clean all output buffers that may exist. */
-								/**/
+								status_header (200); // Send a 200 OK status.
+
+								header ("Content-Type: text/plain; charset=UTF-8");
+
+								@ini_set("zlib.output_compression", 0);
+								if(function_exists("apache_setenv"))
+									@apache_setenv("no-gzip", "1");
+
+								while (@ob_end_clean ()); // Clean any existing output buffers.
+
 								if ( /* Badge status API enabled? */$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["s_badge_status_enabled"])
 									{
 										if ( /* Valid key? */strlen ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["sec_encryption_key"]) >= 56)
@@ -69,9 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_s_badge_status_in"))
 																											if ( /* Enabled by site owner? */$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["max_ip_restriction"])
 																												{
 																													if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["max_failed_login_attempts"])
-																														{
-																															exit ("1"); /* OK good. Things look pretty secure here. */
-																														}
+																														exit ("1"); // OK good. Things look pretty secure here.
 																												}
 																									}
 																							}
@@ -79,13 +83,11 @@ if (!class_exists ("c_ws_plugin__s2member_s_badge_status_in"))
 																	}
 														}
 											}
-										/**/
-										exit ("0"); /* Else, NOT secure. */
+										exit ("0"); // Else, NOT secure.
 									}
-								else
-									exit ("-"); /* Else, service NOT enabled. */
+								else exit ("-"); // Else, service NOT enabled.
 							}
-						/**/
+
 						do_action ("ws_plugin__s2member_after_s_badge_status", get_defined_vars ());
 					}
 			}

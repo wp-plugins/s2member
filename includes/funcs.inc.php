@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -23,6 +23,5 @@ if (is_dir ($ws_plugin__s2member_temp_dir = dirname (__FILE__) . "/functions"))
 	foreach (scandir ($ws_plugin__s2member_temp_dir) as $ws_plugin__s2member_temp_s)
 		if (preg_match ("/\.php$/", $ws_plugin__s2member_temp_s) && $ws_plugin__s2member_temp_s !== "index.php")
 			include_once $ws_plugin__s2member_temp_dir . "/" . $ws_plugin__s2member_temp_s;
-/**/
 unset ($ws_plugin__s2member_temp_dir, $ws_plugin__s2member_temp_s);
 ?>

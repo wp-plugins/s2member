@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_check_activation"))
 	{
 		/**
@@ -37,7 +37,7 @@ if (!class_exists ("c_ws_plugin__s2member_check_activation"))
 				*
 				* @return null
 				*/
-				public static function check () /* Up-to-date? */
+				public static function check ()
 					{
 						if (!($v = get_option ("ws_plugin__s2member_activated_version")) || !version_compare ($v, WS_PLUGIN__S2MEMBER_VERSION, ">="))
 							{
@@ -51,8 +51,7 @@ if (!class_exists ("c_ws_plugin__s2member_check_activation"))
 							{
 								c_ws_plugin__s2member_installation::activate ("levels");
 							}
-						/**/
-						return; /* Return for uniformity. */
+						return /* Return for uniformity. */;
 					}
 			}
 	}

@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 	{
 		/**
@@ -39,7 +39,7 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 				*/
 				public static function delete_tracking_cookie ()
 					{
-						if (!empty ($_GET["s2member_delete_tracking_cookie"])) /* Call inner routine? */
+						if (!empty ($_GET["s2member_delete_tracking_cookie"]))
 							{
 								return c_ws_plugin__s2member_tracking_cookies_in::delete_tracking_cookie ();
 							}
@@ -56,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_tracking_cookies"))
 				*/
 				public static function delete_sp_tracking_cookie ()
 					{
-						if (!empty ($_GET["s2member_delete_sp_tracking_cookie"])) /* Call inner routine? */
+						if (!empty ($_GET["s2member_delete_sp_tracking_cookie"]))
 							{
 								return c_ws_plugin__s2member_tracking_cookies_in::delete_sp_tracking_cookie ();
 							}

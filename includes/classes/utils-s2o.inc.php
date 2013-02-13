@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -42,13 +42,14 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 									{
 										for ($one_dir_up = 0; $one_dir_up < $i; $one_dir_up++)
 											$dir = dirname ($dir);
-										/**/
+
 										if (file_exists ($dir . "/wp-settings.php"))
 											return ($wp_dir = $dir);
 									}
-						/**/
-						header ("Content-Type: text/plain; charset=utf-8") . eval ('while (@ob_end_clean ());');
-						header ("HTTP/1.0 500 Error") . exit ("ERROR: s2Member® unable to locate WordPress® directory.");
+						header ("HTTP/1.0 500 Error");
+						header ("Content-Type: text/plain; charset=UTF-8");
+						while (@ob_end_clean ()); // Clean any existing output buffers.
+						exit ("ERROR: s2Member® unable to locate WordPress® directory.");
 					}
 				/*
 				* WordPress® settings, after ``SHORTINIT`` section.
@@ -67,7 +68,7 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 								$wp_shortinit_section /* Run ``preg_match()`` to confirm existence. */ = "/if *\( *SHORTINIT *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*return false;[\r\n\t\s ]*\}?[\r\n\t\s ]*/";
 								if (preg_match ($wp_shortinit_section, $_wp_settings) && ($_wp_settings_parts = preg_split ($wp_shortinit_section, $_wp_settings, 2)) && ($_wp_settings = trim ($_wp_settings_parts[1])) && ($_wp_settings = "<?php\n" . $_wp_settings))
 									{
-										if (($_wp_settings = str_replace ("__FILE__", "'" . str_replace ("'", "\'", $wp_settings) . "'", $_wp_settings))) /* Eval compatible. Hard-code the ``__FILE__`` location here. */
+										if (($_wp_settings = str_replace ("__FILE__", "'" . str_replace ("'", "\'", $wp_settings) . "'", $_wp_settings))) // Eval compatible. Hard-code the ``__FILE__`` location here.
 											{
 												$mu_plugins_section = "/[\r\n\t\s ]+foreach *\( *wp_get_mu_plugins *\( *\) *as *\\\$mu_plugin *\)[\r\n\t\s ]*\{?[\r\n\t\s ]*include_once *\( *\\\$mu_plugin *\);[\r\n\t\s ]*\}?[\r\n\t\s ]*unset *\( *\\\$mu_plugin *\);/";
 												$mu_plugins_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-mu-plugins.php")))) . "\n";
@@ -85,10 +86,10 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 																		$th_funcs_replace = "\n\n" . c_ws_plugin__s2member_utils_s2o::esc_ds (trim (c_ws_plugin__s2member_utils_s2o::evl (file_get_contents (dirname (dirname (__FILE__)) . "/templates/cfg-files/s2o-th-funcs.php")))) . "\n";
 																		if (($_wp_settings = preg_replace ($th_funcs_section, $th_funcs_replace, $_wp_settings, 1, $th_funcs_replaced)) && $th_funcs_replaced)
 																			{
-																				if (($_wp_settings = str_replace ("__FILE__", '"' . str_replace ('"', '\"', $o_file) . '"', $_wp_settings))) /* Eval compatible. */
+																				if (($_wp_settings = str_replace ("__FILE__", '"' . str_replace ('"', '\"', $o_file) . '"', $_wp_settings))) // Eval compatible.
 																					{
-																						if (($_wp_settings = trim ($_wp_settings))) /* WordPress®, with s2Member only. */
-																							return ($wp_settings_as = $_wp_settings); /* After ``SHORTINIT``. */
+																						if (($_wp_settings = trim ($_wp_settings))) // WordPress®, with s2Member only.
+																							return ($wp_settings_as = $_wp_settings); // After ``SHORTINIT``.
 																					}
 																			}
 																	}
@@ -97,11 +98,10 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 											}
 									}
 							}
-						/**/
 						return false;
 					}
 				/**
-				* Escapes dollars signs ( for regex patterns ).
+				* Escapes dollars signs (for regex patterns).
 				*
 				* @package s2Member\Utilities
 				* @since 110917
@@ -126,10 +126,10 @@ if (!class_exists ("c_ws_plugin__s2member_utils_s2o"))
 				*/
 				public static function evl ($code = FALSE)
 					{
-						ob_start (); /* Output buffer. */
-						/**/
+						ob_start (); // Output buffer.
+
 						eval ("?>" . trim ($code));
-						/**/
+
 						return ob_get_clean ();
 					}
 			}

@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 	exit("Do not access this file directly.");
-/**/
+
 if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 	{
 		/**
@@ -51,22 +51,22 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 				public static function bp_is_installed($query_active_plugins = NULL)
 					{
 						if(defined("BP_VERSION") && did_action("bp_core_loaded"))
-							return true; /* Quickest/easiest way to determine. */
-						/**/
+							return true; // Quickest/easiest way to determine.
+
 						$s2o = (defined("WS_PLUGIN__S2MEMBER_ONLY") && WS_PLUGIN__S2MEMBER_ONLY) ? true : false;
-						/**/
+
 						if(($query_active_plugins = (!isset($query_active_plugins) && $s2o) ? true : $query_active_plugins))
 							{
-								$buddypress = "buddypress/bp-loader.php"; /* BuddyPress. */
-								/**/
+								$buddypress = "buddypress/bp-loader.php"; // BuddyPress.
+
 								$active_plugins = (is_multisite()) ? wp_get_active_network_plugins() : array();
 								$active_plugins = array_unique(array_merge($active_plugins, wp_get_active_and_valid_plugins()));
-								/**/
-								foreach($active_plugins as $active_plugin) /* Search. */
+
+								foreach($active_plugins as $active_plugin) // Search.
 									if(plugin_basename($active_plugin) === $buddypress)
-										return true; /* BuddyPress active. */
+										return true; // BuddyPress active.
 							}
-						return false; /* Default return false. */
+						return false; // Default return false.
 					}
 				/**
 				* Determines whether or not this is a Multisite Farm;
@@ -102,7 +102,7 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 								if($descendants && in_category($descendants, $post_id))
 									return true;
 							}
-						return false; /* Default return false. */
+						return false; // Default return false.
 					}
 				/**
 				* Checks to see if a URL/URI leads to the site root.
@@ -118,13 +118,13 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 						if(is_array($parse = c_ws_plugin__s2member_utils_urls::parse_url($url_uri)))
 							{
 								$parse["path"] = (!empty($parse["path"])) ? ((strpos($parse["path"], "/") === 0) ? $parse["path"] : "/".$parse["path"]) : "/";
-								/**/
+
 								if(empty($parse["host"]) || strcasecmp($parse["host"], c_ws_plugin__s2member_utils_urls::parse_url(site_url(), PHP_URL_HOST)) === 0)
 									if($parse["path"] === "/" || rtrim($parse["path"], "/") === rtrim(c_ws_plugin__s2member_utils_urls::parse_url(site_url(), PHP_URL_PATH), "/"))
 										if(get_option("permalink_structure") || (empty($_GET["post_id"]) && empty($_GET["page_id"]) && empty($_GET["p"])))
 											return true;
 							}
-						return false; /* Default return false. */
+						return false; // Default return false.
 					}
 				/**
 				* Checks to see if we're in a localhost environment.
@@ -138,7 +138,7 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 					{
 						if((defined("LOCALHOST") && LOCALHOST) || stripos($_SERVER["HTTP_HOST"], "localhost") !== false || strpos($_SERVER["HTTP_HOST"], "127.0.0.1") !== false)
 							return true;
-						/**/
+
 						return /* Default return false. */ false;
 					}
 				/**
@@ -154,10 +154,10 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 						foreach($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if(preg_match("/^amazon_s3_files_/", $option) && ($option = preg_replace("/^amazon_s3_files_/", "", $option)))
 								$s3c[$option] = $option_value;
-						/**/
+
 						if(!empty($s3c["bucket"]) && !empty($s3c["access_key"]) && !empty($s3c["secret_key"]))
 							return true;
-						/**/
+
 						return /* Default return false. */ false;
 					}
 				/**
@@ -173,15 +173,15 @@ if(!class_exists("c_ws_plugin__s2member_utils_conds"))
 						foreach($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if(preg_match("/^amazon_s3_files_/", $option) && ($option = preg_replace("/^amazon_s3_files_/", "", $option)))
 								$s3c[$option] = $option_value;
-						/**/
+
 						foreach($GLOBALS["WS_PLUGIN__"]["s2member"]["o"] as $option => $option_value)
 							if(preg_match("/^amazon_cf_files_/", $option) && ($option = preg_replace("/^amazon_cf_files_/", "", $option)))
 								$cfc[$option] = $option_value;
-						/**/
+
 						if(!empty($s3c["bucket"]) && !empty($s3c["access_key"]) && !empty($s3c["secret_key"]))
 							if(!empty($cfc["private_key"]) && !empty($cfc["private_key_id"]) && !empty($cfc["distros_access_id"]) && !empty($cfc["distros_s3_access_id"]) && !empty($cfc["distro_downloads_id"]) && !empty($cfc["distro_downloads_dname"]) && !empty($cfc["distro_streaming_id"]) && !empty($cfc["distro_streaming_dname"]))
 								return true;
-						/**/
+
 						return /* Default return false. */ false;
 					}
 			}

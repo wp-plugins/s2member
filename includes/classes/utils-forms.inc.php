@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 	{
 		/**
@@ -38,27 +38,27 @@ if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 				*/
 				public static function form_whips_2_url ($form = FALSE)
 					{
-						if (preg_match ("/\<form(.+?)\>/is", $form, $form_attr_m)) /* Is this a form? */
+						if (preg_match ("/\<form(.+?)\>/is", $form, $form_attr_m)) // Is this a form?
 							{
 								if (preg_match ("/(\s)(action)( ?)(\=)( ?)(['\"])(.+?)(['\"])/is", $form_attr_m[1], $form_action_m))
 									{
-										if (($url = trim ($form_action_m[7]))) /* Set URL value dynamically. Now we add values. */
+										if (($url = trim ($form_action_m[7]))) // Set URL value dynamically. Now we add values.
 											{
 												foreach ((array)c_ws_plugin__s2member_utils_forms::form_whips_2_array ($form) as $name => $value)
 													{
-														if (strlen ($name) && strlen ($value)) /* Check $name -> $value lengths. */
-															/**/
+														if (strlen ($name) && strlen ($value)) // Check $name -› $value lengths.
+
 															if (strlen ($value = (preg_match ("/^http(s)?\:\/\//i", $value)) ? rawurlencode ($value) : urlencode ($value)))
 																{
 																	$url = add_query_arg ($name, $value, $url);
 																}
 													}
-												/**/
+
 												return $url;
 											}
 									}
 							}
-						/**/
+
 						return false;
 					}
 				/**
@@ -72,11 +72,11 @@ if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 				*/
 				public static function form_whips_2_array ($form = FALSE)
 					{
-						if (preg_match ("/\<form(.+?)\>/is", $form)) /* Is this a form? */
+						if (preg_match ("/\<form(.+?)\>/is", $form)) // Is this a form?
 							{
 								if (preg_match_all ("/(?<!\<\!--)\<input(.+?)\>/is", $form, $input_attr_ms, PREG_SET_ORDER))
 									{
-										foreach ($input_attr_ms as $input_attr_m) /* Go through each hidden input variable. */
+										foreach ($input_attr_ms as $input_attr_m) // Go through each hidden input variable.
 											{
 												if (preg_match ("/(\s)(type)( ?)(\=)( ?)(['\"])(hidden)(['\"])/is", $input_attr_m[1]))
 													{
@@ -91,7 +91,6 @@ if (!class_exists ("c_ws_plugin__s2member_utils_forms"))
 											}
 									}
 							}
-						/**/
 						return (array)$array;
 					}
 			}

@@ -1,10 +1,10 @@
 <?php
 /**
-* s2Member's API Constants *( for site owners )*.
+* s2Member's API Constants *(for site owners)*.
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,11 +16,11 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_constants"))
 	{
 		/**
-		* s2Member's API Constants *( for site owners )*.
+		* s2Member's API Constants *(for site owners)*.
 		*
 		* @package s2Member\API_Constants
 		* @since 3.5
@@ -44,15 +44,15 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 				public static function constants ()
 					{
 						do_action ("ws_plugin__s2member_before_constants", get_defined_vars ());
-						/**/
+
 						$links = c_ws_plugin__s2member_cache::cached_page_links ();
-						/**/
+
 						$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && $user->ID) ? $user : false;
-						/**/
+
 						$level = c_ws_plugin__s2member_user_access::user_access_level ($user);
 						$file_downloads = c_ws_plugin__s2member_files::user_downloads ($user);
 						$login_redirection_url = c_ws_plugin__s2member_login_redirects::login_redirection_url ($user);
-						/**/
+
 						$custom = ($user) ? get_user_option ("s2member_custom", $user->ID) : "";
 						$subscr_id = ($user) ? get_user_option ("s2member_subscr_id", $user->ID) : "";
 						$subscr_gateway = ($user) ? get_user_option ("s2member_subscr_gateway", $user->ID) : "";
@@ -60,10 +60,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						$custom_fields = ($user) ? get_user_option ("s2member_custom_fields", $user->ID) : array ();
 						$paid_registration_times = ($user) ? get_user_option ("s2member_paid_registration_times", $user->ID) : array ();
 						$login_counter = ($user) ? (int)get_user_option ("s2member_login_counter") : -1;
-						/**/
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+
+						foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
 						do_action ("ws_plugin__s2member_during_constants", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
+						unset /* Unset defined __refs, __v. */ ($__refs, $__v);
 						/**
 						* Current version of s2Member.
 						*
@@ -250,7 +250,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The current User's Membership Access Label.
 						*
 						* As configured by the site owner. Each Membership Level is associated with a Membership Label
-						* *( i.e. Bronze, Silver, Gold, Platinum )*, or whatever the site owner has configured.
+						* *(i.e. Bronze, Silver, Gold, Platinum)*, or whatever the site owner has configured.
 						*
 						* An empty string if NOT logged-in.
 						*
@@ -284,7 +284,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						if (!defined ("S2MEMBER_CURRENT_USER_ACCESS_LABEL"))
 							define ("S2MEMBER_CURRENT_USER_ACCESS_LABEL", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $level . "_label"]));
 						/**
-						* The current User's Paid Subscription ID ( when applicable ).
+						* The current User's Paid Subscription ID (when applicable).
 						*
 						* An empty string if NOT logged-in.
 						*
@@ -322,7 +322,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						if (!defined ("S2MEMBER_CURRENT_USER_SUBSCR_ID"))
 							define ("S2MEMBER_CURRENT_USER_SUBSCR_ID", ($c[] = (($user) ? (string)$subscr_id : "")));
 						/**
-						* The current User's Paid Subscription ID ( when applicable );
+						* The current User's Paid Subscription ID (when applicable);
 						* otherwise, this will contain their WordPress® User ID.
 						*
 						* An empty string if NOT logged-in.
@@ -361,7 +361,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						if (!defined ("S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID"))
 							define ("S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID", ($c[] = (($user) ? (($subscr_id) ? (string)$subscr_id : (string)$user->ID) : "")));
 						/**
-						* The current User's Paid Subscription Gateway Code ( when applicable ).
+						* The current User's Paid Subscription Gateway Code (when applicable).
 						*
 						* Usually one of these values: `paypal`, `authnet`, `clickbank`, `google`, `ccbill`, `alipay`.
 						*
@@ -822,7 +822,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						if (!defined ("S2MEMBER_CURRENT_USER_EMAIL"))
 							define ("S2MEMBER_CURRENT_USER_EMAIL", ($c[] = (($user) ? (string)$user->user_email : "")));
 						/**
-						* The current User's IP Address ( even if/when NOT logged-in ).
+						* The current User's IP Address (even if/when NOT logged-in).
 						*
 						* This is the current IP Address, taken from ``$_SERVER["REMOTE_ADDR"]``.
 						*
@@ -1050,7 +1050,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED"))
 							define ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED", ($c[] = (int)$file_downloads["allowed"]));
@@ -1104,7 +1104,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED"))
 							define ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_IS_UNLIMITED", ($c[] = (($file_downloads["allowed"] >= 999999999) ? true : false)));
@@ -1149,7 +1149,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY"))
 							define ("S2MEMBER_CURRENT_USER_DOWNLOADS_CURRENTLY", ($c[] = (int)$file_downloads["currently"]));
@@ -1194,7 +1194,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS"))
 							define ("S2MEMBER_CURRENT_USER_DOWNLOADS_ALLOWED_DAYS", ($c[] = (int)$file_downloads["allowed_days"]));
@@ -1249,7 +1249,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID"))
 							define ("S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID", ($c[] = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_limit_exceeded_page"]));
@@ -1289,7 +1289,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Membership Options Page`
+						* @see `Dashboard -› s2Member -› General Options -› Membership Options Page`
 						*/
 						if (!defined ("S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID"))
 							define ("S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_ID", ($c[] = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"]));
@@ -1329,14 +1329,14 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Login Welcome Page`
+						* @see `Dashboard -› s2Member -› General Options -› Login Welcome Page`
 						*/
 						if (!defined ("S2MEMBER_LOGIN_WELCOME_PAGE_ID"))
 							define ("S2MEMBER_LOGIN_WELCOME_PAGE_ID", ($c[] = (int)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_welcome_page"]));
 						/**
 						* A URL, which leads to the Stand-Alone Profile Modification Page.
 						*
-						* This is always a reference to `/?s2member_profile=1` *( i.e. the Stand-Alone version )*.
+						* This is always a reference to `/?s2member_profile=1` *(i.e. the Stand-Alone version)*.
 						*
 						* ———— Quick PHP Code Sample ————
 						* ```
@@ -1368,7 +1368,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_ID
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Profile Modifications`
+						* @see `Dashboard -› s2Member -› General Options -› Profile Modifications`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL"))
 							define ("S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL", ($c[] = (string)site_url ("/?s2member_profile=1")));
@@ -1423,7 +1423,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL"))
 							define ("S2MEMBER_FILE_DOWNLOAD_LIMIT_EXCEEDED_PAGE_URL", ($c[] = (string)$links["file_download_limit_exceeded_page"]));
@@ -1463,10 +1463,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Membership Options Page`
+						* @see `Dashboard -› s2Member -› General Options -› Membership Options Page`
 						*/
 						if (!defined ("S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL"))
-							define ("S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL", ($c[] = (string)$links["membership_options_page"])); /* Signup page. */
+							define ("S2MEMBER_MEMBERSHIP_OPTIONS_PAGE_URL", ($c[] = (string)$links["membership_options_page"])); // Signup page.
 						/**
 						* The URL, which leads to the Login Welcome Page; as configured by the site owner.
 						*
@@ -1503,7 +1503,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_PROFILE_MODIFICATION_PAGE_URL
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Login Welcome Page`
+						* @see `Dashboard -› s2Member -› General Options -› Login Welcome Page`
 						*/
 						if (!defined ("S2MEMBER_LOGIN_WELCOME_PAGE_URL"))
 							define ("S2MEMBER_LOGIN_WELCOME_PAGE_URL", ($c[] = (($login_redirection_url) ? (string)$login_redirection_url : (string)$links["login_welcome_page"])));
@@ -1546,7 +1546,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see http://codex.wordpress.org/Function_Reference/wp_logout_url wp_logout_url()
 						*/
 						if (!defined ("S2MEMBER_LOGOUT_PAGE_URL"))
-							define ("S2MEMBER_LOGOUT_PAGE_URL", ($c[] = (string)wp_logout_url ())); /* This triggers `wp_nonce_tick()`; watch out for dynamic changes. */
+							define ("S2MEMBER_LOGOUT_PAGE_URL", ($c[] = (string)wp_logout_url ())); // This triggers `wp_nonce_tick()`; watch out for dynamic changes.
 						/**
 						* The URL, where a User can log into their account.
 						*
@@ -1586,9 +1586,9 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see http://codex.wordpress.org/Function_Reference/wp_login_url wp_login_url()
 						*/
 						if (!defined ("S2MEMBER_LOGIN_PAGE_URL"))
-							define ("S2MEMBER_LOGIN_PAGE_URL", ($c[] = (string)wp_login_url ())); /* Will not trigger `wp_nonce_tick()`, no worries in this case. */
+							define ("S2MEMBER_LOGIN_PAGE_URL", ($c[] = (string)wp_login_url /* Will not trigger `wp_nonce_tick()`, no worries in this case. */ ()));
 						/**
-						* Each Membership Level ( Label ); as configured by the site owner.
+						* Each Membership Level (Label); as configured by the site owner.
 						*
 						* The defaults are as follows:
 						* o Level #0 ``S2MEMBER_LEVEL0_LABEL`` = Free Subscriber
@@ -1625,7 +1625,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see http://codex.wordpress.org/Function_Reference/wp_get_current_user wp_get_current_user()
 						*
-						* @see `Dashboard -> s2Member -> General Options -> Membership Level ( Labels )`
+						* @see `Dashboard -› s2Member -› General Options -› Membership Level (Labels)`
 						*/
 						for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 							{
@@ -1677,7 +1677,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 							{
@@ -1730,7 +1730,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						for ($n = 0; $n <= $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["levels"]; $n++)
 							{
@@ -1774,7 +1774,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED
 						* @see s2Member\API_Constants\S2MEMBER_LEVELn_FILE_DOWNLOADS_ALLOWED_DAYS
 						*
-						* @see `Dashboard -> s2Member -> Download Options`
+						* @see `Dashboard -› s2Member -› Download Options`
 						*/
 						if (!defined ("S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS"))
 							define ("S2MEMBER_FILE_DOWNLOAD_INLINE_EXTENSIONS", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["file_download_inline_extensions"]));
@@ -1801,7 +1801,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_REG_EMAIL_FROM_EMAIL
 						*
-						* @see `Dashboard -> s2Member -> General Options`
+						* @see `Dashboard -› s2Member -› General Options`
 						*/
 						if (!defined ("S2MEMBER_REG_EMAIL_FROM_NAME"))
 							define ("S2MEMBER_REG_EMAIL_FROM_NAME", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]));
@@ -1828,7 +1828,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_REG_EMAIL_FROM_NAME
 						*
-						* @see `Dashboard -> s2Member -> General Options`
+						* @see `Dashboard -› s2Member -› General Options`
 						*/
 						if (!defined ("S2MEMBER_REG_EMAIL_FROM_EMAIL"))
 							define ("S2MEMBER_REG_EMAIL_FROM_EMAIL", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"]));
@@ -1856,7 +1856,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_RETURN_URL
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> IPN Integration`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› IPN Integration`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_NOTIFY_URL"))
 							define ("S2MEMBER_PAYPAL_NOTIFY_URL", ($c[] = (string)site_url ("/?s2member_paypal_notify=1")));
@@ -1884,7 +1884,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_NOTIFY_URL
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Auto-Return/PDT Integration`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Auto-Return/PDT Integration`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_RETURN_URL"))
 							define ("S2MEMBER_PAYPAL_RETURN_URL", ($c[] = (string)site_url ("/?s2member_paypal_return=1")));
@@ -1913,12 +1913,12 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_PASSWORD
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_SIGNATURE
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_BUSINESS"))
 							define ("S2MEMBER_PAYPAL_BUSINESS", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"]));
 						/**
-						* PayPal® endpoint domain ( changes when Sandbox Mode is enabled ).
+						* PayPal® endpoint domain (changes when Sandbox Mode is enabled).
 						*
 						* o In Sandbox Mode, this is: `www.sandbox.paypal.com`.
 						* o In Production Mode, this is: `www.paypal.com`.
@@ -1943,12 +1943,12 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_ENDPOINT
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_ENDPOINT"))
 							define ("S2MEMBER_PAYPAL_ENDPOINT", ($c[] = (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com")));
 						/**
-						* PayPal® API endpoint domain ( changes when Sandbox Mode is enabled ).
+						* PayPal® API endpoint domain (changes when Sandbox Mode is enabled).
 						*
 						* o In Sandbox Mode, this is: `api-3t.sandbox.paypal.com`.
 						* o In Production Mode, this is: `api-3t.paypal.com`.
@@ -1973,7 +1973,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_ENDPOINT
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_API_ENDPOINT"))
 							define ("S2MEMBER_PAYPAL_API_ENDPOINT", ($c[] = (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "api-3t.sandbox.paypal.com" : "api-3t.paypal.com")));
@@ -2001,7 +2001,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_PASSWORD
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_SIGNATURE
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_API_USERNAME"))
 							define ("S2MEMBER_PAYPAL_API_USERNAME", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_username"]));
@@ -2029,7 +2029,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_USERNAME
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_SIGNATURE
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_API_PASSWORD"))
 							define ("S2MEMBER_PAYPAL_API_PASSWORD", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_password"]));
@@ -2057,7 +2057,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_USERNAME
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_API_PASSWORD
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Account Details`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Account Details`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_API_SIGNATURE"))
 							define ("S2MEMBER_PAYPAL_API_SIGNATURE", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_api_signature"]));
@@ -2084,7 +2084,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_RETURN_URL
 						* @see s2Member\API_Constants\S2MEMBER_PAYPAL_NOTIFY_URL
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Options -> Auto-Return/PDT Integration`
+						* @see `Dashboard -› s2Member -› PayPal® Options -› Auto-Return/PDT Integration`
 						*/
 						if (!defined ("S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN"))
 							define ("S2MEMBER_PAYPAL_PDT_IDENTITY_TOKEN", ($c[] = (string)$GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_identity_token"]));
@@ -2095,7 +2095,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
 						* Note. This API Constant is excluded from the ``$c[]`` hash calculation used in the generation of {@link s2Member\API_Constants\WS_PLUGIN__S2MEMBER_API_CONSTANTS_MD5}.
-						* It MUST be excluded, because the value of this particular API Constant will change too often *( i.e. it changes, depending on microtime )*.
+						* It MUST be excluded, because the value of this particular API Constant will change too often *(i.e. it changes, depending on microtime)*.
 						* So, when including this API Constant in the JavaScript API as a Global, care must be taken to build an Invoice, using JavaScript
 						* to calculate the unique time-based code, with something like: `Math.round (new Date ().getTime ())`.
 						*
@@ -2111,10 +2111,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
-						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *(and/or a Free Subscriber)*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
 						*
-						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* Instead of forcing a Member *(and/or a Free Subscriber)* to re-register for a new account,
 						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
@@ -2144,14 +2144,14 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Functions\s2member_value_for_pp_inv()
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						* @see `Dashboard -› s2Member -› PayPal® Buttons`
 						*/
 						if (!defined ("S2MEMBER_VALUE_FOR_PP_INV"))
 							define ("S2MEMBER_VALUE_FOR_PP_INV", uniqid () . "~" . S2MEMBER_CURRENT_USER_IP);
 						/**
 						* PayPal® value for Payment Buttons with input name: `on0`.
 						*
-						* Used in PayPal® Modification Buttons *( i.e. upgrades/downgrades )*.
+						* Used in PayPal® Modification Buttons *(i.e. upgrades/downgrades)*.
 						*
 						* This auto-fills the `on0` value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member,
 						* this will auto-fill the value for the `on0` input variable, with the string: "Referencing Customer ID".
@@ -2169,10 +2169,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
-						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *(and/or a Free Subscriber)*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
 						*
-						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* Instead of forcing a Member *(and/or a Free Subscriber)* to re-register for a new account,
 						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
@@ -2202,18 +2202,18 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						* @see `Dashboard -› s2Member -› PayPal® Buttons`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0"))
 							define ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0", ($c[] = ((S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID) ? "Referencing Customer ID" : "Originating Domain")));
 						/**
 						* PayPal® value for Payment Buttons with input name: `os0`.
 						*
-						* Used in PayPal® Modification Buttons *( i.e. upgrades/downgrades )*.
+						* Used in PayPal® Modification Buttons *(i.e. upgrades/downgrades)*.
 						*
 						* This auto-fills the `os0` value in PayPal® Button Codes. If a Button Code is presented to a logged-in Member,
 						* this will auto-fill the value for the `os0` input variable, with the value of {@link s2Member\API_Constants\S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID}.
-						* Otherwise, it will be set to a default value of ``$_SERVER["HTTP_HOST"]`` *( the originating domain name )*.
+						* Otherwise, it will be set to a default value of ``$_SERVER["HTTP_HOST"]`` *(the originating domain name)*.
 						*
 						* These five API Constants are special.
 						* o {@link s2Member\API_Constants\S2MEMBER_VALUE_FOR_PP_INV}
@@ -2227,10 +2227,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
-						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *(and/or a Free Subscriber)*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
 						*
-						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* Instead of forcing a Member *(and/or a Free Subscriber)* to re-register for a new account,
 						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
@@ -2260,7 +2260,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON0
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						* @see `Dashboard -› s2Member -› PayPal® Buttons`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0"))
 							define ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS0", ($c[] = ((S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID) ? S2MEMBER_CURRENT_USER_SUBSCR_OR_WP_ID : (string)$_SERVER["HTTP_HOST"])));
@@ -2282,10 +2282,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
-						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *(and/or a Free Subscriber)*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
 						*
-						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* Instead of forcing a Member *(and/or a Free Subscriber)* to re-register for a new account,
 						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
@@ -2315,7 +2315,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						* @see `Dashboard -› s2Member -› PayPal® Buttons`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1"))
 							define ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1", ($c[] = "Customer IP Address" /* Via $_SERVER["REMOTE_ADDR"] below. */));
@@ -2337,10 +2337,10 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						* The `INV` value can be used to auto-fill the `invoice` for PayPal® Button Codes, with a unique Code~IP combination.
 						* However, in cases where multiple Buttons are displayed on the same page, the alternative {@link s2Member\API_Functions\s2member_value_for_pp_inv()} function should be used instead.
 						*
-						* The `ON0/OS0` values, are how s2Member identifies an existing Member *( and/or a Free Subscriber )*, who is already logged-in
+						* The `ON0/OS0` values, are how s2Member identifies an existing Member *(and/or a Free Subscriber)*, who is already logged-in
 						* when they click a PayPal® Modification Button that was generated for you by s2Member's Button Generator.
 						*
-						* Instead of forcing a Member *( and/or a Free Subscriber )* to re-register for a new account,
+						* Instead of forcing a Member *(and/or a Free Subscriber)* to re-register for a new account,
 						* s2Member can identify their existing account, and update it; according to the modified terms in your Button Code.
 						* These three Button Code parameters: `on0`, `os0`, `modify`, work together in harmony. If you're using the Shortcode Format for PayPal® Buttons,
 						* you won't even see these, because they're added internally by the Shortcode processor.
@@ -2370,7 +2370,7 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						*
 						* @see s2Member\API_Constants\S2MEMBER_CURRENT_USER_VALUE_FOR_PP_ON1
 						*
-						* @see `Dashboard -> s2Member -> PayPal® Buttons`
+						* @see `Dashboard -› s2Member -› PayPal® Buttons`
 						*/
 						if (!defined ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1"))
 							define ("S2MEMBER_CURRENT_USER_VALUE_FOR_PP_OS1", ($c[] = (string)$_SERVER["REMOTE_ADDR"]));
@@ -2392,8 +2392,8 @@ if (!class_exists ("c_ws_plugin__s2member_constants"))
 						Calls the after Hook. Do NOT set Constants here.
 						*/
 						do_action ("ws_plugin__s2member_after_constants", get_defined_vars ());
-						/**/
-						return; /* Return for uniformity. */
+
+						return /* Return for uniformity. */;
 					}
 			}
 	}

@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_translations"))
 	{
 		/**
@@ -40,12 +40,12 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 				public static function load ()
 					{
 						load_plugin_textdomain ("s2member", false, c_ws_plugin__s2member_utils_dirs::rel_path (WP_PLUGIN_DIR, dirname (dirname (__FILE__)) . "/translations"));
-						load_plugin_textdomain ("s2member"); /* Allows `.mo` file to be loaded from the `/wp-content/plugins/s2member-[locale].mo`. */
-						/**/
+						load_plugin_textdomain ("s2member"); // Allows `.mo` file to be loaded from the `/wp-content/plugins/s2member-[locale].mo`.
+
 						do_action ("ws_plugin__s2member_during_translations_load", get_defined_vars ());
-						/**/
+
 						add_filter ("gettext", "c_ws_plugin__s2member_translations::translation_mangler", 10, 3);
-					/**/
+
 					}
 				/**
 				* Handles internal translations via `gettext` Filter.
@@ -69,37 +69,37 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 				*/
 				public static function translation_mangler ($translated = FALSE, $original = FALSE, $domain = FALSE)
 					{
-						global $current_site, $current_blog; /* In support of Multisite Networking. */
-						static $s = array (); /* This static array optimizes all of these routines. */
-						/**/
+						global $current_site, $current_blog; // In support of Multisite Networking.
+						static $s = array (); // This static array optimizes all of these routines.
+
 						if ((isset ($s["is_wp_login"]) && $s["is_wp_login"]) || (!isset ($s["is_wp_login"]) && ($s["is_wp_login"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-login.php") !== false && empty ($_REQUEST["action"]) && empty ($_REQUEST["checkemail"])) ? true : false)))
 							{
-								if ($original === "Username") /* Give Filters a chance here. */
+								if ($original === "Username") // Give Filters a chance here.
 									{
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("Username:", "s2member-front", "s2member"), get_defined_vars ());
 									}
-								else if ($original === "Password") /* Give Filters a chance here. */
+								else if ($original === "Password") // Give Filters a chance here.
 									{
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("My Password:", "s2member-front", "s2member"), get_defined_vars ());
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_wp_login_register"]) && $s["is_wp_login_register"]) || (!isset ($s["is_wp_login_register"]) && ($s["is_wp_login_register"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-login.php") !== false && !empty ($_REQUEST["action"]) && $_REQUEST["action"] === "register") ? true : false)))
 							{
-								if ($original === "Username") /* Give Filters a chance here. */
+								if ($original === "Username") // Give Filters a chance here.
 									{
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("Username *", "s2member-front", "s2member"), get_defined_vars ());
 									}
-								else if ($original === "Password") /* Give Filters a chance here. */
+								else if ($original === "Password") // Give Filters a chance here.
 									{
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("Password *", "s2member-front", "s2member"), get_defined_vars ());
 									}
-								else if ($original === "E-mail") /* Give Filters a chance here. */
+								else if ($original === "E-mail") // Give Filters a chance here.
 									{
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("Email Address *", "s2member-front", "s2member"), get_defined_vars ());
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_wp_login_checkemail"]) && $s["is_wp_login_checkemail"]) || (!isset ($s["is_wp_login_checkemail"]) && ($s["is_wp_login_checkemail"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-login.php") !== false && empty ($_REQUEST["action"]) && !empty ($_REQUEST["checkemail"]) && $_REQUEST["checkemail"] === "registered") ? true : false)))
 							{
 								if ($original === "Registration complete. Please check your e-mail." && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_password"])
@@ -107,7 +107,7 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("Registration complete. Please log in.", "s2member-front", "s2member"), get_defined_vars ());
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_user_new"]) && $s["is_user_new"]) || (!isset ($s["is_user_new"]) && ($s["is_user_new"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-admin/user-new.php") !== false) ? true : false)))
 							{
 								if ($original === "Hi,\n\nYou have been invited to join '%s' at\n%s as a %s.\nPlease click the following link to confirm the invite:\n%s\n" && !empty ($_REQUEST["role"]) && preg_match ("/^(subscriber|s2member_level[0-9]+)$/", $_REQUEST["role"]))
@@ -115,7 +115,7 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ("You have been invited to join `%1\$s` at\n%2\$s as a Member.\nPlease click the following link to confirm the invite:\n%4\$s\n", "s2member-front", "s2member"), get_defined_vars ());
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_wp_activate"]) && $s["is_wp_activate"]) || (!isset ($s["is_wp_activate"]) && ($s["is_wp_activate"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-activate.php") !== false) ? true : false)))
 							{
 								if ($original === 'Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>')
@@ -123,7 +123,7 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 										$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ('Your account is now active. <a href="%1$s">Visit site</a> or <a href="%2$s">Log in</a>.', "s2member-front", "s2member"), get_defined_vars ());
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_wp_signup"]) && $s["is_wp_signup"]) || (!isset ($s["is_wp_signup"]) && ($s["is_wp_signup"] = (strpos ($_SERVER["REQUEST_URI"], "/wp-signup.php") !== false) ? true : false)))
 							{
 								if ($original === "If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!")
@@ -137,15 +137,15 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 												$mms_options = c_ws_plugin__s2member_utilities::mms_options ();
 												$blogs_allowed = (int)@$mms_options["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ($user)];
 												$user_blogs = (is_array ($blogs = get_blogs_of_user ($user->ID))) ? count ($blogs) - 1 : 0;
-												/**/
-												$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; /* NOT less than zero. */
+
+												$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; // NOT less than zero.
 												$blogs_allowed = ($blogs_allowed >= 0) ? $blogs_allowed : 0;
-												/**/
+
 												$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ('By filling out the form below, you can <strong>add a site to your account</strong>.', "s2member-front", "s2member") . (($blogs_allowed > 1) ? '<br />' . sprintf (_nx ('You may create up to <strong>%s</strong> site.', 'You may create up to <strong>%s</strong> sites.', $blogs_allowed, "s2member-front", "s2member"), $blogs_allowed) : ''), get_defined_vars ());
 											}
 									}
 							}
-						/**/
+
 						else if ((isset ($s["is_bp_blog_creation"]) && $s["is_bp_blog_creation"]) || (!isset ($s["is_bp_blog_creation"]) && ($s["is_bp_blog_creation"] = (c_ws_plugin__s2member_utils_conds::bp_is_installed () && bp_is_create_blog ()) ? true : false)))
 							{
 								if ($original === "If you&#8217;re not going to use a great domain, leave it for a new user. Now have at it!")
@@ -159,16 +159,15 @@ if (!class_exists ("c_ws_plugin__s2member_translations"))
 												$mms_options = c_ws_plugin__s2member_utilities::mms_options ();
 												$blogs_allowed = (int)@$mms_options["mms_registration_blogs_level" . c_ws_plugin__s2member_user_access::user_access_level ($user)];
 												$user_blogs = (is_array ($blogs = get_blogs_of_user ($user->ID))) ? count ($blogs) - 1 : 0;
-												/**/
-												$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; /* NOT less than zero. */
+
+												$user_blogs = ($user_blogs >= 0) ? $user_blogs : 0; // NOT less than zero.
 												$blogs_allowed = ($blogs_allowed >= 0) ? $blogs_allowed : 0;
-												/**/
+
 												$translated = apply_filters ("ws_plugin__s2member_translation_mangler", _x ('By filling out the form below, you can <strong>add a site to your account</strong>.', "s2member-front", "s2member") . (($blogs_allowed > 1) ? '<br />' . sprintf (_nx ('You may create up to <strong>%s</strong> site.', 'You may create up to <strong>%s</strong> sites.', $blogs_allowed, "s2member-front", "s2member"), $blogs_allowed) : ''), get_defined_vars ());
 											}
 									}
 							}
-						/**/
-						return $translated; /* No Filters. */
+						return $translated; // No Filters.
 					}
 			}
 	}

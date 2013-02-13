@@ -1,10 +1,10 @@
 <?php
 /**
-* Shortcode for `[s2Member-Security-Badge /]` ( inner processing routines ).
+* Shortcode for `[s2Member-Security-Badge /]` (inner processing routines).
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,11 +16,11 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_sc_s_badge_in"))
 	{
 		/**
-		* Shortcode for `[s2Member-Security-Badge /]` ( inner processing routines ).
+		* Shortcode for `[s2Member-Security-Badge /]` (inner processing routines).
 		*
 		* @package s2Member\Security_Badges
 		* @since 110524RC
@@ -42,16 +42,16 @@ if (!class_exists ("c_ws_plugin__s2member_sc_s_badge_in"))
 				*/
 				public static function sc_s_badge ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						eval('foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;');
+						foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
 						do_action ("ws_plugin__s2member_before_sc_s_badge", get_defined_vars ());
-						unset ($__refs, $__v); /* Unset defined __refs, __v. */
-						/**/
+						unset /* Unset defined __refs, __v. */ ($__refs, $__v);
+
 						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr);
-						/**/
-						$attr = shortcode_atts (array ("v" => "1"), $attr); /* One attribute. */
-						/**/
+
+						$attr = shortcode_atts (array ("v" => "1"), $attr); // One attribute.
+
 						$code = c_ws_plugin__s2member_utilities::s_badge_gen ($attr["v"], false, false);
-						/**/
+
 						return apply_filters ("ws_plugin__s2member_sc_s_badge", $code, get_defined_vars ());
 					}
 			}

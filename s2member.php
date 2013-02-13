@@ -7,7 +7,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 130207
-Stable tag: 130207
+Version: 130213
+Stable tag: 130213
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -75,7 +75,7 @@ if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_VERSION", "130207" /* !#distro-version#! */);
+	define("WS_PLUGIN__S2MEMBER_VERSION", "130213" /* !#distro-version#! */);
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -105,7 +105,7 @@ if(!defined("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "130207" /* !#distro-version#! */);
+	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "130213" /* !#distro-version#! */);
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
@@ -155,7 +155,7 @@ if(version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && ve
 /*
 Else NOT compatible. Do we need admin compatibility errors now?
 */
-else if(is_admin()) /* Admin compatibility errors. */
+else if(is_admin()) // Admin compatibility errors.
 	{
 		if(!version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">="))
 			{

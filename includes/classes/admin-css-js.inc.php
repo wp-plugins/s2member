@@ -4,7 +4,7 @@
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
-* ( coded in the USA )
+* (coded in the USA)
 *
 * Released under the terms of the GNU General Public License.
 * You should have received a copy of the GNU General Public License,
@@ -16,7 +16,7 @@
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
-/**/
+
 if (!class_exists ("c_ws_plugin__s2member_admin_css_js"))
 	{
 		/**
@@ -39,7 +39,7 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js"))
 				*/
 				public static function menu_pages_css ()
 					{
-						if (!empty ($_GET["ws_plugin__s2member_menu_pages_css"])) /* Call inner routine? */
+						if (!empty ($_GET["ws_plugin__s2member_menu_pages_css"]))
 							{
 								return c_ws_plugin__s2member_admin_css_js_in::menu_pages_css ();
 							}
@@ -56,7 +56,7 @@ if (!class_exists ("c_ws_plugin__s2member_admin_css_js"))
 				*/
 				public static function menu_pages_js ()
 					{
-						if (!empty ($_GET["ws_plugin__s2member_menu_pages_js"])) /* Call inner routine? */
+						if (!empty ($_GET["ws_plugin__s2member_menu_pages_js"]))
 							{
 								return c_ws_plugin__s2member_admin_css_js_in::menu_pages_js ();
 							}

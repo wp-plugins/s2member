@@ -68,13 +68,15 @@ $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["streaming_file_extns"] = array_unique(
 /*
 Configure directory and .htaccess for files protected by s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters("ws_plugin__s2member_files_dir", dirname(dirname(__FILE__))."-files".((stripos(PHP_OS, "win") === 0 && stripos($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["default_files_dir"] = dirname(dirname(__FILE__))."-files".((stripos(PHP_OS, "win") === 0 && stripos($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : "");
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"] = apply_filters("ws_plugin__s2member_files_dir", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["default_files_dir"]);
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_no_gzip_htaccess"] = dirname(__FILE__)."/templates/cfg-files/s2member-files-no-gzip.php";
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir_htaccess"] = dirname(__FILE__)."/templates/cfg-files/s2member-files.php";
 /*
 Configure the directory for logs protected by s2Member.
 */
-$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters("ws_plugin__s2member_logs_dir", dirname(dirname(__FILE__))."-logs".((stripos(PHP_OS, "win") === 0 && stripos($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : ""));
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["default_logs_dir"] = dirname(dirname(__FILE__))."-logs".((stripos(PHP_OS, "win") === 0 && stripos($_SERVER["SERVER_SOFTWARE"], "apache") === false) ? "/app_data" : "");
+$GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"] = apply_filters("ws_plugin__s2member_logs_dir", $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["default_logs_dir"]);
 $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir_htaccess"] = dirname(__FILE__)."/templates/cfg-files/s2member-logs.php";
 /*
 Configure the global reCaptcha (www.websharks-inc.net / or any domain). These public/private keys work on any installation.
@@ -124,7 +126,7 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 				$default_options["options_checksum"] = "";
 				$default_options["options_version"] = "1.0";
 
-				$default_options["gateway_debug_logs"] = "1";
+				$default_options["gateway_debug_logs"] = "0";
 				$default_options["gateway_debug_logs_extensive"] = "0";
 
 				$default_options["sec_encryption_key"] = "";
@@ -364,7 +366,7 @@ if(!function_exists("ws_plugin__s2member_configure_options_and_their_defaults"))
 								else if($key === "max_ip_restriction" && (!is_string($value) || !is_numeric($value) || $value < 0 || $value > 100))
 									$value = $default_options[$key];
 
-								else if($key === "max_ip_restriction_time" && (!is_string($value) || !is_numeric($value) || $value < 900 || $value > 31556926))
+								else if($key === "max_ip_restriction_time" && (!is_string($value) || !is_numeric($value) || $value < 300 || $value > 31556926))
 									$value = $default_options[$key];
 
 								else if($key === "max_failed_login_attempts" && (!is_string($value) || !is_numeric($value) || $value < 0 || $value > 100))

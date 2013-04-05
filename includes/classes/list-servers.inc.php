@@ -135,7 +135,10 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2,
+																	                   "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" .
+																	                                            c_ws_plugin__s2member_utils_logs::conceal_private_info(var_export ($mailchimp, true)) . "\n\n",
+																	                   FILE_APPEND);
 													}
 											}
 									}
@@ -155,7 +158,7 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($aweber["wp_mail_response"] = wp_mail ($aweber["list_id"] . "@aweber.com", // AWeber® List ID converts to email address @aweber.com.
 														($aweber["wp_mail_sbj"] = apply_filters ("ws_plugin__s2member_aweber_sbj", "s2Member Subscription Request", get_defined_vars ())), // These Filters make it possible to customize these emails.
 														($aweber["wp_mail_msg"] = apply_filters ("ws_plugin__s2member_aweber_msg", "s2Member Subscription Request\ns2Member w/ PayPal Email ID\nAd Tracking: s2Member-" . ((is_multisite () && !is_main_site ()) ? $current_blog->domain . $current_blog->path : $_SERVER["HTTP_HOST"]) . "\nEMail Address: " . $email . "\nBuyer: " . $buyer . "\nFull Name: " . trim ($fname . " " . $lname) . "\nFirst Name: " . $fname . "\nLast Name: " . $lname . "\nIP Address: " . $ip . "\nUser ID: " . $user_id . "\nLogin: " . $login . $aweber["pass_inclusion"] . "\nRole: " . $role . "\nLevel: " . $level . "\nCCaps: " . $ccaps . "\n - end.", get_defined_vars ())),
-														($aweber["wp_mail_headers"] = "From: \"" . preg_replace ("/\"/", "", trim ($fname . " " . $lname)) . "\" <" . $email . ">" . (($aweber["bcc"]) ? "\r\nBcc: " . $aweber["bcc"] : "") . "\r\nContent-Type: text/plain; charset=UTF-8")))
+														($aweber["wp_mail_headers"] = "From: \"" . preg_replace ('/"/', "'", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_name"]) . "\" <" . $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["reg_email_from_email"] . ">" . (($aweber["bcc"]) ? "\r\nBcc: " . $aweber["bcc"] : "") . "\r\nContent-Type: text/plain; charset=UTF-8")))
 															$aweber["wp_mail_success"] = $success = true; // Flag indicating that we DO have a successful processing of a new List; affects the function's overall return value.
 
 														$logt = c_ws_plugin__s2member_utilities::time_details ();
@@ -168,7 +171,10 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2,
+																	                   "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" .
+																	                                            c_ws_plugin__s2member_utils_logs::conceal_private_info(var_export ($aweber, true)) . "\n\n",
+																	                   FILE_APPEND);
 													}
 											}
 									}
@@ -254,7 +260,10 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($mailchimp, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2,
+																	                   "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" .
+																	                                            c_ws_plugin__s2member_utils_logs::conceal_private_info(var_export ($mailchimp, true)) . "\n\n",
+																	                   FILE_APPEND);
 													}
 											}
 									}
@@ -289,7 +298,10 @@ if (!class_exists ("c_ws_plugin__s2member_list_servers"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["gateway_debug_logs"])
 															if (is_dir ($logs_dir = $GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["logs_dir"]))
 																if (is_writable ($logs_dir) && c_ws_plugin__s2member_utils_logs::archive_oversize_log_files ())
-																	file_put_contents ($logs_dir . "/" . $log2, "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" . var_export ($aweber, true) . "\n\n", FILE_APPEND);
+																	file_put_contents ($logs_dir . "/" . $log2,
+																	                   "LOG ENTRY: ".$logt . "\n" . $logv . "\n" . $logm . "\n" . $log4 . "\n" .
+																	                                            c_ws_plugin__s2member_utils_logs::conceal_private_info(var_export ($aweber, true)) . "\n\n",
+																	                   FILE_APPEND);
 													}
 											}
 									}

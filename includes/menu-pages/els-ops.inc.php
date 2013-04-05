@@ -102,6 +102,14 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_els_ops"))
 
 								echo '</tbody>'."\n";
 								echo '</table>'."\n";
+								
+								echo '<div class="ws-menu-page-hr"></div>'."\n";
+								
+								echo '<div class="ws-menu-page-hilite" style="border-radius:3px; padding:5px;">'."\n";
+								echo '<p style="font-size:110%; margin-top:0;"><span>We HIGHLY recommend that you enable logging during your initial testing phase. Logs produce lots of useful details that can help in debugging. Logs can help you find issues in your configuration and/or problems during MailChimp® processing. See: <a href="'.esc_attr(admin_url("/admin.php?page=ws-plugin--s2member-logs")).'">Log Files (Debug)</a>.</span></p>'."\n";
+								echo '<p style="font-size:110%; margin-bottom:0;"><span class="ws-menu-page-error">However, it is VERY IMPORTANT to disable logging once you go live. Log files may contain personally identifiable information, credit card numbers, secret API credentials, passwords and/or other sensitive information. We STRONGLY suggest that logging be disabled on a live site (for security reasons).</span></p>'."\n";
+								echo '</div>'."\n";
+								
 								echo '</div>'."\n";
 
 								echo '</div>'."\n";
@@ -121,6 +129,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_els_ops"))
 								echo '<p>s2Member can be integrated with AWeber®. AWeber® is an email marketing service. Whether you\'re looking to get your first email campaign off the ground, or you\'re a seasoned veteran who wants to dig into advanced tools like detailed email web analytics, activity based segmentation, geo-targeting and broadcast split-testing, AWeber\'s got just what you need to make email marketing work for you.</p>'."\n";
 								echo '<p>You can have your Members automatically subscribed to your AWeber® marketing lists <em>(e.g. newsletters / auto-responders)</em>. You\'ll need an <a href="http://www.s2member.com/aweber" target="_blank" rel="external">AWeber® account</a> and your <a href="#" onclick="alert(\'To obtain your AWeber® List ID(s), log into your AWeber® account. Click on the Lists tab. On that page you\\\'ll find a Unique List ID associated with each of your lists. AWeber® sometimes refers to this as a List Name instead of a List ID.\'); return false;">AWeber® List IDs</a>. You will ALSO need to configure a <a href="http://www.s2member.com/kb/aweber-email-parser-for-s2member/" target="_blank" rel="external">Custom Email Parser</a> inside your AWeber® account.</p>'."\n";
 								echo '<p>Log into AWeber®, and go to <em>My Lists -› Email Parser</em>. If you like, choose the PayPal® Parser <em>(even if you\'re not using PayPal® as your Payment Gateway)</em>. You can safely ignore the additional instructions they provide. s2Member just needs the PayPal® box checked, and that\'s all. Or, even better, integrate <a href="http://www.s2member.com/kb/aweber-email-parser-for-s2member/" target="_blank" rel="external">s2Member\'s Custom Email Parser</a> for AWeber, which <strong>will improve reliability</strong> and flexibility.</p>'."\n";
+								echo '<p><em><strong>AWeber® Tip:</strong> If you want your Members to be subscribed to multiple AWeber® List IDs at the same time, instead of comma-delimiting those List IDs here; we suggest a single List ID in your s2Member® integration; then use <a href="https://help.aweber.com/entries/21696463-Can-I-Add-Subscribers-to-More-Than-One-List-At-Once-" target="_blank" rel="external">AWeber® Automation Rules</a> for this. Automation Rules can also reduce the number of email confirmation notices that Members receive.</em></p>'."\n";
 								do_action("ws_plugin__s2member_during_els_ops_page_during_left_sections_during_aweber", get_defined_vars());
 
 								echo '<table class="form-table">'."\n";
@@ -142,7 +151,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_els_ops"))
 										echo '<td>'."\n";
 										echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_level'.$n.'_aweber_list_ids" id="ws-plugin--s2member-level'.$n.'-aweber-list-ids" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level".$n."_aweber_list_ids"]).'" /><br />'."\n";
 										echo 'New '.(($n === 0) ? 'Free Subscribers' : 'Level #'.$n.' Members').' will be subscribed to these List IDs.<br />'."\n";
-										echo 'Ex: <code>mylist, myotherlist, anotherlist</code>'."\n";
+										echo 'Ex: <code>mylist, anotherlist</code> — See also: <a href="https://help.aweber.com/entries/21696463-Can-I-Add-Subscribers-to-More-Than-One-List-At-Once-" target="_blank" rel="external">Automation Rules</a>'."\n";
 										echo '</td>'."\n";
 
 										echo '</tr>'."\n";
@@ -150,6 +159,14 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_els_ops"))
 
 								echo '</tbody>'."\n";
 								echo '</table>'."\n";
+								
+								echo '<div class="ws-menu-page-hr"></div>'."\n";
+								
+								echo '<div class="ws-menu-page-hilite" style="border-radius:3px; padding:5px;">'."\n";
+								echo '<p style="font-size:110%; margin-top:0;"><span>We HIGHLY recommend that you enable logging during your initial testing phase. Logs produce lots of useful details that can help in debugging. Logs can help you find issues in your configuration and/or problems during AWeber® processing. See: <a href="'.esc_attr(admin_url("/admin.php?page=ws-plugin--s2member-logs")).'">Log Files (Debug)</a>.</span></p>'."\n";
+								echo '<p style="font-size:110%; margin-bottom:0;"><span class="ws-menu-page-error">However, it is VERY IMPORTANT to disable logging once you go live. Log files may contain personally identifiable information, credit card numbers, secret API credentials, passwords and/or other sensitive information. We STRONGLY suggest that logging be disabled on a live site (for security reasons).</span></p>'."\n";
+								echo '</div>'."\n";
+								
 								echo '</div>'."\n";
 
 								echo '</div>'."\n";

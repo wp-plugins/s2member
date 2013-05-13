@@ -19,8 +19,8 @@
 */
 /* -- This section for WordPress® parsing. ------------------------------------------------------------------------------
 
-Version: 130510
-Stable tag: 130510
+Version: 130513
+Stable tag: 130513
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -75,7 +75,7 @@ if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_VERSION", "130510" /* !#distro-version#! */);
+	define("WS_PLUGIN__S2MEMBER_VERSION", "130513" /* !#distro-version#! */);
 /**
 * Minimum PHP version required to run s2Member.
 *
@@ -105,7 +105,7 @@ if(!defined("WS_PLUGIN__S2MEMBER_MIN_WP_VERSION"))
 * @var str
 */
 if(!defined("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION"))
-	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "130510" /* !#distro-version#! */);
+	define("WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION", "130513" /* !#distro-version#! */);
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
@@ -136,7 +136,11 @@ if(version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, ">=") && ve
 			{
 				include_once dirname(__FILE__)."-pro/pro-module.php";
 				if(is_dir(WP_PLUGIN_DIR."/codestyling-localization") && !is_dir(dirname(__FILE__)."/s2member-pro") && function_exists("symlink"))
-					@symlink(dirname(__FILE__)."-pro", dirname(__FILE__)."/s2member-pro"); // For CS localization compatibility.
+					{
+					// Removing this for now. It causes problems during upgrades.
+						//@symlink(dirname(__FILE__)."-pro", dirname(__FILE__)."/s2member-pro"); // For CS localization compatibility.
+						//@chmod(dirname(__FILE__)."/s2member-pro", 0755);
+					}
 			}
 		/*
 		Configure options and their defaults.

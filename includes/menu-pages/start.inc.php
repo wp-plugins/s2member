@@ -31,8 +31,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_start"))
 					{
 						echo '<div class="wrap ws-menu-page">' . "\n";
 
-						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2>s2Member / Quick-Start Guide</h2>' . "\n";
+						echo '<div class="ws-menu-page-toolbox">'."\n";
+						c_ws_plugin__s2member_menu_pages_tb::display ();
+						echo '</div>'."\n";
+
+						echo '<h2>Quick-Start Guide</h2>' . "\n";
 
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -312,7 +315,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_start"))
 
 								echo '<h3>Search s2Member KB Articles, Forums, Codex and more<em>!</em></h3>'."\n";
 								echo '<form method="get" action="http://www.s2member.com/quick-s.php" target="_blank" onsubmit="if(this.q.value === \'enter search terms...\') this.q.value = \'\';">'."\n";
-								echo '<p><input type="text" name="q" value="enter search terms..." style="width:60%;" onfocus="if(this.value === \'enter search terms...\') this.value = \'\';" onblur="if(this.value === \'\') this.value = \'enter search terms...\';" /><input type="submit" value="Search" /></p>'."\n";
+								echo '<p><input type="text" name="q" value="enter search terms..." style="width:60%;" onfocus="if(this.value === \'enter search terms...\') this.value = \'\';" onblur="if(this.value === \'\') this.value = \'enter search terms...\';" /> <input type="submit" value="Search" style="font-size:120%; font-weight:normal;" /></p>'."\n";
 								echo '</form>'."\n";
 
 								do_action ("ws_plugin__s2member_during_start_page_during_left_sections_during_help", get_defined_vars ());

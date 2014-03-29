@@ -13,6 +13,8 @@
 *
 * @package s2Member\Menu_Pages
 * @since 3.0
+ *
+ * @TODO Shortcode equivalents using [else] syntax.
 */
 if (realpath (__FILE__) === realpath ($_SERVER["SCRIPT_FILENAME"]))
 	exit ("Do not access this file directly.");
@@ -82,27 +84,40 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #2:</strong> Full access for any Member with a Level >= 1.</strong></p>' . "\n";
+										echo '<p><strong>Example #2:</strong> The same as example #1, but this uses <code>[else]</code> syntax.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in-else-farm.x-php")) . '</p>' . "\n";
+
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+
+										echo '<p><strong>Example #3:</strong> Full access for any Member with a Level >= 1; also using <code>[else]</code> syntax.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access-farm.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #3:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
+										echo '<p><strong>Example #4:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content-farm.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #4:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
+										echo '<p><strong>Example #5:</strong> The same as example #4, but this uses <code>[else]</code> syntax &amp; nesting.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content-else-farm.x-php")) . '</p>' . "\n";
+
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+
+										echo '<p><strong>Example #6:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1-farm.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #5:</strong> Using multiple Conditionals together, and even nesting other Shortcodes.</strong></p>' . "\n";
+										echo '<p><strong>Example #7:</strong> Using multiple Conditionals together; also nesting other Shortcodes.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2-farm.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #6:</strong> Using multiple Conditionals together, and even nesting Conditionals.</strong></p>' . "\n";
+										echo '<p><strong>Example #8:</strong> Using multiple Conditionals together; also nesting Conditionals.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3-farm.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -121,8 +136,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 
 										echo '<p><em><strong>Implementing AND/OR Conditional expressions:</strong></em></p>' . "\n";
 										echo '<p><em>*Tip: do NOT mix AND/OR expressions.<br /> <strong class="ws-menu-page-error-hilite">BAD</strong> <code>is_user_logged_in() AND is_page(1) OR is_page(2)</code><br />- use one or the other; do NOT mix AND/OR together.</em></p>' . "\n";
-										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting:</strong></em></p>' . "\n";
-										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.x-php")) . '</p>' . "\n";
+										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting...</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting-farm.x-php")) . '</p>' . "\n";
+										echo '<p><em><strong class="ws-menu-page-hilite">Another example, if you use <code>[else]</code> when nesting...</strong></em></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting-else-farm.x-php")) . '</p>' . "\n";
 										echo '</div>' . "\n";
 
 										echo '</div>' . "\n";
@@ -150,27 +168,40 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #2:</strong> Full access for any Member with a Level >= 1.</strong></p>' . "\n";
+										echo '<p><strong>Example #2:</strong> The same as example #1, but this uses <code>[else]</code> syntax.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-is-user-logged-in-else.x-php")) . '</p>' . "\n";
+
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+
+										echo '<p><strong>Example #3:</strong> Full access for any Member with a Level >= 1; also using <code>[else]</code> syntax.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-can-full-access.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #3:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
+										echo '<p><strong>Example #4:</strong> Specific content for each different Member Level.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #4:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
+										echo '<p><strong>Example #5:</strong> The same as example #4, but this uses <code>[else]</code> syntax &amp; nesting.</strong></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-current-user-is-specific-content-else.x-php")) . '</p>' . "\n";
+
+										echo '<div class="ws-menu-page-hr"></div>' . "\n";
+
+										echo '<p><strong>Example #6:</strong> Simple Conditionals w/ integrated use of [s2Get /].</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-1.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #5:</strong> Using multiple Conditionals together, and even nesting other Shortcodes.</strong></p>' . "\n";
+										echo '<p><strong>Example #7:</strong> Using multiple Conditionals together; also nesting other Shortcodes.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-2.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-										echo '<p><strong>Example #6:</strong> Using multiple Conditionals together, and even nesting Conditionals.</strong></p>' . "\n";
+										echo '<p><strong>Example #8:</strong> Using multiple Conditionals together; also nesting Conditionals.</strong></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-supplements-3.x-php")) . '</p>' . "\n";
 
 										echo '<div class="ws-menu-page-hr"></div>' . "\n";
@@ -189,8 +220,11 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 
 										echo '<p><em><strong>Implementing AND/OR Conditional expressions:</strong></em></p>' . "\n";
 										echo '<p><em>*Tip: do NOT mix AND/OR expressions.<br /> <strong class="ws-menu-page-error-hilite">BAD</strong> <code>is_user_logged_in() AND is_page(1) OR is_page(2)</code><br />- use one or the other; do NOT mix AND/OR together.</em></p>' . "\n";
-										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting:</strong></em></p>' . "\n";
+										echo '<p><em><strong class="ws-menu-page-hilite">If you need to have both types of logic, use nesting...</strong></em></p>' . "\n";
 										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting.x-php")) . '</p>' . "\n";
+										echo '<p><em><strong class="ws-menu-page-hilite">Another example, if you use <code>[else]</code> when nesting...</strong></em></p>' . "\n";
+										if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[else]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+										echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/sc-s2-conditional-nesting-else.x-php")) . '</p>' . "\n";
 										echo '</div>' . "\n";
 
 										echo '</div>' . "\n";
@@ -427,6 +461,12 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
+								echo '<p><strong>A very simple way to drip content; via the <code>[s2Drip]</code> Shortcode:</strong></p>' . "\n";
+								if(!c_ws_plugin__s2member_utils_conds::pro_is_installed()) echo '<p><em><strong class="ws-menu-page-hilite">NOTE: the use of <code>[s2Drip]</code> requires s2Member Pro.</strong></em></p>' . "\n";
+								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2drip-example1.x-php")) . '</p>' . "\n";
+
+								echo '<div class="ws-menu-page-hr"></div>' . "\n";
+
 								echo '<p><strong>To drip content using <code>S2MEMBER_CURRENT_USER_PAID_REGISTRATION_DAYS</code>:</strong></p>' . "\n";
 								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/current-user-paid-registration-days-dripping.x-php")) . '</p>' . "\n";
 
@@ -435,7 +475,7 @@ if (!class_exists ("c_ws_plugin__s2member_menu_page_scripting"))
 								echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
 								echo '<h3>Very Advanced Content Dripping (some PHP required)</h3>' . "\n";
-								echo '<p>If you plan on dripping content in VERY advanced ways, you can tap into s2Member\'s recorded history of all Paid Registration Times. (i.e. <code>' . esc_html ('<?php $time = s2member_paid_registration_time("level1"); ?>') . '</code>) will give you a timestamp at which a Member first paid for Level#1 access. If they\'ve never paid for Level#1 access, the function will return 0. s2Member keeps a recorded history of timestamps associated with each Level that a Member gains access to, throughout the lifetime of their account. * NOTE: This requires s2Member v3.3+. Previous versions of s2Member did NOT record this information. If you implement this functionality on an upgraded installation of s2Member, please remember that s2Member will have NO Paid Registration Time for any Member you acquired prior to installing s2Member v3.3+. <em>Check the forums for work-arounds.</em></p>' . "\n";
+								echo '<p>If you plan on dripping content in VERY advanced ways, you can tap into s2Member\'s recorded history of all Paid Registration Times. (i.e. <code>' . esc_html ('<?php $time = s2member_paid_registration_time("level1"); ?>') . '</code>) will give you a timestamp at which a Member first paid for Level#1 access. If they\'ve never paid for Level#1 access, the function will return 0. s2Member keeps a recorded history of timestamps associated with each Level that a Member gains access to, throughout the lifetime of their account.</p>' . "\n";
 								echo '<p><strong>Here is the function documentation for PHP/WordPress developers:</strong></p>' . "\n";
 								echo '<p>' . c_ws_plugin__s2member_utils_strings::highlight_php (file_get_contents (dirname (__FILE__) . "/code-samples/s2member-paid-registration-time.x-php")) . '</p>' . "\n";
 								echo '<p><strong>Here are some actual examples that should give you some ideas:</strong></p>' . "\n";

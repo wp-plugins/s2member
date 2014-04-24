@@ -1,7 +1,7 @@
 === s2Member Framework (Member Roles, Capabilities, Membership, PayPal Members) ===
 
-Version: 140409
-Stable tag: 140409
+Version: 140423
+Stable tag: 140423
 
 SSL Compatible: yes
 bbPress® Compatible: yes
@@ -142,15 +142,31 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 
 == Upgrade Notice ==
 
-= v140409 =
+= v140423 =
 
 (Maintenance Release) Upgrade immediately.
 
 == Changelog ==
 
+= v140423 =
+
+* (s2Member/s2Member Pro) **WP v3.9 Compatibility**. Resolving an incompatibility between s2Member and WP v3.9 where s2Member was attempting to use the jQuery `highlight` effect no longer available by default; starting with WP v3.9. A symptom of this bug was to have problems closing the dialog box when creating new Registration/Profile Fields with s2Member in the WP Dashboard. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/108).
+* (s2Member Pro) **User Export Limitation**. Adding an option to the Import/Export panel used to export Users from your installation of WordPress. This new option makes it possible to specify an exact number of maximum rows to export; instead of the previous behavior which forced to a value of `1000` max. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/80).
+* (s2Member Pro) **s2Drip Enhancement**. Updating the s2Drip shortcode to allow for a time frame that specifies `from_day="1" to_day="1"`. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/103). For instructions on how to use the `[s2Drip]` shortcode see [this KB article](http://www.s2member.com/kb/s2drip-shortcode/).
+* (s2Member Pro) **s2Drip Enhancement**. Adding support for nested shortcodes inside the `[s2Drip]` conditional shortcode tags. See [this commit](https://github.com/WebSharks/s2Member-Pro/commit/3d042250736a074136924afd5b4030065aff881e) for detailed changes. For instructions on how to use the `[s2Drip]` shortcode see [this KB article](http://www.s2member.com/kb/s2drip-shortcode/).
+* (s2Member Pro). **s2MOP Enhancement**. Adding an optional `%%POST_EXCERPT%%` Replacement Code to the `[s2MOP]` shortcode. For further details see [this GitHub issue](https://github.com/WebSharks/s2Member-Pro/pull/11). For instructions on how to use the `[s2MOP]` shortcode see [this KB article](http://www.s2member.com/kb/s2mop-shortcode/).
+* (s2Member Pro). **s2MOP Enhancement**. Improving `[s2MOP]` Replacement Codes overall by converting internal slugs into textual labels for an improved user experience. Also making it possible to filter the default labels. See [this GitHub issue](https://github.com/WebSharks/s2Member-Pro/pull/10). For instructions on how to use the `[s2MOP]` shortcode see [this KB article](http://www.s2member.com/kb/s2mop-shortcode/).
+* (s2Member Pro) **s2MOP Enhancement**. Adding support for nested shortcodes inside the `[s2MOP]` shortcode. For instructions on how to use the `[s2MOP]` shortcode see [this KB article](http://www.s2member.com/kb/s2mop-shortcode/).
+* (s2Member/s2Member Pro) **Time Tracking**. This release begins tracking some additional timestamps to be used by features coming in a future version of s2Member. A new routine was added internally to go ahead and begin tracking some additional timestamps associated with the addition and/or removal of specific Membership Levels and/or Custom Capabilities. A future release of s2Member will take advantage of this data in some of it's shortcodes and API Functions (coming soon). See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/84).
+* (s2Member/s2Member Pro) **Bug Fix**. A bug related to domain validation against some of the latest TLDs like `.photography` or `.solutions` has been resolved with this release. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/98).
+* (s2Member) **Bug Fix**. The declaration `function ksort_deep` should be `public static function ksort_deep`. Fixed in this release.
+* (s2Member/s2Member Pro) **Bug Fix**. s2Member preventing some fields from making it into results provided by `WP_User_Query` on the front-end of a site utilizing this core class. Fixed in this release. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/95).
+* (s2Member Pro). **Authorize.Net Trial Limitation**. Updating s2Member Pro to support a 100% free trial period of any length when integrating with Authorize.Net. See also [this GitHub issue](https://github.com/WebSharks/s2Member/issues/106).
+* (s2Member/s2Member Pro) **WP_DEBUG Compatibility**. Resolving several `E_NOTICE` level messages in an ongoing effort to satisfy `WP_DEBUG` mode. For further details, please see [this GitHub issue](https://github.com/WebSharks/s2Member/issues/97). See also [issue #105](https://github.com/WebSharks/s2Member/issues/105). See also [issue #91](https://github.com/WebSharks/s2Member/issues/91).
+
 = v140409 =
 
-* (s2Member Pro) **s2MOP Shortcode**. A new shortcode is now available for site owners running s2Member Pro: `[s2MOP]`. For further details, please check your Dashboard under: `s2Member ⥱ API / Scripting ⥱ Membership Options Page / Variables`. See also: [this KB article]( http://www.s2member.com/kb/s2mop-shortcode/).
+* (s2Member Pro) **s2MOP Shortcode**. A new shortcode is now available for site owners running s2Member Pro: `[s2MOP]`. For further details, please check your Dashboard under: `s2Member ⥱ API / Scripting ⥱ Membership Options Page / Variables`. See also: [this KB article](http://www.s2member.com/kb/s2mop-shortcode/).
 * (s2Member/s2Member Pro) **Compatibility**. Reviewed by Lead Developer Jason Caldwell for full compatibility against WordPress v3.9. s2Member also remains backward compatible with WP v3.3 - 3.8.
 * (s2Member/s2Member Pro) **Security Review**. Reviewed by Lead Developer Jason Caldwell to look closer at any portions of s2Member which might be impacted by the [OpenSSL Heartbleed bug](http://heartbleed.com/). Please note, the Heartbleed bug is NOT an s2Member bug. It is a bug in the OpenSSL library used by many services across the web. Please see this [GitHub issue](https://github.com/WebSharks/s2Member/issues/90) where Jason posted a few tips for site owners running the s2Member software.
 * (s2Member/s2Member Pro) **s2 MOP Vars**. The format of s2Member's MOP Vars has been updated in this release. Backward compatibility remains for the older formats, so this should not cause any problems for site owners using the older formats provided by previous versions of s2Member. For further details, please check your Dashboard under: `s2Member ⥱ API / Scripting ⥱ Membership Options Page / Variables`.

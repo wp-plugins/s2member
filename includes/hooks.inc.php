@@ -94,6 +94,7 @@ add_filter("bp_core_get_site_options", "c_ws_plugin__s2member_option_forces::che
 add_filter("random_password", "c_ws_plugin__s2member_registrations::generate_password");
 add_action("user_register", "c_ws_plugin__s2member_registrations::configure_user_registration");
 add_action("register_form", "c_ws_plugin__s2member_custom_reg_fields::custom_registration_fields");
+add_filter("registration_errors", "c_ws_plugin__s2member_registrations::custom_registration_field_errors", 10, 3);
 
 add_filter("add_signup_meta", "c_ws_plugin__s2member_registrations::ms_process_signup_meta");
 add_filter("bp_signup_usermeta", "c_ws_plugin__s2member_registrations::ms_process_signup_meta");
@@ -107,6 +108,7 @@ add_action("wpmu_activate_blog", "c_ws_plugin__s2member_registrations::configure
 add_action("signup_extra_fields", "c_ws_plugin__s2member_custom_reg_fields::ms_custom_registration_fields");
 
 add_action("bp_after_signup_profile_fields", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_registration_fields_4bp");
+add_action("bp_signup_validate", "c_ws_plugin__s2member_registrations::custom_registration_field_errors_4bp");
 add_action("bp_after_profile_field_content", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_profile_fields_4bp");
 add_action("bp_profile_field_item", "c_ws_plugin__s2member_custom_reg_fields_4bp::custom_profile_field_items_4bp");
 
@@ -154,13 +156,21 @@ add_action("network_admin_notices", "c_ws_plugin__s2member_admin_notices::admin_
 add_action("pre_user_query", "c_ws_plugin__s2member_users_list::users_list_query");
 add_filter("manage_users_columns", "c_ws_plugin__s2member_users_list::users_list_cols");
 add_filter("manage_users_custom_column", "c_ws_plugin__s2member_users_list::users_list_display_cols", 10, 3);
+add_filter("manage_users_sortable_columns", "c_ws_plugin__s2member_users_list::users_list_add_sortable");
+add_filter("pre_user_query", "c_ws_plugin__s2member_users_list::users_list_make_sortable");
 add_action("edit_user_profile", "c_ws_plugin__s2member_users_list::users_list_edit_cols");
 add_action("show_user_profile", "c_ws_plugin__s2member_users_list::users_list_edit_cols");
 add_action("edit_user_profile_update", "c_ws_plugin__s2member_users_list::users_list_update_cols");
 add_action("personal_options_update", "c_ws_plugin__s2member_users_list::users_list_update_cols");
 add_action("set_user_role", "c_ws_plugin__s2member_registration_times::synchronize_paid_reg_times", 10, 2);
-add_action("update_user_meta", "c_ws_plugin__s2member_registration_times::log_capability_time", 10, 4);
 add_filter("show_password_fields", "c_ws_plugin__s2member_user_securities::hide_password_fields", 10, 2);
+
+add_action("add_user_meta", "c_ws_plugin__s2member_access_cap_times::get_user_caps_before_update_on_add", 10, 3);
+add_action("update_user_meta", "c_ws_plugin__s2member_access_cap_times::get_user_caps_before_update", 10, 4);
+
+add_action("added_user_meta", "c_ws_plugin__s2member_access_cap_times::log_access_cap_times", 10, 4);
+add_action("updated_user_meta", "c_ws_plugin__s2member_access_cap_times::log_access_cap_times", 10, 4);
+add_action("deleted_user_meta", "c_ws_plugin__s2member_access_cap_times::log_access_cap_times_on_delete", 10, 3);
 
 add_filter("cron_schedules", "c_ws_plugin__s2member_cron_jobs::extend_cron_schedules");
 add_action("ws_plugin__s2member_auto_eot_system__schedule", "c_ws_plugin__s2member_auto_eots::auto_eot_system");

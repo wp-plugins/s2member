@@ -15,8 +15,23 @@
 */
 
 /*
-Structural styles for s2Member Security Badge.
+Clearfix styles for s2Member.
+These are basic CSS rules. You can override any of these
+through the `/style.css` file for your WordPress theme.
+*/
+.ws-plugin--s2member-clearfix:before,
+.ws-plugin--s2member-clearfix:after
+{
+	content : ' ';
+	display : table;
+}
+.ws-plugin--s2member-clearfix::after
+{
+	clear : both;
+}
 
+/*
+Structural styles for s2Member Security Badge.
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -27,8 +42,61 @@ div.ws-plugin--s2member-s-badge
 }
 
 /*
-Structural styles for Password strength indicators.
+Button processing animation.
+These are basic CSS rules. You can override any of these
+through the `/style.css` file for your WordPress theme.
+*/
+@-moz-keyframes ws-plugin--s2member-spin
+{
+	from
+	{
+		-moz-transform : rotate(0deg);
+	}
+	to
+	{
+		-moz-transform : rotate(360deg);
+	}
+}
+@-webkit-keyframes ws-plugin--s2member-spin
+{
+	from
+	{
+		-webkit-transform : rotate(0deg);
+	}
+	to
+	{
+		-webkit-transform : rotate(360deg);
+	}
+}
+@keyframes ws-plugin--s2member-spin
+{
+	from
+	{
+		transform : rotate(0deg);
+	}
+	to
+	{
+		transform : rotate(360deg);
+	}
+}
+button.ws-plugin--s2member-animate-processing:after
+{
+	content           : '';
 
+	float             : right;
+	width             : .8em;
+	height            : .8em;
+	margin            : .25em 0 0 .5em;
+
+	border-radius     : 50%;
+	border            : 1px dashed;
+
+	-webkit-animation : ws-plugin--s2member-spin 1s linear infinite;
+	animation         : ws-plugin--s2member-spin 1s linear infinite;
+}
+
+/*
+Structural styles for Password strength indicators.
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -63,7 +131,6 @@ div.ws-plugin--s2member-password-strength-mismatch
 
 /*
 Structural styles for Multisite Integration Forms.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -132,7 +199,6 @@ div#content > div.mu_register > div.mu_alert
 
 /*
 Structural styles for Return Pages.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -225,7 +291,6 @@ div.s2member-return-support-section div.cc-reminder
 
 /*
 Structural styles for Shortcode Profile Editing panel.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -298,7 +363,6 @@ form#ws-plugin--s2member-profile div.ws-plugin--s2member-profile-field-divider-s
 
 /*
 Structural styles for BuddyPress Profile Field items.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -319,7 +383,6 @@ body.profile.public div.ws-plugin--s2member-profile-field-4bp-divider-section-ti
 
 /*
 Structural styles for BuddyPress Registration Fields.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */
@@ -372,7 +435,6 @@ body.registration form div#ws-plugin--s2member-custom-reg-fields-4bp-section div
 
 /*
 Structural styles for BuddyPress Profile Field integrations.
-
 These are basic CSS rules. You can override any of these
 through the `/style.css` file for your WordPress theme.
 */

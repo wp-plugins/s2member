@@ -35,8 +35,8 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 				*
 				* @attaches-to ``add_filter("login_headerurl");``
 				*
-				* @param str $url Expects a login header URL passed in by the Filter.
-				* @return str A URL based on s2Member's UI configuration.
+				* @param string $url Expects a login header URL passed in by the Filter.
+				* @return string A URL based on s2Member's UI configuration.
 				*/
 				public static function login_header_url($url = FALSE)
 					{
@@ -57,8 +57,8 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 				*
 				* @attaches-to ``add_filter("login_headertitle");``
 				*
-				* @param str $title Expects a title passed in by the Filter.
-				* @return str A title based on s2Member's UI configuration.
+				* @param string $title Expects a title passed in by the Filter.
+				* @return string A title based on s2Member's UI configuration.
 				*/
 				public static function login_header_title($title = FALSE)
 					{
@@ -91,7 +91,7 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 
 						foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
 						do_action("ws_plugin__s2member_before_login_header_styles", get_defined_vars());
-						unset /* Unset defined __refs, __v. */ ($__refs, $__v);
+						unset($__refs, $__v);
 
 						$a[] = /* Open style tag, then give Filters a chance below. */ '<style type="text/css">';
 						$i = apply_filters("ws_plugin__s2member_login_header_styles_important", " !important", get_defined_vars());
@@ -143,7 +143,7 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 
 						foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
 						do_action("ws_plugin__s2member_during_login_header_styles", get_defined_vars());
-						unset /* Unset defined __refs, __v. */ ($__refs, $__v);
+						unset($__refs, $__v);
 
 						$a = apply_filters("ws_plugin__s2member_login_header_styles_array", $a, get_defined_vars());
 						$s .= /* Now put all array elements together. */ "\n".implode("\n", $a)."\n\n";
@@ -186,6 +186,39 @@ if(!class_exists("c_ws_plugin__s2member_login_customizations"))
 
 						return /* Return for uniformity. */;
 					}
-			}
+				/**
+				 * Filters the Lost Password URL when the call is made from the /wp-login.php system
+				 * and changes the default behavior of wp_lostpassword_url() so that it uses site_url()
+				 * instead of network_site_url(), but only if the current $_SERVER['REQUEST_URI'] differs
+				 * from the Parent Site URL, as returned by network_site_url(). In a non-multisite
+				 * environment, the default WordPress behavior (as of v3.9.1) is used.
+				 *
+				 * @package s2Member\Login_Customizations
+				 * @since 140603
+				 *
+				 * @attaches-to ``add_filter("lostpassword_url");``
+				 *
+				 * @param string $lostpassword_url The lost password page URL.
+				 * @param string $redirect The path to redirect to on login.
+				 *
+				 * @return string Lost password URL.
+				 */
+				public static function lost_password_url($lostpassword_url, $redirect)
+				{
+					$scheme = (is_ssl()) ? 'https' : 'http'; // Build a URL that we can compare to site_url() and network_site_url()
+					$url    = $scheme.'://'.$_SERVER["HTTP_HOST"].strtok($_SERVER["REQUEST_URI"], '?'); // Request URL minus query vars
+
+					if(basename(strtok($_SERVER['REQUEST_URI'], '?')) === 'wp-login.php'
+					   && strpos($url, (string)network_site_url('wp-login.php')) === FALSE
+					   && apply_filters("ws_plugin__s2member_tweak_lost_password_url", TRUE, get_defined_vars()))
+					{
+						$args = array('action' => 'lostpassword');
+						if(!empty($redirect)) $args['redirect_to'] = $redirect;
+
+						$lostpassword_url = add_query_arg(urlencode_deep($args), site_url('wp-login.php', 'login'));
+					}
+					return apply_filters("ws_plugin__s2member_lost_password_url", $lostpassword_url, $redirect, get_defined_vars());
+				}
+		}
 	}
 ?>

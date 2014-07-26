@@ -46,7 +46,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 						if (!empty($_GET["s2member_paypal_return"]) && ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"] || !empty($_GET["s2member_paypal_proxy"])))
 							{
 								$paypal = array(); // Initialize PayPal array; we also reference this with a variable for a possible proxy handler.
-								if(!empty($_GET["s2member_paypal_proxy"]) && in_array($_GET["s2member_paypal_proxy"], array("alipay", "authnet", "clickbank", "ccbill", "google"), TRUE))
+								if(!empty($_GET["s2member_paypal_proxy"]) && in_array($_GET["s2member_paypal_proxy"], array("alipay", "stripe", "authnet", "clickbank", "ccbill", "google"), TRUE))
 									${esc_html(trim(stripslashes($_GET["s2member_paypal_proxy"])))} = &$paypal; // Internal alias by reference.
 
 								$custom_success_redirection = (!empty($_GET["s2member_paypal_return_success"])) ? esc_html (trim (stripslashes ($_GET["s2member_paypal_return_success"]))) : false;
@@ -95,8 +95,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 																			_x ("Back To Home Page", "s2member-front", "s2member"), home_url ("/"));
 																	}
 															}
-														else // Else a custom conditional has been applied by filters.
-															unset($__refs, $__v);
+														else unset($__refs, $__v); // Else a custom conditional has been applied by filters.
 													}
 												else // Else, use the default ``$_SERVER["HTTP_HOST"]`` error.
 													{
@@ -169,7 +168,7 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 								$logt = c_ws_plugin__s2member_utilities::time_details ();
 								$logv = c_ws_plugin__s2member_utilities::ver_details ();
 								$logm = c_ws_plugin__s2member_utilities::mem_details ();
-								$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . $_SERVER["HTTP_USER_AGENT"];
+								$log4 = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . "\nUser-Agent: " . @$_SERVER["HTTP_USER_AGENT"];
 								$log4 = (is_multisite () && !is_main_site ()) ? ($_log4 = $current_blog->domain . $current_blog->path) . "\n" . $log4 : $log4;
 								$log2 = (is_multisite () && !is_main_site ()) ? "gateway-core-rtn-4-" . trim (preg_replace ("/[^a-z0-9]/i", "-", $_log4), "-") . ".log" : "gateway-core-rtn.log";
 
@@ -193,4 +192,3 @@ if (!class_exists ("c_ws_plugin__s2member_paypal_return_in"))
 					}
 			}
 	}
-?>

@@ -100,19 +100,20 @@ if(!class_exists('c_ws_plugin__s2member_profile_mods_4bp_in'))
 					do_action('ws_plugin__s2member_during_handle_profile_modifications_4bp', get_defined_vars());
 					unset($__refs, $__v);
 
-					$user = new WP_User($user_id);
-					(function_exists('setup_userdata')) ? setup_userdata() : NULL;
+					clean_user_cache($user_id);
+					wp_cache_delete($user_id, 'user_meta');
+					$user = new WP_User($user_id); // Fresh object.
+					if(function_exists('setup_userdata')) setup_userdata();
+
 					$role  = c_ws_plugin__s2member_user_access::user_access_role($user);
 					$level = c_ws_plugin__s2member_user_access::user_access_role_to_level($role);
 
 					if(!empty($_p['ws_plugin__s2member_profile_4bp_opt_in']) && $role && $level >= 0)
 					{
-						update_user_option($user_id, 's2member_opt_in', '1');
 						c_ws_plugin__s2member_list_servers::process_list_servers($role, $level, $user->user_login, '', $user->user_email, $user->first_name, $user->last_name, $_SERVER['REMOTE_ADDR'], TRUE, TRUE, $user_id);
 					}
 					else if($role && $level >= 0)
 					{
-						update_user_option($user_id, 's2member_opt_in', '0');
 						c_ws_plugin__s2member_list_servers::process_list_server_removals($role, $level, $user->user_login, '', $user->user_email, $user->first_name, $user->last_name, $_SERVER['REMOTE_ADDR'], TRUE, $user_id);
 					}
 				}

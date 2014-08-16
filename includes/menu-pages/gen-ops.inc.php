@@ -125,6 +125,13 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_gen_ops"))
 							echo '</tr>'."\n";
 							echo '</tbody>'."\n";
 							echo '</table>'."\n";
+
+							echo '<div class="ws-menu-page-hr"></div>'."\n";
+
+							echo '<h3>Additional Details Regarding this Key:</h3>'."\n";
+							echo '<p>Your Security Encryption Key is used throughout s2Member\'s source code for many different things. However, MOST (not all, but most) uses of this Key are related to transactional processing within a particular session; so changing the Key won\'t really impact these scenarios in any significant way. Your Security Encryption Key is simply there to enhance security of data that is being transmitted in these cases.</p>'."\n";
+							echo '<p>That said, there are a few scenarios where use of your Security Encryption Key is more long-term. These include: Specific Post/Page Access Links, Registration Access Links, and it can also have a long-term impact on IPN communication because some data analyzed by s2Member includes a checksum that depends on your Key. If the Key changes, it could cause future IPN data (i.e. data from your payment gateway) to fail validation.</p>'."\n";
+
 							echo '</div>'."\n";
 
 							echo '</div>'."\n";
@@ -1264,7 +1271,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_gen_ops"))
 
 							echo '<td>'."\n";
 							echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_login_redirection_override" id="ws-plugin--s2member-login-redirection-override" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["login_redirection_override"]).'" /><br />'."\n";
-							echo 'Or, you may configure a Special Redirection URL, if you prefer. You\'ll need to type in the full URL, starting with: <code>http://</code>. <em>A few <a href="#" onclick="alert(\'Replacement Codes:\\n\\n%%current_user_login%% = The current User\\\'s Username, lowercase.\\n%%current_user_id%% = The current User\\\'s ID.\\n%%current_user_level%% = The current User\\\'s s2Member Level.\\n%%current_user_role%% = The current User\\\'s WordPress Role.'.((!is_multisite() || !c_ws_plugin__s2member_utils_conds::is_multisite_farm() || is_main_site()) ? '\\n%%current_user_ccaps%% = The current User\\\'s Custom Capabilities.' : '').'\\n%%current_user_logins%% = Number of times the current User has logged in.\\n\\nFor example, if you\\\'re using BuddyPress, and you want to redirect Members to their BuddyPress Profile page after logging in, you would setup a Special Redirection URL, like this: '.site_url("/members/%%current_user_login%%/profile/").'\\n\\nOr ... using %%current_user_level%%, you could have a separate Login Welcome Page for each Membership Level that you plan to offer. BuddyPress not required.\'); return false;">Replacement Codes</a> are also supported here.</em>'."\n";
+							echo 'Or, you may configure a Special Redirection URL, if you prefer. You\'ll need to type in the full URL, starting with: <code>http://</code>. <em>A few <a href="#" onclick="alert(\'Replacement Codes:\\n\\n%%current_user_login%% = The current User\\\'s Username, lowercase (deprecated, please use %%current_user_nicename%%).\\n\\n%%current_user_nicename%% = The current User\\\'s Nicename in lowercase format (i.e. a cleaner version of the username for URLs; recommended for best compatibility).\\n\\n%%current_user_id%% = The current User\\\'s ID.\\n\\n%%current_user_level%% = The current User\\\'s s2Member Level.\\n\\n%%current_user_role%% = The current User\\\'s WordPress Role.'.((!is_multisite() || !c_ws_plugin__s2member_utils_conds::is_multisite_farm() || is_main_site()) ? '\\n\\n%%current_user_ccaps%% = The current User\\\'s Custom Capabilities.' : '').'\\n\\n%%current_user_logins%% = Number of times the current User has logged in.\\n\\nFor example, if you\\\'re using BuddyPress, and you want to redirect Members to their BuddyPress Profile page after logging in, you would setup a Special Redirection URL, like this: '.site_url("/members/%%current_user_nicename%%/profile/").'\\n\\nOr ... using %%current_user_level%%, you could have a separate Login Welcome Page for each Membership Level that you plan to offer. BuddyPress not required.\'); return false;">Replacement Codes</a> are also supported here.</em>'."\n";
 							echo '</td>'."\n";
 
 							echo '</tr>'."\n";

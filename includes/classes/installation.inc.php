@@ -51,7 +51,7 @@ if(!class_exists('c_ws_plugin__s2member_installation'))
 					mkdir($files_dir, 0777, TRUE);
 
 			if(is_dir($files_dir) && is_writable($files_dir))
-				if(!file_exists($htaccess = $files_dir.'/.htaccess') || !apply_filters('ws_plugin__s2member_preserve_files_dir_htaccess', FALSE, get_defined_vars()))
+				if(!is_file($htaccess = $files_dir.'/.htaccess') || !apply_filters('ws_plugin__s2member_preserve_files_dir_htaccess', !is_writable($files_dir.'/.htaccess'), get_defined_vars()))
 					file_put_contents($htaccess, trim(c_ws_plugin__s2member_utilities::evl(file_get_contents($GLOBALS['WS_PLUGIN__']['s2member']['c']['files_dir_htaccess']))));
 
 			c_ws_plugin__s2member_files::write_no_gzip_into_root_htaccess(); // Handle the root `.htaccess` file as well now, for GZIP exclusions.
@@ -61,7 +61,7 @@ if(!class_exists('c_ws_plugin__s2member_installation'))
 					mkdir($logs_dir, 0777, TRUE);
 
 			if(is_dir($logs_dir) && is_writable($logs_dir))
-				if(!file_exists($htaccess = $logs_dir.'/.htaccess') || !apply_filters('ws_plugin__s2member_preserve_logs_dir_htaccess', FALSE, get_defined_vars()))
+				if(!is_file($htaccess = $logs_dir.'/.htaccess') || !apply_filters('ws_plugin__s2member_preserve_logs_dir_htaccess', !is_writable($logs_dir.'/.htaccess'), get_defined_vars()))
 					file_put_contents($htaccess, trim(c_ws_plugin__s2member_utilities::evl(file_get_contents($GLOBALS['WS_PLUGIN__']['s2member']['c']['logs_dir_htaccess']))));
 
 			(!is_array(get_option('ws_plugin__s2member_cache'))) ? update_option('ws_plugin__s2member_cache', array()) : NULL;
@@ -213,11 +213,11 @@ if(!class_exists('c_ws_plugin__s2member_installation'))
 				if(is_multisite() && is_main_site() /* Site options? */)
 					delete_site_option('ws_plugin__s2member_options');
 
-				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '%".esc_sql(like_escape('s2member_'))."%'");
-				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '".esc_sql(like_escape('_transient_s2m_'))."%'");
-				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '".esc_sql(like_escape('_transient_timeout_s2m_'))."%'");
-				$wpdb->query("DELETE FROM `".$wpdb->postmeta."` WHERE `meta_key` LIKE '%".esc_sql(like_escape('s2member_'))."%'");
-				$wpdb->query("DELETE FROM `".$wpdb->usermeta."` WHERE `meta_key` LIKE '%".esc_sql(like_escape('s2member_'))."%'");
+				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '%".esc_sql(c_ws_plugin__s2member_utils_strings::like_escape('s2member_'))."%'");
+				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '".esc_sql(c_ws_plugin__s2member_utils_strings::like_escape('_transient_s2m_'))."%'");
+				$wpdb->query("DELETE FROM `".$wpdb->options."` WHERE `option_name` LIKE '".esc_sql(c_ws_plugin__s2member_utils_strings::like_escape('_transient_timeout_s2m_'))."%'");
+				$wpdb->query("DELETE FROM `".$wpdb->postmeta."` WHERE `meta_key` LIKE '%".esc_sql(c_ws_plugin__s2member_utils_strings::like_escape('s2member_'))."%'");
+				$wpdb->query("DELETE FROM `".$wpdb->usermeta."` WHERE `meta_key` LIKE '%".esc_sql(c_ws_plugin__s2member_utils_strings::like_escape('s2member_'))."%'");
 
 				do_action('ws_plugin__s2member_during_uninstall', get_defined_vars());
 			}

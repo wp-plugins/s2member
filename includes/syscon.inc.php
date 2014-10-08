@@ -161,7 +161,7 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 
 		$default_options['allow_subscribers_in'] = '0';
 		$default_options['force_admin_lockouts'] = '0';
-		$default_options['filter_wp_query']      = array();
+		$default_options['filter_wp_query']      = array('all');
 
 		$default_options['default_url_shortener']            = 'tiny_url';
 		$default_options['default_custom_str_url_shortener'] = '';
@@ -249,8 +249,13 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 		$default_options['sp_email_subject']    = _x('Thank You! (instructions for access)', 's2member-front', 's2member');
 		$default_options['sp_email_message']    = sprintf(_x("Thanks %%%%first_name%%%%!\n\n%%%%item_name%%%%\n\nYour order can be retrieved here:\n%%%%sp_access_url%%%%\n(link expires in %%%%sp_access_exp%%%%)\n\nIf you have any trouble, please feel free to contact us.\n\nBest Regards,\n%s", 's2member-front', 's2member'), get_bloginfo('name'));
 
-		$default_options['mailchimp_api_key']   = '';
-		$default_options['getresponse_api_key'] = '';
+		$default_options['mailchimp_api_key']       = '';
+		$default_options['getresponse_api_key']     = '';
+		$default_options['aweber_api_key']          = '';
+		$default_options['aweber_internal_api_key'] = '';
+		$default_options['aweber_api_type']         = 'api';
+		if($GLOBALS['WS_PLUGIN__']['s2member']['c']['configured'])
+			$default_options['aweber_api_type'] = 'email';
 
 		for($n = 0; $n <= $GLOBALS['WS_PLUGIN__']['s2member']['c']['levels']; $n++)
 			$default_options['level'.$n.'_mailchimp_list_ids'] = '';
@@ -309,6 +314,8 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 		$default_options['amazon_cf_files_distro_streaming_cname']     = '';
 		$default_options['amazon_cf_files_distro_streaming_dname']     = '';
 		$default_options['amazon_cf_files_distros_auto_config_status'] = '';
+
+		$default_options['ruris_case_sensitive'] = '0'; // No by default.
 
 		for($n = 0; $n <= $GLOBALS['WS_PLUGIN__']['s2member']['c']['levels']; $n++)
 			$default_options['level'.$n.'_ruris'] = '';
@@ -507,10 +514,16 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 				else if(preg_match('/^(?:signup|modification|ccap|sp)_email_(?:subject|message)$/', $key) && (!is_string($value) || !strlen($value)))
 					$value = $default_options[$key];
 
-				else if($key === 'mailchimp_api_key' && (!is_string($value) || !strlen($value)))
+				else if($key === 'aweber_api_type' && (!is_string($value) || !preg_match('/^(?:api|email)$/', $value)))
+					$value = $default_options[$key];
+
+				else if(preg_match('/^(?:mailchimp|getresponse|aweber)(?:_internal)?_api_key$/', $key) && (!is_string($value) || !strlen($value)))
 					$value = $default_options[$key];
 
 				else if(preg_match('/^level[0-9]+_mailchimp_list_ids$/', $key) && (!is_string($value) || !strlen($value = preg_replace('/['."\r\n\t".']+/', '', $value))))
+					$value = $default_options[$key];
+
+				else if(preg_match('/^level[0-9]+_getresponse_list_ids$/', $key) && (!is_string($value) || !strlen($value = preg_replace('/\s+/', '', $value))))
 					$value = $default_options[$key];
 
 				else if(preg_match('/^level[0-9]+_aweber_list_ids$/', $key) && (!is_string($value) || !strlen($value = preg_replace('/\s+/', '', $value))))
@@ -543,6 +556,9 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 				else if(preg_match('/^amazon_(?:s3|cf)_files_/', $key) && (!is_string($value) || !strlen($value)))
 					$value = $default_options[$key];
 
+				else if($key === 'ruris_case_sensitive' && (!is_string($value) || !is_numeric($value)))
+					$value = $default_options[$key];
+
 				else if(preg_match('/^level[0-9]+_ruris$/', $key) && (!is_string($value) || !strlen($value)))
 					$value = $default_options[$key];
 
@@ -562,7 +578,7 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 				else if($key === 'specific_ids' && (!is_string($value) || !($value = trim(preg_replace('/[^0-9,]/', '', $value), ','))))
 					$value = $default_options[$key];
 
-				else if($key === 'triggers_immediate_eot' && (!is_string($value) || !preg_match('/^(?:none|refunds|reversals|refunds,reversals)$/', $value)))
+				else if($key === 'triggers_immediate_eot' && (!is_string($value) || !preg_match('/^(?:none|refunds|reversals|refunds,reversals|refunds,partial_refunds,reversals)$/', $value)))
 					$value = $default_options[$key];
 
 				else if($key === 'membership_eot_behavior' && (!is_string($value) || !preg_match('/^(?:demote|delete)$/', $value)))
@@ -586,6 +602,8 @@ if(!function_exists('ws_plugin__s2member_configure_options_and_their_defaults'))
 
 			$GLOBALS['WS_PLUGIN__']['s2member']['o']['options_checksum'] = md5($checksum_prefix.serialize(array_merge($GLOBALS['WS_PLUGIN__']['s2member']['o'], array('options_checksum' => 0))));
 		}
+		$GLOBALS['WS_PLUGIN__']['s2member']['o']['custom_reg_opt_in_label'] = _x($GLOBALS['WS_PLUGIN__']['s2member']['o']['custom_reg_opt_in_label'], 's2member-front', 's2member');
+
 		return apply_filters_ref_array('ws_plugin__s2member_options', array(&$GLOBALS['WS_PLUGIN__']['s2member']['o']));
 	}
 }

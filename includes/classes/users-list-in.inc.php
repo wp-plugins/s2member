@@ -291,7 +291,7 @@ if(!class_exists("c_ws_plugin__s2member_users_list_in"))
 
 																			echo '<tr>'."\n";
 																			echo '<th><label for="ws-plugin--s2member-profile-'.esc_attr($field_id_class).'">'.((preg_match("/^(checkbox|pre_checkbox)$/", $field["type"])) ? ucwords(preg_replace("/_/", " ", $field_var)) : $field["label"]).':</label></th>'."\n";
-																			echo '<td>'.c_ws_plugin__s2member_custom_reg_fields::custom_field_gen(__FUNCTION__, $field, "ws_plugin__s2member_profile_", "ws-plugin--s2member-profile-", "", ((preg_match("/^(text|textarea|select|selects)$/", $field["type"])) ? "width:99%;" : ""), "", "", $fields, $fields[$field_var], "administrative").'</td>'."\n";
+																			echo '<td>'.c_ws_plugin__s2member_custom_reg_fields::custom_field_gen(__FUNCTION__, $field, "ws_plugin__s2member_profile_", "ws-plugin--s2member-profile-", "", ((preg_match("/^(text|textarea|select|selects)$/", $field["type"])) ? "width:99%;" : ""), "", "", $fields, @$fields[$field_var], "administrative").'</td>'."\n";
 																			echo '</tr>'."\n";
 																		}
 																	unset($__refs, $__v);
@@ -461,6 +461,9 @@ if(!class_exists("c_ws_plugin__s2member_users_list_in"))
 												if(isset($_p["ws_plugin__s2member_profile_s2member_subscr_id"]))
 													update_user_option($user_id, "s2member_subscr_id", $_p["ws_plugin__s2member_profile_s2member_subscr_id"]);
 
+												if(isset($_p["ws_plugin__s2member_profile_s2member_subscr_cid"]))
+													update_user_option($user_id, "s2member_subscr_cid", $_p["ws_plugin__s2member_profile_s2member_subscr_cid"]);
+
 												if(isset($_p["ws_plugin__s2member_profile_s2member_custom"]))
 													update_user_option($user_id, "s2member_custom", $_p["ws_plugin__s2member_profile_s2member_custom"]);
 
@@ -495,9 +498,9 @@ if(!class_exists("c_ws_plugin__s2member_users_list_in"))
 																	{
 																		if((is_array($_p["ws_plugin__s2member_profile_".$field_var]) && !empty($_p["ws_plugin__s2member_profile_".$field_var])) || (is_string($_p["ws_plugin__s2member_profile_".$field_var]) && strlen($_p["ws_plugin__s2member_profile_".$field_var])))
 																			$fields[$field_var] = $_p["ws_plugin__s2member_profile_".$field_var];
-																		else unset($fields[$field_var]);
+																		else if(isset($fields)) unset($fields[$field_var]);
 																	}
-																else unset($fields[$field_var]);
+																else if(isset($fields)) unset($fields[$field_var]);
 															}
 													}
 												if(!empty($fields))

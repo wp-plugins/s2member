@@ -790,5 +790,52 @@ if(!class_exists("c_ws_plugin__s2member_custom_reg_fields"))
 
 					return apply_filters('c_ws_plugin__s2member_custom_reg_field_validation_errors', $errors, get_defined_vars());
 				}
+
+			/**
+			 * Adds filters to `get_user_option` for Custom Field mapping
+			 */
+			public static function add_filters_get_user_option()
+				{
+					if(!($fields = json_decode($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["custom_reg_fields"], TRUE)))
+						return; // Nothing to do in this case.
+
+					foreach($fields as $_field => $_config)
+						{
+							add_filter('get_user_option_' . $_field, 'c_ws_plugin__s2member_custom_reg_fields::do_filter_get_user_option', 20, 3);
+							add_filter('get_user_option_s2_' . $_field, 'c_ws_plugin__s2member_custom_reg_fields::do_filter_get_user_option', 20, 3);
+						}
+					unset($_field, $_config); // Housekeeping.
+				}
+
+			/**
+			 * Filter for `get_user_option` queries. For Custom Field mapping.
+			 *
+			 * @param bool|string $what_wp_says The current field value, if WordPress has found one. Otherwise, FALSE.
+			 * @param string $option_name Field slug/name being queried
+			 * @param WP_User $user WP_User object related to the `get_user_option` query
+			 *
+			 * @return mixed
+			 */
+			public static function do_filter_get_user_option($what_wp_says, $option_name, $user)
+				{
+					if($what_wp_says !== FALSE)
+						return $what_wp_says;
+
+					if(!($user instanceof WP_User) || !$user->exists())
+						return $what_wp_says;
+
+					if(!($user_fields = get_user_option("s2member_custom_fields", $user->ID)))
+						return $what_wp_says;
+
+					if(isset($user_fields[$option_name]))
+						return $user_fields[$option_name];
+
+					if(stripos($option_name, 's2_') === 0)
+						if(($real_name = preg_replace('/^s2_/i', '', $option_name)))
+							if(isset($user_fields[$real_name]))
+								return $user_fields[$real_name];
+
+					return $what_wp_says;
+				}
 			}
 	}

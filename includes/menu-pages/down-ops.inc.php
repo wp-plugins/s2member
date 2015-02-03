@@ -14,7 +14,7 @@
  * @package s2Member\Menu_Pages
  * @since 3.0
  */
-if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
+if(!defined('WPINC')) // MUST have WordPress.
 	exit("Do not access this file directly.");
 
 if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
@@ -271,6 +271,33 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 				echo '<tr>'."\n";
 
 				echo '<th style="padding-top:0;">'."\n";
+				echo '<label for="ws-plugin--s2member-amazon-s3-files-bucket-region">'."\n";
+				echo 'Amazon S3 File Bucket Region (please choose):'."\n";
+				echo '</label>'."\n";
+				echo '</th>'."\n";
+
+				echo '</tr>'."\n";
+				echo '<tr>'."\n";
+
+				echo '<td>'."\n";
+				echo '<select name="ws_plugin__s2member_amazon_s3_files_bucket_region" id="ws-plugin--s2member-amazon-s3-files-bucket-region">'."\n";
+				echo '<option value="us-east-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'us-east-1') ? ' selected="selected"' : '').'>us-east-1</option>'."\n";
+				echo '<option value="us-west-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'us-west-1') ? ' selected="selected"' : '').'>us-west-1</option>'."\n";
+				echo '<option value="us-west-2"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'us-west-2') ? ' selected="selected"' : '').'>us-west-2</option>'."\n";
+				echo '<option value="eu-west-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'eu-west-1') ? ' selected="selected"' : '').'>eu-west-1</option>'."\n";
+				echo '<option value="eu-central-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'eu-central-1') ? ' selected="selected"' : '').'>eu-central-1</option>'."\n";
+				echo '<option value="ap-southeast-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'ap-southeast-1') ? ' selected="selected"' : '').'>ap-southeast-1</option>'."\n";
+				echo '<option value="ap-southeast-2"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'ap-southeast-2') ? ' selected="selected"' : '').'>ap-southeast-2</option>'."\n";
+				echo '<option value="ap-northeast-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'ap-northeast-1') ? ' selected="selected"' : '').'>ap-northeast-1</option>'."\n";
+				echo '<option value="sa-east-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'sa-east-1') ? ' selected="selected"' : '').'>sa-east-1</option>'."\n";
+				echo '<option value="us-gov-west-1"'.(($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_files_bucket_region"] === 'us-gov-west-1') ? ' selected="selected"' : '').'>us-gov-west-1</option>'."\n";
+				echo '</select><br />'."\n";
+				echo 'See: <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region" target="_blank">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>'."\n";
+				echo '</td>'."\n";
+				echo '</tr>'."\n";
+				echo '<tr>'."\n";
+
+				echo '<th style="padding-top:0;">'."\n";
 				echo '<label for="ws-plugin--s2member-amazon-s3-files-bucket">'."\n";
 				echo 'Amazon S3 File Bucket Name (where protected files are):'."\n";
 				echo '</label>'."\n";
@@ -493,97 +520,97 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 
 				do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_after_amazon_cf", get_defined_vars());
 			}
-/*			if(apply_filters("ws_plugin__s2member_during_down_ops_page_during_left_sections_display_amazon_s3_comp", TRUE, get_defined_vars()))
-			{
-				do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_before_amazon_s3_comp", get_defined_vars());
+			/*			if(apply_filters("ws_plugin__s2member_during_down_ops_page_during_left_sections_display_amazon_s3_comp", TRUE, get_defined_vars()))
+						{
+							do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_before_amazon_s3_comp", get_defined_vars());
 
-				echo '<div class="ws-menu-page-group" title="S3-Compatible Content Delivery (e.g. DreamObjects, etc.)">'."\n";
+							echo '<div class="ws-menu-page-group" title="S3-Compatible Content Delivery (e.g. DreamObjects, etc.)">'."\n";
 
-				echo '<div class="ws-menu-page-section ws-plugin--s2member-amazon-s3-comp-section">'."\n";
-				echo '<h3>S3-Compatible Content Delivery (optional)</h3>'."\n";
-				echo '<p>[Documentation goes here.]</p>'."\n";
+							echo '<div class="ws-menu-page-section ws-plugin--s2member-amazon-s3-comp-section">'."\n";
+							echo '<h3>S3-Compatible Content Delivery (optional)</h3>'."\n";
+							echo '<p>[Documentation goes here.]</p>'."\n";
 
-				echo '<div class="ws-menu-page-hr"></div>'."\n";
+							echo '<div class="ws-menu-page-hr"></div>'."\n";
 
-				echo '<table class="form-table" style="margin-top:0;">'."\n";
-				echo '<tbody>'."\n";
-				echo '<tr>'."\n";
+							echo '<table class="form-table" style="margin-top:0;">'."\n";
+							echo '<tbody>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<th style="padding-top:0;">'."\n";
-				echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-bucket">'."\n";
-				echo 'API Endpoint URL:'."\n";
-				echo '</label>'."\n";
-				echo '</th>'."\n";
+							echo '<th style="padding-top:0;">'."\n";
+							echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-bucket">'."\n";
+							echo 'API Endpoint URL:'."\n";
+							echo '</label>'."\n";
+							echo '</th>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<td>'."\n";
-				echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_api_endpoint" id="ws-plugin--s2member-amazon-s3-comp-api-endpoint" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_api_endpoint"]).'" /><br />'."\n";
-				echo 'Please type the S3-Compatible API Endpoint URL'."\n";
-				echo '</td>'."\n";
+							echo '<td>'."\n";
+							echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_api_endpoint" id="ws-plugin--s2member-amazon-s3-comp-api-endpoint" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_api_endpoint"]).'" /><br />'."\n";
+							echo 'Please type the S3-Compatible API Endpoint URL'."\n";
+							echo '</td>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<th style="padding-top:0;">'."\n";
-				echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-bucket">'."\n";
-				echo 'S3-Compatible Bucket Name (where protected files are):'."\n";
-				echo '</label>'."\n";
-				echo '</th>'."\n";
+							echo '<th style="padding-top:0;">'."\n";
+							echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-bucket">'."\n";
+							echo 'S3-Compatible Bucket Name (where protected files are):'."\n";
+							echo '</label>'."\n";
+							echo '</th>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<td>'."\n";
-				echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_bucket" id="ws-plugin--s2member-amazon-s3-comp-files-bucket" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_bucket"]).'" /><br />'."\n";
-				echo 'Your S3-Compatible Bucket will be used, instead of the <code>/'.esc_html(c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])).'/</code> directory.<br />'."\n";
-				echo 'Please type the name of your Bucket. Ex: <code>mys3compbucket</code>'."\n";
-				echo '</td>'."\n";
+							echo '<td>'."\n";
+							echo '<input type="text" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_bucket" id="ws-plugin--s2member-amazon-s3-comp-files-bucket" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_bucket"]).'" /><br />'."\n";
+							echo 'Your S3-Compatible Bucket will be used, instead of the <code>/'.esc_html(c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])).'/</code> directory.<br />'."\n";
+							echo 'Please type the name of your Bucket. Ex: <code>mys3compbucket</code>'."\n";
+							echo '</td>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<th>'."\n";
-				echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-access-key">'."\n";
-				echo 'Access Key (Access Key ID):'."\n";
-				echo '</label>'."\n";
-				echo '</th>'."\n";
+							echo '<th>'."\n";
+							echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-access-key">'."\n";
+							echo 'Access Key (Access Key ID):'."\n";
+							echo '</label>'."\n";
+							echo '</th>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<td>'."\n";
-				echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_access_key" id="ws-plugin--s2member-amazon-s3-comp-files-access-key" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_access_key"]).'" /><br />'."\n";
-				echo 'Please type the Access Key.'."\n";
-				echo '</td>'."\n";
+							echo '<td>'."\n";
+							echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_access_key" id="ws-plugin--s2member-amazon-s3-comp-files-access-key" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_access_key"]).'" /><br />'."\n";
+							echo 'Please type the Access Key.'."\n";
+							echo '</td>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<th>'."\n";
-				echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-secret-key">'."\n";
-				echo 'Secret Key (Secret Access Key):'."\n";
-				echo '</label>'."\n";
-				echo '</th>'."\n";
+							echo '<th>'."\n";
+							echo '<label for="ws-plugin--s2member-amazon-s3-comp-files-secret-key">'."\n";
+							echo 'Secret Key (Secret Access Key):'."\n";
+							echo '</label>'."\n";
+							echo '</th>'."\n";
 
-				echo '</tr>'."\n";
-				echo '<tr>'."\n";
+							echo '</tr>'."\n";
+							echo '<tr>'."\n";
 
-				echo '<td>'."\n";
-				echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_secret_key" id="ws-plugin--s2member-amazon-s3-comp-files-secret-key" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_secret_key"]).'" /><br />'."\n";
-				echo 'Please type the Secret Key.'."\n";
-				echo '</td>'."\n";
+							echo '<td>'."\n";
+							echo '<input type="password" autocomplete="off" name="ws_plugin__s2member_amazon_s3_comp_files_secret_key" id="ws-plugin--s2member-amazon-s3-comp-files-secret-key" value="'.format_to_edit($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["amazon_s3_comp_files_secret_key"]).'" /><br />'."\n";
+							echo 'Please type the Secret Key.'."\n";
+							echo '</td>'."\n";
 
-				echo '</tr>'."\n";
-				echo '</tbody>'."\n";
-				echo '</table>'."\n";
-				echo '</div>'."\n";
+							echo '</tr>'."\n";
+							echo '</tbody>'."\n";
+							echo '</table>'."\n";
+							echo '</div>'."\n";
 
-				echo '</div>'."\n";
+							echo '</div>'."\n";
 
-				do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_after_amazon_s3_comp", get_defined_vars());
-			}*/
+							do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_after_amazon_s3_comp", get_defined_vars());
+						}*/
 			if(apply_filters("ws_plugin__s2member_during_down_ops_page_during_left_sections_display_rtmp_streaming", TRUE, get_defined_vars()))
 			{
 				do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_before_rtmp_streaming", get_defined_vars());
@@ -592,7 +619,7 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 
 				echo '<div class="ws-menu-page-section ws-plugin--s2member-rtmp-streaming-section">'."\n";
 				echo '<h3>JW Player v6 &amp; RTMP Protocol Examples</h3>'."\n";
-				echo '<a href="http://www.longtailvideo.com/players/" target="_blank"><img src="'.esc_attr($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]).'/images/jwplayer-logo.png" class="ws-menu-page-right" style="width:179px; height:58px; border:0; border-radius:3px; background:#FFFFFF; padding:15px;" alt="." /></a>'."\n";
+				echo '<a href="http://www.s2member.com/r/jw-player-download/" target="_blank"><img src="'.esc_attr($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["dir_url"]).'/images/jwplayer-logo.png" class="ws-menu-page-right" style="width:179px; height:58px; border:0; border-radius:3px; background:#FFFFFF; padding:15px;" alt="." /></a>'."\n";
 				echo '<p>While it is possible to serve audio/video files protected by s2Member, without needing to integrate Amazon S3 or CloudFront; we DO highly recommend that you integrate both Amazon S3 and Amazon CloudFront in order to maximize speed and compatibility across various viewing platforms. That being said, there are code samples below that will serve audio/video files both with and without Amazon S3/CloudFront. You can also check the <a href="'.esc_attr(c_ws_plugin__s2member_readmes::parse_readme_value("Forum URI")).'" target="_blank" rel="external">s2Member Support Forums</a> for tips/tricks if you like.</p>'."\n";
 				echo '<p><strong>One of the great things about Amazon CloudFront</strong>, is its ability to <strong>stream/seek media files</strong> in the truest sense of the word. For sites delivering protected <em>FLV/MP4/OGG/WEBM</em> and other streaming audio/video file types over the <em>RTMP</em> protocol, Amazon CloudFront is our recommendation. Once you\'ve successfully configured s2Member to use both Amazon S3 and Amazon CloudFront together, please review the code samples below. s2Member can automatically serve your protected files over the <em>RTMP</em> protocol using an Amazon CloudFront Streaming Distribution.</p>'."\n";
 				echo '<p><strong>See also:</strong> This KB article: <a href="http://www.s2member.com/kb/jwplayer-s2stream-shortcodes/" target="_blank" rel="external">JW Player w/ <code>[s2Stream /]</code> Shortcodes</a>.</p>'."\n";
@@ -605,42 +632,42 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 				echo '<h3><code>[s2Stream /]</code> Video Shortcode Examples (recommended — it\'s the easiest way)</h3>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4\').toggle(); return false;" class="ws-dotted-link">JW Player (MP4 file, via Rewrite URLs. Amazon S3/CloudFront NOT required)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Works with any audio/video file. This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Works with any audio/video file. This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP4, via s2Member\'s Amazon S3/CloudFront integration)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol, plus there is a full download fallback of the MP4 source file if streaming is not possible on a particular device.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4-rtmp.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol, plus there is a full download fallback of the MP4 source file if streaming is not possible on a particular device.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4-rtmp.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp-only\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP4 only, via s2Member\'s Amazon S3/CloudFront integration)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp-only" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol only, with no access to the source file, only to the RTMP stream.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4-rtmp-only.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp4-rtmp-only" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol only, with no access to the source file, only to the RTMP stream.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp4-rtmp-only.x-php")).'</p>'."\n";
 
 				echo '<div class="ws-menu-page-hr"></div>'."\n";
 
 				echo '<h3><code>[s2Stream /]</code> Audio Shortcode Examples (recommended — it\'s the easiest way)</h3>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3\').toggle(); return false;" class="ws-dotted-link">JW Player (MP3 file, via Rewrite URLs. Amazon S3/CloudFront NOT required)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Works with any audio/video file. This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Works with any audio/video file. This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP3, via s2Member\'s Amazon S3/CloudFront integration)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol, plus there is a full download fallback of the MP3 source file if streaming is not possible on a particular device.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3-rtmp.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol, plus there is a full download fallback of the MP3 source file if streaming is not possible on a particular device.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3-rtmp.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp-only\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP3 only, via s2Member\'s Amazon S3/CloudFront integration)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp-only" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol only, with no access to the source file, only to the RTMP stream.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3-rtmp-only.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-s2stream-mp3-rtmp-only" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />Streams with the RTMP protocol only, with no access to the source file, only to the RTMP stream.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-s2stream-mp3-rtmp-only.x-php")).'</p>'."\n";
 
 				echo '<div class="ws-menu-page-hr"></div>'."\n";
 
 				echo '<h3>PHP Code Examples (for more advanced integrations via PHP — in WordPress themes)</h3>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-standard-mp4\').toggle(); return false;" class="ws-dotted-link">JW Player (MP4 file, via Rewrite URLs. Amazon S3/CloudFront NOT required)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-standard-mp4" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <code>s2Member -› Download Options -› Advanced Mod Rewrite Linkage</code>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-standard-mp4.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-standard-mp4" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This does NOT require s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <code>s2Member -› Download Options -› Advanced Mod Rewrite Linkage</code>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-standard-mp4.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP4, via s2Member\'s Amazon S3/CloudFront integration)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-sca\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP4, via s2Member\'s JSON/Shortcode alternative)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-sca" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4-sca.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-sca" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4-sca.x-php")).'</p>'."\n";
 
 				echo '<p style="font-size:110%;"><a href="#" onclick="jQuery(\'p#ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-webm\').toggle(); return false;" class="ws-dotted-link">JW Player (RTMP streaming MP4, advanced w/ multiple fallbacks)</a></p>'."\n";
-				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-webm" style="display:none;">Download <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4-webm.x-php")).'</p>'."\n";
+				echo '<p id="ws-plugin--s2member-rtmp-streaming-details-jwplayer-streaming-mp4-webm" style="display:none;">Download <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">JW Player here</a>, and upload <code>/jwplayer/</code> to your website\'s root directory.<br />This requires s2Member to be integrated with Amazon S3/CloudFront.<br />Also see: <a href="http://www.s2member.com/codex/stable/s2member/api_functions/package-summary/" target="_blank" rel="external">s2Member Codex -› API Functions</a>.<br /><br />'.c_ws_plugin__s2member_utils_strings::highlight_php(file_get_contents(dirname(__FILE__)."/code-samples/jwplayer-streaming-mp4-webm.x-php")).'</p>'."\n";
 
 				echo '</div>'."\n";
 
@@ -729,10 +756,10 @@ if(!class_exists("c_ws_plugin__s2member_menu_page_down_ops"))
 				echo '<li><code>file_download="video.mp4"</code> Location of the audio/video file, relative to the <code>/'.esc_html(c_ws_plugin__s2member_utils_dirs::basename_dir_app_data($GLOBALS["WS_PLUGIN__"]["s2member"]["c"]["files_dir"])).'/</code> directory; or, relative to the root of your Amazon S3 Bucket, when applicable.</li>'."\n";
 				echo '<li><code>player="jwplayer-v6-rtmp"</code> Required. Current supported players in this Shortcode include: <code>jwplayer-v6</code> (works with any audio/video file, and you do NOT need to have Amazon  S3 or CloudFront integrated for this to work), <code>jwplayer-v6-rtmp</code> (streams with the RTMP protocol, plus there is a full download fallback of the source file if streaming is not possible on a particular device; this requires both Amazon S3 and CloudFront integration), <code>jwplayer-v6-rtmp-only</code> (streams with the RTMP protocol only, with no access to the source file, only to the RTMP stream; this requires both Amazon S3 and CloudFront integration).</li>'."\n";
 				echo '<li><code>player_id=""</code> Optional. HTML div ID for the audio/video player. Defaults to a unique ID generated by s2Member for each instance of your Shortcode.</li>'."\n";
-				echo '<li><code>player_path="/jwplayer/jwplayer.js"</code> Required. Path to the player\'s JavaScript file (ex: <code>/jwplayer/jwplayer.js</code> — you should upload the <a href="http://www.longtailvideo.com/players/" target="_blank" rel="external">/jwplayer</a> folder to the root of your web directory).</li>'."\n";
+				echo '<li><code>player_path="/jwplayer/jwplayer.js"</code> Required. Path to the player\'s JavaScript file (ex: <code>/jwplayer/jwplayer.js</code> — you should upload the <a href="http://www.s2member.com/r/jw-player-download/" target="_blank" rel="external">/jwplayer</a> folder to the root of your web directory).</li>'."\n";
 				echo '<li><code>player_resolutions=""</code> Optional (requires s2Member Pro). This is a comma-delimited list of all available resolution options (should you decide to offer more than just one file download at a single resolution). Please review the full list of Shortcode Attributes (i.e. click the "Shortcode Attributes (Explained)" tab) in <a href="http://www.s2member.com/kb/jwplayer-s2stream-shortcodes/#using-s2stream-shortcodes" target="_blank" rel="external">this KB article</a> for further details, requirements, and an example of use.</li>'."\n";
-				echo '<li><code>player_{setting}=""</code> Optional. Any additional configuration attributes supported by your audio/video player, prefixed with <code>player_</code>. For JW Player v6, see <a href="http://www.longtailvideo.com/support/jw-player/28839/embedding-the-player" target="_blank" rel="external">this article please</a>. Examples: <code>player_width="480"</code>, <code>player_height="270"</code>, <code>player_title="My Video"</code>, <code>player_description="A video about something."</code>, <code>player_image="http://www.example.com/wp-content/uploads/video-preview.jpg"</code>, <code>player_mediaid="video_ei0wsx23"</code>, <code>player_autostart="true"</code>, <code>player_skin="/jwplayer/my-skin.xml"</code>, <code>player_key="my-license-key"</code>, <code>player_captions="{file:\'/assets/captions-en.vtt\',label:\'English\'}"</code> (<em>With <a href="http://www.longtailvideo.com/support/jw-player/28845/adding-video-captions" target="_blank" rel="external">Captions</a>, you can exclude the square array brackets to avoid Shortcode parsing issues. s2Member will automatically wrap your Caption objects with square array brackets.</em>). Please note that "Advanced Options Blocks" listed on <a href="http://www.longtailvideo.com/support/jw-player/28839/embedding-the-player" target="_blank" rel="external">this page</a> are NOT supported here. For those, please use: <code>player_option_blocks=""</code> (see below).</li>'."\n";
-				echo '<li><code>player_option_blocks=""</code> Optional. Any "Advanced Option Blocks" supported by your audio/video player. For JW Player v6, see <a href="http://www.longtailvideo.com/support/jw-player/28839/embedding-the-player" target="_blank" rel="external">this article please</a>. Here are some examples: <code>player_option_blocks="sharing:{}"</code>, <code>player_option_blocks="sharing:{}, logo: {file: \'/logo.png\', link: \'http://example.com\'}"</code>. Or: <code>player_option_blocks="c2hhcmluZzoge30="</code> (base64 encoded version of <code>sharing:{}</code>). Please note that "Advanced Options Blocks" can be defined in plain text or with a <a href="http://www.base64encode.org/" target="_blank" rel="external">base64 encoded string</a>. Advanced Option Blocks are JavaScript objects with properties. If you have trouble defining JavaScript object properties inside a Shortcode Attribute, please use <a href="http://www.base64encode.org/" target="_blank" rel="external">this tool</a> to base64 encode your Advanced Option Blocks, so that you end up with a string that\'s compatible with Shortcode Attributes.</li>'."\n";
+				echo '<li><code>player_{setting}=""</code> Optional. Any additional configuration attributes supported by your audio/video player, prefixed with <code>player_</code>. For JW Player v6, see <a href="http://www.s2member.com/r/jw-player-config-options/" target="_blank" rel="external">this article please</a>. Examples: <code>player_width="480"</code>, <code>player_height="270"</code>, <code>player_title="My Video"</code>, <code>player_description="A video about something."</code>, <code>player_image="http://www.example.com/wp-content/uploads/video-preview.jpg"</code>, <code>player_mediaid="video_ei0wsx23"</code>, <code>player_autostart="true"</code>, <code>player_skin="/jwplayer/my-skin.xml"</code>, <code>player_key="my-license-key"</code>, <code>player_captions="{file:\'/assets/captions-en.vtt\',label:\'English\'}"</code> (<em>With <a href="http://www.s2member.com/r/jw-player-video-captions/" target="_blank" rel="external">Captions</a>, you can exclude the square array brackets to avoid Shortcode parsing issues. s2Member will automatically wrap your Caption objects with square array brackets.</em>). Please note that "Advanced Options Blocks" listed on <a href="http://www.s2member.com/r/jw-player-config-options/" target="_blank" rel="external">this page</a> are NOT supported here. For those, please use: <code>player_option_blocks=""</code> (see below).</li>'."\n";
+				echo '<li><code>player_option_blocks=""</code> Optional. Any "Advanced Option Blocks" supported by your audio/video player. For JW Player v6, see <a href="http://www.s2member.com/r/jw-player-config-options/" target="_blank" rel="external">this article please</a>. Here are some examples: <code>player_option_blocks="sharing:{}"</code>, <code>player_option_blocks="sharing:{}, logo: {file: \'/logo.png\', link: \'http://example.com\'}"</code>. Or: <code>player_option_blocks="c2hhcmluZzoge30="</code> (base64 encoded version of <code>sharing:{}</code>). Please note that "Advanced Options Blocks" can be defined in plain text or with a <a href="http://www.base64encode.org/" target="_blank" rel="external">base64 encoded string</a>. Advanced Option Blocks are JavaScript objects with properties. If you have trouble defining JavaScript object properties inside a Shortcode Attribute, please use <a href="http://www.base64encode.org/" target="_blank" rel="external">this tool</a> to base64 encode your Advanced Option Blocks, so that you end up with a string that\'s compatible with Shortcode Attributes.</li>'."\n";
 				echo '<li>Please check the <strong>Shortcode Attributes</strong> Tab in <a href="http://www.s2member.com/kb/jwplayer-s2stream-shortcodes/#using-s2stream-shortcodes" target="_blank" rel="external">this KB article</a> for further details on everything here.</li>'."\n";
 				do_action("ws_plugin__s2member_during_down_ops_page_during_left_sections_during_shortcode_attrs_s2stream_lis", get_defined_vars());
 				echo '</ul>'."\n";

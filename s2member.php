@@ -19,8 +19,8 @@
  */
 /* -- This section for WordPress parsing. ------------------------------------------------------------------------------
 
-Version: 150102
-Stable tag: 150102
+Version: 150203
+Stable tag: 150203
 
 SSL Compatible: yes
 bbPress Compatible: yes
@@ -40,7 +40,7 @@ Requires at least: 3.3
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
-Contributors: WebSharks
+Contributors: WebSharks, JasWSInc, anguz, raamdev, bruce-caldwell
 
 Author: s2Member / WebSharks, Inc.
 Author URI: http://www.s2member.com/
@@ -64,7 +64,7 @@ Description: s2Member, a powerful (free) membership plugin for WordPress. Protec
 Tags: s2, s2member, s2 member, membership, users, user, members, member, subscribers, subscriber, members only, roles, capabilities, capability, register, signup, paypal, paypal pro, pay pal, authorize, authorize.net, google wallet, clickbank, click bank, buddypress, buddy press, bbpress, bb press, shopping cart, cart, checkout, ecommerce
 
 -- end section for WordPress parsing. ------------------------------------------------------------------------------- */
-if(realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME']))
+if(!defined('WPINC')) // MUST have WordPress.
 	exit('Do not access this file directly.');
 /**
  * The installed version of s2Member.
@@ -75,7 +75,7 @@ if(realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME']))
  * @var string
  */
 if(!defined('WS_PLUGIN__S2MEMBER_VERSION'))
-	define('WS_PLUGIN__S2MEMBER_VERSION', '150102' /* !#distro-version#! */);
+	define('WS_PLUGIN__S2MEMBER_VERSION', '150203' /* !#distro-version#! */);
 /**
  * Minimum PHP version required to run s2Member.
  *
@@ -105,7 +105,7 @@ if(!defined('WS_PLUGIN__S2MEMBER_MIN_WP_VERSION'))
  * @var string
  */
 if(!defined('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION'))
-	define('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION', '150102' /* !#distro-version#! */);
+	define('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION', '150203' /* !#distro-version#! */);
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.
@@ -132,15 +132,15 @@ if(version_compare(PHP_VERSION, WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION, '>=') && ve
 	/*
 	Load a possible Pro module, if/when available.
 	*/
-	if(apply_filters('ws_plugin__s2member_load_pro', TRUE) && file_exists(dirname(__FILE__).'-pro/pro-module.php'))
+	if(apply_filters('ws_plugin__s2member_load_pro', TRUE))
 	{
-		include_once dirname(__FILE__).'-pro/pro-module.php';
-		if(is_dir(WP_PLUGIN_DIR.'/codestyling-localization') && !is_dir(dirname(__FILE__).'/s2member-pro') && function_exists('symlink'))
-		{
-			// Removing this for now. It causes problems during upgrades.
-			//@symlink(dirname(__FILE__).'-pro', dirname(__FILE__).'/s2member-pro'); // For CS localization compatibility.
-			//@chmod(dirname(__FILE__).'/s2member-pro', 0755);
-		}
+		if(is_file($_s2member_pro = dirname(__FILE__).'-pro/pro-module.php'))
+			include_once $_s2member_pro;
+
+		else if(is_file($_s2member_pro = WP_PLUGIN_DIR.'/'.basename(dirname(__FILE__)).'-pro/pro-module.php'))
+			include_once $_s2member_pro;
+
+		unset($_s2member_pro); // Housekeeping.
 	}
 	/*
 	Configure options and their defaults.

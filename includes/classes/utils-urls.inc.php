@@ -14,7 +14,7 @@
 * @package s2Member\Utilities
 * @since 3.5
 */
-if(realpath(__FILE__) === realpath($_SERVER["SCRIPT_FILENAME"]))
+if(!defined('WPINC')) // MUST have WordPress.
 	exit("Do not access this file directly.");
 
 if(!class_exists("c_ws_plugin__s2member_utils_urls"))
@@ -195,8 +195,6 @@ if(!class_exists("c_ws_plugin__s2member_utils_urls"))
 								$args = /* Force array, and disable SSL verification. */ (!is_array($args)) ? array(): $args;
 
 								$args["s2member"] = WS_PLUGIN__S2MEMBER_VERSION; // Indicates this is an s2Member connection.
-
-								$args["sslverify"] = (!isset($args["sslverify"])) ? /* Off. */ false : $args["sslverify"];
 
 								$args["httpversion"] = (!isset($args["httpversion"])) ? "1.1" : $args["httpversion"];
 

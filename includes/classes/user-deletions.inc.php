@@ -14,7 +14,7 @@
  * @package s2Member\User_Deletions
  * @since 3.5
  */
-if(realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME']))
+if(!defined('WPINC')) // MUST have WordPress.
 	exit ('Do not access this file directly.');
 
 if(!class_exists('c_ws_plugin__s2member_user_deletions'))
@@ -117,6 +117,7 @@ if(!class_exists('c_ws_plugin__s2member_user_deletions'))
 				delete_user_option($user_id, 's2member_ipn_signup_vars');
 				delete_user_option($user_id, 's2member_paid_registration_times');
 				delete_user_option($user_id, 's2member_access_cap_times');
+				delete_user_option($user_id, 's2member_coupon_codes');
 				delete_user_option($user_id, 's2member_sp_references');
 
 				delete_user_option($user_id, 's2member_last_status_scan');

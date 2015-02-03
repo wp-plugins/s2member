@@ -14,7 +14,7 @@
  * @package s2Member\PayPal
  * @since 110815
  */
-if(realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME']))
+if(!defined('WPINC')) // MUST have WordPress.
 	exit ('Do not access this file directly.');
 
 if(!class_exists('c_ws_plugin__s2member_paypal_notify_in_wa_ccaps_wo_level'))
@@ -65,6 +65,11 @@ if(!class_exists('c_ws_plugin__s2member_paypal_notify_in_wa_ccaps_wo_level'))
 					$paypal['currency']        = strtoupper($paypal['mc_currency']); // Normalize input currency.
 					$paypal['currency_symbol'] = c_ws_plugin__s2member_utils_cur::symbol($paypal['currency']);
 
+					if(!empty($coupon['coupon_code']) && c_ws_plugin__s2member_utils_conds::pro_is_installed())
+						{
+							$coupon_class = new c_ws_plugin__s2member_pro_coupons();
+							$coupon_class->update_uses($coupon['coupon_code']);
+						}
 					if(preg_match('/(referenc|associat|updat|upgrad)/i', $paypal['option_name1']) && $paypal['option_selection1']) // Must have this information for Capability additions.
 					{
 						if(($user_id = c_ws_plugin__s2member_utils_users::get_user_id_with($paypal['txn_id'], $paypal['option_selection1'])) && is_object($user = new WP_User ($user_id)) && $user->ID)
@@ -99,6 +104,12 @@ if(!class_exists('c_ws_plugin__s2member_paypal_notify_in_wa_ccaps_wo_level'))
 								if(!get_user_option('s2member_registration_ip', $user_id))
 									update_user_option($user_id, 's2member_registration_ip', $paypal['ip']);
 
+								if(!empty($coupon['full_coupon_code']) && c_ws_plugin__s2member_utils_conds::pro_is_installed())
+								{
+									$user_coupons = is_array($user_coupons = get_user_option('s2member_coupon_codes', $user_id)) ? $user_coupons : array();
+									$user_coupons = array_unique(array_merge($user_coupons, (array)$coupon['full_coupon_code']));
+									update_user_option($user_id, 's2member_coupon_codes', $user_coupons);
+								}
 								$paypal['s2member_log'][] = 's2Member Custom Capabilities updated w/ advanced update routines.';
 
 								$sbj = $GLOBALS['WS_PLUGIN__']['s2member']['o']['ccap_email_subject']; // The same for standard and w/ Pro Forms.

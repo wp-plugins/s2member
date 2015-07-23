@@ -39,7 +39,7 @@ if(!class_exists('c_ws_plugin__s2member_sc_gets_in'))
 		 * @param string $content Content inside the Shortcode.
 		 * @param string $shortcode The actual Shortcode name itself.
 		 *
-		 * @return mixed Value of the requested data, or null on failure.
+		 * @return mixed Value of the requested data.
 		 */
 		public static function sc_get_details($attr = array(), $content = '', $shortcode = '')
 		{
@@ -47,9 +47,22 @@ if(!class_exists('c_ws_plugin__s2member_sc_gets_in'))
 			do_action('ws_plugin__s2member_before_sc_get_details', get_defined_vars());
 			unset($__refs, $__v); // Allow variables to be modified by reference.
 
-			$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep((array)$attr); // Force array; trim quote entities.
-			$attr = shortcode_atts(array('constant' => '', 'user_field' => '', 'user_option' => '', 'user_id' => ''), $attr);
+			c_ws_plugin__s2member_no_cache::no_cache_constants(true);
 
+			$attr = shortcode_atts( // Attributes.
+				array(
+					// One of these.
+					'constant'      => '',
+					'user_field'    => '',
+					'user_option'   => '',
+
+					// Options.
+					'user_id'        => '',
+					'date_format'    => '',
+					'size'           => '',
+				),
+				c_ws_plugin__s2member_utils_strings::trim_qts_deep((array)$attr)
+			);
 			foreach(array_keys(get_defined_vars()) as $__v) $__refs[$__v] =& $$__v;
 			do_action('ws_plugin__s2member_before_sc_get_details_after_shortcode_atts', get_defined_vars());
 			unset($__refs, $__v); // Allow variables to be modified by reference.
@@ -60,11 +73,38 @@ if(!class_exists('c_ws_plugin__s2member_sc_gets_in'))
 					$get = constant($attr['constant']);
 			}
 			else if($attr['user_field'] && (is_user_logged_in() || $attr['user_id']))
-				$get = c_ws_plugin__s2member_utils_users::get_user_field($attr['user_field'], (int)$attr['user_id']);
+				{
+					$user_field_args = array('size' => $attr['size']);
+					$get = c_ws_plugin__s2member_utils_users::get_user_field($attr['user_field'], (int)$attr['user_id'], $user_field_args);
 
+					if(preg_match('/time$/i', $attr['user_field']) && $attr['date_format'])
+					 	if(is_numeric($get) && strlen($get) === 10) // Timestamp?
+							{
+								if($attr['date_format'] === 'timestamp')
+									$get = (string)$get; // No change.
+
+								else if($attr['date_format'] === 'default')
+									$get = date(get_option('date_format'), (integer)$get);
+
+								else $get = date($attr['date_format'], (integer)$get);
+							}
+				}
 			else if($attr['user_option'] && (is_user_logged_in() || $attr['user_id']))
-				$get = get_user_option($attr['user_option'], (int)$attr['user_id']);
+				{
+					$get = get_user_option($attr['user_option'], (int)$attr['user_id']);
 
+					if(preg_match('/time$/i', $attr['user_option']) && $attr['date_format'])
+						if(is_numeric($get) && strlen($get) === 10) // Timestamp?
+							{
+								if($attr['date_format'] === 'timestamp')
+									$get = (string)$get; // No change.
+
+								else if($attr['date_format'] === 'default')
+									$get = date(get_option('date_format'), (integer)$get);
+
+								else $get = date($attr['date_format'], (integer)$get);
+							}
+				}
 			if(isset($get) && (is_array($get) || is_object($get)))
 			{
 				$_get_array = $get; // Temporary variable.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Shortcode for `[s2Member-Security-Badge /]`.
+ * Shortcode `[s2Eot /]`.
  *
  * Copyright: © 2009-2011
  * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
@@ -11,29 +11,29 @@
  * along with this software. In the main directory, see: /licensing/
  * If not, see: {@link http://www.gnu.org/licenses/}.
  *
- * @package s2Member\Security_Badges
- * @since 110524RC
+ * @package s2Member\s2Eot
+ * @since 150713
  */
 if(!defined('WPINC')) // MUST have WordPress.
 	exit ('Do not access this file directly.');
 
-if(!class_exists('c_ws_plugin__s2member_sc_s_badge'))
+if(!class_exists('c_ws_plugin__s2member_sc_eots'))
 {
 	/**
-	 * Shortcode for `[s2Member-Security-Badge /]`.
+	 * Shortcode `[s2Eot /]`.
 	 *
-	 * @package s2Member\Security_Badges
-	 * @since 110524RC
+	 * @package s2Member\s2Eot
+	 * @since 150713
 	 */
-	class c_ws_plugin__s2member_sc_s_badge
+	class c_ws_plugin__s2member_sc_eots
 	{
 		/**
-		 * Handles the Shortcode for: `[s2Member-Security-Badge /]`.
+		 * Handles the Shortcode for: `[s2Eot /]`.
 		 *
-		 * @package s2Member\Security_Badges
-		 * @since 110524RC
+		 * @package s2Member\s2Eot
+		 * @since 150713
 		 *
-		 * @attaches-to ``add_shortcode('s2Member-Security-Badge');``
+		 * @attaches-to ``add_shortcode('s2Eot');``
 		 *
 		 * @param array  $attr An array of Attributes.
 		 * @param string $content Content inside the Shortcode.
@@ -41,9 +41,9 @@ if(!class_exists('c_ws_plugin__s2member_sc_s_badge'))
 		 *
 		 * @return string Return-value of inner routine.
 		 */
-		public static function sc_s_badge($attr = array(), $content = '', $shortcode = '')
+		public static function sc_eot_details($attr = array(), $content = '', $shortcode = '')
 		{
-			return c_ws_plugin__s2member_sc_s_badge_in::sc_s_badge($attr, $content, $shortcode);
+			return c_ws_plugin__s2member_sc_eots_in::sc_eot_details($attr, $content, $shortcode);
 		}
 	}
 }

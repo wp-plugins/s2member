@@ -19,8 +19,8 @@
  */
 /* -- This section for WordPress parsing. ------------------------------------------------------------------------------
 
-Version: 150311
-Stable tag: 150311
+Version: 150722
+Stable tag: 150722
 
 SSL Compatible: yes
 bbPress Compatible: yes
@@ -35,8 +35,8 @@ Authorize.Net Compatible: yes w/s2Member Pro
 Google Wallet Compatible: yes w/s2Member Pro
 ClickBank Compatible: yes w/s2Member Pro
 
-Tested up to: 3.8
-Requires at least: 3.3
+Tested up to: 4.3-alpha
+Requires at least: 4.2
 
 Copyright: © 2009 WebSharks, Inc.
 License: GNU General Public License
@@ -76,7 +76,7 @@ if(!defined('WPINC')) // MUST have WordPress.
  * @var string
  */
 if(!defined('WS_PLUGIN__S2MEMBER_VERSION'))
-	define('WS_PLUGIN__S2MEMBER_VERSION', '150311' /* !#distro-version#! */);
+	define('WS_PLUGIN__S2MEMBER_VERSION', '150722' /* !#distro-version#! */);
 /**
  * Minimum PHP version required to run s2Member.
  *
@@ -96,7 +96,7 @@ if(!defined('WS_PLUGIN__S2MEMBER_MIN_PHP_VERSION'))
  * @var string
  */
 if(!defined('WS_PLUGIN__S2MEMBER_MIN_WP_VERSION'))
-	define('WS_PLUGIN__S2MEMBER_MIN_WP_VERSION', '3.3' /* !#wp-requires-at-least-version#! */);
+	define('WS_PLUGIN__S2MEMBER_MIN_WP_VERSION', '4.2' /* !#wp-requires-at-least-version#! */);
 /**
  * Minimum Pro version required by the Framework.
  *
@@ -106,7 +106,7 @@ if(!defined('WS_PLUGIN__S2MEMBER_MIN_WP_VERSION'))
  * @var string
  */
 if(!defined('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION'))
-	define('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION', '150311' /* !#distro-version#! */);
+	define('WS_PLUGIN__S2MEMBER_MIN_PRO_VERSION', '150722' /* !#distro-version#! */);
 /*
 Several compatibility checks.
 If all pass, load the s2Member plugin.

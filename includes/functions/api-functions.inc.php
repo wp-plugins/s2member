@@ -102,7 +102,7 @@ if(!function_exists("is_user_not_logged_in"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 110524RC
@@ -187,7 +187,7 @@ if(!function_exists("user_is"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 110524RC
@@ -265,7 +265,7 @@ if(!function_exists("user_is_not"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -349,7 +349,7 @@ if(!function_exists("current_user_is"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -431,7 +431,7 @@ if(!function_exists("current_user_is_not"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -510,7 +510,7 @@ if(!function_exists("current_user_is_for_blog"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -579,7 +579,7 @@ if(!function_exists("current_user_is_not_for_blog"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -648,7 +648,7 @@ if(!function_exists("user_cannot"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -717,7 +717,7 @@ if(!function_exists("current_user_cannot"))
 *
 * WordPress Subscribers are at Membership Level 0. If you're allowing Open Registration, Subscribers will be at Level 0 *(a Free Subscriber)*.
 * WordPress Administrators, Editors, Authors, and Contributors have Level 4 access, with respect to s2Member.
-* All of their other {@link http://codex.wordpress.org/Roles_and_Capabilities Roles/Capabilities} are left untouched.
+* All of their other {@link http://s2member.com/r/wordpress-rolescaps/ Roles/Capabilities} are left untouched.
 *
 * @package s2Member\API_Functions
 * @since 3.5
@@ -1852,7 +1852,7 @@ if(!function_exists("detach_s2member_query_filters"))
 * Generates a File Download URL that provides access to a File protected by s2Member.
 *
 * By default, s2Member uses your Basic Download Restrictions. For more information on this,
-* please check your Dashboard under: `s2Member ⥱ Download Options ⥱ Basic Download Restrictions`.
+* please check your Dashboard under: `s2Member → Download Options → Basic Download Restrictions`.
 *
 * ———— HTML/PHP Code Samples ————
 * ```
@@ -1888,7 +1888,7 @@ if(!function_exists("detach_s2member_query_filters"))
 *
 * 	o ``"file_download" => "file.zip"`` Location of the file, relative to the `/s2member-files/` directory; or, relative to the root of your Amazon S3 Bucket, when applicable.
 * 	o ``"file_download_key" => false`` Defaults to `false`. If `true`, s2Member will return a URL with an s2Member-generated File Download Key. You don't need to generate the File Download Key yourself, s2Member does it for you. If you set this to `ip-forever`, the File Download Key that s2Member generates will last forever, for a specific IP Address; otherwise, by default, all File Download Keys expire after 24 hours automatically. If you set this to `universal`, s2Member will generate a File Download Key that is good for anyone/everyone forever, with NO restrictions on who/where/when a file is accessed *(e.g., be careful with this one)*.
-* 	o ``"file_stream" => false`` Defaults to `false`. If `true`, s2Member will return a URL containing a parameter/directive, which forces the File Download to take place over the RTMP protocol. This ONLY works when/if s2Member is configured to run with both Amazon S3/CloudFront. Please note however, it's better to use the example code provided in the your Dashboard. See: `s2Member ⥱ Download Options ⥱ JW Player and the RTMP Protocol`. Also note, if ``$get_streamer_array`` is passed, s2Member will automatically force ``"file_stream" => true`` for you.
+* 	o ``"file_stream" => false`` Defaults to `false`. If `true`, s2Member will return a URL containing a parameter/directive, which forces the File Download to take place over the RTMP protocol. This ONLY works when/if s2Member is configured to run with both Amazon S3/CloudFront. Please note however, it's better to use the example code provided in the your Dashboard. See: `s2Member → Download Options → JW Player and the RTMP Protocol`. Also note, if ``$get_streamer_array`` is passed, s2Member will automatically force ``"file_stream" => true`` for you.
 * 	o ``"file_inline" => null`` Defaults to `null`. If `true`, s2Member will serve the file inline, instead of as an actual File Download. If empty, s2Member will look at your Inline File Extensions configuration, and serve the file inline; if, and only if, its extension matches one found in your configuration. By default, s2Member serves all files as attachments *(i.e., downloads)*. Please check your Dashboard regarding Inline File Extensions. Also note, this Shortcode Attribute does NOTHING for files served via Amazon CloudFront. See the tech-notes listed in the Amazon CloudFront section of your Dashboard for further details and workarounds.
 * 	o ``"file_storage" => null`` Defaults to `null`. Can be one of `local|s3|cf`. When specified, s2Member will serve the file from a specific source location. For example, if you've configured Amazon S3 and/or CloudFront; but, there are a few files that you want to upload locally to the `/s2member-files/` directory; you can force s2Member to serve a file from local storage by setting ``"file_storage" => "local"`` explicitly.
 * 	o ``"file_remote" => false`` Defaults to `false`. If `true`, s2Member will authenticate access to the File Download via Remote Header Authorization, instead of through your web site. This is similar to `.htaccess` protection routines of yester-year. Please check the Remote Authorization and Podcasting section in your Dashboard for further details about how this works.
@@ -1900,14 +1900,14 @@ if(!function_exists("detach_s2member_query_filters"))
 * 	o ``"count_against_user" => false`` Defaults to `false`. If `true`, it will automatically force ``"check_user" => true`` as well. In other words, s2Member will authenticate the current User, and if authenticated, count this File Download URL against the current User's account record in real-time *(i.e., as the URL is being generated)*. This is off by default. By default, s2Member will simply generate a File Download URL, and upon a User/Member clicking the URL, s2Member will authenticate the User/Member at that time, count the File Download against their account record, and serve the File Download. In other words, under normal circumstances, there is no reason to set ``"check_user" => true`` and/or ``"count_against_user" => true`` when generating the URL itself. However, this is a useful config option when ``"url_to_storage_source" => true``. Please note, when ``"check_user" => true`` and/or ``"count_against_user" => true``, this API Function will return `false` in situations where the current User/Member does NOT have access to the file.
 * 	o ``"check_user => false`` Defaults to `false`. If `true`, s2Member will authenticate the current User before allowing the File Download URL to be generated. This is off by default. By default, s2Member will simply generate a File Download URL, and upon a User/Member clicking the URL, s2Member will authenticate the User/Member at that time, and serve the File Download to the User/Member. In other words, under normal circumstances, there is no reason to set ``"check_user" => true`` and/or ``"count_against_user" => true`` when generating the URL itself. However, this IS a useful config option when ``"url_to_storage_source" => true``. Please note, when ``"check_user" => true`` and/or ``"count_against_user" => true``, this API Function will return `false` in situations where the current User/Member does NOT have access to the file.
 *
-* **Parameter $get_streamer_array(bool Optional).** Defaults to `false`. If `true`, this API Function will return an array with the following elements: `streamer`, `file`, `url`. For further details, please review this section in your Dashboard: `s2Member ⥱ Download Options ⥱ JW Player & RTMP Protocol Examples`. Note, if this is true, s2Member will automatically force ``"url_to_storage_source" => true`` and ``"file_stream" => true``. For that reason, you should carefully review the details and warning above regarding `url_to_storage_source`. If you set ``$get_streamer_array``, you should also set ``"check_user" => true`` and ``"count_against_user" => true``.
+* **Parameter $get_streamer_array(bool Optional).** Defaults to `false`. If `true`, this API Function will return an array with the following elements: `streamer`, `file`, `url`. For further details, please review this section in your Dashboard: `s2Member → Download Options → JW Player & RTMP Protocol Examples`. Note, if this is true, s2Member will automatically force ``"url_to_storage_source" => true`` and ``"file_stream" => true``. For that reason, you should carefully review the details and warning above regarding `url_to_storage_source`. If you set ``$get_streamer_array``, you should also set ``"check_user" => true`` and ``"count_against_user" => true``.
 *
 * @package s2Member\API_Functions
 * @since 110926
 *
 * @param array $config Required. This is an array of configuration options associated with permissions being checked against the current User/Member; and also the actual URL generated by this routine.
 * 	Possible ``$config`` array elements: `file_download` *(required)*, `file_download_key`, `file_stream`, `file_inline`, `file_storage`, `file_remote`, `file_ssl`, `file_rewrite`, `file_rewrite_base`, `skip_confirmation`, `url_to_storage_source`, `count_against_user`, `check_user`.
-* @param bool $get_streamer_array Optional. Defaults to `false`. If `true`, this API Function will return an array with the following elements: `streamer`, `file`, `url`. For further details, please review this section in your Dashboard: `s2Member ⥱ Download Options ⥱ JW Player & RTMP Protocol Examples`. Note, if this is true, s2Member will automatically force ``"url_to_storage_source" => true`` and ``"file_stream" => true``. For that reason, you should carefully review the details and warning above regarding `url_to_storage_source`. If you set ``$get_streamer_array``, you should also set ``"check_user" => true`` and ``"count_against_user" => true``.
+* @param bool $get_streamer_array Optional. Defaults to `false`. If `true`, this API Function will return an array with the following elements: `streamer`, `file`, `url`. For further details, please review this section in your Dashboard: `s2Member → Download Options → JW Player & RTMP Protocol Examples`. Note, if this is true, s2Member will automatically force ``"url_to_storage_source" => true`` and ``"file_stream" => true``. For that reason, you should carefully review the details and warning above regarding `url_to_storage_source`. If you set ``$get_streamer_array``, you should also set ``"check_user" => true`` and ``"count_against_user" => true``.
 * @return string A File Download URL string on success; or an array on success, with elements `streamer`, `file`, `url` when/if ``$get_streamer_array`` is true; else false on any type of failure.
 *
 * @see s2Member\API_Functions\s2member_file_download_key()
@@ -1923,7 +1923,7 @@ if(!function_exists("s2member_file_download_url"))
 * Generates a File Download Key that provides access to a File protected by s2Member.
 *
 * By default, s2Member uses your Basic Download Restrictions. For more information on this,
-* please check your Dashboard under: `s2Member ⥱ Download Options ⥱ Basic Download Restrictions`.
+* please check your Dashboard under: `s2Member → Download Options → Basic Download Restrictions`.
 *
 * ———— Advanced Download Restrictions  ————
 *
@@ -2131,7 +2131,7 @@ if(!function_exists("s2member_total_unique_downloads_of"))
  * Obtains the Last Login Time for the current User, and/or for a particular User.
  *
  * The Last Login Time, is the time at which the Username last logged into the site.
- * There's nothing special about this. This simply returns a {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+ * There's nothing special about this. This simply returns a {@link https://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
  *
  * ———— Code Sample Using Function Parameters ————
  * ```
@@ -2152,7 +2152,7 @@ if(!function_exists("s2member_total_unique_downloads_of"))
  * @since 130210
  *
  * @param int $user_id Optional. Defaults to the current User's ID.
- * @return int A {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+ * @return int A {@link https://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
  * 	The Last Login Time, is the time at which the Username last logged into the site.
  *    If the User has never logged into the site (or s2Member has never recorded them logging in), this will return `0`.
  *
@@ -2169,7 +2169,7 @@ if(!function_exists("s2member_last_login_time"))
 * Obtains the Registration Time for the current User, and/or for a particular User.
 *
 * The Registration Time, is the time at which the Username was created for the account, that's it.
-* There's nothing special about this. This simply returns a {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+* There's nothing special about this. This simply returns a {@link https://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
 *
 * ———— Code Sample Using Function Parameters ————
 * ```
@@ -2190,7 +2190,7 @@ if(!function_exists("s2member_last_login_time"))
 * @since 3.5
 *
 * @param int $user_id Optional. Defaults to the current User's ID.
-* @return int A {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+* @return int A {@link https://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
 * 	The Registration Time, is the time at which the Username was created for the account, that's it.
 *
 * @see s2Member\API_Functions\get_user_field()
@@ -2234,7 +2234,7 @@ if(!function_exists("s2member_registration_time"))
 *
 * @param string $level Optional. Defaults to the first/initial Paid Registration Time, regardless of Level#.
 * @param int $user_id Optional. Defaults to the current User's ID.
-* @return int A {@link http://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
+* @return int A {@link https://en.wikipedia.org/wiki/Unix_time Unix Timestamp}.
 *
 * @see s2Member\API_Functions\get_user_field()
 */
@@ -2440,9 +2440,9 @@ if(!function_exists("s2member_access_cap_times") && !function_exists("s2member_c
 */
 if(!function_exists("get_user_field"))
 	{
-		function get_user_field($field_id = FALSE, $user_id = FALSE)
+		function get_user_field($field_id = FALSE, $user_id = FALSE, $args = array())
 			{
-				return c_ws_plugin__s2member_utils_users::get_user_field($field_id, $user_id);
+				return c_ws_plugin__s2member_utils_users::get_user_field($field_id, $user_id, $args);
 			}
 	}
 /**
@@ -2732,4 +2732,40 @@ if(!function_exists("s2member_login_ips_for"))
 				return (is_array($ips)) ? $ips : array();
 			}
 	}
-?>
+
+/**
+* Auto EOT time, else NPR (next payment time).
+*
+* ———— PHP Code Samples ————
+* ```
+* <!php print_r($eot = s2member_eot()); !>
+* ```
+* ———— Shortcode Equivalent ————
+* ```
+* [s2Eot /]
+* ```
+*
+* @package s2Member\API_Functions
+* @since 150713
+*
+* @param string|int $user_id Defaults to the current user ID.
+* @param bool $check_gateway Defaults to a true value. If this is false, it is only possible to return a fixed EOT time.
+* 	In other words, if this is false and there is no EOT time, empty values will be returned. Be careful with this, because not checking
+* 	the payment gateway can result in an inaccurate return value. Only set to false if you want to limit the check to a fixed hard-coded EOT time.
+* @param string $favor Defaults to a value of `fixed`; i.e., if a fixed EOT time is available, that is returned in favor of a next payment time.
+* 	You can set this to `next` if you'd like to favor a next payment time (when applicable) instead of returning a fixed EOT time.
+*
+* @return array An associative array of EOT details; with the following elements.
+*
+* - `type` One of `fixed` (a fixed EOT time), `next` (next payment time; i.e., ongoing recurring subscription), or an empty string if there is no EOT for the user.
+* - `time` The timestamp (UTC time) that represents the EOT (End Of Term); else `0` if there is no EOT time.
+* - `tense` One of `past`, `future`, or an empty string if there is no EOT time. If time is now (or earlier) this will be `past`. If time is in the future, this will be `future`.
+* - `debug` A string of details that explain to a developer what was returned. For debugging only.
+*/
+if(!function_exists('s2member_eot'))
+	{
+		function s2member_eot($user_id = 0, $check_gateway = true, $favor = 'fixed')
+			{
+				return c_ws_plugin__s2member_utils_users::get_user_eot($user_id, $check_gateway, $favor);
+			}
+	}

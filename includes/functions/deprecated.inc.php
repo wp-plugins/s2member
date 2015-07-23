@@ -2,7 +2,7 @@
 /**
 * Deprecated functions from previous versions of s2Member.
 *
-* See: {@link http://en.wikipedia.org/wiki/Deprecation}
+* See: {@link https://en.wikipedia.org/wiki/Deprecation}
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
@@ -105,4 +105,3 @@ function ws_plugin__s2member_enqueue_admin_notice ($notice = FALSE, $on_pages = 
 	{
 		return c_ws_plugin__s2member_admin_notices::enqueue_admin_notice ($notice, $on_pages, $error, $time, $dismiss);
 	}
-?>
